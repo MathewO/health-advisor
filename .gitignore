@@ -23,3 +23,12 @@ data/export.xml
 .cursor/
 *.swp
 *.swo
+
+# Private health data — kept local only, not tracked in public repo
+profile/profile.md
+profile/profile.json
+profile/health-metrics.md
+profile/weight-log.md
+experiments/experiments.md
+supplements/supplements.md
+research/
