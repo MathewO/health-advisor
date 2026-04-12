@@ -1,0 +1,876 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="apple-mobile-web-app-title" content="Health" />
+  <title>Health Logger</title>
+  <link rel="manifest" href="manifest.json" />
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.2/dist/chart.umd.min.js"></script>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg: #0f172a;
+      --surface: #1e293b;
+      --surface2: #273548;
+      --border: #334155;
+      --text: #f1f5f9;
+      --muted: #94a3b8;
+      --accent: #38bdf8;
+      --accent-dim: #0c4a6e;
+      --green: #4ade80;
+      --amber: #fbbf24;
+      --red: #f87171;
+      --radius: 14px;
+      --tab-h: 72px;
+      --safe-bottom: env(safe-area-inset-bottom, 0px);
+    }
+
+    html, body { height: 100%; background: var(--bg); color: var(--text); font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Text', sans-serif; -webkit-font-smoothing: antialiased; }
+
+    /* ── Screens ── */
+    .screen { display: none; flex-direction: column; height: 100dvh; overflow: hidden; }
+    .screen.active { display: flex; }
+
+    /* ── Password Screen ── */
+    #screen-password {
+      align-items: center;
+      justify-content: center;
+      gap: 32px;
+      padding: 32px;
+      background: var(--bg);
+    }
+    .lock-icon { font-size: 56px; }
+    .lock-title { font-size: 22px; font-weight: 700; letter-spacing: -0.3px; }
+    .lock-sub { font-size: 15px; color: var(--muted); }
+    .pin-display { display: flex; gap: 16px; }
+    .pin-dot { width: 14px; height: 14px; border-radius: 50%; border: 2px solid var(--accent); transition: background .15s; }
+    .pin-dot.filled { background: var(--accent); }
+    .numpad { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; width: 100%; max-width: 280px; }
+    .num-btn {
+      background: var(--surface);
+      border: none;
+      border-radius: var(--radius);
+      color: var(--text);
+      font-size: 22px;
+      font-weight: 500;
+      height: 68px;
+      cursor: pointer;
+      -webkit-tap-highlight-color: transparent;
+      transition: background .1s;
+    }
+    .num-btn:active { background: var(--surface2); }
+    .num-btn.del { font-size: 18px; color: var(--muted); }
+    .pin-error { color: var(--red); font-size: 14px; min-height: 20px; }
+
+    /* ── App Shell (tabs) ── */
+    #app { flex-direction: column; }
+    .tab-content { flex: 1; overflow-y: auto; overflow-x: hidden; -webkit-overflow-scrolling: touch; }
+    .tab-pane { display: none; padding: 20px 16px calc(var(--tab-h) + var(--safe-bottom) + 16px); }
+    .tab-pane.active { display: block; }
+
+    .tab-bar {
+      display: flex;
+      background: var(--surface);
+      border-top: 1px solid var(--border);
+      padding-bottom: var(--safe-bottom);
+      height: calc(var(--tab-h) + var(--safe-bottom));
+      flex-shrink: 0;
+    }
+    .tab-btn {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 4px;
+      background: none;
+      border: none;
+      color: var(--muted);
+      font-size: 10px;
+      font-weight: 500;
+      cursor: pointer;
+      -webkit-tap-highlight-color: transparent;
+      transition: color .15s;
+      padding-top: 8px;
+    }
+    .tab-btn .icon { font-size: 22px; }
+    .tab-btn.active { color: var(--accent); }
+
+    /* ── Shared ── */
+    h2 { font-size: 22px; font-weight: 700; letter-spacing: -0.4px; margin-bottom: 4px; }
+    .section-label { font-size: 11px; font-weight: 600; color: var(--muted); text-transform: uppercase; letter-spacing: 0.8px; margin: 24px 0 10px; }
+    .card { background: var(--surface); border-radius: var(--radius); padding: 16px; margin-bottom: 10px; }
+    .card-title { font-size: 15px; font-weight: 600; margin-bottom: 4px; }
+    .card-detail { font-size: 13px; color: var(--muted); line-height: 1.5; }
+    .badge { display: inline-block; font-size: 11px; font-weight: 600; padding: 2px 8px; border-radius: 20px; margin-bottom: 6px; }
+    .badge-green { background: rgba(74,222,128,.15); color: var(--green); }
+    .badge-amber { background: rgba(251,191,36,.15); color: var(--amber); }
+    .badge-blue { background: rgba(56,189,248,.15); color: var(--accent); }
+
+    /* ── Dashboard ── */
+    .goal-bar-wrap { background: var(--surface2); border-radius: 8px; height: 8px; overflow: hidden; margin: 8px 0 4px; }
+    .goal-bar { height: 100%; border-radius: 8px; background: var(--green); transition: width .6s ease; }
+    .goal-meta { display: flex; justify-content: space-between; font-size: 12px; color: var(--muted); }
+    .weight-stat { font-size: 36px; font-weight: 700; letter-spacing: -1px; }
+    .weight-stat span { font-size: 16px; font-weight: 400; color: var(--muted); }
+    .trend-line { font-size: 13px; color: var(--muted); margin-top: 4px; }
+    .chart-wrap { position: relative; height: 180px; margin: 12px 0 4px; }
+    #weightChart { width: 100% !important; }
+
+    /* ── Log Tab ── */
+    .log-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 8px; }
+    .log-card {
+      background: var(--surface);
+      border-radius: var(--radius);
+      padding: 20px 16px;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 8px;
+      cursor: pointer;
+      border: none;
+      color: var(--text);
+      -webkit-tap-highlight-color: transparent;
+      transition: background .1s;
+      text-align: left;
+    }
+    .log-card:active { background: var(--surface2); }
+    .log-card .log-icon { font-size: 30px; }
+    .log-card .log-label { font-size: 15px; font-weight: 600; }
+    .log-card .log-sub { font-size: 12px; color: var(--muted); }
+
+    /* ── Form Screen ── */
+    #screen-form {
+      padding: 0;
+      background: var(--bg);
+    }
+    .form-header {
+      display: flex;
+      align-items: center;
+      padding: 16px 16px 0;
+      padding-top: calc(env(safe-area-inset-top, 0px) + 16px);
+      gap: 12px;
+    }
+    .back-btn {
+      background: var(--surface);
+      border: none;
+      color: var(--text);
+      font-size: 15px;
+      padding: 8px 14px;
+      border-radius: 10px;
+      cursor: pointer;
+      -webkit-tap-highlight-color: transparent;
+    }
+    .form-title { font-size: 20px; font-weight: 700; }
+    .form-body { padding: 24px 16px; display: flex; flex-direction: column; gap: 16px; }
+    .field label { display: block; font-size: 13px; color: var(--muted); margin-bottom: 6px; font-weight: 500; }
+    .field input, .field textarea, .field select {
+      width: 100%;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      color: var(--text);
+      font-size: 17px;
+      padding: 14px;
+      outline: none;
+      -webkit-appearance: none;
+    }
+    .field input:focus, .field textarea:focus { border-color: var(--accent); }
+    .field textarea { resize: none; height: 90px; font-family: inherit; line-height: 1.5; }
+    .save-btn {
+      background: var(--accent);
+      color: #0f172a;
+      border: none;
+      border-radius: var(--radius);
+      font-size: 17px;
+      font-weight: 700;
+      padding: 16px;
+      cursor: pointer;
+      -webkit-tap-highlight-color: transparent;
+      margin-top: 8px;
+    }
+    .save-btn:active { opacity: 0.85; }
+    .save-btn:disabled { opacity: 0.4; cursor: default; }
+    .status-msg { font-size: 14px; text-align: center; min-height: 20px; color: var(--muted); }
+    .status-msg.success { color: var(--green); }
+    .status-msg.error { color: var(--red); }
+
+    /* ── Settings Tab ── */
+    .settings-field { display: flex; flex-direction: column; gap: 6px; margin-bottom: 16px; }
+    .settings-field label { font-size: 13px; color: var(--muted); font-weight: 500; }
+    .settings-field input {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      color: var(--text);
+      font-size: 15px;
+      padding: 12px 14px;
+      outline: none;
+      -webkit-appearance: none;
+      font-family: monospace;
+    }
+    .settings-field input:focus { border-color: var(--accent); }
+    .settings-save-btn {
+      background: var(--accent);
+      color: #0f172a;
+      border: none;
+      border-radius: 10px;
+      font-size: 15px;
+      font-weight: 700;
+      padding: 13px;
+      cursor: pointer;
+      width: 100%;
+    }
+    .settings-save-btn:active { opacity: 0.85; }
+    .settings-hint { font-size: 12px; color: var(--muted); line-height: 1.6; }
+    .settings-status { font-size: 13px; min-height: 18px; margin-top: 8px; }
+    .divider { height: 1px; background: var(--border); margin: 24px 0; }
+  </style>
+</head>
+<body>
+
+<!-- ═══════════════ PASSWORD SCREEN ═══════════════ -->
+<div id="screen-password" class="screen active">
+  <div class="lock-icon">🔒</div>
+  <div>
+    <div class="lock-title">Health Logger</div>
+    <div class="lock-sub" style="text-align:center;margin-top:4px">Enter your PIN to continue</div>
+  </div>
+  <div class="pin-display" id="pinDisplay">
+    <div class="pin-dot" id="d0"></div>
+    <div class="pin-dot" id="d1"></div>
+    <div class="pin-dot" id="d2"></div>
+    <div class="pin-dot" id="d3"></div>
+  </div>
+  <div class="pin-error" id="pinError"></div>
+  <div class="numpad">
+    <button class="num-btn" onclick="pinKey('1')">1</button>
+    <button class="num-btn" onclick="pinKey('2')">2</button>
+    <button class="num-btn" onclick="pinKey('3')">3</button>
+    <button class="num-btn" onclick="pinKey('4')">4</button>
+    <button class="num-btn" onclick="pinKey('5')">5</button>
+    <button class="num-btn" onclick="pinKey('6')">6</button>
+    <button class="num-btn" onclick="pinKey('7')">7</button>
+    <button class="num-btn" onclick="pinKey('8')">8</button>
+    <button class="num-btn" onclick="pinKey('9')">9</button>
+    <button class="num-btn" style="visibility:hidden"></button>
+    <button class="num-btn" onclick="pinKey('0')">0</button>
+    <button class="num-btn del" onclick="pinDel()">⌫</button>
+  </div>
+</div>
+
+<!-- ═══════════════ APP (tabs) ═══════════════ -->
+<div id="app" class="screen">
+
+  <!-- Tab content -->
+  <div class="tab-content">
+
+    <!-- DASHBOARD -->
+    <div id="tab-dashboard" class="tab-pane active">
+      <h2>Dashboard</h2>
+      <div style="font-size:13px;color:var(--muted)" id="lastUpdated"></div>
+
+      <div class="section-label">Weight Goal</div>
+      <div class="card" id="goalCard">
+        <div style="display:flex;justify-content:space-between;align-items:flex-start">
+          <div>
+            <div class="weight-stat" id="currentWeight">—<span> kg</span></div>
+            <div class="trend-line" id="trendLine">Loading…</div>
+          </div>
+          <div style="text-align:right">
+            <div style="font-size:13px;color:var(--muted)">Target</div>
+            <div style="font-size:20px;font-weight:700">82 <span style="font-size:14px;font-weight:400;color:var(--muted)">kg</span></div>
+            <div style="font-size:12px;color:var(--muted)">5 Jun 2026</div>
+          </div>
+        </div>
+        <div class="goal-bar-wrap"><div class="goal-bar" id="goalBar" style="width:0%"></div></div>
+        <div class="goal-meta"><span id="goalLost">— kg lost</span><span id="goalLeft">— kg to go</span></div>
+        <div class="chart-wrap"><canvas id="weightChart"></canvas></div>
+      </div>
+
+      <div class="section-label">Recommendations</div>
+      <div id="recommendationsList"></div>
+
+      <div class="section-label">Active Experiments</div>
+      <div id="experimentsList"></div>
+
+      <div class="section-label">Planned</div>
+      <div id="plannedList"></div>
+    </div>
+
+    <!-- LOG -->
+    <div id="tab-log" class="tab-pane">
+      <h2>Log Entry</h2>
+      <div style="font-size:14px;color:var(--muted);margin-top:4px">What do you want to record?</div>
+      <div class="log-grid" style="margin-top:20px">
+        <button class="log-card" onclick="openForm('weight')">
+          <div class="log-icon">⚖️</div>
+          <div class="log-label">Weight</div>
+          <div class="log-sub">Morning reading</div>
+        </button>
+        <button class="log-card" onclick="openForm('beers')">
+          <div class="log-icon">🍺</div>
+          <div class="log-label">Beers</div>
+          <div class="log-sub">Pints consumed</div>
+        </button>
+        <button class="log-card" onclick="openForm('activity')">
+          <div class="log-icon">🏃</div>
+          <div class="log-label">Extra Activity</div>
+          <div class="log-sub">Run, walk, etc.</div>
+        </button>
+        <button class="log-card" onclick="openForm('cheat')">
+          <div class="log-icon">🍕</div>
+          <div class="log-label">Cheat Meal</div>
+          <div class="log-sub">Off-plan eating</div>
+        </button>
+      </div>
+    </div>
+
+    <!-- SETTINGS -->
+    <div id="tab-settings" class="tab-pane">
+      <h2>Settings</h2>
+
+      <div class="section-label">GitHub Connection</div>
+      <div class="card">
+        <div class="settings-field">
+          <label>GitHub Username</label>
+          <input type="text" id="ghUser" placeholder="your-username" autocomplete="off" autocorrect="off" autocapitalize="off" />
+        </div>
+        <div class="settings-field">
+          <label>Repository Name</label>
+          <input type="text" id="ghRepo" placeholder="health-advisor" autocomplete="off" autocorrect="off" autocapitalize="off" />
+        </div>
+        <div class="settings-field">
+          <label>Personal Access Token</label>
+          <input type="password" id="ghToken" placeholder="github_pat_…" autocomplete="off" />
+        </div>
+        <button class="settings-save-btn" onclick="saveSettings()">Save</button>
+        <div class="settings-status" id="settingsStatus"></div>
+        <div class="divider"></div>
+        <div class="settings-hint">
+          Generate a fine-grained token at <strong>github.com/settings/tokens</strong> with <strong>Contents: Read and Write</strong> scoped to this repo only. Your token is stored only on this device.
+        </div>
+      </div>
+
+      <div class="section-label">Connection Status</div>
+      <div class="card">
+        <div id="connStatus" style="font-size:14px;color:var(--muted)">Not tested</div>
+        <button class="settings-save-btn" style="margin-top:12px;background:var(--surface2);color:var(--text)" onclick="testConnection()">Test Connection</button>
+      </div>
+    </div>
+
+  </div><!-- /tab-content -->
+
+  <!-- Tab bar -->
+  <div class="tab-bar">
+    <button class="tab-btn active" id="tbDash" onclick="switchTab('dashboard')">
+      <span class="icon">📊</span>Dashboard
+    </button>
+    <button class="tab-btn" id="tbLog" onclick="switchTab('log')">
+      <span class="icon">✚</span>Log
+    </button>
+    <button class="tab-btn" id="tbSettings" onclick="switchTab('settings')">
+      <span class="icon">⚙️</span>Settings
+    </button>
+  </div>
+
+</div><!-- /app -->
+
+<!-- ═══════════════ FORM SCREEN ═══════════════ -->
+<div id="screen-form" class="screen">
+  <div class="form-header">
+    <button class="back-btn" onclick="closeForm()">← Back</button>
+    <div class="form-title" id="formTitle"></div>
+  </div>
+  <div class="form-body" id="formBody"></div>
+</div>
+
+<script>
+// ─── Config ───────────────────────────────────────────────────
+const CORRECT_PIN = '2050';
+const LOG_PATH    = 'logs/phone-log.md';
+const DASH_PATH   = 'logs/dashboard.json';
+
+// ─── Auth ─────────────────────────────────────────────────────
+let pinBuffer = '';
+
+function checkAuth() {
+  if (localStorage.getItem('hl_auth') === '1') showApp();
+}
+
+function pinKey(digit) {
+  if (pinBuffer.length >= 4) return;
+  pinBuffer += digit;
+  updateDots();
+  if (pinBuffer.length === 4) setTimeout(checkPin, 120);
+}
+
+function pinDel() {
+  pinBuffer = pinBuffer.slice(0, -1);
+  updateDots();
+  document.getElementById('pinError').textContent = '';
+}
+
+function updateDots() {
+  for (let i = 0; i < 4; i++) {
+    document.getElementById('d' + i).classList.toggle('filled', i < pinBuffer.length);
+  }
+}
+
+function checkPin() {
+  if (pinBuffer === CORRECT_PIN) {
+    localStorage.setItem('hl_auth', '1');
+    showApp();
+  } else {
+    document.getElementById('pinError').textContent = 'Incorrect PIN. Try again.';
+    pinBuffer = '';
+    updateDots();
+  }
+}
+
+// ─── Screen navigation ────────────────────────────────────────
+function showScreen(id) {
+  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+}
+
+function showApp() {
+  showScreen('app');
+  loadSettings();
+  loadDashboard();
+}
+
+// ─── Tabs ─────────────────────────────────────────────────────
+function switchTab(name) {
+  document.querySelectorAll('.tab-pane').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById('tab-' + name).classList.add('active');
+  document.getElementById('tb' + name.charAt(0).toUpperCase() + name.slice(1)).classList.add('active');
+}
+
+// ─── Settings ─────────────────────────────────────────────────
+function loadSettings() {
+  document.getElementById('ghUser').value  = localStorage.getItem('hl_user')  || '';
+  document.getElementById('ghRepo').value  = localStorage.getItem('hl_repo')  || 'health-advisor';
+  document.getElementById('ghToken').value = localStorage.getItem('hl_token') || '';
+}
+
+function saveSettings() {
+  localStorage.setItem('hl_user',  document.getElementById('ghUser').value.trim());
+  localStorage.setItem('hl_repo',  document.getElementById('ghRepo').value.trim());
+  localStorage.setItem('hl_token', document.getElementById('ghToken').value.trim());
+  const s = document.getElementById('settingsStatus');
+  s.style.color = 'var(--green)';
+  s.textContent = 'Saved.';
+  setTimeout(() => s.textContent = '', 2000);
+}
+
+function ghConfig() {
+  return {
+    user:  localStorage.getItem('hl_user')  || '',
+    repo:  localStorage.getItem('hl_repo')  || 'health-advisor',
+    token: localStorage.getItem('hl_token') || ''
+  };
+}
+
+async function testConnection() {
+  const el = document.getElementById('connStatus');
+  el.style.color = 'var(--muted)';
+  el.textContent = 'Testing…';
+  const { user, repo, token } = ghConfig();
+  if (!user || !token) { el.style.color = 'var(--amber)'; el.textContent = 'Enter username and token first.'; return; }
+  try {
+    const r = await fetch(`https://api.github.com/repos/${user}/${repo}`, {
+      headers: { Authorization: `Bearer ${token}`, 'X-GitHub-Api-Version': '2022-11-28' }
+    });
+    if (r.ok) { el.style.color = 'var(--green)'; el.textContent = '✓ Connected to ' + user + '/' + repo; }
+    else { el.style.color = 'var(--red)'; el.textContent = '✗ Error ' + r.status + ' — check username, repo, and token.'; }
+  } catch(e) { el.style.color = 'var(--red)'; el.textContent = '✗ Network error. Are you online?'; }
+}
+
+// ─── GitHub API helpers ───────────────────────────────────────
+async function ghGet(path) {
+  const { user, repo, token } = ghConfig();
+  const r = await fetch(`https://api.github.com/repos/${user}/${repo}/contents/${path}`, {
+    headers: { Authorization: `Bearer ${token}`, 'X-GitHub-Api-Version': '2022-11-28' }
+  });
+  if (!r.ok) throw new Error('GitHub GET failed: ' + r.status);
+  return r.json();
+}
+
+async function ghAppend(path, newLine) {
+  const { user, repo, token } = ghConfig();
+  const file = await ghGet(path);
+  const current = atob(file.content.replace(/\n/g, ''));
+  const updated = current + newLine + '\n';
+  const r = await fetch(`https://api.github.com/repos/${user}/${repo}/contents/${path}`, {
+    method: 'PUT',
+    headers: {
+      Authorization: `Bearer ${token}`,
+      'Content-Type': 'application/json',
+      'X-GitHub-Api-Version': '2022-11-28'
+    },
+    body: JSON.stringify({
+      message: 'log: ' + newLine.split(' | ')[1] + ' entry',
+      content: btoa(unescape(encodeURIComponent(updated))),
+      sha: file.sha
+    })
+  });
+  if (!r.ok) throw new Error('GitHub PUT failed: ' + r.status);
+}
+
+// ─── Dashboard ────────────────────────────────────────────────
+let weightChart = null;
+
+async function loadDashboard() {
+  try {
+    // Load dashboard.json
+    const dashFile = await ghGet(DASH_PATH);
+    const dash = JSON.parse(atob(dashFile.content.replace(/\n/g, '')));
+
+    document.getElementById('lastUpdated').textContent = 'Last updated: ' + dash.last_updated;
+
+    renderRecommendations(dash.recommendations || []);
+    renderExperiments(dash.experiments || []);
+    renderPlanned(dash.planned || []);
+
+    // Load phone-log for weight entries
+    const logFile = await ghGet(LOG_PATH);
+    const logText = atob(logFile.content.replace(/\n/g, ''));
+    const weights = parseWeightLog(logText, dash.goal);
+
+    renderGoalCard(weights, dash.goal);
+    renderWeightChart(weights, dash.goal);
+
+  } catch(e) {
+    // If not configured yet, show placeholders
+    document.getElementById('trendLine').textContent = 'Configure GitHub in Settings to load data.';
+    console.warn('Dashboard load error:', e);
+  }
+}
+
+function parseWeightLog(text, goal) {
+  const points = [{ date: goal.start_date, kg: goal.start_kg }];
+  const lines = text.split('\n');
+  for (const line of lines) {
+    const parts = line.split('|').map(s => s.trim());
+    if (parts.length === 3 && parts[1] === 'weight') {
+      const kg = parseFloat(parts[2]);
+      if (!isNaN(kg)) points.push({ date: parts[0], kg });
+    }
+  }
+  points.sort((a, b) => a.date.localeCompare(b.date));
+  return points;
+}
+
+function renderGoalCard(weights, goal) {
+  const latest = weights[weights.length - 1];
+  document.getElementById('currentWeight').innerHTML = latest.kg.toFixed(1) + '<span> kg</span>';
+
+  const lost = +(goal.start_kg - latest.kg).toFixed(1);
+  const left = +(latest.kg - goal.target_kg).toFixed(1);
+  const pct  = Math.min(100, Math.max(0, (lost / (goal.start_kg - goal.target_kg)) * 100));
+
+  document.getElementById('goalLost').textContent = (lost > 0 ? lost : 0) + ' kg lost';
+  document.getElementById('goalLeft').textContent  = (left > 0 ? left : 0) + ' kg to go';
+  document.getElementById('goalBar').style.width   = pct.toFixed(0) + '%';
+
+  // Trend projection
+  const { slope, intercept } = linearRegression(weights);
+  const targetDate = new Date(goal.target_date);
+  const today = new Date();
+  const daysLeft = Math.max(1, (targetDate - today) / 86400000);
+  const projectedAtTarget = slope * dateToNum(goal.target_date) + intercept;
+  const diff = +(projectedAtTarget - goal.target_kg).toFixed(1);
+
+  let trendText, trendColor;
+  if (diff <= 0.3) {
+    trendText  = '✓ On track to hit 82 kg by June 5';
+    trendColor = 'var(--green)';
+  } else if (diff <= 1.0) {
+    trendText  = `⚠ Trending to ${projectedAtTarget.toFixed(1)} kg by June 5 — slightly off`;
+    trendColor = 'var(--amber)';
+  } else {
+    trendText  = `✗ Trending to ${projectedAtTarget.toFixed(1)} kg by June 5 — needs adjustment`;
+    trendColor = 'var(--red)';
+  }
+  const el = document.getElementById('trendLine');
+  el.textContent = trendText;
+  el.style.color = trendColor;
+}
+
+function dateToNum(dateStr) {
+  return new Date(dateStr).getTime() / 86400000;
+}
+
+function linearRegression(points) {
+  const n = points.length;
+  if (n < 2) return { slope: 0, intercept: points[0]?.kg || 85.5 };
+  const xs = points.map(p => dateToNum(p.date));
+  const ys = points.map(p => p.kg);
+  const mx = xs.reduce((a, b) => a + b, 0) / n;
+  const my = ys.reduce((a, b) => a + b, 0) / n;
+  const num = xs.reduce((s, x, i) => s + (x - mx) * (ys[i] - my), 0);
+  const den = xs.reduce((s, x) => s + (x - mx) ** 2, 0);
+  const slope = den ? num / den : 0;
+  return { slope, intercept: my - slope * mx };
+}
+
+function renderWeightChart(weights, goal) {
+  const ctx = document.getElementById('weightChart').getContext('2d');
+  if (weightChart) weightChart.destroy();
+
+  // Actual data
+  const actualLabels = weights.map(p => p.date.slice(5)); // MM-DD
+  const actualData   = weights.map(p => p.kg);
+
+  // Trend line from first point to target date
+  const { slope, intercept } = linearRegression(weights);
+  const startNum  = dateToNum(weights[0].date);
+  const targetNum = dateToNum(goal.target_date);
+  const trendLabels = [weights[0].date.slice(5), goal.target_date.slice(5)];
+  const trendData   = [slope * startNum + intercept, slope * targetNum + intercept];
+
+  // All labels (union)
+  const allLabels = [...new Set([...actualLabels, ...trendLabels])].sort();
+
+  const projectedEnd = +(slope * targetNum + intercept).toFixed(1);
+  const trendColor = projectedEnd <= goal.target_kg + 0.3
+    ? 'rgba(74,222,128,0.8)'
+    : projectedEnd <= goal.target_kg + 1.0
+    ? 'rgba(251,191,36,0.8)'
+    : 'rgba(248,113,113,0.8)';
+
+  weightChart = new Chart(ctx, {
+    type: 'line',
+    data: {
+      labels: allLabels,
+      datasets: [
+        {
+          label: 'Weight',
+          data: allLabels.map(l => {
+            const match = weights.find(p => p.date.slice(5) === l);
+            return match ? match.kg : null;
+          }),
+          borderColor: 'rgba(56,189,248,0.9)',
+          backgroundColor: 'rgba(56,189,248,0.15)',
+          borderWidth: 2.5,
+          pointRadius: 4,
+          pointBackgroundColor: 'rgba(56,189,248,1)',
+          tension: 0.3,
+          fill: false,
+          spanGaps: false
+        },
+        {
+          label: 'Trend',
+          data: allLabels.map(l => {
+            if (l === trendLabels[0]) return trendData[0];
+            if (l === trendLabels[1]) return trendData[1];
+            return null;
+          }),
+          borderColor: trendColor,
+          borderWidth: 2,
+          borderDash: [5, 4],
+          pointRadius: 0,
+          tension: 0,
+          fill: false,
+          spanGaps: true
+        },
+        {
+          label: 'Target',
+          data: allLabels.map(() => goal.target_kg),
+          borderColor: 'rgba(148,163,184,0.3)',
+          borderWidth: 1,
+          borderDash: [3, 3],
+          pointRadius: 0,
+          fill: false
+        }
+      ]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      animation: { duration: 600 },
+      plugins: {
+        legend: { display: false },
+        tooltip: {
+          callbacks: {
+            label: ctx => ctx.dataset.label + ': ' + (ctx.parsed.y ? ctx.parsed.y.toFixed(1) + ' kg' : '')
+          }
+        }
+      },
+      scales: {
+        x: { ticks: { color: '#64748b', font: { size: 10 } }, grid: { color: 'rgba(255,255,255,0.05)' } },
+        y: {
+          ticks: { color: '#64748b', font: { size: 10 }, callback: v => v + ' kg' },
+          grid: { color: 'rgba(255,255,255,0.05)' },
+          suggestedMin: goal.target_kg - 0.5,
+          suggestedMax: goal.start_kg + 0.5
+        }
+      }
+    }
+  });
+}
+
+function renderRecommendations(items) {
+  const el = document.getElementById('recommendationsList');
+  el.innerHTML = items.map(r => `
+    <div class="card">
+      <div class="card-title">${r.title}</div>
+      <div class="card-detail">${r.detail}</div>
+    </div>`).join('');
+}
+
+function renderExperiments(items) {
+  const el = document.getElementById('experimentsList');
+  el.innerHTML = items.length ? items.map(e => `
+    <div class="card">
+      <span class="badge badge-green">Active</span>
+      <div class="card-title">${e.title}</div>
+      <div class="card-detail">${e.detail}</div>
+      <div style="margin-top:8px;font-size:12px;color:var(--muted)">Next check-in: ${e.next_checkin}</div>
+    </div>`).join('')
+    : '<div class="card"><div class="card-detail" style="color:var(--muted)">No active experiments.</div></div>';
+}
+
+function renderPlanned(items) {
+  const el = document.getElementById('plannedList');
+  el.innerHTML = items.map(p => `
+    <div class="card">
+      <span class="badge badge-blue">Planned</span>
+      <div class="card-title">${p.title}</div>
+      <div class="card-detail">${p.detail}</div>
+    </div>`).join('');
+}
+
+// ─── Log Form ─────────────────────────────────────────────────
+const formConfigs = {
+  weight: {
+    title: '⚖️ Log Weight',
+    fields: [
+      { id: 'val', label: 'Morning weight (kg)', type: 'number', placeholder: '85.0', step: '0.1', inputmode: 'decimal' }
+    ],
+    build: f => {
+      const kg = parseFloat(f.val);
+      if (isNaN(kg) || kg < 40 || kg > 200) throw new Error('Enter a valid weight between 40–200 kg');
+      return `${today()} | weight | ${kg.toFixed(1)}`;
+    }
+  },
+  beers: {
+    title: '🍺 Log Beers',
+    fields: [
+      { id: 'val', label: 'Number of pints', type: 'number', placeholder: '3', step: '0.5', inputmode: 'decimal' }
+    ],
+    build: f => {
+      const n = parseFloat(f.val);
+      if (isNaN(n) || n <= 0) throw new Error('Enter a valid number of pints');
+      return `${today()} | beers | ${n}`;
+    }
+  },
+  activity: {
+    title: '🏃 Log Activity',
+    fields: [
+      { id: 'type', label: 'Activity type', type: 'text', placeholder: 'e.g. Run, Cycle, Walk' },
+      { id: 'detail', label: 'Detail (distance / duration)', type: 'text', placeholder: 'e.g. 5km, 28 min' }
+    ],
+    build: f => {
+      if (!f.type.trim()) throw new Error('Enter an activity type');
+      return `${today()} | activity | ${f.type.trim()}${f.detail.trim() ? ', ' + f.detail.trim() : ''}`;
+    }
+  },
+  cheat: {
+    title: '🍕 Log Cheat Meal',
+    fields: [
+      { id: 'detail', label: 'What did you eat?', type: 'textarea', placeholder: 'e.g. Pizza and garlic bread' },
+      { id: 'kcal', label: 'Extra calories (rough guess, optional)', type: 'number', placeholder: 'e.g. 800', inputmode: 'numeric' }
+    ],
+    build: f => {
+      if (!f.detail.trim()) throw new Error('Describe what you ate');
+      const kcalPart = f.kcal.trim() ? `, ~${f.kcal.trim()} kcal extra` : '';
+      return `${today()} | cheat | ${f.detail.trim()}${kcalPart}`;
+    }
+  }
+};
+
+let currentFormType = null;
+
+function today() {
+  return new Date().toISOString().slice(0, 10);
+}
+
+function openForm(type) {
+  currentFormType = type;
+  const cfg = formConfigs[type];
+  document.getElementById('formTitle').textContent = cfg.title;
+
+  let html = '';
+  for (const f of cfg.fields) {
+    html += `<div class="field"><label>${f.label}</label>`;
+    if (f.type === 'textarea') {
+      html += `<textarea id="ff_${f.id}" placeholder="${f.placeholder}"></textarea>`;
+    } else {
+      html += `<input id="ff_${f.id}" type="${f.type}" placeholder="${f.placeholder}"
+        ${f.step ? `step="${f.step}"` : ''} ${f.inputmode ? `inputmode="${f.inputmode}"` : ''} />`;
+    }
+    html += '</div>';
+  }
+  html += `<button class="save-btn" id="saveBtn" onclick="submitForm()">Save Entry</button>`;
+  html += `<div class="status-msg" id="formStatus"></div>`;
+
+  document.getElementById('formBody').innerHTML = html;
+  showScreen('screen-form');
+
+  // Focus first field after transition
+  setTimeout(() => {
+    const first = document.querySelector('#formBody input, #formBody textarea');
+    if (first) first.focus();
+  }, 100);
+}
+
+function closeForm() {
+  showScreen('app');
+  currentFormType = null;
+}
+
+async function submitForm() {
+  const cfg = formConfigs[currentFormType];
+  const fields = {};
+  for (const f of cfg.fields) {
+    const el = document.getElementById('ff_' + f.id);
+    fields[f.id] = el ? el.value : '';
+  }
+
+  const btn    = document.getElementById('saveBtn');
+  const status = document.getElementById('formStatus');
+
+  btn.disabled = true;
+  btn.textContent = 'Saving…';
+  status.className = 'status-msg';
+  status.textContent = '';
+
+  try {
+    const line = cfg.build(fields);
+    const { user, repo, token } = ghConfig();
+    if (!user || !token) throw new Error('GitHub not configured — go to Settings first');
+    await ghAppend(LOG_PATH, line);
+    status.className = 'status-msg success';
+    status.textContent = '✓ Saved successfully';
+    btn.textContent = 'Saved ✓';
+    setTimeout(closeForm, 1200);
+  } catch(e) {
+    status.className = 'status-msg error';
+    status.textContent = '✗ ' + e.message;
+    btn.disabled = false;
+    btn.textContent = 'Save Entry';
+  }
+}
+
+// ─── Boot ─────────────────────────────────────────────────────
+checkAuth();
+</script>
+</body>
+</html>

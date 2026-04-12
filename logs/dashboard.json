@@ -1,0 +1,51 @@
+{
+  "goal": {
+    "target_kg": 82.0,
+    "target_date": "2026-06-05",
+    "start_kg": 85.5,
+    "start_date": "2026-04-12"
+  },
+  "recommendations": [
+    {
+      "title": "Increase daily water intake",
+      "detail": "Currently self-rated as average. Target 2–2.5L/day. Keep a 1L bottle visible and finish it twice before dinner."
+    },
+    {
+      "title": "Add a protein shake on weekends",
+      "detail": "Weekend protein drops to ~83g (vs ~148g on weekdays) because there's no morning shake. Adding one brings weekly average up to target."
+    },
+    {
+      "title": "Improve VO2 Max",
+      "detail": "Currently 32.9 mL/kg/min — below average for age 39. This is the strongest single predictor of longevity. Zone 2 cardio and intervals are the main levers."
+    },
+    {
+      "title": "Switch to dark chocolate (70%+)",
+      "detail": "Current ~200 kcal/day of chocolate is the main discretionary calories. Dark chocolate 70%+ has lower sugar and meaningful cardiovascular and cognitive evidence."
+    }
+  ],
+  "experiments": [
+    {
+      "title": "Fat Loss to 82 kg",
+      "status": "Active",
+      "started": "2026-04-12",
+      "target_date": "2026-06-05",
+      "next_checkin": "2026-04-19",
+      "detail": "~500 kcal/day deficit targeting 0.45 kg/week. Weigh every Sunday morning. Maintain training volume."
+    }
+  ],
+  "planned": [
+    {
+      "title": "Weekend Protein Fix",
+      "detail": "Add whey shake on Sat/Sun mornings to close the weekend protein gap."
+    },
+    {
+      "title": "Hydration Habit",
+      "detail": "2–2.5L water daily. 1L bottle visible, finish twice before dinner."
+    },
+    {
+      "title": "VO2 Max Protocol",
+      "detail": "Structured Zone 2 cardio + intervals to move VO2 Max from 32.9 toward above-average for age."
+    }
+  ],
+  "last_updated": "2026-04-12"
+}

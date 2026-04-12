@@ -1,0 +1,7 @@
+# health-advisor dependencies
+# Standard library only — no external packages required for core scripts.
+# Python 3.8+ recommended.
+
+# If you later want to add charting or data analysis:
+# pandas
+# matplotlib
