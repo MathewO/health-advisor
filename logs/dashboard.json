@@ -1,9 +1,9 @@
 {
   "goal": {
     "target_kg": 82.0,
-    "target_date": "2026-06-05",
+    "target_date": "2026-06-06",
     "start_kg": 85.5,
-    "start_date": "2026-04-12"
+    "start_date": "2026-04-13"
   },
   "recommendations": [
     {
@@ -27,9 +27,9 @@
     {
       "title": "Fat Loss to 82 kg",
       "status": "Active",
-      "started": "2026-04-12",
-      "target_date": "2026-06-05",
-      "next_checkin": "2026-04-19",
+      "started": "2026-04-13",
+      "target_date": "2026-06-06",
+      "next_checkin": "2026-04-20",
       "detail": "~500 kcal/day deficit targeting 0.45 kg/week. Weigh every Sunday morning. Maintain training volume."
     }
   ],
