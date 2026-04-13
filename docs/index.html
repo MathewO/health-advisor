@@ -122,10 +122,8 @@
     .deficit-row:last-child { border-bottom: none; }
     .deficit-label { color: var(--muted); font-size: 13px; }
     .deficit-val { font-weight: 700; }
-    .outlier-item { padding: 6px 0; border-bottom: 1px solid var(--border); font-size: 13px; }
-    .outlier-item:last-child { border-bottom: none; }
-    .outlier-date { color: var(--muted); font-size: 11px; }
-    .outlier-desc { margin-top: 2px; }
+    .burndown-wrap { position: relative; height: 160px; margin: 14px 0 4px; }
+    #weeklyBurndownChart { width: 100% !important; }
     .predicted-deficit-row { display: flex; justify-content: space-between; align-items: center; padding-top: 12px; margin-top: 8px; border-top: 2px solid var(--border); }
     .predicted-label { font-size: 13px; color: var(--muted); font-weight: 600; text-transform: uppercase; letter-spacing: 0.6px; }
     .predicted-val { font-size: 22px; font-weight: 700; letter-spacing: -0.5px; }
@@ -303,14 +301,14 @@
     <div id="tab-dashboard" class="tab-pane active">
       <div class="dash-header">
         <div>
-          <h2>Dashboard</h2>
-          <div style="font-size:13px;color:var(--muted)" id="lastUpdated"></div>
-        </div>
+      <h2>Dashboard</h2>
+      <div style="font-size:13px;color:var(--muted)" id="lastUpdated"></div>
+          </div>
         <div class="dash-header-btns">
           <button class="pill-header-btn" onclick="openOverlay('screen-weekly-progress')">Weekly →</button>
           <button class="pill-header-btn" onclick="openOverlay('screen-prev-phases')">Phases →</button>
+          </div>
         </div>
-      </div>
 
       <!-- Phase-end banner -->
       <div id="phaseEndBanner" class="phase-end-banner" style="display:none;margin-top:12px">
@@ -636,7 +634,8 @@ async function ghAppend(path, newLine) {
 }
 
 // ─── Global state ─────────────────────────────────────────────
-let weightChart = null;
+let weightChart   = null;
+let burndownChart = null;
 let dashData    = null;
 let logText     = null;
 let dashSha     = null;
@@ -772,28 +771,12 @@ function renderWeeklyDeficitCard(phase) {
   const { target, carryover, weekOutliers, thisWeekAdj, predicted, weekStartStr, weekEndStr, daysElapsed }
     = computeWeeklyDeficit(allEntries, phase);
 
-  // Carryover row only if negative (shortfall carried in)
   const carryoverHtml = carryover < 0
     ? `<div class="deficit-row">
         <span class="deficit-label">Carryover from last week</span>
         <span class="deficit-val" style="color:var(--red)">${carryover.toLocaleString()} kcal</span>
        </div>`
     : '';
-
-  const outlierHtml = weekOutliers.length
-    ? weekOutliers.map(e => {
-        const sign = (e.outlierKcal || 0) >= 0 ? '+' : '';
-        const col  = (e.outlierKcal || 0) >= 0 ? 'var(--green)' : 'var(--red)';
-        const label = outlierLabel(e);
-        return `<div class="outlier-item">
-          <div class="outlier-date">${formatDate(e.date)}</div>
-          <div class="outlier-desc" style="display:flex;justify-content:space-between;align-items:center">
-            <span>${escHtml(label)}</span>
-            ${e.outlierKcal ? `<span style="font-size:13px;font-weight:600;color:${col}">${sign}${e.outlierKcal} kcal</span>` : ''}
-          </div>
-        </div>`;
-      }).join('')
-    : '<div style="font-size:13px;color:var(--muted);padding:8px 0">No outliers logged this week</div>';
 
   const predictedColor = predicted >= target
     ? 'var(--green)'
@@ -810,8 +793,7 @@ function renderWeeklyDeficitCard(phase) {
       <span class="deficit-val">${target.toLocaleString()} kcal</span>
     </div>
     ${carryoverHtml}
-    <div style="margin-top:10px;margin-bottom:4px;font-size:11px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:0.6px">Outliers</div>
-    ${outlierHtml}
+    <div class="burndown-wrap"><canvas id="weeklyBurndownChart"></canvas></div>
     <div class="predicted-deficit-row">
       <div>
         <div class="predicted-label">Predicted deficit</div>
@@ -819,6 +801,152 @@ function renderWeeklyDeficitCard(phase) {
       </div>
       <div class="predicted-val" style="color:${predictedColor}">${predicted.toLocaleString()} kcal</div>
     </div>`;
+
+  renderWeeklyBurndownChart(allEntries, weekStartStr, predicted);
+}
+
+function renderWeeklyBurndownChart(allEntries, weekStartStr, predicted) {
+  const canvas = document.getElementById('weeklyBurndownChart');
+  if (!canvas) return;
+  if (burndownChart) { burndownChart.destroy(); burndownChart = null; }
+
+  // Day labels Mon–Sun
+  const DAY_LABELS = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
+
+  // Date strings for each day of the week (Mon = index 0)
+  const weekDates = DAY_LABELS.map((_, i) => {
+    const d = new Date(weekStartStr + 'T00:00:00');
+    d.setDate(d.getDate() + i);
+    return localDateStr(d);
+  });
+
+  // Predicted weight loss per day: predicted kcal / 7700 kcal per kg, spread linearly
+  const totalPredictedKg = Math.min(1, Math.max(0, predicted / 7700));
+  const predictedData = DAY_LABELS.map((_, i) => +(totalPredictedKg * (i + 1) / 7).toFixed(3));
+
+  // Baseline weight: most recent weight entry on or before Monday
+  const mondayStr = weekDates[0];
+  const baselineEntry = allEntries
+    .filter(e => e.type === 'weight' && e.date <= mondayStr)
+    .sort((a, b) => b.date.localeCompare(a.date))[0];
+  const baselineKg = baselineEntry ? baselineEntry.kg : null;
+
+  // Actual weight loss line: null until first weigh-in, then cumulative loss
+  const actualData = weekDates.map(d => {
+    const entry = allEntries
+      .filter(e => e.type === 'weight' && e.date >= mondayStr && e.date <= d)
+      .sort((a, b) => b.date.localeCompare(a.date))[0];
+    if (!entry || baselineKg === null) return null;
+    return +(Math.max(0, baselineKg - entry.kg)).toFixed(3);
+  });
+
+  // Event icons per day
+  const eventIcons = { weight: '⚖️', run: '🏃', stair: '🏃', workout: '🏃', drinks: '🍺', beers: '🍺', cheat: '🍕', activity: '✅' };
+  const eventsByDay = {};
+  weekDates.forEach((d, i) => { eventsByDay[i] = []; });
+  allEntries.forEach(e => {
+    const idx = weekDates.indexOf(e.date);
+    if (idx === -1) return;
+    const icon = eventIcons[e.type];
+    if (icon && !eventsByDay[idx].includes(icon)) eventsByDay[idx].push(icon);
+  });
+
+  // Custom plugin: draw emoji icons above each day's line
+  const emojiPlugin = {
+    id: 'weeklyEmojis',
+    afterDatasetsDraw(chart) {
+      const { ctx, scales } = chart;
+      const xScale = scales.x;
+      const yScale = scales.y;
+      ctx.save();
+      ctx.font = '15px serif';
+      ctx.textAlign = 'center';
+      DAY_LABELS.forEach((_, i) => {
+        const icons = eventsByDay[i];
+        if (!icons.length) return;
+        const x = xScale.getPixelForValue(i);
+        // Use actual line height if available, otherwise predicted
+        const yVal = actualData[i] !== null && actualData[i] !== undefined ? actualData[i] : predictedData[i];
+        const yBase = yScale.getPixelForValue(yVal);
+        icons.forEach((icon, j) => {
+          ctx.fillText(icon, x, yBase - 16 - j * 20);
+        });
+      });
+      ctx.restore();
+    }
+  };
+
+  const gridColor  = 'rgba(82,82,91,0.4)';
+  const mutedColor = 'rgba(148,163,184,0.5)';
+
+  burndownChart = new Chart(canvas, {
+    type: 'line',
+    plugins: [emojiPlugin],
+    data: {
+      labels: DAY_LABELS,
+      datasets: [
+        {
+          label: 'Predicted',
+          data: predictedData,
+          borderColor: mutedColor,
+          borderDash: [4, 4],
+          borderWidth: 2,
+          pointRadius: 0,
+          tension: 0,
+          fill: false
+        },
+        {
+          label: 'Actual',
+          data: actualData,
+          borderColor: '#4ade80',
+          borderWidth: 2.5,
+          pointRadius: actualData.map(v => v !== null ? 4 : 0),
+          pointBackgroundColor: '#4ade80',
+          pointBorderColor: '#18181b',
+          pointBorderWidth: 2,
+          tension: 0.2,
+          fill: false,
+          spanGaps: false
+        }
+      ]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      animation: { duration: 400 },
+      layout: { padding: { top: 28, bottom: 0 } },
+      scales: {
+        x: {
+          grid: { color: gridColor },
+          ticks: { color: '#94a3b8', font: { size: 11 } },
+          border: { color: gridColor }
+        },
+        y: {
+          min: 0,
+          max: 1,
+          grid: { color: gridColor },
+          ticks: {
+            color: '#94a3b8',
+            font: { size: 11 },
+            stepSize: 0.25,
+            callback: v => v.toFixed(2) + ' kg'
+          },
+          border: { color: gridColor }
+        }
+      },
+      plugins: {
+        legend: { display: false },
+        tooltip: {
+          callbacks: {
+            label: ctx => {
+              if (ctx.parsed.y === null) return '';
+              return ctx.dataset.label + ': ' + ctx.parsed.y.toFixed(2) + ' kg';
+            }
+          }
+        }
+      }
+    }
+  });
 }
 
 function totalMealKcal(mealPlan, tab) {
@@ -1442,7 +1570,7 @@ function parseAllLogEntries(text) {
         // Extract replaced meal kcal from "Dinner (640 kcal)"
         const rm = entry.replaces.match(/\((\d+)\s*kcal\)/i);
         entry.replacedKcal = rm ? parseInt(rm[1]) : 0;
-      } else {
+  } else {
         entry.replaces     = '';
         entry.replacedKcal = 0;
         entry.note         = p3;
@@ -1574,7 +1702,7 @@ function renderExperiments(items) {
       <div class="card-detail">${escHtml(e.detail)}</div>
       <div style="margin-top:8px;font-size:12px;color:var(--muted)">Next check-in: ${escHtml(e.next_checkin)}</div>
     </div>`).join('')
-  : '<div class="card"><div class="card-detail" style="color:var(--muted)">No active experiments.</div></div>';
+    : '<div class="card"><div class="card-detail" style="color:var(--muted)">No active experiments.</div></div>';
 }
 
 function renderPlanned(items) {
