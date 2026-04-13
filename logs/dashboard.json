@@ -51,16 +51,7 @@
       "detail": "Dark chocolate 70%+ has significantly less sugar than milk chocolate, and has meaningful evidence behind it: flavanols support cardiovascular health (improved blood flow, lower blood pressure), and there's reasonable data for cognitive benefits too. It's also more satiating per calorie, so 100 kcal goes further. Worth trying as a swap once the current fat loss phase is established."
     }
   ],
-  "experiments": [
-    {
-      "title": "Fat Loss to 82 kg",
-      "status": "Active",
-      "started": "2026-04-13",
-      "target_date": "2026-06-06",
-      "next_checkin": "2026-04-20",
-      "detail": "~500 kcal/day deficit targeting 0.45 kg/week. Weigh every morning. Maintain training volume. Add stair stepper 3x/week to close the ~100 kcal/day deficit gap."
-    }
-  ],
+  "experiments": [],
   "planned": [
     {
       "title": "VO2 Max Protocol",
