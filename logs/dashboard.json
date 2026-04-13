@@ -43,14 +43,6 @@
   "previous_phases": [],
   "recommendations": [
     {
-      "title": "Increase daily water intake",
-      "detail": "Currently self-rated as average. Target 2–2.5L/day. Keep a 1L bottle visible and finish it twice before dinner."
-    },
-    {
-      "title": "Add a protein shake on weekends",
-      "detail": "Weekend protein drops to ~83g (vs ~148g on weekdays) because there's no morning shake. Adding one brings weekly average up to target."
-    },
-    {
       "title": "Improve VO2 Max",
       "detail": "Currently 32.9 mL/kg/min — below average for age 39. This is the strongest single predictor of longevity. Zone 2 cardio and intervals are the main levers."
     },
@@ -70,14 +62,6 @@
     }
   ],
   "planned": [
-    {
-      "title": "Weekend Protein Fix",
-      "detail": "Add whey shake on Sat/Sun mornings to close the weekend protein gap."
-    },
-    {
-      "title": "Hydration Habit",
-      "detail": "2–2.5L water daily. 1L bottle visible, finish twice before dinner."
-    },
     {
       "title": "VO2 Max Protocol",
       "detail": "Structured Zone 2 cardio + intervals to move VO2 Max from 32.9 toward above-average for age."
