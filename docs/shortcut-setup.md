@@ -1,242 +1,219 @@
-# iOS Shortcut: Auto-Log Workouts to Health Logger
+# iOS Shortcut: Auto-Log Workouts
 
-This guide walks you through creating two iOS Shortcuts — one for **Running**, one for **Stair Climbing** — that automatically log workout data to your GitHub-backed phone log whenever you finish a session on your Apple Watch.
+When you finish a run or stair climbing session on your Apple Watch, an automation on your iPhone fires automatically. It reads the workout data from Health and sends it to GitHub in a single API call. GitHub does the rest — it appends the log line and commits it.
 
-When you end a workout on your watch, a notification appears on your iPhone. Tap it, confirm once, and the log entry is written to GitHub within seconds.
-
----
-
-## Prerequisites
-
-- iPhone with Shortcuts app (iOS 16+)
-- Apple Watch with workouts tracked in the Health app
-- Your GitHub Personal Access Token (same one in the Health Logger app settings)
-- Your GitHub username and repo name (e.g. `mathew-ohalloran` / `health-advisor`)
+**You build two things:**
+1. A **Shortcut** for each workout type (Log Run, Log Stair Climbing)
+2. An **Automation** that fires each shortcut when the matching workout ends
 
 ---
 
-## Log Entry Formats
+## How it works
 
-**Run:**
+Your phone makes one POST request to the GitHub API:
+
 ```
-YYYY-MM-DD | run | 15.0 min | 2.32 km | 176 kcal | 162 bpm
+POST https://api.github.com/repos/MathewO/health-advisor/dispatches
 ```
 
-**Stair Climbing:**
+GitHub Actions receives it, formats the log line, and commits it to `phone-log.md`. No base64, no file reading on your phone.
+
+---
+
+## Before you start
+
+Have these ready:
+- Your GitHub Personal Access Token (same one in Health Logger Settings)
+- The URL above with your actual username
+
+---
+
+## Part 1 — Build the "Log Run" Shortcut
+
+Open the **Shortcuts** app → tap the **+** in the top right → tap the shortcut name at the top and rename it **"Log Run"**.
+
+Now add each action below by tapping **"Add Action"** (or the search bar at the bottom) and searching for it by name.
+
+---
+
+### Action 1 — Find Health Samples
+
+Search: `Find Health Samples`
+
+Once added, configure it:
+- Tap **"All"** (next to Health Samples) → choose **Workouts**
+- Tap **"Add Filter"** → tap **Workout Type** → tap **is** → choose **Running**
+- Tap **"Sort by"** → choose **Start Date** → tap **Newest First**
+- Tap **"Limit"** and set it to **1**
+
+This grabs your most recent run.
+
+---
+
+### Action 2 — Get Details of Health Sample (Start Date)
+
+Search: `Get Details of Health Sample`
+
+- Tap **"Detail"** → choose **Start Date**
+- The input should automatically be the workout from Action 1 (shown as a blue token). If not, tap the input field and select it.
+
+---
+
+### Action 3 — Format Date
+
+Search: `Format Date`
+
+- The date field should auto-fill with the result of Action 2. If not, tap it and pick the magic variable.
+- Tap **"Medium"** → tap **"Custom"**
+- In the custom format field, type exactly: `yyyy-MM-dd`
+
+This gives you the date as `2026-04-19`.
+
+Now tap **"Add Action"** → search **Set Variable** → set name to **`logDate`**, value = the Format Date result (blue token from this step).
+
+---
+
+### Action 4 — Get Details of Health Sample (Duration)
+
+Search: `Get Details of Health Sample` again
+
+- Tap **"Detail"** → choose **Duration**
+- Input = workout from Action 1
+
+---
+
+### Action 5 — Calculate (seconds → minutes)
+
+Search: `Calculate`
+
+- Tap the first number field → select the magic variable from Action 4 (the duration)
+- Tap the operator → choose **÷**
+- Type **60** in the second field
+
+Then add a **Round Number** action:
+- Search: `Round Number`
+- Input: result of Calculate
+- Round to: **1 Decimal Place**
+
+Tap **Set Variable** → name: **`durationMins`**
+
+---
+
+### Action 6 — Get Details of Health Sample (Distance)
+
+Search: `Get Details of Health Sample` again
+
+- Detail: **Total Distance**
+- Input = workout from Action 1
+
+> **Note:** This comes back in km if your iPhone's Health app is set to metric (Region: UK). If it returns miles, add a **Convert Measurement** action → From: Miles → To: Kilometres.
+
+Add **Round Number** → 2 Decimal Places → Set Variable **`distanceKm`**
+
+---
+
+### Action 7 — Get Details of Health Sample (Calories)
+
+- Detail: **Total Energy Burned**
+- Input = workout from Action 1
+
+Add **Round Number** → 0 Decimal Places → Set Variable **`workoutKcal`**
+
+---
+
+### Action 8 — Get Contents of URL (the API call)
+
+Search: `Get Contents of URL`
+
+Set the fields as follows:
+
+**URL:**
 ```
-YYYY-MM-DD | stair | 25.0 min | 230 kcal | 145 bpm
+https://api.github.com/repos/MathewO/health-advisor/dispatches
 ```
 
----
+**Method:** tap GET → change to **POST**
 
-## Shortcut 1: Log Run
+**Headers** — tap "Add new header" twice:
 
-### Create the Shortcut
+| Key | Value |
+|---|---|
+| `Authorization` | `Bearer YOUR_GITHUB_TOKEN` |
+| `X-GitHub-Api-Version` | `2022-11-28` |
 
-1. Open **Shortcuts** app → tap **+** to create a new shortcut
-2. Tap the shortcut name at the top and rename it to **"Log Run"**
+Replace `YOUR_GITHUB_TOKEN` with your actual token.
 
-### Add these actions in order:
+**Request Body:** tap **"Request Body"** → choose **JSON**
 
----
+You'll see a dictionary editor. Add these keys by tapping **+**:
 
-**Action 1 — Find Health Samples**
+| Key | Type | Value |
+|---|---|---|
+| `event_type` | Text | `log-run` |
+| `client_payload` | Dictionary | *(see below)* |
 
-- Search for action: `Find Health Samples`
-- **Type:** Workouts
-- **Filter:** Workout Type is Running
-- **Sort:** Start Date — Latest First
-- **Limit:** 1
+For `client_payload`, tap its value area → it should let you create a nested dictionary. Add:
 
----
-
-**Action 2 — Get Details of Health Sample**
-
-- Search for action: `Get Details of Health Sample`
-- **Detail:** Start Date
-- Set variable: name it `workoutStart`
-
----
-
-**Action 3 — Get Details of Health Sample** *(repeat, different detail)*
-
-- Same action again
-- **Detail:** Duration
-- Set variable: name it `workoutDuration`
-- *(Duration is returned in seconds — we'll convert below)*
+| Key | Type | Value |
+|---|---|---|
+| `date` | Text | [tap and insert magic variable `logDate`] |
+| `duration` | Text | [tap and insert magic variable `durationMins`] |
+| `km` | Text | [tap and insert magic variable `distanceKm`] |
+| `kcal` | Text | [tap and insert magic variable `workoutKcal`] |
 
 ---
 
-**Action 4 — Get Details of Health Sample**
+### Action 9 — Show Notification (optional)
 
-- **Detail:** Total Distance
-- Set variable: name it `workoutDistance`
-- *(Value is in metres — we'll convert below)*
+Search: `Show Notification`
 
----
-
-**Action 5 — Get Details of Health Sample**
-
-- **Detail:** Total Energy Burned
-- Set variable: name it `workoutKcal`
+- **Title:** `Run Logged ✓`
+- **Body:** tap and insert `durationMins`, type ` min · `, insert `distanceKm`, type ` km · `, insert `workoutKcal`, type ` kcal`
 
 ---
 
-**Action 6 — Calculate**
+## Part 2 — Set Up the Automation
 
-This converts duration from seconds to minutes (rounded to 1 decimal):
+This makes the shortcut fire automatically every time you finish a run.
 
-- Search for action: `Calculate`
-- Expression: `workoutDuration / 60`
-- Round result to **1 decimal place** (use a `Round Number` action after if needed, or use `Format Number` with 1 decimal)
-- Set result variable: `durationMins`
+1. In the Shortcuts app, tap **Automation** (bottom tab)
+2. Tap **+** in the top right
+3. Tap **Personal Automation**
+4. Scroll down to find **Workout** (under Health) → tap it
+5. Set: **"Ends"** (not Starts)
+6. Tap **Workout Type** → choose **Running**
+7. Tap **Next**
+8. Tap **Add Action** → search for **Run Shortcut** → select your **"Log Run"** shortcut
+9. Tap **Next** → tap **Done**
 
----
-
-**Action 7 — Calculate** *(distance: metres to km)*
-
-- Expression: `workoutDistance / 1000`
-- Round to **2 decimal places**
-- Set variable: `distanceKm`
-
----
-
-**Action 8 — Format Date**
-
-- **Date:** `workoutStart`
-- **Format:** Custom — `yyyy-MM-dd`
-- Set variable: `logDate`
+**To run silently (no confirmation tap):**
+On the final screen, turn off **"Ask Before Running"**. With this off, the shortcut fires automatically in the background — no notification to tap. Leave it ON if you want a confirmation tap first.
 
 ---
 
-**Action 9 — Text** *(build the log line)*
+## Part 3 — Build the "Log Stair Climbing" Shortcut
 
-- Add a **Text** action
-- Content:
-  ```
-  [logDate] | run | [durationMins] min | [distanceKm] km | [workoutKcal] kcal
-  ```
-- Replace `[logDate]`, `[durationMins]`, `[distanceKm]`, `[workoutKcal]` with the Magic Variables you set above (tap the variable name in the text field to insert them)
-- Set variable: `newLogLine`
+Follow the exact same steps as above with these differences:
 
-> Note: Heart rate average isn't directly available from workout samples in Shortcuts. The kcal field alone is sufficient for deficit tracking.
-
----
-
-**Action 10 — Get Contents of URL** *(fetch current file from GitHub)*
-
-- URL: `https://api.github.com/repos/YOUR_USERNAME/health-advisor/contents/logs/phone-log.md`
-  - Replace `YOUR_USERNAME` with your GitHub username
-- **Method:** GET
-- **Headers:**
-  - `Authorization` : `Bearer YOUR_GITHUB_TOKEN`
-  - `X-GitHub-Api-Version` : `2022-11-28`
-- Set variable: `githubResponse`
+- **Shortcut name:** `Log Stair Climbing`
+- **Action 1 filter:** Workout Type → **Stair Climbing** (not Running)
+- **Skip Action 6** — stair climbing doesn't track distance, so you don't need `distanceKm`
+- **Action 8 — event_type value:** `log-stair` (not `log-run`)
+- **Action 8 — client_payload:** only 3 keys: `date`, `duration`, `kcal` (no `km`)
+- **Automation trigger:** Workout Type → **Stair Climbing**
+- **Run Shortcut in automation:** `Log Stair Climbing`
 
 ---
 
-**Action 11 — Get Dictionary Value**
+## What gets logged
 
-- **Dictionary:** `githubResponse`
-- **Key:** `content`
-- Set variable: `encodedContent`
+After a 15-minute run, `logs/phone-log.md` will receive a new line:
 
----
+```
+2026-04-19 | run | 15.0 min | 2.32 km | 176 kcal
+```
 
-**Action 12 — Get Dictionary Value**
-
-- **Dictionary:** `githubResponse`
-- **Key:** `sha`
-- Set variable: `fileSha`
-
----
-
-**Action 13 — Decode Base64** *(not directly available — use a workaround)*
-
-> **Tip:** Shortcuts doesn't have a native Base64 decode action. Use this URL trick:
-> - Add a **URL** action: `data:text/plain;base64,[encodedContent]`
-> - Then add **Get Contents of URL** on that URL
-> - This returns the decoded file text
-> - Set variable: `currentFileText`
-
----
-
-**Action 14 — Text** *(append new line)*
-
-- Content:
-  ```
-  [currentFileText]
-  [newLogLine]
-  ```
-- (Put `currentFileText` on line 1, `newLogLine` on line 2 — a newline in between)
-- Set variable: `updatedFileText`
-
----
-
-**Action 15 — Encode Base64** *(encode updated content)*
-
-> Similarly, use a reverse URL trick or a dedicated base64 encode action:
-> - **Base64 Encode** action (if available on your iOS version)
-> - **Input:** `updatedFileText`
-> - Set variable: `encodedUpdated`
-
----
-
-**Action 16 — Dictionary** *(build the request body)*
-
-- Add a **Dictionary** action with these key-value pairs:
-  - `message` (Text): `log: run entry`
-  - `content` (Text): `[encodedUpdated]` (the Magic Variable)
-  - `sha` (Text): `[fileSha]` (the Magic Variable)
-
-- Set variable: `requestBody`
-
----
-
-**Action 17 — Get Contents of URL** *(PUT to GitHub API)*
-
-- URL: `https://api.github.com/repos/YOUR_USERNAME/health-advisor/contents/logs/phone-log.md`
-- **Method:** PUT
-- **Headers:**
-  - `Authorization` : `Bearer YOUR_GITHUB_TOKEN`
-  - `Content-Type` : `application/json`
-  - `X-GitHub-Api-Version` : `2022-11-28`
-- **Request Body:** JSON — use `requestBody` dictionary
-- (No need to store the result)
-
----
-
-**Action 18 — Show Notification** *(optional confirmation)*
-
-- **Title:** Run Logged
-- **Body:** `[durationMins] min · [distanceKm] km · [workoutKcal] kcal`
-
----
-
-### Set the Automation Trigger
-
-1. Go to **Automation** tab in Shortcuts
-2. Tap **+** → **App** → Choose **Workout** (or search "Workout ends")
-3. **Trigger:** When **Apple Watch Workout** ends → **Workout Type:** Running
-4. **Run:** Immediately (ask before running = off for automation, or leave it on for one-tap confirmation)
-5. Select your **"Log Run"** shortcut
-
----
-
-## Shortcut 2: Log Stair Climbing
-
-Follow the same steps as above with these differences:
-
-- **Shortcut name:** "Log Stair Climbing"
-- **Action 1 — Workout Type filter:** Stair Climbing (not Running)
-- **No distance field** — stair climbing doesn't track distance
-- **Action 9 — Text (log line):**
-  ```
-  [logDate] | stair | [durationMins] min | [workoutKcal] kcal
-  ```
-- **Automation trigger:** Workout Type: **Stair Climbing**
-- **Commit message:** `log: stair entry`
-- **Notification body:** `[durationMins] min · [workoutKcal] kcal`
+The Health Logger app shows this in the Phase Log with a Run badge, and counts the calories burned as a positive outlier in the Weekly Deficit card.
 
 ---
 
@@ -244,31 +221,15 @@ Follow the same steps as above with these differences:
 
 | Problem | Fix |
 |---|---|
-| `403` from GitHub | Check token has Contents: Read+Write permission for this repo |
-| `409` conflict | Two writes at the same time — retry the shortcut |
-| Notification doesn't appear | Check Shortcuts automation notifications are enabled in Settings > Notifications |
-| Empty kcal value | Ensure workout was tracked with Apple Watch (not iPhone only) |
-| Base64 decode fails | On older iOS, manually install a base64 decode shortcut from the Shortcuts Gallery |
+| Nothing happens after workout | Check automation has "Run Shortcut" configured, not "Open App" |
+| GitHub returns 401 | Token is wrong or expired — check it in Settings |
+| GitHub returns 403 | Token doesn't have Contents: Read+Write for this repo |
+| Distance comes back in miles | Add a **Convert Measurement** action after Action 6: From Miles, To Kilometres |
+| Duration looks wrong | Check the Calculate step — duration from Health is in seconds, divide by 60 |
+| Automation fires but shortcut fails silently | Open the shortcut manually (tap it in the Shortcuts tab) to see any error |
 
 ---
 
-## Security Note
+## Security
 
-Your GitHub token is stored in the **Text** action inside the shortcut. To keep it safe:
-- Only share this shortcut via iCloud Shortcut links if you first remove the token
-- Use a fine-grained token scoped **only** to the `health-advisor` repo with Contents: Read+Write
-
----
-
-## What Gets Logged
-
-After completing a 15-minute run, your log will receive a line like:
-
-```
-2026-04-19 | run | 15.0 min | 2.32 km | 176 kcal
-```
-
-The Health Logger app parses this and:
-- Shows it in the **Phase Log** with a Run badge and stat chips
-- Adds `+176 kcal` to the **Weekly Deficit** card as a positive outlier
-- Includes it in the **Weekly Progress** overlay
+Your GitHub token is stored inside the shortcut as plain text in the Get Contents of URL action. Don't share this shortcut via iCloud link without removing the token first.

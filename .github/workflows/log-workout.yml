@@ -1,0 +1,43 @@
+name: Log Workout
+
+# Triggered by the iOS Shortcut via the GitHub repository_dispatch API.
+# The Shortcut sends event_type "log-run" or "log-stair" with workout data
+# in the client_payload. This workflow appends a formatted line to phone-log.md
+# and commits it — no base64 or file-read logic needed on the phone.
+
+on:
+  repository_dispatch:
+    types: [log-run, log-stair]
+
+permissions:
+  contents: write
+
+jobs:
+  log:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      - name: Append workout log entry
+        env:
+          TYPE:     ${{ github.event.action }}
+          DATE:     ${{ github.event.client_payload.date }}
+          DURATION: ${{ github.event.client_payload.duration }}
+          KM:       ${{ github.event.client_payload.km }}
+          KCAL:     ${{ github.event.client_payload.kcal }}
+        run: |
+          if [ "$TYPE" = "log-run" ]; then
+            ENTRY="${DATE} | run | ${DURATION} min | ${KM} km | ${KCAL} kcal"
+          else
+            ENTRY="${DATE} | stair | ${DURATION} min | ${KCAL} kcal"
+          fi
+
+          echo "Appending: $ENTRY"
+          echo "$ENTRY" >> logs/phone-log.md
+
+          git config user.name  "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add logs/phone-log.md
+          git commit -m "log: $TYPE for $DATE"
+          git push
