@@ -27,14 +27,21 @@ jobs:
           KM:       ${{ github.event.client_payload.km }}
           KCAL:     ${{ github.event.client_payload.kcal }}
         run: |
+          # Normalise date: extract yyyy-MM-dd from whatever format the shortcut sends
+          CLEAN_DATE=$(echo "$DATE" | grep -oP '\d{4}-\d{2}-\d{2}' || date -d "$DATE" '+%Y-%m-%d' 2>/dev/null || echo "$DATE")
+
+          # Round kcal and duration to whole numbers
+          CLEAN_KCAL=$(printf "%.0f" "${KCAL:-0}" 2>/dev/null || echo "${KCAL:-0}")
+          CLEAN_DUR=$(printf "%.0f" "${DURATION:-0}" 2>/dev/null || echo "${DURATION:-0}")
+
           if [ "$EVENT" = "log-run" ]; then
-            ENTRY="${DATE} | run | ${DURATION} min | ${KM} km | ${KCAL} kcal"
+            ENTRY="${CLEAN_DATE} | run | ${CLEAN_DUR} min | ${KM} km | ${CLEAN_KCAL} kcal"
             LABEL="log-run"
           elif [ "$EVENT" = "log-stair" ]; then
-            ENTRY="${DATE} | stair | ${DURATION} min | ${KCAL} kcal"
+            ENTRY="${CLEAN_DATE} | stair | ${CLEAN_DUR} min | ${CLEAN_KCAL} kcal"
             LABEL="log-stair"
           else
-            ENTRY="${DATE} | workout | ${TYPE} | ${DURATION} min | ${KCAL} kcal"
+            ENTRY="${CLEAN_DATE} | workout | ${TYPE} | ${CLEAN_DUR} min | ${CLEAN_KCAL} kcal"
             LABEL="log-workout (${TYPE})"
           fi
 
