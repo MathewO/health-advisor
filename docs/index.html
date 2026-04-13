@@ -731,19 +731,21 @@ function renderPhaseCard(phase, weights) {
   const phaseLabel = (phase.name || '').split(/\s*[—–\u2014\u2013\-]\s*/)[0].trim() || 'Active Phase';
 
   card.innerHTML = `
-    <div style="display:flex;justify-content:space-between;align-items:flex-start">
-      <div>
-        <div class="weight-stat">${latest.kg.toFixed(1)}<span> kg</span></div>
-        <div class="trend-line" style="color:${trendColor}">${trendText}</div>
-      </div>
-      <div style="text-align:center;display:flex;flex-direction:column;justify-content:center">
+    <div style="position:relative">
+      <div style="position:absolute;left:0;right:0;top:4px;text-align:center;pointer-events:none">
         <span style="font-size:17px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:0.8px">${escHtml(phaseLabel)}</span>
       </div>
-      <div style="text-align:right">
-        <div style="font-size:13px;color:var(--muted)">Target</div>
+      <div style="display:flex;justify-content:space-between;align-items:flex-start">
+        <div>
+          <div class="weight-stat">${latest.kg.toFixed(1)}<span> kg</span></div>
+          <div class="trend-line" style="color:${trendColor}">${trendText}</div>
+        </div>
+        <div style="text-align:right">
+          <div style="font-size:13px;color:var(--muted)">Target</div>
         <div style="font-size:20px;font-weight:700">${phase.target_kg} <span style="font-size:14px;font-weight:400;color:var(--muted)">kg</span></div>
         <div style="font-size:12px;color:var(--muted)">${formatDate(phase.target_date)}</div>
       </div>
+    </div>
     </div>
     <div class="goal-bar-wrap"><div class="goal-bar" style="width:${pct.toFixed(0)}%"></div></div>
     <div class="goal-meta">
