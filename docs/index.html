@@ -244,6 +244,19 @@
     .settings-status { font-size: 13px; min-height: 18px; margin-top: 8px; }
     .divider { height: 1px; background: var(--border); margin: 24px 0; }
 
+    /* ── Cheat form net impact ── */
+    .net-impact-box {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: var(--surface2);
+      border-radius: 10px;
+      padding: 12px 14px;
+      margin-top: -4px;
+    }
+    .net-impact-label { font-size: 13px; color: var(--muted); }
+    .net-impact-val   { font-size: 17px; font-weight: 700; }
+
     /* ── Empty state ── */
     .empty-state { text-align: center; padding: 48px 16px; color: var(--muted); font-size: 14px; line-height: 1.6; }
     .empty-state .empty-icon { font-size: 40px; margin-bottom: 12px; }
@@ -346,7 +359,7 @@
           <div class="log-label">Extra Activity</div>
           <div class="log-sub">Run, walk, etc.</div>
         </button>
-        <button class="log-card" onclick="openForm('cheat')">
+        <button class="log-card" onclick="openCheatForm()">
           <div class="log-icon">🍕</div>
           <div class="log-label">Cheat Meal</div>
           <div class="log-sub">Off-plan eating</div>
@@ -871,7 +884,10 @@ function outlierLabel(e) {
   if (e.type === 'stair')  return 'Stair Climbing: ' + e.value;
   if (e.type === 'drinks') return 'Drinks: ' + (e.breakdown || e.value);
   if (e.type === 'beers')  return 'Drinks: ' + e.value + ' pints';
-  if (e.type === 'cheat')  return 'Cheat meal: ' + e.value;
+  if (e.type === 'cheat') {
+    const base = 'Cheat meal: ' + e.value;
+    return e.replaces ? base + ' (replaces ' + e.replaces.replace(/\s*\(\d+ kcal\)/, '') + ')' : base;
+  }
   return e.value;
 }
 
@@ -929,6 +945,19 @@ function loadLogView() {
     } else if (e.type === 'beers') {
       valueText = e.value + ' pints';
       if (e.outlierKcal) chipsHtml = `<div class="stat-chips"><span class="stat-chip" style="color:var(--amber)">${Math.abs(e.outlierKcal)} kcal est.</span></div>`;
+    } else if (e.type === 'cheat') {
+      valueText = e.value;
+      const chips = [];
+      if (e.replaces)   chips.push('replaces ' + e.replaces.replace(/\s*\(\d+ kcal\)/, ''));
+      if (e.outlierKcal !== 0) {
+        const sign = e.outlierKcal > 0 ? '+' : '';
+        chips.push('net: ' + sign + e.outlierKcal + ' kcal');
+      }
+      if (chips.length) {
+        const chipColors = [null, e.outlierKcal > 0 ? 'var(--green)' : 'var(--red)'];
+        chipsHtml = `<div class="stat-chips">${chips.map((c, i) => `<span class="stat-chip"${i === 1 && chipColors[i] ? ` style="color:${chipColors[i]}"` : ''}>${escHtml(c)}</span>`).join('')}</div>`;
+      }
+      noteHtml = e.note ? `<div class="log-entry-note">"${escHtml(e.note)}"</div>` : '';
     } else {
       valueText = e.value;
       noteHtml  = e.note ? `<div class="log-entry-note">"${escHtml(e.note)}"</div>` : '';
@@ -1367,9 +1396,24 @@ function parseAllLogEntries(text) {
 
     } else if (type === 'cheat') {
       entry.value = parts[2];
-      entry.note  = parts[3] || '';
-      const m = entry.value.match(/~(\d+)\s*kcal/i);
-      entry.outlierKcal = m ? -parseInt(m[1]) : 0;
+      // Check if parts[3] is a "replaces:" field or a note
+      const p3 = parts[3] || '';
+      const p4 = parts[4] || '';
+      if (p3.startsWith('replaces:')) {
+        entry.replaces = p3.replace(/^replaces:\s*/i, '');
+        entry.note     = p4;
+        // Extract replaced meal kcal from "Dinner (640 kcal)"
+        const rm = entry.replaces.match(/\((\d+)\s*kcal\)/i);
+        entry.replacedKcal = rm ? parseInt(rm[1]) : 0;
+      } else {
+        entry.replaces     = '';
+        entry.replacedKcal = 0;
+        entry.note         = p3;
+      }
+      // Net outlier: -(cheat_kcal - replaced_kcal)
+      const cm = entry.value.match(/~(\d+)\s*kcal/i);
+      const cheatKcal = cm ? parseInt(cm[1]) : 0;
+      entry.outlierKcal = -(cheatKcal - entry.replacedKcal);
 
     } else {
       entry.value = parts[2];
@@ -1539,24 +1583,6 @@ const formConfigs = {
         : `${date} | activity | ${val}`;
     }
   },
-  cheat: {
-    title: '🍕 Log Cheat Meal',
-    fields: [
-      { id: 'detail', label: 'What did you eat?',                     type: 'textarea', placeholder: 'e.g. Pizza and garlic bread' },
-      { id: 'kcal',   label: 'Extra calories (rough guess, optional)', type: 'number',   placeholder: 'e.g. 800', inputmode: 'numeric', optional: true },
-      { id: 'date',   label: 'Date',                                   type: 'date',     isDate: true },
-      { id: 'note',   label: 'Note',                                   type: 'textarea', placeholder: 'e.g. Birthday dinner', optional: true }
-    ],
-    build: (f, date) => {
-      if (!f.detail.trim()) throw new Error('Describe what you ate');
-      const kcalPart = (f.kcal || '').trim() ? `, ~${f.kcal.trim()} kcal extra` : '';
-      const val  = f.detail.trim() + kcalPart;
-      const note = (f.note || '').trim();
-      return note
-        ? `${date} | cheat | ${val} | ${note}`
-        : `${date} | cheat | ${val}`;
-    }
-  }
 };
 
 let currentFormType = null;
@@ -1806,6 +1832,171 @@ async function submitDrinksForm() {
     await ghAppend(LOG_PATH, line);
     if (logText !== null) logText += '\n' + line;
 
+    status.className = 'status-msg success';
+    status.textContent = '✓ Saved successfully';
+    btn.textContent = 'Saved ✓';
+    setTimeout(closeForm, 1200);
+  } catch(e) {
+    status.className = 'status-msg error';
+    status.textContent = '✗ ' + e.message;
+    btn.disabled = false;
+    btn.textContent = 'Save Entry';
+  }
+}
+
+// ─── Cheat Meal Form ──────────────────────────────────────────
+function getMealOptions() {
+  if (!dashData || !dashData.phase || !dashData.phase.meal_plan) return [];
+  const mp = dashData.phase.meal_plan;
+  const seen = new Set();
+  const options = [];
+  for (const tab of ['weekday', 'weekend']) {
+    const plan = mp[tab];
+    if (!plan || !plan.items) continue;
+    for (const item of plan.items) {
+      const key = item.label + '|' + item.kcal;
+      if (!seen.has(key)) {
+        seen.add(key);
+        options.push({ label: item.label, category: item.category || '', kcal: item.kcal || 0 });
+      }
+    }
+  }
+  return options;
+}
+
+function openCheatForm() {
+  currentFormType = 'cheat';
+  document.getElementById('formTitle').textContent = '🍕 Log Cheat Meal';
+
+  const mealOptions = getMealOptions();
+  const mealOptHtml = `<option value="">None — additional calories</option>`
+    + mealOptions.map((m, i) =>
+        `<option value="${i}">${escHtml(m.category ? m.category + ': ' : '')}${escHtml(m.label)} (${m.kcal} kcal)</option>`
+      ).join('');
+
+  const html = `
+    <div class="field">
+      <label>What did you eat? <span class="optional-label">or "Skipped"</span></label>
+      <textarea id="ff_cheatDetail" placeholder="e.g. Pizza and garlic bread, Skipped lunch, Burger"></textarea>
+    </div>
+
+    <div class="field">
+      <label>Calories <span class="optional-label">optional — rough guess</span></label>
+      <input id="ff_cheatKcal" type="number" placeholder="e.g. 900" inputmode="numeric" oninput="updateCheatImpact()" />
+    </div>
+
+    <div class="field">
+      <label>Replaces a planned meal? <span class="optional-label">optional</span></label>
+      <select id="ff_cheatReplaces" onchange="updateCheatImpact()">${mealOptHtml}</select>
+    </div>
+
+    <div class="net-impact-box" id="cheatImpactBox" style="display:none">
+      <span class="net-impact-label">Net calorie impact</span>
+      <span class="net-impact-val" id="cheatImpactVal"></span>
+    </div>
+
+    <div class="field">
+      <label>Date</label>
+      <input id="ff_cheatDate" type="date" value="${todayStr()}" />
+    </div>
+
+    <div class="field">
+      <label>Note <span class="optional-label">optional</span></label>
+      <textarea id="ff_cheatNote" placeholder="e.g. Birthday dinner, work event"></textarea>
+    </div>
+
+    <button class="save-btn" id="saveBtn" onclick="submitCheatForm()">Save Entry</button>
+    <div class="status-msg" id="formStatus"></div>`;
+
+  document.getElementById('formBody').innerHTML = html;
+  showScreen('screen-form');
+
+  // Store meal options for later use
+  document.getElementById('ff_cheatReplaces')._mealOptions = mealOptions;
+
+  setTimeout(() => {
+    const first = document.getElementById('ff_cheatDetail');
+    if (first) first.focus();
+  }, 100);
+}
+
+function updateCheatImpact() {
+  const kcalEl     = document.getElementById('ff_cheatKcal');
+  const replacesEl = document.getElementById('ff_cheatReplaces');
+  const box        = document.getElementById('cheatImpactBox');
+  const valEl      = document.getElementById('cheatImpactVal');
+
+  const cheatKcal  = parseInt(kcalEl.value) || 0;
+  const selectedIdx = replacesEl.value;
+  const mealOptions = replacesEl._mealOptions || [];
+  const replacedKcal = selectedIdx !== '' ? (mealOptions[parseInt(selectedIdx)]?.kcal || 0) : 0;
+
+  // Only show the box if there's something to calculate
+  if (!cheatKcal && selectedIdx === '') {
+    box.style.display = 'none';
+    return;
+  }
+
+  box.style.display = 'flex';
+
+  const net = cheatKcal - replacedKcal; // positive = ate more than plan, negative = ate less (saving)
+
+  if (net > 0) {
+    valEl.textContent = '+' + net.toLocaleString() + ' kcal over plan';
+    valEl.style.color = 'var(--red)';
+  } else if (net < 0) {
+    valEl.textContent = Math.abs(net).toLocaleString() + ' kcal saving';
+    valEl.style.color = 'var(--green)';
+  } else {
+    valEl.textContent = 'On plan';
+    valEl.style.color = 'var(--muted)';
+  }
+}
+
+async function submitCheatForm() {
+  const detailEl   = document.getElementById('ff_cheatDetail');
+  const kcalEl     = document.getElementById('ff_cheatKcal');
+  const replacesEl = document.getElementById('ff_cheatReplaces');
+  const dateEl     = document.getElementById('ff_cheatDate');
+  const noteEl     = document.getElementById('ff_cheatNote');
+  const btn        = document.getElementById('saveBtn');
+  const status     = document.getElementById('formStatus');
+
+  const detail = (detailEl.value || '').trim();
+  if (!detail) {
+    detailEl.focus();
+    detailEl.style.borderColor = 'var(--red)';
+    setTimeout(() => detailEl.style.borderColor = '', 1500);
+    return;
+  }
+
+  const cheatKcal   = parseInt(kcalEl.value) || 0;
+  const selectedIdx = replacesEl.value;
+  const mealOptions = replacesEl._mealOptions || [];
+  const replaced    = selectedIdx !== '' ? mealOptions[parseInt(selectedIdx)] : null;
+  const date        = dateEl.value || todayStr();
+  const note        = (noteEl.value || '').trim();
+
+  const kcalPart    = cheatKcal ? `, ~${cheatKcal} kcal` : '';
+  const value       = detail + kcalPart;
+  const replacesPart = replaced ? `replaces: ${replaced.label} (${replaced.kcal} kcal)` : '';
+
+  // Build log line: DATE | cheat | value | [replaces: MEAL (KCAL kcal)] | [note]
+  const parts = [date, 'cheat', value];
+  if (replacesPart) parts.push(replacesPart);
+  if (note) parts.push(note);
+  const line = parts.join(' | ');
+
+  btn.disabled = true;
+  btn.textContent = 'Saving…';
+  status.className = 'status-msg';
+  status.textContent = '';
+
+  try {
+    const { user, repo, token } = ghConfig();
+    if (!user || !token) throw new Error('GitHub not configured — go to Settings first');
+    await ghAppend(LOG_PATH, line);
+    if (logText !== null) logText += '\n' + line;
     status.className = 'status-msg success';
     status.textContent = '✓ Saved successfully';
     btn.textContent = 'Saved ✓';
