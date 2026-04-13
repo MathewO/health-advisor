@@ -28,17 +28,3 @@ All entries: `YYYY-MM-DD | type | value | [optional note]`
 ## Log
 
 2026-04-13 | weight | 85.8 | Morning after spa evening, two rounds of sauna + ice baths
-2026-04-13 | run |  min |  km | 3 kcal
-2026-04-13 | run |  min |  km | 3 kcal
-2026-04-13 | run |  min |  km | 3 kcal
-2026-04-13 | run |  min |  km | 8 kcal
-2026-04-13 | run |  min |  km | 8 kcal
-2026-04-13 | run |  min |  km | 8 kcal
-2026-04-13 | run |  min |  km | 8 kcal
-2026-04-13 | run |  min |  km | 10 kcal
-2026-04-13 | run |  min |  km | 10 kcal
-2026-04-13 | run |  min |  km | 10 kcal
-2026-04-13 | run |  min |  km | 13.885 kcal
-13 Apr 2026 at 15:57 | run |  min |  km | 13.885 kcal
-13 Apr 2026 at 15:57 | run | 0 min |  km | 14 kcal
-2026-04-13 | run | 8 min |  km | 250 kcal
