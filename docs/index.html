@@ -797,7 +797,7 @@ function renderWeeklyDeficitCard(phase) {
       <span class="deficit-val">${target.toLocaleString()} kcal</span>
     </div>
     ${carryoverHtml}
-    <div class="burndown-wrap"><canvas id="weeklyBurndownChart"></canvas></div>
+    <div class="burndown-wrap"><canvas id="weeklyBurndownChart" height="160"></canvas></div>
     <div class="predicted-deficit-row">
       <div>
         <div class="predicted-label">Predicted deficit</div>
@@ -806,7 +806,11 @@ function renderWeeklyDeficitCard(phase) {
       <div class="predicted-val" style="color:${predictedColor}">${predicted.toLocaleString()} kcal</div>
     </div>`;
 
-  renderWeeklyBurndownChart(allEntries, weekStartStr, predicted);
+  // Defer until after browser has laid out the new canvas
+  requestAnimationFrame(() => {
+    try { renderWeeklyBurndownChart(allEntries, weekStartStr, predicted); }
+    catch(err) { console.error('Burndown chart error:', err); }
+  });
 }
 
 function renderWeeklyBurndownChart(allEntries, weekStartStr, predicted) {
@@ -875,7 +879,7 @@ function renderWeeklyBurndownChart(allEntries, weekStartStr, predicted) {
 
   // Custom plugin: draw emoji icons above each day's line
   const emojiPlugin = {
-    id: 'weeklyEmojis',
+    id: 'weeklyEmojis_' + Date.now(),
     afterDatasetsDraw(chart) {
       const { ctx, scales } = chart;
       const xScale = scales.x;
