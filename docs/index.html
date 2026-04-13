@@ -920,6 +920,7 @@ function renderWeeklyBurndownChart(allEntries, weekStartStr, predicted) {
       btn.style.cssText = `position:absolute;left:${pos.cssX - 16}px;top:${pos.cssY - 10}px;width:32px;height:24px;background:none;border:none;cursor:pointer;padding:0;z-index:10;-webkit-tap-highlight-color:transparent;`;
       btn.addEventListener('click', function(ev) {
         ev.stopPropagation();
+        ev.preventDefault();
         showIconTip(pos.label, this);
       });
       wrap.appendChild(btn);
@@ -927,14 +928,12 @@ function renderWeeklyBurndownChart(allEntries, weekStartStr, predicted) {
   }
 
   function showIconTip(label, anchorEl) {
-    // Remove any existing tip
-    const old = document.getElementById('burndownTip');
-    if (old) old.remove();
+    hideIconTip();
 
     const tip = document.createElement('div');
     tip.id = 'burndownTip';
     tip.textContent = label;
-    tip.style.cssText = 'position:fixed;z-index:9999;background:#27272a;border:1px solid #52525b;border-radius:8px;padding:6px 10px;font-size:12px;color:#f1f5f9;pointer-events:none;white-space:nowrap;box-shadow:0 4px 16px rgba(0,0,0,0.5);';
+    tip.style.cssText = 'position:fixed;z-index:9999;background:var(--surface2,#3f3f46);border:1px solid var(--border,#52525b);border-radius:8px;padding:8px 12px;font-size:13px;color:var(--text,#f1f5f9);pointer-events:none;white-space:nowrap;box-shadow:0 4px 16px rgba(0,0,0,0.5);';
     document.body.appendChild(tip);
 
     const rect = anchorEl.getBoundingClientRect();
@@ -947,14 +946,19 @@ function renderWeeklyBurndownChart(allEntries, weekStartStr, predicted) {
     tip.style.left = x + 'px';
     tip.style.top  = y + 'px';
 
-    setTimeout(() => { if (tip.parentNode) tip.remove(); }, 2500);
+    clearTimeout(window._bdTipTimer);
+    window._bdTipTimer = setTimeout(hideIconTip, 2500);
+
+    // Dismiss on next tap anywhere — use setTimeout to avoid catching the current click
+    setTimeout(() => {
+      document.addEventListener('click', hideIconTip, { once: true });
+    }, 10);
   }
 
-  // Dismiss tooltip on tap elsewhere
-  document.addEventListener('click', () => {
+  function hideIconTip() {
     const tip = document.getElementById('burndownTip');
     if (tip) tip.remove();
-  });
+  }
 
   const gridColor  = 'rgba(82,82,91,0.4)';
   const mutedColor = 'rgba(148,163,184,0.5)';
