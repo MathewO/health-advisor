@@ -840,16 +840,35 @@ function renderWeeklyBurndownChart(allEntries, weekStartStr, predicted) {
     return +(Math.max(0, baselineKg - entry.kg)).toFixed(3);
   });
 
-  // Event icons per day
+  // Event icons + labels per day
   const eventIcons = { weight: '⚖️', run: '🏃', stair: '🏃', workout: '🏃', drinks: '🍺', beers: '🍺', cheat: '🍕', activity: '✅' };
-  const eventsByDay = {};
+
+  function entryLabel(e) {
+    if (e.type === 'weight')   return `⚖️ Weigh-in · ${e.kg} kg`;
+    if (e.type === 'run')      return `🏃 Run${e.duration ? ' · ' + e.duration + ' min' : ''}${e.kcal ? ' · ' + e.kcal + ' kcal' : ''}`;
+    if (e.type === 'stair')    return `🏃 Stairs${e.duration ? ' · ' + e.duration + ' min' : ''}${e.kcal ? ' · ' + e.kcal + ' kcal' : ''}`;
+    if (e.type === 'workout')  return `🏃 ${e.workoutType || 'Workout'}${e.duration ? ' · ' + e.duration + ' min' : ''}${e.kcal ? ' · ' + e.kcal + ' kcal' : ''}`;
+    if (e.type === 'drinks')   return `🍺 Drinks · ${e.kcal ? e.kcal + ' kcal' : e.breakdown || ''}`;
+    if (e.type === 'beers')    return `🍺 Drinks · ${e.value} pints`;
+    if (e.type === 'cheat')    return `🍕 Cheat · ${e.value}`;
+    if (e.type === 'activity') return `✅ Activity · ${e.value}`;
+    return e.value || e.type;
+  }
+
+  // Group events by day — store full entries for tooltip lookup
+  const eventsByDay = {};   // { dayIndex: [{ icon, label }] }
   weekDates.forEach((d, i) => { eventsByDay[i] = []; });
   allEntries.forEach(e => {
     const idx = weekDates.indexOf(e.date);
     if (idx === -1) return;
     const icon = eventIcons[e.type];
-    if (icon && !eventsByDay[idx].includes(icon)) eventsByDay[idx].push(icon);
+    if (!icon) return;
+    // Allow multiple weight entries on same day (each a separate dot)
+    eventsByDay[idx].push({ icon, label: entryLabel(e) });
   });
+
+  // Hit areas populated during draw, used by click/touch handler
+  const hitAreas = []; // { x, y, label }
 
   // Custom plugin: draw emoji icons above each day's line
   const emojiPlugin = {
@@ -858,23 +877,94 @@ function renderWeeklyBurndownChart(allEntries, weekStartStr, predicted) {
       const { ctx, scales } = chart;
       const xScale = scales.x;
       const yScale = scales.y;
+      hitAreas.length = 0;
       ctx.save();
       ctx.font = '15px serif';
       ctx.textAlign = 'center';
       DAY_LABELS.forEach((_, i) => {
-        const icons = eventsByDay[i];
-        if (!icons.length) return;
+        const events = eventsByDay[i];
+        if (!events.length) return;
         const x = xScale.getPixelForValue(i);
-        // Use actual line height if available, otherwise predicted
         const yVal = actualData[i] !== null && actualData[i] !== undefined ? actualData[i] : predictedData[i];
         const yBase = yScale.getPixelForValue(yVal);
-        icons.forEach((icon, j) => {
-          ctx.fillText(icon, x, yBase - 16 - j * 20);
+        events.forEach(({ icon, label }, j) => {
+          const iy = yBase - 16 - j * 20;
+          ctx.fillText(icon, x, iy);
+          hitAreas.push({ x, y: iy - 8, label, r: 14 });
         });
       });
       ctx.restore();
     }
   };
+
+  // Tooltip element (shared, positioned absolutely over the card)
+  let burndownTip = document.getElementById('burndownTip');
+  if (!burndownTip) {
+    burndownTip = document.createElement('div');
+    burndownTip.id = 'burndownTip';
+    burndownTip.style.cssText = 'position:fixed;z-index:9999;background:#27272a;border:1px solid #52525b;border-radius:8px;padding:6px 10px;font-size:12px;color:#f1f5f9;pointer-events:none;display:none;white-space:nowrap;box-shadow:0 4px 16px rgba(0,0,0,0.5)';
+    document.body.appendChild(burndownTip);
+  }
+
+  function showBurndownTip(label, clientX, clientY) {
+    burndownTip.textContent = label;
+    burndownTip.style.display = 'block';
+    const tw = burndownTip.offsetWidth;
+    const th = burndownTip.offsetHeight;
+    let x = clientX - tw / 2;
+    let y = clientY - th - 10;
+    x = Math.max(8, Math.min(x, window.innerWidth - tw - 8));
+    y = Math.max(8, y);
+    burndownTip.style.left = x + 'px';
+    burndownTip.style.top  = y + 'px';
+  }
+
+  function hideBurndownTip() { burndownTip.style.display = 'none'; }
+
+  function getCanvasPos(e, canvas) {
+    const rect = canvas.getBoundingClientRect();
+    const scaleX = canvas.width  / rect.width;
+    const scaleY = canvas.height / rect.height;
+    const clientX = e.touches ? e.touches[0].clientX : e.clientX;
+    const clientY = e.touches ? e.touches[0].clientY : e.clientY;
+    return {
+      cx: (clientX - rect.left) * scaleX,
+      cy: (clientY - rect.top)  * scaleY,
+      clientX, clientY
+    };
+  }
+
+  function findHit(cx, cy) {
+    return hitAreas.find(h => Math.hypot(cx - h.x, cy - h.y) <= h.r);
+  }
+
+  canvas.addEventListener('mousemove', ev => {
+    const { cx, cy, clientX, clientY } = getCanvasPos(ev, canvas);
+    const hit = findHit(cx, cy);
+    if (hit) { canvas.style.cursor = 'pointer'; showBurndownTip(hit.label, clientX, clientY); }
+    else      { canvas.style.cursor = ''; hideBurndownTip(); }
+  });
+
+  canvas.addEventListener('mouseleave', hideBurndownTip);
+
+  canvas.addEventListener('click', ev => {
+    const { cx, cy, clientX, clientY } = getCanvasPos(ev, canvas);
+    const hit = findHit(cx, cy);
+    if (hit) {
+      showBurndownTip(hit.label, clientX, clientY);
+      setTimeout(hideBurndownTip, 2500);
+    }
+  });
+
+  canvas.addEventListener('touchstart', ev => {
+    const { cx, cy, clientX, clientY } = getCanvasPos(ev, canvas);
+    const hit = findHit(cx, cy);
+    if (hit) {
+      ev.preventDefault();
+      showBurndownTip(hit.label, clientX, clientY);
+      setTimeout(hideBurndownTip, 2500);
+    }
+  }, { passive: false });
 
   const gridColor  = 'rgba(82,82,91,0.4)';
   const mutedColor = 'rgba(148,163,184,0.5)';
