@@ -27,49 +27,67 @@ jobs:
           KM:       ${{ github.event.client_payload.km }}
           KCAL:     ${{ github.event.client_payload.kcal }}
         run: |
-          # Normalise date: extract yyyy-MM-dd from whatever format the shortcut sends
-          CLEAN_DATE=$(python3 -c "
-import re, sys
+          # Parse and normalise all fields with Python
+          python3 << 'PYEOF'
+import os, re, sys
 from datetime import datetime
-s = sys.argv[1].strip()
+
+date_raw  = os.environ.get('DATE', '')
+kcal_raw  = os.environ.get('KCAL', '0')
+dur_raw   = os.environ.get('DURATION', '0')
+event     = os.environ.get('EVENT', '')
+wtype     = os.environ.get('TYPE', '')
+km_raw    = os.environ.get('KM', '')
+
+# --- Date ---
+s = date_raw.strip()
 m = re.search(r'\d{4}-\d{2}-\d{2}', s)
 if m:
-    print(m.group())
+    clean_date = m.group()
 else:
+    clean_date = s
     for fmt in ['%d %b %Y at %H:%M', '%d %b %Y at %I:%M %p', '%d %b %Y', '%b %d, %Y', '%Y-%m-%dT%H:%M:%S']:
         try:
-            print(datetime.strptime(s, fmt).strftime('%Y-%m-%d')); break
-        except: pass
-    else:
-        print(s)
-" "$DATE" 2>/dev/null || echo "$DATE")
+            clean_date = datetime.strptime(s, fmt).strftime('%Y-%m-%d')
+            break
+        except Exception:
+            pass
 
-          # Round kcal to whole number
-          CLEAN_KCAL=$(printf "%.0f" "${KCAL:-0}" 2>/dev/null || echo "${KCAL:-0}")
+# --- Kcal ---
+try:
+    clean_kcal = str(round(float(re.sub(r'[^\d.]', '', kcal_raw or '0') or '0')))
+except Exception:
+    clean_kcal = '0'
 
-          # Convert duration: if >300 assume it's in seconds, divide by 60; otherwise treat as minutes
-          RAW_DUR="${DURATION:-0}"
-          CLEAN_DUR=$(python3 -c "
-d = float('${RAW_DUR}') if '${RAW_DUR}' else 0
-print(round(d / 60) if d > 300 else round(d))
-" 2>/dev/null || printf "%.0f" "${RAW_DUR:-0}")
+# --- Duration: Actions app returns seconds, divide by 60 ---
+try:
+    dur_num = float(re.sub(r'[^\d.]', '', dur_raw or '0') or '0')
+    # If value looks like seconds (>= 60), convert to minutes; otherwise treat as minutes
+    clean_dur = str(round(dur_num / 60) if dur_num >= 60 else round(dur_num))
+except Exception:
+    clean_dur = '0'
 
-          if [ "$EVENT" = "log-run" ]; then
-            ENTRY="${CLEAN_DATE} | run | ${CLEAN_DUR} min | ${KM} km | ${CLEAN_KCAL} kcal"
-            LABEL="log-run"
-          elif [ "$EVENT" = "log-stair" ]; then
-            ENTRY="${CLEAN_DATE} | stair | ${CLEAN_DUR} min | ${CLEAN_KCAL} kcal"
-            LABEL="log-stair"
-          else
-            ENTRY="${CLEAN_DATE} | workout | ${TYPE} | ${CLEAN_DUR} min | ${CLEAN_KCAL} kcal"
-            LABEL="log-workout (${TYPE})"
-          fi
+# --- Build entry ---
+if event == 'log-run':
+    entry = f"{clean_date} | run | {clean_dur} min | {km_raw} km | {clean_kcal} kcal"
+    label = f"log-run for {clean_date}"
+elif event == 'log-stair':
+    entry = f"{clean_date} | stair | {clean_dur} min | {clean_kcal} kcal"
+    label = f"log-stair for {clean_date}"
+else:
+    entry = f"{clean_date} | workout | {wtype} | {clean_dur} min | {clean_kcal} kcal"
+    label = f"log-workout ({wtype}) for {clean_date}"
 
-          echo "Appending: $ENTRY"
-          echo "$ENTRY" >> logs/phone-log.md
+print(f"Appending: {entry}")
+with open('logs/phone-log.md', 'a') as f:
+    f.write(entry + '\n')
+
+with open(os.environ['GITHUB_ENV'], 'a') as f:
+    f.write(f"COMMIT_LABEL={label}\n")
+PYEOF
 
           git config user.name  "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
           git add logs/phone-log.md
-          git commit -m "log: ${LABEL} for ${DATE}"
-          git push
+          git commit -m "log: ${COMMIT_LABEL}"
+          git pull --rebase && git push
