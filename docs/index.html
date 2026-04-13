@@ -640,7 +640,7 @@ async function loadDashboard() {
     const phase = dashData.phase;
 
     if (phase && phase.status === 'active') {
-      const today     = new Date().toISOString().slice(0, 10);
+      const today     = localDateStr(new Date());
       if (today > phase.target_date) {
         document.getElementById('phaseEndBanner').style.display = 'block';
       }
@@ -756,7 +756,7 @@ function renderWeeklyDeficitCard(phase) {
   }
 
   const allEntries = parseAllLogEntries(logText);
-  const { target, carryover, weekOutliers, prevWeekAdj, thisWeekAdj, predicted, weekStartStr, weekEndStr }
+  const { target, carryover, weekOutliers, thisWeekAdj, predicted, weekStartStr, weekEndStr, daysElapsed }
     = computeWeeklyDeficit(allEntries, phase);
 
   // Carryover row only if negative (shortfall carried in)
@@ -788,13 +788,6 @@ function renderWeeklyDeficitCard(phase) {
     ? 'var(--amber)'
     : 'var(--red)';
 
-  // Days elapsed in this week
-  const today = new Date();
-  const weekStart = new Date(weekStartStr + 'T00:00:00');
-  const daysElapsed = Math.min(7, Math.floor((today - weekStart) / 86400000) + 1);
-  const dailyDeficitBase = phase.meal_plan ? (phase.meal_plan.maintenance_kcal || 1935) - totalMealKcal(phase.meal_plan, 'weekday') : 435;
-  const baseAccrued = dailyDeficitBase * daysElapsed;
-
   card.innerHTML = `
     <div style="font-size:11px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:0.7px;margin-bottom:10px">
       Week of ${formatDate(weekStartStr)}
@@ -823,40 +816,54 @@ function totalMealKcal(mealPlan, tab) {
 
 function computeWeeklyDeficit(allEntries, phase) {
   const target = (phase.meal_plan && phase.meal_plan.weekly_deficit_target) || 3500;
+  const mp     = phase.meal_plan || {};
+  const maintenance  = mp.maintenance_kcal || 1935;
+  const weekdayKcal  = totalMealKcal(mp, 'weekday');
+  const weekendKcal  = totalMealKcal(mp, 'weekend');
+  // Deficit per day from meal plan alone
+  const weekdayDeficit = maintenance - weekdayKcal;
+  const weekendDeficit = maintenance - weekendKcal;
+  // Full Mon-Sun week base: 5 weekdays + 2 weekend days
+  const fullWeekBase = weekdayDeficit * 5 + weekendDeficit * 2;
 
-  // Monday of current week
+  // Monday of current week — use local date string to avoid UTC offset issues
   const now = new Date();
   const dow = now.getDay();
   const daysFromMon = dow === 0 ? 6 : dow - 1;
-  const weekStart = new Date(now);
-  weekStart.setDate(now.getDate() - daysFromMon);
-  weekStart.setHours(0, 0, 0, 0);
+  const weekStartDate = new Date(now);
+  weekStartDate.setDate(now.getDate() - daysFromMon);
+  weekStartDate.setHours(0, 0, 0, 0);
 
   // Previous Mon–Sun
-  const prevWeekEnd   = new Date(weekStart);
-  prevWeekEnd.setDate(prevWeekEnd.getDate() - 1);
-  const prevWeekStart = new Date(prevWeekEnd);
-  prevWeekStart.setDate(prevWeekStart.getDate() - 6);
+  const prevWeekEndDate   = new Date(weekStartDate);
+  prevWeekEndDate.setDate(prevWeekEndDate.getDate() - 1);
+  const prevWeekStartDate = new Date(prevWeekEndDate);
+  prevWeekStartDate.setDate(prevWeekStartDate.getDate() - 6);
 
-  const weekStartStr = weekStart.toISOString().slice(0, 10);
-  const weekEndStr   = now.toISOString().slice(0, 10);
-  const pwsStr       = prevWeekStart.toISOString().slice(0, 10);
-  const pweStr       = prevWeekEnd.toISOString().slice(0, 10);
+  const weekStartStr = localDateStr(weekStartDate);
+  const weekEndStr   = localDateStr(now);
+  const pwsStr       = localDateStr(prevWeekStartDate);
+  const pweStr       = localDateStr(prevWeekEndDate);
+
+  // Days elapsed this week: day 1 = Monday
+  const daysElapsed = Math.min(7, Math.floor((now - weekStartDate) / 86400000) + 1);
 
   const isOutlierType = e => ['run','stair','drinks','beers','cheat'].includes(e.type);
 
-  const prevOutliers  = allEntries.filter(e => e.date >= pwsStr  && e.date <= pweStr && isOutlierType(e));
-  const weekOutliers  = allEntries.filter(e => e.date >= weekStartStr && e.date <= weekEndStr && isOutlierType(e))
-                                  .sort((a, b) => a.date.localeCompare(b.date));
+  const prevOutliers = allEntries.filter(e => e.date >= pwsStr && e.date <= pweStr && isOutlierType(e));
+  const weekOutliers = allEntries.filter(e => e.date >= weekStartStr && e.date <= weekEndStr && isOutlierType(e))
+                                 .sort((a, b) => a.date.localeCompare(b.date));
 
-  const prevWeekAdj  = prevOutliers.reduce((s, e)  => s + (e.outlierKcal || 0), 0);
-  const prevDeficit  = target + prevWeekAdj;
-  const carryover    = Math.min(0, prevDeficit - target); // only shortfall (negative) carries
+  // Carryover: previous week's meal-plan deficit ± its outliers vs target
+  const prevWeekAdj = prevOutliers.reduce((s, e) => s + (e.outlierKcal || 0), 0);
+  const prevDeficit = fullWeekBase + prevWeekAdj;
+  const carryover   = Math.min(0, prevDeficit - target); // only shortfall carries forward
 
-  const thisWeekAdj  = weekOutliers.reduce((s, e) => s + (e.outlierKcal || 0), 0);
-  const predicted    = target + carryover + thisWeekAdj;
+  const thisWeekAdj = weekOutliers.reduce((s, e) => s + (e.outlierKcal || 0), 0);
+  // Predicted = full week meal-plan base + carryover from last week + outliers logged so far
+  const predicted   = fullWeekBase + carryover + thisWeekAdj;
 
-  return { target, carryover, weekOutliers, prevWeekAdj, thisWeekAdj, predicted, weekStartStr, weekEndStr };
+  return { target, carryover, weekOutliers, thisWeekAdj, predicted, weekStartStr, weekEndStr, daysElapsed };
 }
 
 function outlierLabel(e) {
@@ -1139,8 +1146,8 @@ function getCompletedWeeks(allEntries, phase) {
     const weekEnd = new Date(weekCursor);
     weekEnd.setDate(weekEnd.getDate() + 6);
 
-    const ws = weekCursor.toISOString().slice(0, 10);
-    const we = weekEnd.toISOString().slice(0, 10);
+    const ws = localDateStr(weekCursor);
+    const we = localDateStr(weekEnd);
 
     const weekEntries = allEntries.filter(e => e.date >= ws && e.date <= we);
     const wts = weekEntries.filter(e => e.type === 'weight').sort((a, b) => a.date.localeCompare(b.date));
@@ -1245,13 +1252,13 @@ async function endPhase() {
   try {
     const phase = { ...dashData.phase };
     phase.status   = 'completed';
-    phase.end_date = new Date().toISOString().slice(0, 10);
+    phase.end_date = localDateStr(new Date());
 
     const newDash = {
       ...dashData,
       phase: { status: 'maintenance' },
       previous_phases: [...(dashData.previous_phases || []), phase],
-      last_updated: new Date().toISOString().slice(0, 10)
+      last_updated: localDateStr(new Date())
     };
 
     const content = JSON.stringify(newDash, null, 2);
@@ -1555,7 +1562,7 @@ const formConfigs = {
 let currentFormType = null;
 
 function todayStr() {
-  return new Date().toISOString().slice(0, 10);
+  return localDateStr(new Date());
 }
 
 function openForm(type) {
@@ -1773,6 +1780,15 @@ async function submitDrinksForm() {
 }
 
 // ─── Utility ──────────────────────────────────────────────────
+// Always use local date string — toISOString() is UTC and causes off-by-one
+// errors in BST (UTC+1) where midnight local time = previous day in UTC.
+function localDateStr(d) {
+  const y = d.getFullYear();
+  const m = String(d.getMonth() + 1).padStart(2, '0');
+  const day = String(d.getDate()).padStart(2, '0');
+  return `${y}-${m}-${day}`;
+}
+
 function dateToNum(dateStr) {
   return new Date(dateStr).getTime() / 86400000;
 }
