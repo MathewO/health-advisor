@@ -624,12 +624,12 @@
 
 <!-- ═══════════════ MEAL PLAN OVERLAY ═══════════════ -->
 <div id="screen-meal-plan" class="overlay-screen">
-  <div class="overlay-header">
-    <button class="back-btn" onclick="closeOverlay('screen-meal-plan')">← Back</button>
-    <div>
+  <div class="overlay-header" style="flex-direction:column;align-items:flex-start;gap:10px">
+    <div style="display:flex;align-items:center;gap:12px;width:100%">
+      <button class="back-btn" onclick="closeOverlay('screen-meal-plan')">← Back</button>
       <div class="overlay-title">Current Meal Plan</div>
-      <div id="mealPlanTarget" style="font-size:13px;color:var(--muted);margin-top:2px"></div>
     </div>
+    <div id="mealPlanMeta" style="display:flex;gap:8px;flex-wrap:wrap"></div>
   </div>
   <div class="overlay-body" id="mealPlanBody">
     <div class="empty-state"><div class="empty-icon">🍽️</div>Loading…</div>
@@ -971,9 +971,18 @@ function loadMealPlan() {
     return;
   }
   const mp = dashData.phase.meal_plan;
-  const targetEl = document.getElementById('mealPlanTarget');
-  if (targetEl && mp.calorie_target) {
-    targetEl.textContent = 'Target: ' + mp.calorie_target;
+  const metaEl = document.getElementById('mealPlanMeta');
+  if (metaEl) {
+    const pills = [
+      mp.calorie_target    ? { label: 'Target',      value: mp.calorie_target,             color: 'var(--text)' } : null,
+      mp.maintenance_kcal  ? { label: 'Maintenance', value: mp.maintenance_kcal + ' kcal', color: 'var(--muted)' } : null,
+      mp.target_deficit    ? { label: 'Deficit',     value: mp.target_deficit,             color: 'var(--green)' } : null
+    ].filter(Boolean);
+    metaEl.innerHTML = pills.map(p => `
+      <div style="background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:5px 10px;font-size:12px">
+        <span style="color:var(--muted)">${p.label}: </span>
+        <span style="font-weight:600;color:${p.color}">${escHtml(p.value)}</span>
+      </div>`).join('');
   }
   renderMealPlan(body, mp, activeMealTab);
 }
@@ -1008,6 +1017,9 @@ function renderMealPlan(body, mp, tab) {
       </div>`;
   }).join('');
 
+  const deficit = mp.maintenance_kcal ? mp.maintenance_kcal - runKcal : null;
+  const deficitColor = deficit > 0 ? 'var(--green)' : 'var(--red)';
+
   const totalHtml = `
     <div class="meal-total-row">
       <div class="meal-total-label">Total</div>
@@ -1015,7 +1027,12 @@ function renderMealPlan(body, mp, tab) {
         <div class="meal-total-val">${runKcal.toLocaleString()} <span style="font-size:13px;font-weight:400;color:var(--muted)">kcal</span></div>
         <div class="meal-total-val">${runProt}g <span style="font-size:13px;font-weight:400;color:var(--muted)">protein</span></div>
       </div>
-    </div>`;
+    </div>
+    ${deficit !== null ? `
+    <div style="display:flex;justify-content:space-between;align-items:center;padding:10px 0 2px;border-top:1px dashed var(--border);margin-top:2px">
+      <div style="font-size:12px;color:var(--muted)">Est. deficit vs maintenance (${mp.maintenance_kcal.toLocaleString()} kcal)</div>
+      <div style="font-size:18px;font-weight:700;color:${deficitColor}">${deficit > 0 ? '−' : '+'}${Math.abs(deficit).toLocaleString()} kcal</div>
+    </div>` : ''}`;
 
   const proteinPill = mp.protein_target
     ? `<div class="meal-protein-pill">Protein target: ${escHtml(mp.protein_target)}</div>`
