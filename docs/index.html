@@ -300,15 +300,15 @@
     <!-- DASHBOARD -->
     <div id="tab-dashboard" class="tab-pane active">
       <div class="dash-header">
-        <div>
-      <h2>Dashboard</h2>
-      <div style="font-size:13px;color:var(--muted)" id="lastUpdated"></div>
-          </div>
+        <div style="display:flex;align-items:center;gap:10px">
+          <h2>MyBody</h2>
+          <button onclick="switchTab('settings')" style="background:none;border:none;cursor:pointer;font-size:18px;color:var(--muted);padding:4px;-webkit-tap-highlight-color:transparent;" title="Settings">⚙️</button>
+        </div>
         <div class="dash-header-btns">
           <button class="pill-header-btn" onclick="openOverlay('screen-weekly-progress')">Weekly →</button>
           <button class="pill-header-btn" onclick="openOverlay('screen-prev-phases')">Phases →</button>
-          </div>
         </div>
+      </div>
 
       <!-- Phase-end banner -->
       <div id="phaseEndBanner" class="phase-end-banner" style="display:none;margin-top:12px">
@@ -367,7 +367,11 @@
 
     <!-- SETTINGS -->
     <div id="tab-settings" class="tab-pane">
-      <h2>Settings</h2>
+      <div style="display:flex;align-items:center;gap:10px;margin-bottom:4px">
+        <button onclick="switchTab('dashboard')" style="background:none;border:none;cursor:pointer;font-size:16px;color:var(--muted);padding:4px;">← Back</button>
+        <h2 style="flex:1">Settings</h2>
+      </div>
+      <div style="font-size:13px;color:var(--muted);margin-bottom:12px" id="lastUpdated"></div>
 
       <div class="section-label">GitHub Connection</div>
       <div class="card">
@@ -402,14 +406,11 @@
 
   <!-- Tab bar -->
   <div class="tab-bar">
-    <button class="tab-btn active" id="tbDash" onclick="switchTab('dashboard')">
-      <span class="icon">📊</span>Dashboard
+    <button class="tab-btn active" id="tbDashboard" onclick="switchTab('dashboard')">
+      <span class="icon">📊</span>MyBody
     </button>
     <button class="tab-btn" id="tbLog" onclick="switchTab('log')">
       <span class="icon">✚</span>Log
-    </button>
-    <button class="tab-btn" id="tbSettings" onclick="switchTab('settings')">
-      <span class="icon">⚙️</span>Settings
     </button>
   </div>
 
@@ -552,7 +553,8 @@ function switchTab(name) {
   document.querySelectorAll('.tab-pane').forEach(p => p.classList.remove('active'));
   document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
   document.getElementById('tab-' + name).classList.add('active');
-  document.getElementById('tb' + name.charAt(0).toUpperCase() + name.slice(1)).classList.add('active');
+  const btn = document.getElementById('tb' + name.charAt(0).toUpperCase() + name.slice(1));
+  if (btn) btn.classList.add('active');
 }
 
 // ─── Settings ─────────────────────────────────────────────────
