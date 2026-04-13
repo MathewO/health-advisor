@@ -1063,13 +1063,18 @@ async function endPhase() {
 
 // ─── Parse helpers ────────────────────────────────────────────
 function parseWeightLog(text, phase) {
-  const points = [{ date: phase.start_date, kg: phase.start_kg }];
+  const points = [];
   for (const line of text.split('\n')) {
     const parts = line.split('|').map(s => s.trim());
     if (parts.length >= 3 && parts[1] === 'weight') {
       const kg = parseFloat(parts[2]);
       if (!isNaN(kg)) points.push({ date: parts[0], kg });
     }
+  }
+  // Only add the synthetic start point if no real log entry exists for start_date
+  const hasStartEntry = points.some(p => p.date === phase.start_date);
+  if (!hasStartEntry) {
+    points.unshift({ date: phase.start_date, kg: phase.start_kg });
   }
   points.sort((a, b) => a.date.localeCompare(b.date));
   return points;
