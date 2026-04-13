@@ -762,6 +762,10 @@ function renderMaintenanceCard() {
 // ─── Weekly Deficit Card ──────────────────────────────────────
 function renderWeeklyDeficitCard(phase) {
   const card = document.getElementById('weeklyDeficitCard');
+
+  // Destroy old chart BEFORE touching innerHTML — avoids detached-canvas errors
+  if (burndownChart) { try { burndownChart.destroy(); } catch(e) {} burndownChart = null; }
+
   if (!logText || phase.status !== 'active') {
     card.innerHTML = '<div style="font-size:13px;color:var(--muted)">No active phase.</div>';
     return;
@@ -808,7 +812,6 @@ function renderWeeklyDeficitCard(phase) {
 function renderWeeklyBurndownChart(allEntries, weekStartStr, predicted) {
   const canvas = document.getElementById('weeklyBurndownChart');
   if (!canvas) return;
-  if (burndownChart) { burndownChart.destroy(); burndownChart = null; }
 
   // Day labels Mon–Sun
   const DAY_LABELS = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
