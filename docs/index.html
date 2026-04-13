@@ -861,7 +861,7 @@ function computeWeeklyDeficit(allEntries, phase) {
   // Days elapsed this week: day 1 = Monday
   const daysElapsed = Math.min(7, Math.floor((now - weekStartDate) / 86400000) + 1);
 
-  const isOutlierType = e => ['run','stair','drinks','beers','cheat'].includes(e.type);
+  const isOutlierType = e => ['run','stair','workout','drinks','beers','cheat'].includes(e.type);
 
   const prevOutliers = allEntries.filter(e => e.date >= pwsStr && e.date <= pweStr && isOutlierType(e));
   const weekOutliers = allEntries.filter(e => e.date >= weekStartStr && e.date <= weekEndStr && isOutlierType(e))
@@ -880,8 +880,9 @@ function computeWeeklyDeficit(allEntries, phase) {
 }
 
 function outlierLabel(e) {
-  if (e.type === 'run')    return 'Run: ' + e.value;
-  if (e.type === 'stair')  return 'Stair Climbing: ' + e.value;
+  if (e.type === 'run')     return 'Run: ' + e.value;
+  if (e.type === 'stair')   return 'Stair Climbing: ' + e.value;
+  if (e.type === 'workout') return (e.workoutType || 'Workout') + ': ' + e.duration + ' min';
   if (e.type === 'drinks') return 'Drinks: ' + (e.breakdown || e.value);
   if (e.type === 'beers')  return 'Drinks: ' + e.value + ' pints';
   if (e.type === 'cheat') {
@@ -905,6 +906,20 @@ function loadLogView() {
     return;
   }
 
+  const workoutIcons = {
+    'Running':          { icon: '🏃', label: 'Run' },
+    'Cycling':          { icon: '🚴', label: 'Cycling' },
+    'Mountain Biking':  { icon: '🚵', label: 'MTB' },
+    'Stair Climbing':   { icon: '🪜', label: 'Stair Climbing' },
+    'HIIT':             { icon: '💪', label: 'HIIT' },
+    'Hiking':           { icon: '🥾', label: 'Hiking' },
+    'Swimming':         { icon: '🏊', label: 'Swimming' },
+    'Strength Training':{ icon: '🏋️', label: 'Strength' },
+    'Yoga':             { icon: '🧘', label: 'Yoga' },
+    'Elliptical':       { icon: '🔄', label: 'Elliptical' },
+    'Rowing':           { icon: '🚣', label: 'Rowing' },
+  };
+
   const typeConfig = {
     weight:   { label: 'Weight',          badgeClass: 'badge-blue',   icon: '⚖️' },
     drinks:   { label: 'Drinks',          badgeClass: 'badge-amber',  icon: '🍺' },
@@ -912,11 +927,18 @@ function loadLogView() {
     activity: { label: 'Activity',        badgeClass: 'badge-green',  icon: '🏃' },
     cheat:    { label: 'Cheat Meal',      badgeClass: 'badge-red',    icon: '🍕' },
     run:      { label: 'Run',             badgeClass: 'badge-green',  icon: '🏃' },
-    stair:    { label: 'Stair Climbing',  badgeClass: 'badge-purple', icon: '🪜' }
+    stair:    { label: 'Stair Climbing',  badgeClass: 'badge-purple', icon: '🪜' },
+    workout:  { label: 'Workout',         badgeClass: 'badge-green',  icon: '🏅' }
   };
 
   body.innerHTML = entries.map(e => {
-    const cfg = typeConfig[e.type] || { label: e.type, badgeClass: 'badge-muted', icon: '📝' };
+    let cfg = typeConfig[e.type] || { label: e.type, badgeClass: 'badge-muted', icon: '📝' };
+    // For generic workout entries, look up a specific icon/label by workout type name
+    if (e.type === 'workout' && e.workoutType) {
+      const wi = workoutIcons[e.workoutType];
+      if (wi) cfg = { ...cfg, icon: wi.icon, label: wi.label };
+      else    cfg = { ...cfg, label: e.workoutType };
+    }
 
     let valueText = '';
     let chipsHtml = '';
@@ -937,6 +959,11 @@ function loadLogView() {
       const chips = [];
       if (e.kcal) chips.push(e.kcal + ' kcal');
       if (e.bpm)  chips.push(e.bpm + ' bpm avg');
+      chipsHtml = chips.length ? `<div class="stat-chips">${chips.map(c => `<span class="stat-chip">${escHtml(c)}</span>`).join('')}</div>` : '';
+    } else if (e.type === 'workout') {
+      valueText = e.duration ? e.duration + ' min' : e.value;
+      const chips = [];
+      if (e.kcal) chips.push(e.kcal + ' kcal');
       chipsHtml = chips.length ? `<div class="stat-chips">${chips.map(c => `<span class="stat-chip">${escHtml(c)}</span>`).join('')}</div>` : '';
     } else if (e.type === 'drinks') {
       valueText = e.breakdown || e.value;
@@ -1182,7 +1209,7 @@ function getCompletedWeeks(allEntries, phase) {
     const wts = weekEntries.filter(e => e.type === 'weight').sort((a, b) => a.date.localeCompare(b.date));
 
     const outliers = weekEntries
-      .filter(e => ['run','stair','drinks','beers','cheat'].includes(e.type))
+      .filter(e => ['run','stair','workout','drinks','beers','cheat'].includes(e.type))
       .sort((a, b) => a.date.localeCompare(b.date));
 
     const adjTotal = outliers.reduce((s, e) => s + (e.outlierKcal || 0), 0);
@@ -1371,6 +1398,16 @@ function parseAllLogEntries(text) {
       entry.duration = parseFloat(durStr) || null;
       entry.kcal     = parseInt(kcalStr)  || null;
       entry.bpm      = parseInt(bpmStr)   || null;
+      entry.value    = durStr;
+      entry.outlierKcal = entry.kcal || 0;
+
+    } else if (type === 'workout') {
+      // DATE | workout | Running | 15.0 min | 176 kcal  (generic iOS Shortcut format)
+      entry.workoutType = parts[2] || '';
+      const durStr  = parts[3] || '';
+      const kcalStr = parts[4] || '';
+      entry.duration = parseFloat(durStr) || null;
+      entry.kcal     = parseInt(kcalStr)  || null;
       entry.value    = durStr;
       entry.outlierKcal = entry.kcal || 0;
 
