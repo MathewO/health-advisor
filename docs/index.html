@@ -797,7 +797,7 @@ function renderWeeklyDeficitCard(phase) {
       <span class="deficit-val">${target.toLocaleString()} kcal</span>
     </div>
     ${carryoverHtml}
-    <div class="burndown-wrap"><canvas id="weeklyBurndownChart" height="160"></canvas></div>
+    <div class="burndown-wrap" id="burndownWrap"><canvas id="weeklyBurndownChart" height="160"></canvas></div>
     <div class="predicted-deficit-row">
       <div>
         <div class="predicted-label">Predicted deficit</div>
@@ -874,8 +874,8 @@ function renderWeeklyBurndownChart(allEntries, weekStartStr, predicted) {
     eventsByDay[idx].push({ icon, label: entryLabel(e) });
   });
 
-  // Hit areas stored in CSS pixels (not canvas pixels) for reliable hit detection
-  const hitAreas = []; // { cssX, cssY, label, r }
+  // Icon positions collected during draw, used to place HTML overlays after render
+  const iconPositions = []; // { cssX, cssY, icon, label }
 
   const emojiPlugin = {
     id: 'weeklyEmojis_' + Date.now(),
@@ -883,9 +883,8 @@ function renderWeeklyBurndownChart(allEntries, weekStartStr, predicted) {
       const { ctx, scales, canvas: c } = chart;
       const xScale = scales.x;
       const yScale = scales.y;
-      hitAreas.length = 0;
-      const rect = c.getBoundingClientRect();
-      const dpr  = c.width / rect.width || 1;
+      const dpr = c.width / c.getBoundingClientRect().width || 1;
+      iconPositions.length = 0;
       ctx.save();
       ctx.font = '15px serif';
       ctx.textAlign = 'center';
@@ -898,72 +897,63 @@ function renderWeeklyBurndownChart(allEntries, weekStartStr, predicted) {
         events.forEach(({ icon, label }, j) => {
           const iy = yBase - 16 - j * 20;
           ctx.fillText(icon, x, iy);
-          hitAreas.push({ cssX: x / dpr, cssY: iy / dpr, label, r: 22 });
+          iconPositions.push({ cssX: x / dpr, cssY: (iy - 6) / dpr, icon, label });
         });
       });
       ctx.restore();
+
+      // Place HTML tap targets after chart finishes drawing
+      placeIconOverlays();
     }
   };
 
-  // Shared tooltip element
-  let burndownTip = document.getElementById('burndownTip');
-  if (!burndownTip) {
-    burndownTip = document.createElement('div');
-    burndownTip.id = 'burndownTip';
-    burndownTip.style.cssText = 'position:fixed;z-index:9999;background:#27272a;border:1px solid #52525b;border-radius:8px;padding:6px 10px;font-size:12px;color:#f1f5f9;pointer-events:none;display:none;white-space:nowrap;box-shadow:0 4px 16px rgba(0,0,0,0.5);transition:opacity 0.15s';
-    document.body.appendChild(burndownTip);
+  function placeIconOverlays() {
+    const wrap = document.getElementById('burndownWrap');
+    if (!wrap) return;
+    // Remove old overlays
+    wrap.querySelectorAll('.bd-icon-btn').forEach(el => el.remove());
+
+    iconPositions.forEach(pos => {
+      const btn = document.createElement('button');
+      btn.className = 'bd-icon-btn';
+      btn.setAttribute('data-label', pos.label);
+      btn.style.cssText = `position:absolute;left:${pos.cssX - 16}px;top:${pos.cssY - 10}px;width:32px;height:24px;background:none;border:none;cursor:pointer;padding:0;z-index:10;-webkit-tap-highlight-color:transparent;`;
+      btn.addEventListener('click', function(ev) {
+        ev.stopPropagation();
+        showIconTip(pos.label, this);
+      });
+      wrap.appendChild(btn);
+    });
   }
 
-  function showTip(label, clientX, clientY) {
-    burndownTip.textContent = label;
-    burndownTip.style.display = 'block';
-    burndownTip.style.opacity = '1';
-    const tw = burndownTip.offsetWidth;
-    const th = burndownTip.offsetHeight;
-    let x = clientX - tw / 2;
-    let y = clientY - th - 14;
+  function showIconTip(label, anchorEl) {
+    // Remove any existing tip
+    const old = document.getElementById('burndownTip');
+    if (old) old.remove();
+
+    const tip = document.createElement('div');
+    tip.id = 'burndownTip';
+    tip.textContent = label;
+    tip.style.cssText = 'position:fixed;z-index:9999;background:#27272a;border:1px solid #52525b;border-radius:8px;padding:6px 10px;font-size:12px;color:#f1f5f9;pointer-events:none;white-space:nowrap;box-shadow:0 4px 16px rgba(0,0,0,0.5);';
+    document.body.appendChild(tip);
+
+    const rect = anchorEl.getBoundingClientRect();
+    const tw = tip.offsetWidth;
+    const th = tip.offsetHeight;
+    let x = rect.left + rect.width / 2 - tw / 2;
+    let y = rect.top - th - 8;
     x = Math.max(8, Math.min(x, window.innerWidth - tw - 8));
-    if (y < 8) y = clientY + 14;
-    burndownTip.style.left = x + 'px';
-    burndownTip.style.top  = y + 'px';
+    if (y < 8) y = rect.bottom + 8;
+    tip.style.left = x + 'px';
+    tip.style.top  = y + 'px';
+
+    setTimeout(() => { if (tip.parentNode) tip.remove(); }, 2500);
   }
 
-  function hideTip() { burndownTip.style.display = 'none'; }
-
-  function cssFromEvent(ev) {
-    const rect = canvas.getBoundingClientRect();
-    const cx = (ev.touches ? ev.touches[0].clientX : ev.clientX);
-    const cy = (ev.touches ? ev.touches[0].clientY : ev.clientY);
-    return { relX: cx - rect.left, relY: cy - rect.top, cx, cy };
-  }
-
-  function findHit(relX, relY) {
-    return hitAreas.find(h => Math.hypot(relX - h.cssX, relY - h.cssY) <= h.r);
-  }
-
-  canvas.addEventListener('mousemove', ev => {
-    const { relX, relY, cx, cy } = cssFromEvent(ev);
-    const hit = findHit(relX, relY);
-    if (hit) { canvas.style.cursor = 'pointer'; showTip(hit.label, cx, cy); }
-    else     { canvas.style.cursor = ''; hideTip(); }
-  });
-  canvas.addEventListener('mouseleave', hideTip);
-
-  canvas.addEventListener('click', ev => {
-    const { relX, relY, cx, cy } = cssFromEvent(ev);
-    const hit = findHit(relX, relY);
-    if (hit) { showTip(hit.label, cx, cy); setTimeout(hideTip, 2500); }
-    else     { hideTip(); }
-  });
-
-  canvas.addEventListener('touchend', ev => {
-    if (!ev.changedTouches || !ev.changedTouches.length) return;
-    const t = ev.changedTouches[0];
-    const rect = canvas.getBoundingClientRect();
-    const relX = t.clientX - rect.left;
-    const relY = t.clientY - rect.top;
-    const hit = findHit(relX, relY);
-    if (hit) { showTip(hit.label, t.clientX, t.clientY); setTimeout(hideTip, 2500); }
+  // Dismiss tooltip on tap elsewhere
+  document.addEventListener('click', () => {
+    const tip = document.getElementById('burndownTip');
+    if (tip) tip.remove();
   });
 
   const gridColor  = 'rgba(82,82,91,0.4)';
