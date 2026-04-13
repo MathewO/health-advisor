@@ -728,7 +728,7 @@ function renderPhaseCard(phase, weights) {
     trendColor = 'var(--red)';
   }
 
-  const phaseLabel = (phase.name || '').replace(/\s*[\u2014\u2013—–-].*/, '') || 'Active Phase';
+  const phaseLabel = (phase.name || '').split(/\s*[—–\u2014\u2013\-]\s*/)[0].trim() || 'Active Phase';
 
   card.innerHTML = `
     <div style="display:flex;justify-content:space-between;align-items:flex-start">
