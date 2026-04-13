@@ -8,31 +8,24 @@
     "start_kg": 85.5,
     "target_kg": 82.0,
     "meal_plan": {
-      "daily_calories": "~1,537 kcal weekdays / ~1,630 kcal weekends",
       "protein_target": "130g+ per day",
-      "items": [
-        {
-          "label": "Morning",
-          "detail": "Coffee with Oatly oat milk (~50 kcal)"
-        },
-        {
-          "label": "Shake (weekdays)",
-          "detail": "42g whey protein + water (~170 kcal, ~35g protein). Taken after morning workout or mid-morning."
-        },
-        {
-          "label": "Lunch",
-          "detail": "Chicken breast (air fryer, cajun + salt, no oil) + Sainsbury's protein wrap + salad + 1–2 tsp Fage Greek yoghurt + Pepsi Max. ~430 kcal, ~55g protein."
-        },
-        {
-          "label": "Dinner",
-          "detail": "Gousto meal kit (3 meals/week delivered). Average ~640 kcal, ~41g protein. Prefer chicken/fish nights over nacho or chip-based meals."
-        },
-        {
-          "label": "Weekend brunch",
-          "detail": "3 hash browns, ½ tin baked beans, 1–2 eggs, 3 chicken sausages (air fryer). ~550 kcal. No morning shake on weekends."
-        }
-      ],
-      "notes": "No afternoon snacks on weekdays. Chocolate allowed in moderation if within daily calorie target. Log beers separately — each 3-pint session adds ~630 kcal. Flag any restaurant meals or takeaways as a cheat meal entry."
+      "weekday": {
+        "items": [
+          { "label": "Morning", "detail": "Coffee with Oatly oat milk", "kcal": 50 },
+          { "label": "Shake", "detail": "42g whey protein + water (~35g protein)", "kcal": 170 },
+          { "label": "Lunch", "detail": "Chicken breast (air fryer, cajun + salt, no oil) + protein wrap + salad + Greek yoghurt + Pepsi Max (~55g protein)", "kcal": 430 },
+          { "label": "Dinner", "detail": "Gousto meal kit — prefer chicken/fish nights over nacho or chip-based meals (~41g protein)", "kcal": 640 },
+          { "label": "Chocolate", "detail": "Dark chocolate 70%+ recommended", "kcal": 200 }
+        ]
+      },
+      "weekend": {
+        "items": [
+          { "label": "Morning", "detail": "Coffee with Oatly oat milk", "kcal": 50 },
+          { "label": "Brunch", "detail": "3 hash browns, ½ tin baked beans, 1–2 eggs, 3 chicken sausages (air fryer)", "kcal": 550 },
+          { "label": "Dinner", "detail": "Gousto meal kit — prefer chicken/fish nights over nacho or chip-based meals (~41g protein)", "kcal": 640 },
+          { "label": "Chocolate", "detail": "Dark chocolate 70%+ recommended", "kcal": 200 }
+        ]
+      }
     }
   },
   "previous_phases": [],

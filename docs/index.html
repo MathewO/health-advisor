@@ -265,14 +265,58 @@
     .log-entry-value { font-size: 15px; font-weight: 600; }
     .log-entry-note { font-size: 13px; color: var(--muted); margin-top: 4px; font-style: italic; }
 
+    /* ── Meal Plan tabs ── */
+    .meal-tab-bar { display: flex; gap: 8px; margin-bottom: 16px; }
+    .meal-tab {
+      flex: 1;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      color: var(--muted);
+      font-size: 14px;
+      font-weight: 600;
+      padding: 10px;
+      cursor: pointer;
+      text-align: center;
+      -webkit-tap-highlight-color: transparent;
+    }
+    .meal-tab.active { background: var(--surface2); color: var(--text); border-color: var(--accent); }
+    .meal-protein-pill {
+      display: inline-block;
+      background: rgba(74,222,128,.1);
+      color: var(--green);
+      font-size: 12px;
+      font-weight: 600;
+      padding: 4px 12px;
+      border-radius: 20px;
+      margin-bottom: 16px;
+    }
+
     /* ── Meal Plan items ── */
     .meal-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
       padding: 14px 0;
       border-bottom: 1px solid var(--border);
+      gap: 12px;
     }
-    .meal-item:last-child { border-bottom: none; }
-    .meal-label { font-size: 13px; font-weight: 600; color: var(--green); margin-bottom: 4px; text-transform: uppercase; letter-spacing: 0.5px; }
+    .meal-item-left { flex: 1; min-width: 0; }
+    .meal-item-right { text-align: right; flex-shrink: 0; }
+    .meal-label { font-size: 12px; font-weight: 700; color: var(--green); margin-bottom: 3px; text-transform: uppercase; letter-spacing: 0.6px; }
     .meal-detail { font-size: 14px; color: var(--text); line-height: 1.5; }
+    .meal-kcal-add { font-size: 12px; color: var(--muted); }
+    .meal-kcal-running { font-size: 14px; font-weight: 700; color: var(--text); margin-top: 2px; }
+    .meal-total-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 16px 0 4px;
+      border-top: 2px solid var(--accent);
+      margin-top: 4px;
+    }
+    .meal-total-label { font-size: 13px; font-weight: 700; color: var(--muted); text-transform: uppercase; letter-spacing: 0.8px; }
+    .meal-total-kcal { font-size: 22px; font-weight: 700; letter-spacing: -0.5px; }
 
     /* ── Previous phases ── */
     .prev-phase-card {
@@ -903,36 +947,59 @@ function loadLogView() {
 }
 
 // ─── Meal Plan ────────────────────────────────────────────────
+let activeMealTab = 'weekday';
+
 function loadMealPlan() {
   const body = document.getElementById('mealPlanBody');
   if (!dashData || !dashData.phase || !dashData.phase.meal_plan) {
     body.innerHTML = '<div class="empty-state"><div class="empty-icon">🍽️</div>No meal plan set for this phase.</div>';
     return;
   }
+  renderMealPlan(body, dashData.phase.meal_plan, activeMealTab);
+}
 
-  const mp = dashData.phase.meal_plan;
-  const itemsHtml = (mp.items || []).map(item => `
-    <div class="meal-item">
-      <div class="meal-label">${escHtml(item.label)}</div>
-      <div class="meal-detail">${escHtml(item.detail)}</div>
-    </div>`).join('');
+function renderMealPlan(body, mp, tab) {
+  activeMealTab = tab;
 
-  const notesHtml = mp.notes ? `
-    <div style="margin-top:16px;padding:14px;background:var(--surface);border-radius:var(--radius)">
-      <div style="font-size:11px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:0.8px;margin-bottom:6px">Notes</div>
-      <div style="font-size:13px;color:var(--muted);line-height:1.6">${escHtml(mp.notes)}</div>
-    </div>` : '';
+  const plan = mp[tab];
+  const items = plan ? plan.items || [] : [];
+
+  let running = 0;
+  const itemsHtml = items.map(item => {
+    running += item.kcal || 0;
+    return `
+      <div class="meal-item">
+        <div class="meal-item-left">
+          <div class="meal-label">${escHtml(item.label)}</div>
+          <div class="meal-detail">${escHtml(item.detail)}</div>
+        </div>
+        <div class="meal-item-right">
+          <div class="meal-kcal-add">+ ${(item.kcal || 0).toLocaleString()} kcal</div>
+          <div class="meal-kcal-running">${running.toLocaleString()} kcal</div>
+        </div>
+      </div>`;
+  }).join('');
+
+  const totalHtml = `
+    <div class="meal-total-row">
+      <div class="meal-total-label">Total</div>
+      <div class="meal-total-kcal">${running.toLocaleString()} kcal</div>
+    </div>`;
+
+  const proteinPill = mp.protein_target
+    ? `<div class="meal-protein-pill">Protein target: ${escHtml(mp.protein_target)}</div>`
+    : '';
 
   body.innerHTML = `
-    <div style="background:var(--surface);border-radius:var(--radius);padding:14px;margin-bottom:16px">
-      <div style="font-size:11px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:0.8px;margin-bottom:4px">Daily Calories</div>
-      <div style="font-size:16px;font-weight:600">${escHtml(mp.daily_calories)}</div>
-      ${mp.protein_target ? `<div style="font-size:13px;color:var(--muted);margin-top:2px">Protein: ${escHtml(mp.protein_target)}</div>` : ''}
+    <div class="meal-tab-bar">
+      <button class="meal-tab ${tab === 'weekday' ? 'active' : ''}" onclick="renderMealPlan(document.getElementById('mealPlanBody'), dashData.phase.meal_plan, 'weekday')">Weekday</button>
+      <button class="meal-tab ${tab === 'weekend' ? 'active' : ''}" onclick="renderMealPlan(document.getElementById('mealPlanBody'), dashData.phase.meal_plan, 'weekend')">Weekend</button>
     </div>
+    ${proteinPill}
     <div style="background:var(--surface);border-radius:var(--radius);padding:14px">
       ${itemsHtml}
-    </div>
-    ${notesHtml}`;
+      ${totalHtml}
+    </div>`;
 }
 
 // ─── Previous Phases ──────────────────────────────────────────
