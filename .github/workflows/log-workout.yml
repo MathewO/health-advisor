@@ -6,7 +6,7 @@ name: Log Workout
 
 on:
   repository_dispatch:
-    types: [log-workout]
+    types: [log-run, log-stair, log-workout]
 
 permissions:
   contents: write
@@ -20,12 +20,23 @@ jobs:
 
       - name: Append workout log entry
         env:
+          EVENT:    ${{ github.event.action }}
           DATE:     ${{ github.event.client_payload.date }}
           TYPE:     ${{ github.event.client_payload.type }}
           DURATION: ${{ github.event.client_payload.duration }}
+          KM:       ${{ github.event.client_payload.km }}
           KCAL:     ${{ github.event.client_payload.kcal }}
         run: |
-          ENTRY="${DATE} | workout | ${TYPE} | ${DURATION} min | ${KCAL} kcal"
+          if [ "$EVENT" = "log-run" ]; then
+            ENTRY="${DATE} | run | ${DURATION} min | ${KM} km | ${KCAL} kcal"
+            LABEL="log-run"
+          elif [ "$EVENT" = "log-stair" ]; then
+            ENTRY="${DATE} | stair | ${DURATION} min | ${KCAL} kcal"
+            LABEL="log-stair"
+          else
+            ENTRY="${DATE} | workout | ${TYPE} | ${DURATION} min | ${KCAL} kcal"
+            LABEL="log-workout (${TYPE})"
+          fi
 
           echo "Appending: $ENTRY"
           echo "$ENTRY" >> logs/phone-log.md
@@ -33,5 +44,5 @@ jobs:
           git config user.name  "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
           git add logs/phone-log.md
-          git commit -m "log: workout (${TYPE}) for ${DATE}"
+          git commit -m "log: ${LABEL} for ${DATE}"
           git push
