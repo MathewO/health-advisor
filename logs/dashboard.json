@@ -8,6 +8,7 @@
     "start_kg": 85.5,
     "target_kg": 82.0,
     "meal_plan": {
+      "calorie_target": "~1,500 kcal/day",
       "protein_target": "130g+ per day",
       "weekday": {
         "items": [
