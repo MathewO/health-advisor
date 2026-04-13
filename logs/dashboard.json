@@ -11,19 +11,20 @@
       "protein_target": "130g+ per day",
       "weekday": {
         "items": [
-          { "label": "Coffee + Oatly", "kcal": 50,  "protein": 1  },
-          { "label": "42g Shake",      "kcal": 170, "protein": 42 },
-          { "label": "Chicken Wrap",   "kcal": 430, "protein": 55 },
-          { "label": "Gousto Meal",    "kcal": 640, "protein": 41 },
-          { "label": "Milk Chocolate", "kcal": 100, "protein": 2  }
+          { "category": "Morning Coffee", "label": "Coffee + Oatly",  "kcal": 50,  "protein": 1  },
+          { "category": "Breakfast",      "label": "Double Shake",    "kcal": 170, "protein": 42 },
+          { "category": "Lunch",          "label": "Chicken Wrap",    "kcal": 430, "protein": 55 },
+          { "category": "Dinner",         "label": "Gousto Meal",     "kcal": 640, "protein": 41 },
+          { "category": "Pudding",        "label": "Milk Chocolate",  "kcal": 100, "protein": 2  }
         ]
       },
       "weekend": {
         "items": [
-          { "label": "Coffee + Oatly",  "kcal": 50,  "protein": 1  },
-          { "label": "Weekend Brunch",  "kcal": 550, "protein": 37 },
-          { "label": "Gousto Meal",     "kcal": 640, "protein": 41 },
-          { "label": "Milk Chocolate",  "kcal": 100, "protein": 2  }
+          { "category": "Morning Coffee", "label": "Coffee + Oatly",  "kcal": 50,  "protein": 1  },
+          { "category": "Breakfast",      "label": "Double Shake",    "kcal": 170, "protein": 42 },
+          { "category": "Brunch",         "label": "Weekend Brunch",  "kcal": 550, "protein": 37 },
+          { "category": "Dinner",         "label": "Gousto Meal",     "kcal": 640, "protein": 41 },
+          { "category": "Pudding",        "label": "Milk Chocolate",  "kcal": 100, "protein": 2  }
         ]
       }
     }
