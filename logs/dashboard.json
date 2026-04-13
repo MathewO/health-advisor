@@ -1,10 +1,41 @@
 {
-  "goal": {
-    "target_kg": 82.0,
+  "phase": {
+    "id": "fat-loss-2026-q2",
+    "name": "Fat Loss — Apr–Jun 2026",
+    "status": "active",
+    "start_date": "2026-04-13",
     "target_date": "2026-06-06",
     "start_kg": 85.5,
-    "start_date": "2026-04-13"
+    "target_kg": 82.0,
+    "meal_plan": {
+      "daily_calories": "~1,537 kcal weekdays / ~1,630 kcal weekends",
+      "protein_target": "130g+ per day",
+      "items": [
+        {
+          "label": "Morning",
+          "detail": "Coffee with Oatly oat milk (~50 kcal)"
+        },
+        {
+          "label": "Shake (weekdays)",
+          "detail": "42g whey protein + water (~170 kcal, ~35g protein). Taken after morning workout or mid-morning."
+        },
+        {
+          "label": "Lunch",
+          "detail": "Chicken breast (air fryer, cajun + salt, no oil) + Sainsbury's protein wrap + salad + 1–2 tsp Fage Greek yoghurt + Pepsi Max. ~430 kcal, ~55g protein."
+        },
+        {
+          "label": "Dinner",
+          "detail": "Gousto meal kit (3 meals/week delivered). Average ~640 kcal, ~41g protein. Prefer chicken/fish nights over nacho or chip-based meals."
+        },
+        {
+          "label": "Weekend brunch",
+          "detail": "3 hash browns, ½ tin baked beans, 1–2 eggs, 3 chicken sausages (air fryer). ~550 kcal. No morning shake on weekends."
+        }
+      ],
+      "notes": "No afternoon snacks on weekdays. Chocolate allowed in moderation if within daily calorie target. Log beers separately — each 3-pint session adds ~630 kcal. Flag any restaurant meals or takeaways as a cheat meal entry."
+    }
   },
+  "previous_phases": [],
   "recommendations": [
     {
       "title": "Increase daily water intake",
@@ -30,7 +61,7 @@
       "started": "2026-04-13",
       "target_date": "2026-06-06",
       "next_checkin": "2026-04-20",
-      "detail": "~500 kcal/day deficit targeting 0.45 kg/week. Weigh every Sunday morning. Maintain training volume."
+      "detail": "~500 kcal/day deficit targeting 0.45 kg/week. Weigh every morning. Maintain training volume. Add stair stepper 3x/week to close the ~100 kcal/day deficit gap."
     }
   ],
   "planned": [
@@ -47,5 +78,5 @@
       "detail": "Structured Zone 2 cardio + intervals to move VO2 Max from 32.9 toward above-average for age."
     }
   ],
-  "last_updated": "2026-04-12"
+  "last_updated": "2026-04-13"
 }

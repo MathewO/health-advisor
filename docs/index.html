@@ -30,6 +30,7 @@
       --radius: 14px;
       --tab-h: 72px;
       --safe-bottom: env(safe-area-inset-bottom, 0px);
+      --safe-top: env(safe-area-inset-top, 0px);
     }
 
     html, body { height: 100%; background: var(--bg); color: var(--text); font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Text', sans-serif; -webkit-font-smoothing: antialiased; }
@@ -113,8 +114,34 @@
     .badge-green { background: rgba(74,222,128,.15); color: var(--green); }
     .badge-amber { background: rgba(251,191,36,.15); color: var(--amber); }
     .badge-blue { background: rgba(161,161,170,.15); color: var(--accent); }
+    .badge-red { background: rgba(248,113,113,.15); color: var(--red); }
+    .badge-muted { background: rgba(148,163,184,.1); color: var(--muted); }
 
-    /* ── Dashboard ── */
+    /* ── Dashboard header row ── */
+    .dash-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 4px;
+    }
+    .prev-phases-btn {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      color: var(--muted);
+      font-size: 12px;
+      font-weight: 500;
+      padding: 6px 12px;
+      cursor: pointer;
+      -webkit-tap-highlight-color: transparent;
+      white-space: nowrap;
+    }
+    .prev-phases-btn:active { background: var(--surface2); }
+
+    /* ── Phase card ── */
+    .phase-card-active {
+      border: 2px solid var(--green);
+    }
     .goal-bar-wrap { background: var(--surface2); border-radius: 8px; height: 8px; overflow: hidden; margin: 8px 0 4px; }
     .goal-bar { height: 100%; border-radius: 8px; background: var(--green); transition: width .6s ease; }
     .goal-meta { display: flex; justify-content: space-between; font-size: 12px; color: var(--muted); }
@@ -123,6 +150,60 @@
     .trend-line { font-size: 13px; color: var(--muted); margin-top: 4px; }
     .chart-wrap { position: relative; height: 180px; margin: 12px 0 4px; }
     #weightChart { width: 100% !important; }
+
+    /* ── Phase action buttons ── */
+    .phase-actions {
+      display: flex;
+      gap: 8px;
+      margin-top: 12px;
+    }
+    .pill-btn {
+      flex: 1;
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      color: var(--text);
+      font-size: 13px;
+      font-weight: 500;
+      padding: 9px 12px;
+      cursor: pointer;
+      -webkit-tap-highlight-color: transparent;
+      text-align: center;
+    }
+    .pill-btn:active { opacity: 0.75; }
+
+    /* ── Phase-end banner ── */
+    .phase-end-banner {
+      background: rgba(74,222,128,0.1);
+      border: 1px solid rgba(74,222,128,0.3);
+      border-radius: var(--radius);
+      padding: 14px 16px;
+      margin-bottom: 12px;
+    }
+    .phase-end-banner p { font-size: 14px; color: var(--text); margin-bottom: 10px; }
+    .phase-end-actions { display: flex; gap: 8px; }
+    .btn-end-phase {
+      flex: 1;
+      background: var(--green);
+      color: #0f172a;
+      border: none;
+      border-radius: 10px;
+      font-size: 14px;
+      font-weight: 700;
+      padding: 10px;
+      cursor: pointer;
+    }
+    .btn-keep-going {
+      flex: 1;
+      background: var(--surface2);
+      color: var(--text);
+      border: none;
+      border-radius: 10px;
+      font-size: 14px;
+      font-weight: 600;
+      padding: 10px;
+      cursor: pointer;
+    }
 
     /* ── Log Tab ── */
     .log-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 8px; }
@@ -146,6 +227,83 @@
     .log-card .log-label { font-size: 15px; font-weight: 600; }
     .log-card .log-sub { font-size: 12px; color: var(--muted); }
 
+    /* ── Overlay Screens ── */
+    .overlay-screen {
+      position: fixed;
+      inset: 0;
+      background: var(--bg);
+      z-index: 100;
+      display: none;
+      flex-direction: column;
+    }
+    .overlay-screen.active { display: flex; }
+    .overlay-header {
+      display: flex;
+      align-items: center;
+      padding: 16px;
+      padding-top: calc(var(--safe-top) + 16px);
+      gap: 12px;
+      border-bottom: 1px solid var(--border);
+      flex-shrink: 0;
+    }
+    .overlay-title { font-size: 18px; font-weight: 700; flex: 1; }
+    .overlay-body {
+      flex: 1;
+      overflow-y: auto;
+      -webkit-overflow-scrolling: touch;
+      padding: 16px;
+    }
+
+    /* ── Log View entries ── */
+    .log-entry {
+      padding: 12px 0;
+      border-bottom: 1px solid var(--border);
+    }
+    .log-entry:last-child { border-bottom: none; }
+    .log-entry-header { display: flex; align-items: center; gap: 8px; margin-bottom: 4px; }
+    .log-entry-date { font-size: 12px; color: var(--muted); }
+    .log-entry-value { font-size: 15px; font-weight: 600; }
+    .log-entry-note { font-size: 13px; color: var(--muted); margin-top: 4px; font-style: italic; }
+
+    /* ── Meal Plan items ── */
+    .meal-item {
+      padding: 14px 0;
+      border-bottom: 1px solid var(--border);
+    }
+    .meal-item:last-child { border-bottom: none; }
+    .meal-label { font-size: 13px; font-weight: 600; color: var(--green); margin-bottom: 4px; text-transform: uppercase; letter-spacing: 0.5px; }
+    .meal-detail { font-size: 14px; color: var(--text); line-height: 1.5; }
+
+    /* ── Previous phases ── */
+    .prev-phase-card {
+      background: var(--surface);
+      border-radius: var(--radius);
+      padding: 16px;
+      margin-bottom: 12px;
+    }
+    .prev-phase-name { font-size: 16px; font-weight: 700; margin-bottom: 4px; }
+    .prev-phase-meta { font-size: 13px; color: var(--muted); margin-bottom: 12px; }
+    .prev-phase-result { font-size: 22px; font-weight: 700; letter-spacing: -0.5px; }
+    .prev-phase-result span { font-size: 14px; font-weight: 400; color: var(--muted); }
+    .collapsible-toggle {
+      width: 100%;
+      background: var(--surface2);
+      border: none;
+      border-radius: 8px;
+      color: var(--muted);
+      font-size: 13px;
+      font-weight: 500;
+      padding: 9px 14px;
+      text-align: left;
+      cursor: pointer;
+      margin-top: 8px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .collapsible-body { display: none; margin-top: 8px; }
+    .collapsible-body.open { display: block; }
+
     /* ── Form Screen ── */
     #screen-form {
       padding: 0;
@@ -155,7 +313,7 @@
       display: flex;
       align-items: center;
       padding: 16px 16px 0;
-      padding-top: calc(env(safe-area-inset-top, 0px) + 16px);
+      padding-top: calc(var(--safe-top) + 16px);
       gap: 12px;
     }
     .back-btn {
@@ -169,7 +327,7 @@
       -webkit-tap-highlight-color: transparent;
     }
     .form-title { font-size: 20px; font-weight: 700; }
-    .form-body { padding: 24px 16px; display: flex; flex-direction: column; gap: 16px; }
+    .form-body { padding: 24px 16px; display: flex; flex-direction: column; gap: 16px; overflow-y: auto; flex: 1; }
     .field label { display: block; font-size: 13px; color: var(--muted); margin-bottom: 6px; font-weight: 500; }
     .field input, .field textarea, .field select {
       width: 100%;
@@ -184,6 +342,7 @@
     }
     .field input:focus, .field textarea:focus { border-color: var(--accent); }
     .field textarea { resize: none; height: 90px; font-family: inherit; line-height: 1.5; }
+    .field .optional-label { font-size: 11px; color: var(--muted); margin-left: 4px; font-weight: 400; }
     .save-btn {
       background: var(--accent);
       color: #0f172a;
@@ -232,6 +391,10 @@
     .settings-hint { font-size: 12px; color: var(--muted); line-height: 1.6; }
     .settings-status { font-size: 13px; min-height: 18px; margin-top: 8px; }
     .divider { height: 1px; background: var(--border); margin: 24px 0; }
+
+    /* ── Empty state ── */
+    .empty-state { text-align: center; padding: 48px 16px; color: var(--muted); font-size: 14px; line-height: 1.6; }
+    .empty-state .empty-icon { font-size: 40px; margin-bottom: 12px; }
   </style>
 </head>
 <body>
@@ -269,30 +432,30 @@
 <!-- ═══════════════ APP (tabs) ═══════════════ -->
 <div id="app" class="screen">
 
-  <!-- Tab content -->
   <div class="tab-content">
 
     <!-- DASHBOARD -->
     <div id="tab-dashboard" class="tab-pane active">
-      <h2>Dashboard</h2>
-      <div style="font-size:13px;color:var(--muted)" id="lastUpdated"></div>
-
-      <div class="section-label">Weight Goal</div>
-      <div class="card" id="goalCard">
-        <div style="display:flex;justify-content:space-between;align-items:flex-start">
-          <div>
-            <div class="weight-stat" id="currentWeight">—<span> kg</span></div>
-            <div class="trend-line" id="trendLine">Loading…</div>
-          </div>
-          <div style="text-align:right">
-            <div style="font-size:13px;color:var(--muted)">Target</div>
-            <div style="font-size:20px;font-weight:700">82 <span style="font-size:14px;font-weight:400;color:var(--muted)">kg</span></div>
-            <div style="font-size:12px;color:var(--muted)">6 Jun 2026</div>
-          </div>
+      <div class="dash-header">
+        <div>
+          <h2>Dashboard</h2>
+          <div style="font-size:13px;color:var(--muted)" id="lastUpdated"></div>
         </div>
-        <div class="goal-bar-wrap"><div class="goal-bar" id="goalBar" style="width:0%"></div></div>
-        <div class="goal-meta"><span id="goalLost">— kg lost</span><span id="goalLeft">— kg to go</span></div>
-        <div class="chart-wrap"><canvas id="weightChart"></canvas></div>
+        <button class="prev-phases-btn" onclick="openOverlay('screen-prev-phases')">Previous Phases →</button>
+      </div>
+
+      <!-- Phase-end banner (hidden by default) -->
+      <div id="phaseEndBanner" class="phase-end-banner" style="display:none;margin-top:12px">
+        <p>🎯 This phase has reached its end date. Did you complete it?</p>
+        <div class="phase-end-actions">
+          <button class="btn-end-phase" onclick="endPhase()">End Phase</button>
+          <button class="btn-keep-going" onclick="dismissBanner()">Keep Going</button>
+        </div>
+      </div>
+
+      <div class="section-label">Current Phase</div>
+      <div class="card" id="goalCard">
+        <!-- Populated by renderPhaseCard() -->
       </div>
 
       <div class="section-label">Recommendations</div>
@@ -384,12 +547,45 @@
 </div><!-- /app -->
 
 <!-- ═══════════════ FORM SCREEN ═══════════════ -->
-<div id="screen-form" class="screen">
+<div id="screen-form" class="screen" style="flex-direction:column;">
   <div class="form-header">
     <button class="back-btn" onclick="closeForm()">← Back</button>
     <div class="form-title" id="formTitle"></div>
   </div>
   <div class="form-body" id="formBody"></div>
+</div>
+
+<!-- ═══════════════ LOG VIEW OVERLAY ═══════════════ -->
+<div id="screen-log-view" class="overlay-screen">
+  <div class="overlay-header">
+    <button class="back-btn" onclick="closeOverlay('screen-log-view')">← Back</button>
+    <div class="overlay-title">Weight Log</div>
+  </div>
+  <div class="overlay-body" id="logViewBody">
+    <div class="empty-state"><div class="empty-icon">📋</div>Loading entries…</div>
+  </div>
+</div>
+
+<!-- ═══════════════ MEAL PLAN OVERLAY ═══════════════ -->
+<div id="screen-meal-plan" class="overlay-screen">
+  <div class="overlay-header">
+    <button class="back-btn" onclick="closeOverlay('screen-meal-plan')">← Back</button>
+    <div class="overlay-title">Current Meal Plan</div>
+  </div>
+  <div class="overlay-body" id="mealPlanBody">
+    <div class="empty-state"><div class="empty-icon">🍽️</div>Loading…</div>
+  </div>
+</div>
+
+<!-- ═══════════════ PREVIOUS PHASES OVERLAY ═══════════════ -->
+<div id="screen-prev-phases" class="overlay-screen">
+  <div class="overlay-header">
+    <button class="back-btn" onclick="closeOverlay('screen-prev-phases')">← Back</button>
+    <div class="overlay-title">Previous Phases</div>
+  </div>
+  <div class="overlay-body" id="prevPhasesBody">
+    <div class="empty-state"><div class="empty-icon">📂</div>Loading…</div>
+  </div>
 </div>
 
 <script>
@@ -445,6 +641,18 @@ function showApp() {
   showScreen('app');
   loadSettings();
   loadDashboard();
+}
+
+// ─── Overlay navigation ───────────────────────────────────────
+function openOverlay(id) {
+  document.getElementById(id).classList.add('active');
+  if (id === 'screen-log-view') loadLogView();
+  if (id === 'screen-meal-plan') loadMealPlan();
+  if (id === 'screen-prev-phases') loadPrevPhases();
+}
+
+function closeOverlay(id) {
+  document.getElementById(id).classList.remove('active');
 }
 
 // ─── Tabs ─────────────────────────────────────────────────────
@@ -505,11 +713,8 @@ async function ghGet(path) {
   return r.json();
 }
 
-async function ghAppend(path, newLine) {
+async function ghPut(path, content, sha, message) {
   const { user, repo, token } = ghConfig();
-  const file = await ghGet(path);
-  const current = atob(file.content.replace(/\n/g, ''));
-  const updated = current + newLine + '\n';
   const r = await fetch(`https://api.github.com/repos/${user}/${repo}/contents/${path}`, {
     method: 'PUT',
     headers: {
@@ -518,50 +723,350 @@ async function ghAppend(path, newLine) {
       'X-GitHub-Api-Version': '2022-11-28'
     },
     body: JSON.stringify({
-      message: 'log: ' + newLine.split(' | ')[1] + ' entry',
-      content: btoa(unescape(encodeURIComponent(updated))),
-      sha: file.sha
+      message,
+      content: btoa(unescape(encodeURIComponent(content))),
+      sha
     })
   });
   if (!r.ok) throw new Error('GitHub PUT failed: ' + r.status);
+  return r.json();
 }
 
-// ─── Dashboard ────────────────────────────────────────────────
-let weightChart = null;
+async function ghAppend(path, newLine) {
+  const file = await ghGet(path);
+  const current = atob(file.content.replace(/\n/g, ''));
+  const updated = current + newLine + '\n';
+  const parts = newLine.split('|');
+  const label = parts[1] ? parts[1].trim() : 'entry';
+  await ghPut(path, updated, file.sha, 'log: ' + label + ' entry');
+}
 
+// ─── Global state ─────────────────────────────────────────────
+let weightChart = null;
+let dashData    = null;
+let logText     = null;
+let dashSha     = null;
+
+// ─── Dashboard ────────────────────────────────────────────────
 async function loadDashboard() {
   try {
-    // Load dashboard.json
     const dashFile = await ghGet(DASH_PATH);
-    const dash = JSON.parse(atob(dashFile.content.replace(/\n/g, '')));
+    dashSha  = dashFile.sha;
+    dashData = JSON.parse(atob(dashFile.content.replace(/\n/g, '')));
 
-    document.getElementById('lastUpdated').textContent = 'Last updated: ' + dash.last_updated;
+    document.getElementById('lastUpdated').textContent = 'Last updated: ' + dashData.last_updated;
 
-    renderRecommendations(dash.recommendations || []);
-    renderExperiments(dash.experiments || []);
-    renderPlanned(dash.planned || []);
+    const phase = dashData.phase;
 
-    // Load phone-log for weight entries
+    // Phase-end banner
+    if (phase && phase.status === 'active') {
+      const today      = new Date().toISOString().slice(0, 10);
+      const isOverdue  = today > phase.target_date;
+      if (isOverdue) {
+        document.getElementById('phaseEndBanner').style.display = 'block';
+      }
+    }
+
+    renderRecommendations(dashData.recommendations || []);
+    renderExperiments(dashData.experiments || []);
+    renderPlanned(dashData.planned || []);
+
+    // Load log for weight chart
     const logFile = await ghGet(LOG_PATH);
-    const logText = atob(logFile.content.replace(/\n/g, ''));
-    const weights = parseWeightLog(logText, dash.goal);
+    logText = atob(logFile.content.replace(/\n/g, ''));
 
-    renderGoalCard(weights, dash.goal);
-    renderWeightChart(weights, dash.goal);
+    if (phase) {
+      const weights = parseWeightLog(logText, phase);
+      renderPhaseCard(phase, weights);
+    } else {
+      renderMaintenanceCard();
+    }
 
   } catch(e) {
-    // If not configured yet, show placeholders
-    document.getElementById('trendLine').textContent = 'Configure GitHub in Settings to load data.';
+    document.getElementById('goalCard').innerHTML =
+      '<div class="card-detail" style="color:var(--muted)">Configure GitHub in Settings to load data.</div>';
     console.warn('Dashboard load error:', e);
   }
 }
 
-function parseWeightLog(text, goal) {
-  const points = [{ date: goal.start_date, kg: goal.start_kg }];
-  const lines = text.split('\n');
-  for (const line of lines) {
+// ─── Phase card ───────────────────────────────────────────────
+function renderPhaseCard(phase, weights) {
+  const card = document.getElementById('goalCard');
+
+  if (phase.status === 'maintenance') {
+    card.className = 'card';
+    card.innerHTML = `
+      <div style="display:flex;align-items:center;gap:10px;margin-bottom:8px">
+        <span class="badge badge-muted">Maintenance</span>
+      </div>
+      <div class="card-title" style="font-size:17px">Maintenance Mode</div>
+      <div class="card-detail" style="margin-top:6px">No active fat loss phase. Weigh in regularly to track your baseline.</div>
+      <div class="phase-actions">
+        <button class="pill-btn" onclick="openOverlay('screen-log-view')">Show Log</button>
+        <button class="pill-btn" onclick="openOverlay('screen-meal-plan')">Meal Plan</button>
+      </div>`;
+    return;
+  }
+
+  // Active phase
+  card.className = 'card phase-card-active';
+
+  const latest = weights[weights.length - 1];
+  const lost   = +(phase.start_kg - latest.kg).toFixed(1);
+  const left   = +(latest.kg - phase.target_kg).toFixed(1);
+  const pct    = Math.min(100, Math.max(0, (lost / (phase.start_kg - phase.target_kg)) * 100));
+
+  const { slope, intercept } = linearRegression(weights);
+  const projectedAtTarget    = slope * dateToNum(phase.target_date) + intercept;
+  const diff                 = +(projectedAtTarget - phase.target_kg).toFixed(1);
+
+  let trendText, trendColor;
+  if (diff <= 0.3) {
+    trendText  = '✓ On track to hit ' + phase.target_kg + ' kg by ' + formatDate(phase.target_date);
+    trendColor = 'var(--green)';
+  } else if (diff <= 1.0) {
+    trendText  = '⚠ Trending to ' + projectedAtTarget.toFixed(1) + ' kg — slightly off';
+    trendColor = 'var(--amber)';
+  } else {
+    trendText  = '✗ Trending to ' + projectedAtTarget.toFixed(1) + ' kg — needs adjustment';
+    trendColor = 'var(--red)';
+  }
+
+  card.innerHTML = `
+    <div style="display:flex;justify-content:space-between;align-items:flex-start">
+      <div>
+        <div class="weight-stat">${latest.kg.toFixed(1)}<span> kg</span></div>
+        <div class="trend-line" style="color:${trendColor}">${trendText}</div>
+      </div>
+      <div style="text-align:right">
+        <div style="font-size:13px;color:var(--muted)">Target</div>
+        <div style="font-size:20px;font-weight:700">${phase.target_kg} <span style="font-size:14px;font-weight:400;color:var(--muted)">kg</span></div>
+        <div style="font-size:12px;color:var(--muted)">${formatDate(phase.target_date)}</div>
+      </div>
+    </div>
+    <div class="goal-bar-wrap"><div class="goal-bar" id="goalBar" style="width:${pct.toFixed(0)}%"></div></div>
+    <div class="goal-meta">
+      <span>${(lost > 0 ? lost : 0)} kg lost</span>
+      <span>${(left > 0 ? left : 0)} kg to go</span>
+    </div>
+    <div class="chart-wrap"><canvas id="weightChart"></canvas></div>
+    <div class="phase-actions">
+      <button class="pill-btn" onclick="openOverlay('screen-log-view')">Show Log</button>
+      <button class="pill-btn" onclick="openOverlay('screen-meal-plan')">Meal Plan</button>
+    </div>`;
+
+  renderWeightChart(weights, phase);
+}
+
+function renderMaintenanceCard() {
+  const card = document.getElementById('goalCard');
+  card.className = 'card';
+  card.innerHTML = `
+    <div class="card-detail" style="color:var(--muted)">No phase data available. Configure GitHub in Settings.</div>`;
+}
+
+// ─── Log View ─────────────────────────────────────────────────
+function loadLogView() {
+  const body = document.getElementById('logViewBody');
+  if (!logText) {
+    body.innerHTML = '<div class="empty-state"><div class="empty-icon">📋</div>Log not loaded yet — return to dashboard first.</div>';
+    return;
+  }
+
+  const entries = parseAllLogEntries(logText);
+  if (!entries.length) {
+    body.innerHTML = '<div class="empty-state"><div class="empty-icon">📋</div>No entries logged yet.</div>';
+    return;
+  }
+
+  const typeConfig = {
+    weight:   { label: 'Weight',        badgeClass: 'badge-blue',  icon: '⚖️' },
+    beers:    { label: 'Beers',         badgeClass: 'badge-amber', icon: '🍺' },
+    activity: { label: 'Activity',      badgeClass: 'badge-green', icon: '🏃' },
+    cheat:    { label: 'Cheat Meal',    badgeClass: 'badge-red',   icon: '🍕' }
+  };
+
+  body.innerHTML = entries.map(e => {
+    const cfg = typeConfig[e.type] || { label: e.type, badgeClass: 'badge-muted', icon: '📝' };
+    const valueText = e.type === 'weight' ? e.value + ' kg' : e.value;
+    const noteHtml  = e.note ? `<div class="log-entry-note">"${escHtml(e.note)}"</div>` : '';
+    return `
+      <div class="log-entry">
+        <div class="log-entry-header">
+          <span class="badge ${cfg.badgeClass}">${cfg.icon} ${cfg.label}</span>
+          <span class="log-entry-date">${formatDate(e.date)}</span>
+        </div>
+        <div class="log-entry-value">${escHtml(valueText)}</div>
+        ${noteHtml}
+      </div>`;
+  }).join('');
+}
+
+// ─── Meal Plan ────────────────────────────────────────────────
+function loadMealPlan() {
+  const body = document.getElementById('mealPlanBody');
+  if (!dashData || !dashData.phase || !dashData.phase.meal_plan) {
+    body.innerHTML = '<div class="empty-state"><div class="empty-icon">🍽️</div>No meal plan set for this phase.</div>';
+    return;
+  }
+
+  const mp = dashData.phase.meal_plan;
+  const itemsHtml = (mp.items || []).map(item => `
+    <div class="meal-item">
+      <div class="meal-label">${escHtml(item.label)}</div>
+      <div class="meal-detail">${escHtml(item.detail)}</div>
+    </div>`).join('');
+
+  const notesHtml = mp.notes ? `
+    <div style="margin-top:16px;padding:14px;background:var(--surface);border-radius:var(--radius)">
+      <div style="font-size:11px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:0.8px;margin-bottom:6px">Notes</div>
+      <div style="font-size:13px;color:var(--muted);line-height:1.6">${escHtml(mp.notes)}</div>
+    </div>` : '';
+
+  body.innerHTML = `
+    <div style="background:var(--surface);border-radius:var(--radius);padding:14px;margin-bottom:16px">
+      <div style="font-size:11px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:0.8px;margin-bottom:4px">Daily Calories</div>
+      <div style="font-size:16px;font-weight:600">${escHtml(mp.daily_calories)}</div>
+      ${mp.protein_target ? `<div style="font-size:13px;color:var(--muted);margin-top:2px">Protein: ${escHtml(mp.protein_target)}</div>` : ''}
+    </div>
+    <div style="background:var(--surface);border-radius:var(--radius);padding:14px">
+      ${itemsHtml}
+    </div>
+    ${notesHtml}`;
+}
+
+// ─── Previous Phases ──────────────────────────────────────────
+function loadPrevPhases() {
+  const body = document.getElementById('prevPhasesBody');
+  if (!dashData) {
+    body.innerHTML = '<div class="empty-state"><div class="empty-icon">📂</div>Load the dashboard first.</div>';
+    return;
+  }
+
+  const phases = dashData.previous_phases || [];
+  if (!phases.length) {
+    body.innerHTML = '<div class="empty-state"><div class="empty-icon">📂</div>No previous phases yet.<br><br>When you end a phase it will appear here, with its full log and meal plan preserved.</div>';
+    return;
+  }
+
+  const allLog = logText || '';
+
+  body.innerHTML = [...phases].reverse().map((p, idx) => {
+    const phaseEntries = allLog
+      ? parseAllLogEntries(allLog).filter(e => e.date >= p.start_date && e.date <= (p.end_date || p.target_date))
+      : [];
+
+    const weightEntries = phaseEntries.filter(e => e.type === 'weight');
+    const endKg = weightEntries.length ? weightEntries[weightEntries.length - 1].kg : null;
+    const totalLoss = endKg ? +(p.start_kg - endKg).toFixed(1) : null;
+
+    const lossText = totalLoss !== null
+      ? (totalLoss > 0 ? `−${totalLoss} kg` : `+${Math.abs(totalLoss)} kg`)
+      : '—';
+
+    const mp = p.meal_plan;
+    const mealHtml = mp ? `
+      <div style="font-size:13px;color:var(--muted);margin-bottom:6px">${escHtml(mp.daily_calories)}</div>
+      ${(mp.items || []).map(item => `
+        <div style="margin-bottom:8px">
+          <div style="font-size:12px;font-weight:600;color:var(--green)">${escHtml(item.label)}</div>
+          <div style="font-size:13px;color:var(--text)">${escHtml(item.detail)}</div>
+        </div>`).join('')}
+      ${mp.notes ? `<div style="font-size:12px;color:var(--muted);margin-top:8px;font-style:italic">${escHtml(mp.notes)}</div>` : ''}
+    ` : '<div style="font-size:13px;color:var(--muted)">No meal plan recorded.</div>';
+
+    const logHtml = phaseEntries.length ? phaseEntries.map(e => {
+      const valueText = e.type === 'weight' ? e.value + ' kg' : e.value;
+      const noteText  = e.note ? ` — "${escHtml(e.note)}"` : '';
+      return `<div style="padding:6px 0;border-bottom:1px solid var(--border);font-size:13px">
+        <span style="color:var(--muted)">${e.date}</span>
+        <span style="margin:0 6px;font-weight:600">${escHtml(e.type)}</span>
+        <span>${escHtml(valueText)}${noteText}</span>
+      </div>`;
+    }).join('') : '<div style="font-size:13px;color:var(--muted)">No entries found for this phase.</div>';
+
+    return `
+      <div class="prev-phase-card">
+        <span class="badge badge-muted">Completed</span>
+        <div class="prev-phase-name">${escHtml(p.name)}</div>
+        <div class="prev-phase-meta">${formatDate(p.start_date)} → ${formatDate(p.end_date || p.target_date)} · Goal: ${p.target_kg} kg</div>
+        <div style="display:flex;align-items:baseline;gap:8px;margin-bottom:4px">
+          <div class="prev-phase-result">${endKg ? endKg.toFixed(1) : '—'}<span> kg final</span></div>
+          <div style="font-size:15px;color:${totalLoss > 0 ? 'var(--green)' : 'var(--red)'}">${lossText}</div>
+        </div>
+
+        <button class="collapsible-toggle" onclick="toggleCollapsible('meal-${idx}', this)">
+          Meal Plan <span>▸</span>
+        </button>
+        <div class="collapsible-body" id="meal-${idx}">
+          <div style="padding:12px 0">${mealHtml}</div>
+        </div>
+
+        <button class="collapsible-toggle" onclick="toggleCollapsible('log-${idx}', this)">
+          Log Entries (${phaseEntries.length}) <span>▸</span>
+        </button>
+        <div class="collapsible-body" id="log-${idx}">
+          <div style="padding:8px 0">${logHtml}</div>
+        </div>
+      </div>`;
+  }).join('');
+}
+
+function toggleCollapsible(id, btn) {
+  const body = document.getElementById(id);
+  const arrow = btn.querySelector('span');
+  const isOpen = body.classList.toggle('open');
+  arrow.textContent = isOpen ? '▾' : '▸';
+}
+
+// ─── Phase end logic ──────────────────────────────────────────
+function dismissBanner() {
+  document.getElementById('phaseEndBanner').style.display = 'none';
+}
+
+async function endPhase() {
+  if (!dashData || !dashSha) return;
+  const btn = document.querySelector('.btn-end-phase');
+  btn.textContent = 'Saving…';
+  btn.disabled = true;
+
+  try {
+    const phase = { ...dashData.phase };
+    phase.status   = 'completed';
+    phase.end_date = new Date().toISOString().slice(0, 10);
+
+    const newDash = {
+      ...dashData,
+      phase: {
+        status: 'maintenance'
+      },
+      previous_phases: [...(dashData.previous_phases || []), phase],
+      last_updated: new Date().toISOString().slice(0, 10)
+    };
+
+    const content = JSON.stringify(newDash, null, 2);
+    const result  = await ghPut(DASH_PATH, content, dashSha, 'phase: end ' + phase.name);
+
+    dashData = newDash;
+    dashSha  = result.content.sha;
+
+    document.getElementById('phaseEndBanner').style.display = 'none';
+    renderPhaseCard(newDash.phase, []);
+    renderExperiments([]);
+
+  } catch(e) {
+    btn.textContent = 'End Phase';
+    btn.disabled = false;
+    alert('Failed to save: ' + e.message);
+  }
+}
+
+// ─── Parse helpers ────────────────────────────────────────────
+function parseWeightLog(text, phase) {
+  const points = [{ date: phase.start_date, kg: phase.start_kg }];
+  for (const line of text.split('\n')) {
     const parts = line.split('|').map(s => s.trim());
-    if (parts.length === 3 && parts[1] === 'weight') {
+    if (parts.length >= 3 && parts[1] === 'weight') {
       const kg = parseFloat(parts[2]);
       if (!isNaN(kg)) points.push({ date: parts[0], kg });
     }
@@ -570,81 +1075,49 @@ function parseWeightLog(text, goal) {
   return points;
 }
 
-function renderGoalCard(weights, goal) {
-  const latest = weights[weights.length - 1];
-  document.getElementById('currentWeight').innerHTML = latest.kg.toFixed(1) + '<span> kg</span>';
-
-  const lost = +(goal.start_kg - latest.kg).toFixed(1);
-  const left = +(latest.kg - goal.target_kg).toFixed(1);
-  const pct  = Math.min(100, Math.max(0, (lost / (goal.start_kg - goal.target_kg)) * 100));
-
-  document.getElementById('goalLost').textContent = (lost > 0 ? lost : 0) + ' kg lost';
-  document.getElementById('goalLeft').textContent  = (left > 0 ? left : 0) + ' kg to go';
-  document.getElementById('goalBar').style.width   = pct.toFixed(0) + '%';
-
-  // Trend projection
-  const { slope, intercept } = linearRegression(weights);
-  const targetDate = new Date(goal.target_date);
-  const today = new Date();
-  const daysLeft = Math.max(1, (targetDate - today) / 86400000);
-  const projectedAtTarget = slope * dateToNum(goal.target_date) + intercept;
-  const diff = +(projectedAtTarget - goal.target_kg).toFixed(1);
-
-  let trendText, trendColor;
-  if (diff <= 0.3) {
-    trendText  = '✓ On track to hit 82 kg by June 5';
-    trendColor = 'var(--green)';
-  } else if (diff <= 1.0) {
-    trendText  = `⚠ Trending to ${projectedAtTarget.toFixed(1)} kg by June 5 — slightly off`;
-    trendColor = 'var(--amber)';
-  } else {
-    trendText  = `✗ Trending to ${projectedAtTarget.toFixed(1)} kg by June 5 — needs adjustment`;
-    trendColor = 'var(--red)';
+function parseAllLogEntries(text) {
+  const entries = [];
+  for (const line of text.split('\n')) {
+    const parts = line.split('|').map(s => s.trim());
+    if (parts.length >= 3 && parts[0] && parts[1] && parts[2]) {
+      const entry = {
+        date:  parts[0],
+        type:  parts[1],
+        value: parts[2],
+        note:  parts[3] || ''
+      };
+      if (entry.type === 'weight') {
+        const kg = parseFloat(entry.value);
+        if (!isNaN(kg)) { entry.kg = kg; entries.push(entry); }
+      } else {
+        entries.push(entry);
+      }
+    }
   }
-  const el = document.getElementById('trendLine');
-  el.textContent = trendText;
-  el.style.color = trendColor;
+  // Newest first
+  return entries.sort((a, b) => b.date.localeCompare(a.date));
 }
 
-function dateToNum(dateStr) {
-  return new Date(dateStr).getTime() / 86400000;
-}
-
-function linearRegression(points) {
-  const n = points.length;
-  if (n < 2) return { slope: 0, intercept: points[0]?.kg || 85.5 };
-  const xs = points.map(p => dateToNum(p.date));
-  const ys = points.map(p => p.kg);
-  const mx = xs.reduce((a, b) => a + b, 0) / n;
-  const my = ys.reduce((a, b) => a + b, 0) / n;
-  const num = xs.reduce((s, x, i) => s + (x - mx) * (ys[i] - my), 0);
-  const den = xs.reduce((s, x) => s + (x - mx) ** 2, 0);
-  const slope = den ? num / den : 0;
-  return { slope, intercept: my - slope * mx };
-}
-
-function renderWeightChart(weights, goal) {
+// ─── Chart ────────────────────────────────────────────────────
+function renderWeightChart(weights, phase) {
   const ctx = document.getElementById('weightChart').getContext('2d');
   if (weightChart) weightChart.destroy();
 
-  // Actual data
-  const actualLabels = weights.map(p => p.date.slice(5)); // MM-DD
+  const actualLabels = weights.map(p => p.date.slice(5));
   const actualData   = weights.map(p => p.kg);
 
-  // Trend line from first point to target date
   const { slope, intercept } = linearRegression(weights);
-  const startNum  = dateToNum(weights[0].date);
-  const targetNum = dateToNum(goal.target_date);
-  const trendLabels = [weights[0].date.slice(5), goal.target_date.slice(5)];
+  const startNum   = dateToNum(weights[0].date);
+  const targetNum  = dateToNum(phase.target_date);
+  const trendLabels = [weights[0].date.slice(5), phase.target_date.slice(5)];
   const trendData   = [slope * startNum + intercept, slope * targetNum + intercept];
 
-  // All labels (union)
   const allLabels = [...new Set([...actualLabels, ...trendLabels])].sort();
 
   const projectedEnd = +(slope * targetNum + intercept).toFixed(1);
-  const trendColor = projectedEnd <= goal.target_kg + 0.3
+  const trendColor = projectedEnd <= phase.target_kg + 0.3
     ? 'rgba(74,222,128,0.8)'
-    : projectedEnd <= goal.target_kg + 1.0
+    : projectedEnd <= phase.target_kg + 1.0
     ? 'rgba(251,191,36,0.8)'
     : 'rgba(248,113,113,0.8)';
 
@@ -685,7 +1158,7 @@ function renderWeightChart(weights, goal) {
         },
         {
           label: 'Target',
-          data: allLabels.map(() => goal.target_kg),
+          data: allLabels.map(() => phase.target_kg),
           borderColor: 'rgba(148,163,184,0.3)',
           borderWidth: 1,
           borderDash: [3, 3],
@@ -711,20 +1184,21 @@ function renderWeightChart(weights, goal) {
         y: {
           ticks: { color: '#64748b', font: { size: 10 }, callback: v => v + ' kg' },
           grid: { color: 'rgba(255,255,255,0.05)' },
-          suggestedMin: goal.target_kg - 0.5,
-          suggestedMax: goal.start_kg + 0.5
+          suggestedMin: phase.target_kg - 0.5,
+          suggestedMax: phase.start_kg + 0.5
         }
       }
     }
   });
 }
 
+// ─── Recommendations / Experiments / Planned ──────────────────
 function renderRecommendations(items) {
   const el = document.getElementById('recommendationsList');
   el.innerHTML = items.map(r => `
     <div class="card">
-      <div class="card-title">${r.title}</div>
-      <div class="card-detail">${r.detail}</div>
+      <div class="card-title">${escHtml(r.title)}</div>
+      <div class="card-detail">${escHtml(r.detail)}</div>
     </div>`).join('');
 }
 
@@ -733,9 +1207,9 @@ function renderExperiments(items) {
   el.innerHTML = items.length ? items.map(e => `
     <div class="card">
       <span class="badge badge-green">Active</span>
-      <div class="card-title">${e.title}</div>
-      <div class="card-detail">${e.detail}</div>
-      <div style="margin-top:8px;font-size:12px;color:var(--muted)">Next check-in: ${e.next_checkin}</div>
+      <div class="card-title">${escHtml(e.title)}</div>
+      <div class="card-detail">${escHtml(e.detail)}</div>
+      <div style="margin-top:8px;font-size:12px;color:var(--muted)">Next check-in: ${escHtml(e.next_checkin)}</div>
     </div>`).join('')
     : '<div class="card"><div class="card-detail" style="color:var(--muted)">No active experiments.</div></div>';
 }
@@ -745,8 +1219,8 @@ function renderPlanned(items) {
   el.innerHTML = items.map(p => `
     <div class="card">
       <span class="badge badge-blue">Planned</span>
-      <div class="card-title">${p.title}</div>
-      <div class="card-detail">${p.detail}</div>
+      <div class="card-title">${escHtml(p.title)}</div>
+      <div class="card-detail">${escHtml(p.detail)}</div>
     </div>`).join('');
 }
 
@@ -755,12 +1229,16 @@ const formConfigs = {
   weight: {
     title: '⚖️ Log Weight',
     fields: [
-      { id: 'val', label: 'Morning weight (kg)', type: 'number', placeholder: '85.0', step: '0.1', inputmode: 'decimal' }
+      { id: 'val',  label: 'Morning weight (kg)', type: 'number',   placeholder: '85.0', step: '0.1', inputmode: 'decimal' },
+      { id: 'note', label: 'Note',                type: 'textarea', placeholder: 'e.g. Felt heavy — big meal last night', optional: true }
     ],
     build: f => {
       const kg = parseFloat(f.val);
       if (isNaN(kg) || kg < 40 || kg > 200) throw new Error('Enter a valid weight between 40–200 kg');
-      return `${today()} | weight | ${kg.toFixed(1)}`;
+      const note = f.note ? f.note.trim() : '';
+      return note
+        ? `${today()} | weight | ${kg.toFixed(1)} | ${note}`
+        : `${today()} | weight | ${kg.toFixed(1)}`;
     }
   },
   beers: {
@@ -777,8 +1255,8 @@ const formConfigs = {
   activity: {
     title: '🏃 Log Activity',
     fields: [
-      { id: 'type', label: 'Activity type', type: 'text', placeholder: 'e.g. Run, Cycle, Walk' },
-      { id: 'detail', label: 'Detail (distance / duration)', type: 'text', placeholder: 'e.g. 5km, 28 min' }
+      { id: 'type',   label: 'Activity type',               type: 'text', placeholder: 'e.g. Stair stepper, Run, Walk' },
+      { id: 'detail', label: 'Detail (distance / duration)', type: 'text', placeholder: 'e.g. 25 min' }
     ],
     build: f => {
       if (!f.type.trim()) throw new Error('Enter an activity type');
@@ -788,8 +1266,8 @@ const formConfigs = {
   cheat: {
     title: '🍕 Log Cheat Meal',
     fields: [
-      { id: 'detail', label: 'What did you eat?', type: 'textarea', placeholder: 'e.g. Pizza and garlic bread' },
-      { id: 'kcal', label: 'Extra calories (rough guess, optional)', type: 'number', placeholder: 'e.g. 800', inputmode: 'numeric' }
+      { id: 'detail', label: 'What did you eat?',                         type: 'textarea', placeholder: 'e.g. Pizza and garlic bread' },
+      { id: 'kcal',   label: 'Extra calories (rough guess, optional)',     type: 'number',   placeholder: 'e.g. 800', inputmode: 'numeric', optional: true }
     ],
     build: f => {
       if (!f.detail.trim()) throw new Error('Describe what you ate');
@@ -812,7 +1290,8 @@ function openForm(type) {
 
   let html = '';
   for (const f of cfg.fields) {
-    html += `<div class="field"><label>${f.label}</label>`;
+    const optionalBadge = f.optional ? '<span class="optional-label">optional</span>' : '';
+    html += `<div class="field"><label>${f.label}${optionalBadge}</label>`;
     if (f.type === 'textarea') {
       html += `<textarea id="ff_${f.id}" placeholder="${f.placeholder}"></textarea>`;
     } else {
@@ -827,7 +1306,6 @@ function openForm(type) {
   document.getElementById('formBody').innerHTML = html;
   showScreen('screen-form');
 
-  // Focus first field after transition
   setTimeout(() => {
     const first = document.querySelector('#formBody input, #formBody textarea');
     if (first) first.focus();
@@ -860,6 +1338,8 @@ async function submitForm() {
     const { user, repo, token } = ghConfig();
     if (!user || !token) throw new Error('GitHub not configured — go to Settings first');
     await ghAppend(LOG_PATH, line);
+    // Refresh cached log text
+    if (logText !== null) logText += '\n' + line;
     status.className = 'status-msg success';
     status.textContent = '✓ Saved successfully';
     btn.textContent = 'Saved ✓';
@@ -870,6 +1350,39 @@ async function submitForm() {
     btn.disabled = false;
     btn.textContent = 'Save Entry';
   }
+}
+
+// ─── Utility ──────────────────────────────────────────────────
+function dateToNum(dateStr) {
+  return new Date(dateStr).getTime() / 86400000;
+}
+
+function linearRegression(points) {
+  const n = points.length;
+  if (n < 2) return { slope: 0, intercept: points[0]?.kg || 85.5 };
+  const xs = points.map(p => dateToNum(p.date));
+  const ys = points.map(p => p.kg);
+  const mx = xs.reduce((a, b) => a + b, 0) / n;
+  const my = ys.reduce((a, b) => a + b, 0) / n;
+  const num = xs.reduce((s, x, i) => s + (x - mx) * (ys[i] - my), 0);
+  const den = xs.reduce((s, x) => s + (x - mx) ** 2, 0);
+  const slope = den ? num / den : 0;
+  return { slope, intercept: my - slope * mx };
+}
+
+function formatDate(dateStr) {
+  if (!dateStr) return '';
+  const d = new Date(dateStr + 'T00:00:00');
+  return d.toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' });
+}
+
+function escHtml(str) {
+  if (!str) return '';
+  return String(str)
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;');
 }
 
 // ─── Boot ─────────────────────────────────────────────────────
