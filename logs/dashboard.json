@@ -10,7 +10,7 @@
     "meal_plan": {
       "calorie_target": "~1,500 kcal/day",
       "maintenance_kcal": 1935,
-      "target_deficit": "~400–500 kcal/day",
+      "target_deficit": "~435 kcal/day",
       "protein_target": "130g+ per day",
       "weekday": {
         "items": [
