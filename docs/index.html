@@ -946,14 +946,21 @@ function renderWeeklyBurndownChart(allEntries, weekStartStr, predicted) {
     wrap.querySelectorAll('.bd-icon').forEach(el => el.remove());
     const xScale = burndownChart.scales.x;
     const yScale = burndownChart.scales.y;
-    const dpr = canvas.width / canvas.getBoundingClientRect().width || 1;
+
+    // Convert Chart.js pixel coords to CSS coords relative to wrap container
+    const canvasRect = canvas.getBoundingClientRect();
+    const wrapRect   = wrap.getBoundingClientRect();
+    const offsetLeft = canvasRect.left - wrapRect.left;
+    const offsetTop  = canvasRect.top  - wrapRect.top;
+    const cssScaleX  = canvasRect.width  / canvas.width;
+    const cssScaleY  = canvasRect.height / canvas.height;
 
     DAY_LABELS.forEach((_, i) => {
       const events = eventsByDay[i];
       if (!events.length) return;
-      const px = xScale.getPixelForValue(i) / dpr;
+      const px = offsetLeft + xScale.getPixelForValue(i) * cssScaleX;
       const yVal = actualData[i] !== null && actualData[i] !== undefined ? actualData[i] : predictedData[i];
-      const pyBase = yScale.getPixelForValue(yVal) / dpr;
+      const pyBase = offsetTop + yScale.getPixelForValue(yVal) * cssScaleY;
 
       events.forEach(({ icon, label }, j) => {
         const py = pyBase - 18 - j * 22;
