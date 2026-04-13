@@ -15,7 +15,7 @@
           { "label": "Shake", "detail": "42g whey protein + water (~35g protein)", "kcal": 170 },
           { "label": "Lunch", "detail": "Chicken breast (air fryer, cajun + salt, no oil) + protein wrap + salad + Greek yoghurt + Pepsi Max (~55g protein)", "kcal": 430 },
           { "label": "Dinner", "detail": "Gousto meal kit — prefer chicken/fish nights over nacho or chip-based meals (~41g protein)", "kcal": 640 },
-          { "label": "Chocolate", "detail": "Dark chocolate 70%+ recommended", "kcal": 200 }
+          { "label": "Chocolate", "detail": "Milk chocolate", "kcal": 100 }
         ]
       },
       "weekend": {
@@ -23,7 +23,7 @@
           { "label": "Morning", "detail": "Coffee with Oatly oat milk", "kcal": 50 },
           { "label": "Brunch", "detail": "3 hash browns, ½ tin baked beans, 1–2 eggs, 3 chicken sausages (air fryer)", "kcal": 550 },
           { "label": "Dinner", "detail": "Gousto meal kit — prefer chicken/fish nights over nacho or chip-based meals (~41g protein)", "kcal": 640 },
-          { "label": "Chocolate", "detail": "Dark chocolate 70%+ recommended", "kcal": 200 }
+          { "label": "Chocolate", "detail": "Milk chocolate", "kcal": 100 }
         ]
       }
     }
@@ -43,8 +43,8 @@
       "detail": "Currently 32.9 mL/kg/min — below average for age 39. This is the strongest single predictor of longevity. Zone 2 cardio and intervals are the main levers."
     },
     {
-      "title": "Switch to dark chocolate (70%+)",
-      "detail": "Current ~200 kcal/day of chocolate is the main discretionary calories. Dark chocolate 70%+ has lower sugar and meaningful cardiovascular and cognitive evidence."
+      "title": "Consider switching to dark chocolate (70%+)",
+      "detail": "Dark chocolate 70%+ has significantly less sugar than milk chocolate, and has meaningful evidence behind it: flavanols support cardiovascular health (improved blood flow, lower blood pressure), and there's reasonable data for cognitive benefits too. It's also more satiating per calorie, so 100 kcal goes further. Worth trying as a swap once the current fat loss phase is established."
     }
   ],
   "experiments": [
