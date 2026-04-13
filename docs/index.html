@@ -874,98 +874,13 @@ function renderWeeklyBurndownChart(allEntries, weekStartStr, predicted) {
     eventsByDay[idx].push({ icon, label: entryLabel(e) });
   });
 
-  // Icon positions collected during draw, used to place HTML overlays after render
-  const iconPositions = []; // { cssX, cssY, icon, label }
-
-  const emojiPlugin = {
-    id: 'weeklyEmojis_' + Date.now(),
-    afterDatasetsDraw(chart) {
-      const { ctx, scales, canvas: c } = chart;
-      const xScale = scales.x;
-      const yScale = scales.y;
-      const dpr = c.width / c.getBoundingClientRect().width || 1;
-      iconPositions.length = 0;
-      ctx.save();
-      ctx.font = '15px serif';
-      ctx.textAlign = 'center';
-      DAY_LABELS.forEach((_, i) => {
-        const events = eventsByDay[i];
-        if (!events.length) return;
-        const x = xScale.getPixelForValue(i);
-        const yVal = actualData[i] !== null && actualData[i] !== undefined ? actualData[i] : predictedData[i];
-        const yBase = yScale.getPixelForValue(yVal);
-        events.forEach(({ icon, label }, j) => {
-          const iy = yBase - 16 - j * 20;
-          ctx.fillText(icon, x, iy);
-          iconPositions.push({ cssX: x / dpr, cssY: (iy - 6) / dpr, icon, label });
-        });
-      });
-      ctx.restore();
-
-      // Place HTML tap targets after chart finishes drawing
-      placeIconOverlays();
-    }
-  };
-
-  function placeIconOverlays() {
-    const wrap = document.getElementById('burndownWrap');
-    if (!wrap) return;
-    // Remove old overlays
-    wrap.querySelectorAll('.bd-icon-btn').forEach(el => el.remove());
-
-    iconPositions.forEach(pos => {
-      const btn = document.createElement('button');
-      btn.className = 'bd-icon-btn';
-      btn.setAttribute('data-label', pos.label);
-      btn.style.cssText = `position:absolute;left:${pos.cssX - 16}px;top:${pos.cssY - 10}px;width:32px;height:24px;background:none;border:none;cursor:pointer;padding:0;z-index:10;-webkit-tap-highlight-color:transparent;`;
-      btn.addEventListener('click', function(ev) {
-        ev.stopPropagation();
-        ev.preventDefault();
-        showIconTip(pos.label, this);
-      });
-      wrap.appendChild(btn);
-    });
-  }
-
-  function showIconTip(label, anchorEl) {
-    hideIconTip();
-
-    const tip = document.createElement('div');
-    tip.id = 'burndownTip';
-    tip.textContent = label;
-    tip.style.cssText = 'position:fixed;z-index:9999;background:var(--surface2,#3f3f46);border:1px solid var(--border,#52525b);border-radius:8px;padding:8px 12px;font-size:13px;color:var(--text,#f1f5f9);pointer-events:none;white-space:nowrap;box-shadow:0 4px 16px rgba(0,0,0,0.5);';
-    document.body.appendChild(tip);
-
-    const rect = anchorEl.getBoundingClientRect();
-    const tw = tip.offsetWidth;
-    const th = tip.offsetHeight;
-    let x = rect.left + rect.width / 2 - tw / 2;
-    let y = rect.top - th - 8;
-    x = Math.max(8, Math.min(x, window.innerWidth - tw - 8));
-    if (y < 8) y = rect.bottom + 8;
-    tip.style.left = x + 'px';
-    tip.style.top  = y + 'px';
-
-    clearTimeout(window._bdTipTimer);
-    window._bdTipTimer = setTimeout(hideIconTip, 2500);
-
-    // Dismiss on next tap anywhere — use setTimeout to avoid catching the current click
-    setTimeout(() => {
-      document.addEventListener('click', hideIconTip, { once: true });
-    }, 10);
-  }
-
-  function hideIconTip() {
-    const tip = document.getElementById('burndownTip');
-    if (tip) tip.remove();
-  }
-
+  // Don't draw emojis on canvas — render as HTML elements instead
   const gridColor  = 'rgba(82,82,91,0.4)';
   const mutedColor = 'rgba(148,163,184,0.5)';
 
   burndownChart = new Chart(canvas, {
     type: 'line',
-    plugins: [emojiPlugin],
+    plugins: [],
     data: {
       labels: DAY_LABELS,
       datasets: [
@@ -1020,17 +935,59 @@ function renderWeeklyBurndownChart(allEntries, weekStartStr, predicted) {
       },
       plugins: {
         legend: { display: false },
-        tooltip: {
-          callbacks: {
-            label: ctx => {
-              if (ctx.parsed.y === null) return '';
-              return ctx.dataset.label + ': ' + ctx.parsed.y.toFixed(2) + ' kg';
-            }
-          }
-        }
+        tooltip: { enabled: false }
       }
     }
   });
+
+  // Place emoji icons as HTML elements over the chart
+  const wrap = document.getElementById('burndownWrap');
+  if (wrap) {
+    wrap.querySelectorAll('.bd-icon').forEach(el => el.remove());
+    const xScale = burndownChart.scales.x;
+    const yScale = burndownChart.scales.y;
+    const dpr = canvas.width / canvas.getBoundingClientRect().width || 1;
+
+    DAY_LABELS.forEach((_, i) => {
+      const events = eventsByDay[i];
+      if (!events.length) return;
+      const px = xScale.getPixelForValue(i) / dpr;
+      const yVal = actualData[i] !== null && actualData[i] !== undefined ? actualData[i] : predictedData[i];
+      const pyBase = yScale.getPixelForValue(yVal) / dpr;
+
+      events.forEach(({ icon, label }, j) => {
+        const py = pyBase - 18 - j * 22;
+        const el = document.createElement('span');
+        el.className = 'bd-icon';
+        el.textContent = icon;
+        el.setAttribute('data-tip', label);
+        el.style.cssText = `position:absolute;left:${px}px;top:${py}px;transform:translate(-50%,-50%);font-size:16px;cursor:pointer;z-index:10;user-select:none;-webkit-user-select:none;-webkit-tap-highlight-color:transparent;padding:4px;`;
+        el.onclick = function(ev) {
+          ev.stopPropagation();
+          // Remove existing tip
+          const old = document.getElementById('burndownTip');
+          if (old) old.remove();
+          // Create new tip
+          const tip = document.createElement('div');
+          tip.id = 'burndownTip';
+          tip.textContent = label;
+          tip.style.cssText = 'position:fixed;z-index:9999;background:#3f3f46;border:1px solid #52525b;border-radius:8px;padding:8px 12px;font-size:13px;color:#f1f5f9;pointer-events:none;white-space:nowrap;box-shadow:0 4px 16px rgba(0,0,0,0.5);';
+          document.body.appendChild(tip);
+          const r = el.getBoundingClientRect();
+          const tw = tip.offsetWidth;
+          const th = tip.offsetHeight;
+          let tx = r.left + r.width / 2 - tw / 2;
+          let ty = r.top - th - 8;
+          tx = Math.max(8, Math.min(tx, window.innerWidth - tw - 8));
+          if (ty < 8) ty = r.bottom + 8;
+          tip.style.left = tx + 'px';
+          tip.style.top  = ty + 'px';
+          setTimeout(() => { if (tip.parentNode) tip.remove(); }, 2500);
+        };
+        wrap.appendChild(el);
+      });
+    });
+  }
 }
 
 function totalMealKcal(mealPlan, tab) {
