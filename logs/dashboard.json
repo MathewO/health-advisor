@@ -11,19 +11,19 @@
       "protein_target": "130g+ per day",
       "weekday": {
         "items": [
-          { "label": "Morning", "detail": "Coffee with Oatly oat milk", "kcal": 50 },
-          { "label": "Shake", "detail": "42g whey protein + water (~35g protein)", "kcal": 170 },
-          { "label": "Lunch", "detail": "Chicken breast (air fryer, cajun + salt, no oil) + protein wrap + salad + Greek yoghurt + Pepsi Max (~55g protein)", "kcal": 430 },
-          { "label": "Dinner", "detail": "Gousto meal kit — prefer chicken/fish nights over nacho or chip-based meals (~41g protein)", "kcal": 640 },
-          { "label": "Chocolate", "detail": "Milk chocolate", "kcal": 100 }
+          { "label": "Coffee + Oatly", "kcal": 50,  "protein": 1  },
+          { "label": "42g Shake",      "kcal": 170, "protein": 42 },
+          { "label": "Chicken Wrap",   "kcal": 430, "protein": 55 },
+          { "label": "Gousto Meal",    "kcal": 640, "protein": 41 },
+          { "label": "Milk Chocolate", "kcal": 100, "protein": 2  }
         ]
       },
       "weekend": {
         "items": [
-          { "label": "Morning", "detail": "Coffee with Oatly oat milk", "kcal": 50 },
-          { "label": "Brunch", "detail": "3 hash browns, ½ tin baked beans, 1–2 eggs, 3 chicken sausages (air fryer)", "kcal": 550 },
-          { "label": "Dinner", "detail": "Gousto meal kit — prefer chicken/fish nights over nacho or chip-based meals (~41g protein)", "kcal": 640 },
-          { "label": "Chocolate", "detail": "Milk chocolate", "kcal": 100 }
+          { "label": "Coffee + Oatly",  "kcal": 50,  "protein": 1  },
+          { "label": "Weekend Brunch",  "kcal": 550, "protein": 37 },
+          { "label": "Gousto Meal",     "kcal": 640, "protein": 41 },
+          { "label": "Milk Chocolate",  "kcal": 100, "protein": 2  }
         ]
       }
     }
