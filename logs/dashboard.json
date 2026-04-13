@@ -29,6 +29,14 @@
           { "category": "Dinner",         "label": "Gousto Meal",     "kcal": 640, "protein": 41 },
           { "category": "Pudding",        "label": "Milk Chocolate",  "kcal": 100, "protein": 2  }
         ]
+      },
+      "weekly_deficit_target": 3500,
+      "drink_kcal": {
+        "Pint of beer":  210,
+        "Can of beer":   140,
+        "Negroni":       185,
+        "Gin & Tonic":   120,
+        "Glass of wine": 160
       }
     }
   },

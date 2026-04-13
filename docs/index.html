@@ -40,13 +40,7 @@
     .screen.active { display: flex; }
 
     /* ── Password Screen ── */
-    #screen-password {
-      align-items: center;
-      justify-content: center;
-      gap: 32px;
-      padding: 32px;
-      background: var(--bg);
-    }
+    #screen-password { align-items: center; justify-content: center; gap: 32px; padding: 32px; background: var(--bg); }
     .lock-icon { font-size: 56px; }
     .lock-title { font-size: 22px; font-weight: 700; letter-spacing: -0.3px; }
     .lock-sub { font-size: 15px; color: var(--muted); }
@@ -54,53 +48,19 @@
     .pin-dot { width: 14px; height: 14px; border-radius: 50%; border: 2px solid var(--accent); transition: background .15s; }
     .pin-dot.filled { background: var(--accent); }
     .numpad { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; width: 100%; max-width: 280px; }
-    .num-btn {
-      background: var(--surface);
-      border: none;
-      border-radius: var(--radius);
-      color: var(--text);
-      font-size: 22px;
-      font-weight: 500;
-      height: 68px;
-      cursor: pointer;
-      -webkit-tap-highlight-color: transparent;
-      transition: background .1s;
-    }
+    .num-btn { background: var(--surface); border: none; border-radius: var(--radius); color: var(--text); font-size: 22px; font-weight: 500; height: 68px; cursor: pointer; -webkit-tap-highlight-color: transparent; transition: background .1s; }
     .num-btn:active { background: var(--surface2); }
     .num-btn.del { font-size: 18px; color: var(--muted); }
     .pin-error { color: var(--red); font-size: 14px; min-height: 20px; }
 
-    /* ── App Shell (tabs) ── */
+    /* ── App Shell ── */
     #app { flex-direction: column; }
     .tab-content { flex: 1; overflow-y: auto; overflow-x: hidden; -webkit-overflow-scrolling: touch; }
     .tab-pane { display: none; padding: 20px 16px calc(var(--tab-h) + var(--safe-bottom) + 16px); }
     .tab-pane.active { display: block; }
 
-    .tab-bar {
-      display: flex;
-      background: var(--surface);
-      border-top: 1px solid var(--border);
-      padding-bottom: var(--safe-bottom);
-      height: calc(var(--tab-h) + var(--safe-bottom));
-      flex-shrink: 0;
-    }
-    .tab-btn {
-      flex: 1;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      gap: 4px;
-      background: none;
-      border: none;
-      color: var(--muted);
-      font-size: 10px;
-      font-weight: 500;
-      cursor: pointer;
-      -webkit-tap-highlight-color: transparent;
-      transition: color .15s;
-      padding-top: 8px;
-    }
+    .tab-bar { display: flex; background: var(--surface); border-top: 1px solid var(--border); padding-bottom: var(--safe-bottom); height: calc(var(--tab-h) + var(--safe-bottom)); flex-shrink: 0; }
+    .tab-btn { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 4px; background: none; border: none; color: var(--muted); font-size: 10px; font-weight: 500; cursor: pointer; -webkit-tap-highlight-color: transparent; transition: color .15s; padding-top: 8px; }
     .tab-btn .icon { font-size: 22px; }
     .tab-btn.active { color: var(--accent); }
 
@@ -111,20 +71,17 @@
     .card-title { font-size: 15px; font-weight: 600; margin-bottom: 4px; }
     .card-detail { font-size: 13px; color: var(--muted); line-height: 1.5; }
     .badge { display: inline-block; font-size: 11px; font-weight: 600; padding: 2px 8px; border-radius: 20px; margin-bottom: 6px; }
-    .badge-green { background: rgba(74,222,128,.15); color: var(--green); }
-    .badge-amber { background: rgba(251,191,36,.15); color: var(--amber); }
-    .badge-blue { background: rgba(161,161,170,.15); color: var(--accent); }
-    .badge-red { background: rgba(248,113,113,.15); color: var(--red); }
-    .badge-muted { background: rgba(148,163,184,.1); color: var(--muted); }
+    .badge-green  { background: rgba(74,222,128,.15);  color: var(--green); }
+    .badge-amber  { background: rgba(251,191,36,.15);  color: var(--amber); }
+    .badge-blue   { background: rgba(161,161,170,.15); color: var(--accent); }
+    .badge-red    { background: rgba(248,113,113,.15); color: var(--red); }
+    .badge-muted  { background: rgba(148,163,184,.1);  color: var(--muted); }
+    .badge-purple { background: rgba(167,139,250,.15); color: #c4b5fd; }
 
-    /* ── Dashboard header row ── */
-    .dash-header {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      margin-bottom: 4px;
-    }
-    .prev-phases-btn {
+    /* ── Dashboard header ── */
+    .dash-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 4px; }
+    .dash-header-btns { display: flex; gap: 8px; }
+    .pill-header-btn {
       background: var(--surface);
       border: 1px solid var(--border);
       border-radius: 20px;
@@ -136,12 +93,10 @@
       -webkit-tap-highlight-color: transparent;
       white-space: nowrap;
     }
-    .prev-phases-btn:active { background: var(--surface2); }
+    .pill-header-btn:active { background: var(--surface2); }
 
     /* ── Phase card ── */
-    .phase-card-active {
-      border: 2px solid var(--green);
-    }
+    .phase-card-active { border: 2px solid var(--green); }
     .goal-bar-wrap { background: var(--surface2); border-radius: 8px; height: 8px; overflow: hidden; margin: 8px 0 4px; }
     .goal-bar { height: 100%; border-radius: 8px; background: var(--green); transition: width .6s ease; }
     .goal-meta { display: flex; justify-content: space-between; font-size: 12px; color: var(--muted); }
@@ -151,156 +106,63 @@
     .chart-wrap { position: relative; height: 180px; margin: 12px 0 4px; }
     #weightChart { width: 100% !important; }
 
-    /* ── Phase action buttons ── */
-    .phase-actions {
-      display: flex;
-      gap: 8px;
-      margin-top: 12px;
-    }
-    .pill-btn {
-      flex: 1;
-      background: var(--surface2);
-      border: 1px solid var(--border);
-      border-radius: 20px;
-      color: var(--text);
-      font-size: 13px;
-      font-weight: 500;
-      padding: 9px 12px;
-      cursor: pointer;
-      -webkit-tap-highlight-color: transparent;
-      text-align: center;
-    }
+    .phase-actions { display: flex; gap: 8px; margin-top: 12px; }
+    .pill-btn { flex: 1; background: var(--surface2); border: 1px solid var(--border); border-radius: 20px; color: var(--text); font-size: 13px; font-weight: 500; padding: 9px 12px; cursor: pointer; -webkit-tap-highlight-color: transparent; text-align: center; }
     .pill-btn:active { opacity: 0.75; }
 
     /* ── Phase-end banner ── */
-    .phase-end-banner {
-      background: rgba(74,222,128,0.1);
-      border: 1px solid rgba(74,222,128,0.3);
-      border-radius: var(--radius);
-      padding: 14px 16px;
-      margin-bottom: 12px;
-    }
+    .phase-end-banner { background: rgba(74,222,128,0.1); border: 1px solid rgba(74,222,128,0.3); border-radius: var(--radius); padding: 14px 16px; margin-bottom: 12px; }
     .phase-end-banner p { font-size: 14px; color: var(--text); margin-bottom: 10px; }
     .phase-end-actions { display: flex; gap: 8px; }
-    .btn-end-phase {
-      flex: 1;
-      background: var(--green);
-      color: #0f172a;
-      border: none;
-      border-radius: 10px;
-      font-size: 14px;
-      font-weight: 700;
-      padding: 10px;
-      cursor: pointer;
-    }
-    .btn-keep-going {
-      flex: 1;
-      background: var(--surface2);
-      color: var(--text);
-      border: none;
-      border-radius: 10px;
-      font-size: 14px;
-      font-weight: 600;
-      padding: 10px;
-      cursor: pointer;
-    }
+    .btn-end-phase { flex: 1; background: var(--green); color: #0f172a; border: none; border-radius: 10px; font-size: 14px; font-weight: 700; padding: 10px; cursor: pointer; }
+    .btn-keep-going { flex: 1; background: var(--surface2); color: var(--text); border: none; border-radius: 10px; font-size: 14px; font-weight: 600; padding: 10px; cursor: pointer; }
+
+    /* ── Weekly Deficit card ── */
+    .deficit-row { display: flex; justify-content: space-between; align-items: center; padding: 8px 0; border-bottom: 1px solid var(--border); font-size: 14px; }
+    .deficit-row:last-child { border-bottom: none; }
+    .deficit-label { color: var(--muted); font-size: 13px; }
+    .deficit-val { font-weight: 700; }
+    .outlier-item { padding: 6px 0; border-bottom: 1px solid var(--border); font-size: 13px; }
+    .outlier-item:last-child { border-bottom: none; }
+    .outlier-date { color: var(--muted); font-size: 11px; }
+    .outlier-desc { margin-top: 2px; }
+    .predicted-deficit-row { display: flex; justify-content: space-between; align-items: center; padding-top: 12px; margin-top: 8px; border-top: 2px solid var(--border); }
+    .predicted-label { font-size: 13px; color: var(--muted); font-weight: 600; text-transform: uppercase; letter-spacing: 0.6px; }
+    .predicted-val { font-size: 22px; font-weight: 700; letter-spacing: -0.5px; }
 
     /* ── Log Tab ── */
     .log-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 8px; }
-    .log-card {
-      background: var(--surface);
-      border-radius: var(--radius);
-      padding: 20px 16px;
-      display: flex;
-      flex-direction: column;
-      align-items: flex-start;
-      gap: 8px;
-      cursor: pointer;
-      border: none;
-      color: var(--text);
-      -webkit-tap-highlight-color: transparent;
-      transition: background .1s;
-      text-align: left;
-    }
+    .log-card { background: var(--surface); border-radius: var(--radius); padding: 20px 16px; display: flex; flex-direction: column; align-items: flex-start; gap: 8px; cursor: pointer; border: none; color: var(--text); -webkit-tap-highlight-color: transparent; transition: background .1s; text-align: left; }
     .log-card:active { background: var(--surface2); }
     .log-card .log-icon { font-size: 30px; }
     .log-card .log-label { font-size: 15px; font-weight: 600; }
     .log-card .log-sub { font-size: 12px; color: var(--muted); }
 
     /* ── Overlay Screens ── */
-    .overlay-screen {
-      position: fixed;
-      inset: 0;
-      background: var(--bg);
-      z-index: 100;
-      display: none;
-      flex-direction: column;
-    }
+    .overlay-screen { position: fixed; inset: 0; background: var(--bg); z-index: 100; display: none; flex-direction: column; }
     .overlay-screen.active { display: flex; }
-    .overlay-header {
-      display: flex;
-      align-items: center;
-      padding: 16px;
-      padding-top: calc(var(--safe-top) + 16px);
-      gap: 12px;
-      border-bottom: 1px solid var(--border);
-      flex-shrink: 0;
-    }
+    .overlay-header { display: flex; align-items: center; padding: 16px; padding-top: calc(var(--safe-top) + 16px); gap: 12px; border-bottom: 1px solid var(--border); flex-shrink: 0; }
     .overlay-title { font-size: 18px; font-weight: 700; flex: 1; }
-    .overlay-body {
-      flex: 1;
-      overflow-y: auto;
-      -webkit-overflow-scrolling: touch;
-      padding: 16px;
-    }
+    .overlay-body { flex: 1; overflow-y: auto; -webkit-overflow-scrolling: touch; padding: 16px; }
 
     /* ── Log View entries ── */
-    .log-entry {
-      padding: 12px 0;
-      border-bottom: 1px solid var(--border);
-    }
+    .log-entry { padding: 12px 0; border-bottom: 1px solid var(--border); }
     .log-entry:last-child { border-bottom: none; }
     .log-entry-header { display: flex; align-items: center; gap: 8px; margin-bottom: 4px; }
     .log-entry-date { font-size: 12px; color: var(--muted); }
     .log-entry-value { font-size: 15px; font-weight: 600; }
     .log-entry-note { font-size: 13px; color: var(--muted); margin-top: 4px; font-style: italic; }
+    .stat-chips { display: flex; gap: 6px; flex-wrap: wrap; margin-top: 6px; }
+    .stat-chip { background: var(--surface2); border-radius: 20px; font-size: 12px; font-weight: 500; padding: 3px 10px; color: var(--text); }
 
     /* ── Meal Plan tabs ── */
     .meal-tab-bar { display: flex; gap: 8px; margin-bottom: 16px; }
-    .meal-tab {
-      flex: 1;
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: 10px;
-      color: var(--muted);
-      font-size: 14px;
-      font-weight: 600;
-      padding: 10px;
-      cursor: pointer;
-      text-align: center;
-      -webkit-tap-highlight-color: transparent;
-    }
+    .meal-tab { flex: 1; background: var(--surface); border: 1px solid var(--border); border-radius: 10px; color: var(--muted); font-size: 14px; font-weight: 600; padding: 10px; cursor: pointer; text-align: center; -webkit-tap-highlight-color: transparent; }
     .meal-tab.active { background: var(--surface2); color: var(--text); border-color: var(--accent); }
-    .meal-protein-pill {
-      display: inline-block;
-      background: rgba(74,222,128,.1);
-      color: var(--green);
-      font-size: 12px;
-      font-weight: 600;
-      padding: 4px 12px;
-      border-radius: 20px;
-      margin-bottom: 16px;
-    }
+    .meal-protein-pill { display: inline-block; background: rgba(74,222,128,.1); color: var(--green); font-size: 12px; font-weight: 600; padding: 4px 12px; border-radius: 20px; margin-bottom: 16px; }
 
     /* ── Meal Plan items ── */
-    .meal-item {
-      display: flex;
-      justify-content: space-between;
-      align-items: flex-start;
-      padding: 14px 0;
-      border-bottom: 1px solid var(--border);
-      gap: 12px;
-    }
+    .meal-item { display: flex; justify-content: space-between; align-items: flex-start; padding: 14px 0; border-bottom: 1px solid var(--border); gap: 12px; }
     .meal-item-left { flex: 1; min-width: 0; }
     .meal-item-right { display: flex; gap: 12px; flex-shrink: 0; text-align: right; }
     .meal-tally-col { display: flex; flex-direction: column; align-items: flex-end; min-width: 64px; }
@@ -308,141 +170,75 @@
     .meal-label { font-size: 15px; font-weight: 600; color: var(--text); }
     .meal-kcal-add { font-size: 11px; color: var(--muted); }
     .meal-kcal-running { font-size: 14px; font-weight: 700; color: var(--text); margin-top: 1px; }
-    .meal-tally-header {
-      display: flex;
-      justify-content: flex-end;
-      gap: 12px;
-      padding-bottom: 8px;
-      border-bottom: 1px solid var(--border);
-      margin-bottom: 4px;
-    }
+    .meal-tally-header { display: flex; justify-content: flex-end; gap: 12px; padding-bottom: 8px; border-bottom: 1px solid var(--border); margin-bottom: 4px; }
     .meal-tally-header span { font-size: 11px; font-weight: 600; color: var(--muted); text-transform: uppercase; letter-spacing: 0.6px; min-width: 64px; text-align: right; }
-    .meal-total-row {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 14px 0 4px;
-      border-top: 2px solid var(--accent);
-      margin-top: 4px;
-      gap: 12px;
-    }
+    .meal-total-row { display: flex; justify-content: space-between; align-items: center; padding: 14px 0 4px; border-top: 2px solid var(--accent); margin-top: 4px; gap: 12px; }
     .meal-total-label { font-size: 13px; font-weight: 700; color: var(--muted); text-transform: uppercase; letter-spacing: 0.8px; flex: 1; }
     .meal-total-values { display: flex; gap: 12px; }
     .meal-total-val { font-size: 20px; font-weight: 700; letter-spacing: -0.5px; min-width: 64px; text-align: right; }
 
     /* ── Previous phases ── */
-    .prev-phase-card {
-      background: var(--surface);
-      border-radius: var(--radius);
-      padding: 16px;
-      margin-bottom: 12px;
-    }
+    .prev-phase-card { background: var(--surface); border-radius: var(--radius); padding: 16px; margin-bottom: 12px; }
     .prev-phase-name { font-size: 16px; font-weight: 700; margin-bottom: 4px; }
     .prev-phase-meta { font-size: 13px; color: var(--muted); margin-bottom: 12px; }
     .prev-phase-result { font-size: 22px; font-weight: 700; letter-spacing: -0.5px; }
     .prev-phase-result span { font-size: 14px; font-weight: 400; color: var(--muted); }
-    .collapsible-toggle {
-      width: 100%;
-      background: var(--surface2);
-      border: none;
-      border-radius: 8px;
-      color: var(--muted);
-      font-size: 13px;
-      font-weight: 500;
-      padding: 9px 14px;
-      text-align: left;
-      cursor: pointer;
-      margin-top: 8px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
+    .collapsible-toggle { width: 100%; background: var(--surface2); border: none; border-radius: 8px; color: var(--muted); font-size: 13px; font-weight: 500; padding: 9px 14px; text-align: left; cursor: pointer; margin-top: 8px; display: flex; justify-content: space-between; align-items: center; }
     .collapsible-body { display: none; margin-top: 8px; }
     .collapsible-body.open { display: block; }
 
+    /* ── Weekly progress cards ── */
+    .week-card { background: var(--surface); border-radius: var(--radius); padding: 16px; margin-bottom: 10px; }
+    .week-card-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 12px; }
+    .week-date-range { font-size: 13px; color: var(--muted); }
+    .week-weight-delta { font-size: 18px; font-weight: 700; }
+    .week-stats-row { display: flex; gap: 16px; margin-bottom: 10px; }
+    .week-stat { flex: 1; }
+    .week-stat-label { font-size: 11px; color: var(--muted); text-transform: uppercase; letter-spacing: 0.6px; margin-bottom: 2px; }
+    .week-stat-val { font-size: 16px; font-weight: 700; }
+
     /* ── Form Screen ── */
-    #screen-form {
-      padding: 0;
-      background: var(--bg);
-    }
-    .form-header {
-      display: flex;
-      align-items: center;
-      padding: 16px 16px 0;
-      padding-top: calc(var(--safe-top) + 16px);
-      gap: 12px;
-    }
-    .back-btn {
-      background: var(--surface);
-      border: none;
-      color: var(--text);
-      font-size: 15px;
-      padding: 8px 14px;
-      border-radius: 10px;
-      cursor: pointer;
-      -webkit-tap-highlight-color: transparent;
-    }
+    #screen-form { padding: 0; background: var(--bg); }
+    .form-header { display: flex; align-items: center; padding: 16px 16px 0; padding-top: calc(var(--safe-top) + 16px); gap: 12px; }
+    .back-btn { background: var(--surface); border: none; color: var(--text); font-size: 15px; padding: 8px 14px; border-radius: 10px; cursor: pointer; -webkit-tap-highlight-color: transparent; }
     .form-title { font-size: 20px; font-weight: 700; }
     .form-body { padding: 24px 16px; display: flex; flex-direction: column; gap: 16px; overflow-y: auto; flex: 1; }
     .field label { display: block; font-size: 13px; color: var(--muted); margin-bottom: 6px; font-weight: 500; }
-    .field input, .field textarea, .field select {
-      width: 100%;
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: 10px;
-      color: var(--text);
-      font-size: 17px;
-      padding: 14px;
-      outline: none;
-      -webkit-appearance: none;
-    }
-    .field input:focus, .field textarea:focus { border-color: var(--accent); }
+    .field input, .field textarea, .field select { width: 100%; background: var(--surface); border: 1px solid var(--border); border-radius: 10px; color: var(--text); font-size: 17px; padding: 14px; outline: none; -webkit-appearance: none; }
+    .field input:focus, .field textarea:focus, .field select:focus { border-color: var(--accent); }
     .field textarea { resize: none; height: 90px; font-family: inherit; line-height: 1.5; }
+    .field select { background-image: none; }
     .field .optional-label { font-size: 11px; color: var(--muted); margin-left: 4px; font-weight: 400; }
-    .save-btn {
-      background: var(--accent);
-      color: #0f172a;
-      border: none;
-      border-radius: var(--radius);
-      font-size: 17px;
-      font-weight: 700;
-      padding: 16px;
-      cursor: pointer;
-      -webkit-tap-highlight-color: transparent;
-      margin-top: 8px;
-    }
+    .save-btn { background: var(--accent); color: #0f172a; border: none; border-radius: var(--radius); font-size: 17px; font-weight: 700; padding: 16px; cursor: pointer; -webkit-tap-highlight-color: transparent; margin-top: 8px; }
     .save-btn:active { opacity: 0.85; }
     .save-btn:disabled { opacity: 0.4; cursor: default; }
     .status-msg { font-size: 14px; text-align: center; min-height: 20px; color: var(--muted); }
     .status-msg.success { color: var(--green); }
     .status-msg.error { color: var(--red); }
 
+    /* ── Drinks form ── */
+    .drinks-add-row { display: flex; gap: 8px; align-items: flex-end; }
+    .drinks-add-row .field { flex: 1; margin: 0; }
+    .drinks-add-row .qty-field { width: 80px; flex: none; }
+    .add-drink-btn { background: var(--surface2); border: 1px solid var(--border); border-radius: 10px; color: var(--text); font-size: 14px; font-weight: 600; padding: 14px 16px; cursor: pointer; white-space: nowrap; flex-shrink: 0; }
+    .add-drink-btn:active { opacity: 0.75; }
+    .drinks-list { background: var(--surface); border-radius: 10px; overflow: hidden; }
+    .drinks-list-empty { padding: 14px; text-align: center; font-size: 13px; color: var(--muted); }
+    .drink-item { display: flex; justify-content: space-between; align-items: center; padding: 12px 14px; border-bottom: 1px solid var(--border); }
+    .drink-item:last-child { border-bottom: none; }
+    .drink-item-left { font-size: 14px; font-weight: 500; }
+    .drink-item-kcal { font-size: 13px; color: var(--muted); }
+    .drink-remove { background: none; border: none; color: var(--red); font-size: 18px; cursor: pointer; padding: 4px 8px; }
+    .drinks-total { display: flex; justify-content: space-between; align-items: center; padding: 12px 0 4px; border-top: 1px dashed var(--border); margin-top: 4px; }
+    .drinks-total-label { font-size: 13px; color: var(--muted); font-weight: 600; }
+    .drinks-total-val { font-size: 20px; font-weight: 700; }
+
     /* ── Settings Tab ── */
     .settings-field { display: flex; flex-direction: column; gap: 6px; margin-bottom: 16px; }
     .settings-field label { font-size: 13px; color: var(--muted); font-weight: 500; }
-    .settings-field input {
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: 10px;
-      color: var(--text);
-      font-size: 15px;
-      padding: 12px 14px;
-      outline: none;
-      -webkit-appearance: none;
-      font-family: monospace;
-    }
+    .settings-field input { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; color: var(--text); font-size: 15px; padding: 12px 14px; outline: none; -webkit-appearance: none; font-family: monospace; }
     .settings-field input:focus { border-color: var(--accent); }
-    .settings-save-btn {
-      background: var(--accent);
-      color: #0f172a;
-      border: none;
-      border-radius: 10px;
-      font-size: 15px;
-      font-weight: 700;
-      padding: 13px;
-      cursor: pointer;
-      width: 100%;
-    }
+    .settings-save-btn { background: var(--accent); color: #0f172a; border: none; border-radius: 10px; font-size: 15px; font-weight: 700; padding: 13px; cursor: pointer; width: 100%; }
     .settings-save-btn:active { opacity: 0.85; }
     .settings-hint { font-size: 12px; color: var(--muted); line-height: 1.6; }
     .settings-status { font-size: 13px; min-height: 18px; margin-top: 8px; }
@@ -497,10 +293,13 @@
           <h2>Dashboard</h2>
           <div style="font-size:13px;color:var(--muted)" id="lastUpdated"></div>
         </div>
-        <button class="prev-phases-btn" onclick="openOverlay('screen-prev-phases')">Previous Phases →</button>
+        <div class="dash-header-btns">
+          <button class="pill-header-btn" onclick="openOverlay('screen-weekly-progress')">Weekly →</button>
+          <button class="pill-header-btn" onclick="openOverlay('screen-prev-phases')">Phases →</button>
+        </div>
       </div>
 
-      <!-- Phase-end banner (hidden by default) -->
+      <!-- Phase-end banner -->
       <div id="phaseEndBanner" class="phase-end-banner" style="display:none;margin-top:12px">
         <p>🎯 This phase has reached its end date. Did you complete it?</p>
         <div class="phase-end-actions">
@@ -510,8 +309,11 @@
       </div>
 
       <div class="section-label">Current Phase</div>
-      <div class="card" id="goalCard">
-        <!-- Populated by renderPhaseCard() -->
+      <div class="card" id="goalCard"><!-- Populated by renderPhaseCard() --></div>
+
+      <div class="section-label">Weekly Deficit</div>
+      <div class="card" id="weeklyDeficitCard">
+        <div style="font-size:13px;color:var(--muted)">Loading…</div>
       </div>
 
       <div class="section-label">Recommendations</div>
@@ -534,10 +336,10 @@
           <div class="log-label">Weight</div>
           <div class="log-sub">Morning reading</div>
         </button>
-        <button class="log-card" onclick="openForm('beers')">
+        <button class="log-card" onclick="openDrinksForm()">
           <div class="log-icon">🍺</div>
-          <div class="log-label">Beers</div>
-          <div class="log-sub">Pints consumed</div>
+          <div class="log-label">Drinks</div>
+          <div class="log-sub">Alcohol consumed</div>
         </button>
         <button class="log-card" onclick="openForm('activity')">
           <div class="log-icon">🏃</div>
@@ -615,7 +417,7 @@
 <div id="screen-log-view" class="overlay-screen">
   <div class="overlay-header">
     <button class="back-btn" onclick="closeOverlay('screen-log-view')">← Back</button>
-    <div class="overlay-title">Weight Log</div>
+    <div class="overlay-title">Phase Log</div>
   </div>
   <div class="overlay-body" id="logViewBody">
     <div class="empty-state"><div class="empty-icon">📋</div>Loading entries…</div>
@@ -647,11 +449,30 @@
   </div>
 </div>
 
+<!-- ═══════════════ WEEKLY PROGRESS OVERLAY ═══════════════ -->
+<div id="screen-weekly-progress" class="overlay-screen">
+  <div class="overlay-header">
+    <button class="back-btn" onclick="closeOverlay('screen-weekly-progress')">← Back</button>
+    <div class="overlay-title">Weekly Progress</div>
+  </div>
+  <div class="overlay-body" id="weeklyProgressBody">
+    <div class="empty-state"><div class="empty-icon">📅</div>Loading…</div>
+  </div>
+</div>
+
 <script>
 // ─── Config ───────────────────────────────────────────────────
 const CORRECT_PIN = '2050';
 const LOG_PATH    = 'logs/phone-log.md';
 const DASH_PATH   = 'logs/dashboard.json';
+
+const DEFAULT_DRINK_KCAL = {
+  'Pint of beer':  210,
+  'Can of beer':   140,
+  'Negroni':       185,
+  'Gin & Tonic':   120,
+  'Glass of wine': 160
+};
 
 // ─── Auth ─────────────────────────────────────────────────────
 let pinBuffer = '';
@@ -705,9 +526,10 @@ function showApp() {
 // ─── Overlay navigation ───────────────────────────────────────
 function openOverlay(id) {
   document.getElementById(id).classList.add('active');
-  if (id === 'screen-log-view') loadLogView();
-  if (id === 'screen-meal-plan') loadMealPlan();
-  if (id === 'screen-prev-phases') loadPrevPhases();
+  if (id === 'screen-log-view')        loadLogView();
+  if (id === 'screen-meal-plan')       loadMealPlan();
+  if (id === 'screen-prev-phases')     loadPrevPhases();
+  if (id === 'screen-weekly-progress') loadWeeklyProgress();
 }
 
 function closeOverlay(id) {
@@ -817,11 +639,9 @@ async function loadDashboard() {
 
     const phase = dashData.phase;
 
-    // Phase-end banner
     if (phase && phase.status === 'active') {
-      const today      = new Date().toISOString().slice(0, 10);
-      const isOverdue  = today > phase.target_date;
-      if (isOverdue) {
+      const today     = new Date().toISOString().slice(0, 10);
+      if (today > phase.target_date) {
         document.getElementById('phaseEndBanner').style.display = 'block';
       }
     }
@@ -830,20 +650,24 @@ async function loadDashboard() {
     renderExperiments(dashData.experiments || []);
     renderPlanned(dashData.planned || []);
 
-    // Load log for weight chart
     const logFile = await ghGet(LOG_PATH);
     logText = atob(logFile.content.replace(/\n/g, ''));
 
     if (phase) {
       const weights = parseWeightLog(logText, phase);
       renderPhaseCard(phase, weights);
+      renderWeeklyDeficitCard(phase);
     } else {
       renderMaintenanceCard();
+      document.getElementById('weeklyDeficitCard').innerHTML =
+        '<div style="font-size:13px;color:var(--muted)">No active phase.</div>';
     }
 
   } catch(e) {
     document.getElementById('goalCard').innerHTML =
       '<div class="card-detail" style="color:var(--muted)">Configure GitHub in Settings to load data.</div>';
+    document.getElementById('weeklyDeficitCard').innerHTML =
+      '<div class="card-detail" style="color:var(--muted)">Could not load data.</div>';
     console.warn('Dashboard load error:', e);
   }
 }
@@ -867,7 +691,6 @@ function renderPhaseCard(phase, weights) {
     return;
   }
 
-  // Active phase
   card.className = 'card phase-card-active';
 
   const latest = weights[weights.length - 1];
@@ -903,10 +726,10 @@ function renderPhaseCard(phase, weights) {
         <div style="font-size:12px;color:var(--muted)">${formatDate(phase.target_date)}</div>
       </div>
     </div>
-    <div class="goal-bar-wrap"><div class="goal-bar" id="goalBar" style="width:${pct.toFixed(0)}%"></div></div>
+    <div class="goal-bar-wrap"><div class="goal-bar" style="width:${pct.toFixed(0)}%"></div></div>
     <div class="goal-meta">
-      <span>${(lost > 0 ? lost : 0)} kg lost</span>
-      <span>${(left > 0 ? left : 0)} kg to go</span>
+      <span>${lost > 0 ? lost : 0} kg lost</span>
+      <span>${left > 0 ? left : 0} kg to go</span>
     </div>
     <div class="chart-wrap"><canvas id="weightChart"></canvas></div>
     <div class="phase-actions">
@@ -924,6 +747,127 @@ function renderMaintenanceCard() {
     <div class="card-detail" style="color:var(--muted)">No phase data available. Configure GitHub in Settings.</div>`;
 }
 
+// ─── Weekly Deficit Card ──────────────────────────────────────
+function renderWeeklyDeficitCard(phase) {
+  const card = document.getElementById('weeklyDeficitCard');
+  if (!logText || phase.status !== 'active') {
+    card.innerHTML = '<div style="font-size:13px;color:var(--muted)">No active phase.</div>';
+    return;
+  }
+
+  const allEntries = parseAllLogEntries(logText);
+  const { target, carryover, weekOutliers, prevWeekAdj, thisWeekAdj, predicted, weekStartStr, weekEndStr }
+    = computeWeeklyDeficit(allEntries, phase);
+
+  // Carryover row only if negative (shortfall carried in)
+  const carryoverHtml = carryover < 0
+    ? `<div class="deficit-row">
+        <span class="deficit-label">Carryover from last week</span>
+        <span class="deficit-val" style="color:var(--red)">${carryover.toLocaleString()} kcal</span>
+       </div>`
+    : '';
+
+  const outlierHtml = weekOutliers.length
+    ? weekOutliers.map(e => {
+        const sign = (e.outlierKcal || 0) >= 0 ? '+' : '';
+        const col  = (e.outlierKcal || 0) >= 0 ? 'var(--green)' : 'var(--red)';
+        const label = outlierLabel(e);
+        return `<div class="outlier-item">
+          <div class="outlier-date">${formatDate(e.date)}</div>
+          <div class="outlier-desc" style="display:flex;justify-content:space-between;align-items:center">
+            <span>${escHtml(label)}</span>
+            ${e.outlierKcal ? `<span style="font-size:13px;font-weight:600;color:${col}">${sign}${e.outlierKcal} kcal</span>` : ''}
+          </div>
+        </div>`;
+      }).join('')
+    : '<div style="font-size:13px;color:var(--muted);padding:8px 0">No outliers logged this week</div>';
+
+  const predictedColor = predicted >= target
+    ? 'var(--green)'
+    : predicted >= target * 0.75
+    ? 'var(--amber)'
+    : 'var(--red)';
+
+  // Days elapsed in this week
+  const today = new Date();
+  const weekStart = new Date(weekStartStr + 'T00:00:00');
+  const daysElapsed = Math.min(7, Math.floor((today - weekStart) / 86400000) + 1);
+  const dailyDeficitBase = phase.meal_plan ? (phase.meal_plan.maintenance_kcal || 1935) - totalMealKcal(phase.meal_plan, 'weekday') : 435;
+  const baseAccrued = dailyDeficitBase * daysElapsed;
+
+  card.innerHTML = `
+    <div style="font-size:11px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:0.7px;margin-bottom:10px">
+      Week of ${formatDate(weekStartStr)}
+    </div>
+    <div class="deficit-row">
+      <span class="deficit-label">Target this week</span>
+      <span class="deficit-val">${target.toLocaleString()} kcal</span>
+    </div>
+    ${carryoverHtml}
+    <div style="margin-top:10px;margin-bottom:4px;font-size:11px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:0.6px">Outliers</div>
+    ${outlierHtml}
+    <div class="predicted-deficit-row">
+      <div>
+        <div class="predicted-label">Predicted deficit</div>
+        <div style="font-size:11px;color:var(--muted);margin-top:2px">Day ${daysElapsed} of 7</div>
+      </div>
+      <div class="predicted-val" style="color:${predictedColor}">${predicted.toLocaleString()} kcal</div>
+    </div>`;
+}
+
+function totalMealKcal(mealPlan, tab) {
+  const plan = mealPlan[tab];
+  if (!plan || !plan.items) return 0;
+  return plan.items.reduce((s, i) => s + (i.kcal || 0), 0);
+}
+
+function computeWeeklyDeficit(allEntries, phase) {
+  const target = (phase.meal_plan && phase.meal_plan.weekly_deficit_target) || 3500;
+
+  // Monday of current week
+  const now = new Date();
+  const dow = now.getDay();
+  const daysFromMon = dow === 0 ? 6 : dow - 1;
+  const weekStart = new Date(now);
+  weekStart.setDate(now.getDate() - daysFromMon);
+  weekStart.setHours(0, 0, 0, 0);
+
+  // Previous Mon–Sun
+  const prevWeekEnd   = new Date(weekStart);
+  prevWeekEnd.setDate(prevWeekEnd.getDate() - 1);
+  const prevWeekStart = new Date(prevWeekEnd);
+  prevWeekStart.setDate(prevWeekStart.getDate() - 6);
+
+  const weekStartStr = weekStart.toISOString().slice(0, 10);
+  const weekEndStr   = now.toISOString().slice(0, 10);
+  const pwsStr       = prevWeekStart.toISOString().slice(0, 10);
+  const pweStr       = prevWeekEnd.toISOString().slice(0, 10);
+
+  const isOutlierType = e => ['run','stair','drinks','beers','cheat'].includes(e.type);
+
+  const prevOutliers  = allEntries.filter(e => e.date >= pwsStr  && e.date <= pweStr && isOutlierType(e));
+  const weekOutliers  = allEntries.filter(e => e.date >= weekStartStr && e.date <= weekEndStr && isOutlierType(e))
+                                  .sort((a, b) => a.date.localeCompare(b.date));
+
+  const prevWeekAdj  = prevOutliers.reduce((s, e)  => s + (e.outlierKcal || 0), 0);
+  const prevDeficit  = target + prevWeekAdj;
+  const carryover    = Math.min(0, prevDeficit - target); // only shortfall (negative) carries
+
+  const thisWeekAdj  = weekOutliers.reduce((s, e) => s + (e.outlierKcal || 0), 0);
+  const predicted    = target + carryover + thisWeekAdj;
+
+  return { target, carryover, weekOutliers, prevWeekAdj, thisWeekAdj, predicted, weekStartStr, weekEndStr };
+}
+
+function outlierLabel(e) {
+  if (e.type === 'run')    return 'Run: ' + e.value;
+  if (e.type === 'stair')  return 'Stair Climbing: ' + e.value;
+  if (e.type === 'drinks') return 'Drinks: ' + (e.breakdown || e.value);
+  if (e.type === 'beers')  return 'Drinks: ' + e.value + ' pints';
+  if (e.type === 'cheat')  return 'Cheat meal: ' + e.value;
+  return e.value;
+}
+
 // ─── Log View ─────────────────────────────────────────────────
 function loadLogView() {
   const body = document.getElementById('logViewBody');
@@ -939,16 +883,50 @@ function loadLogView() {
   }
 
   const typeConfig = {
-    weight:   { label: 'Weight',        badgeClass: 'badge-blue',  icon: '⚖️' },
-    beers:    { label: 'Beers',         badgeClass: 'badge-amber', icon: '🍺' },
-    activity: { label: 'Activity',      badgeClass: 'badge-green', icon: '🏃' },
-    cheat:    { label: 'Cheat Meal',    badgeClass: 'badge-red',   icon: '🍕' }
+    weight:   { label: 'Weight',          badgeClass: 'badge-blue',   icon: '⚖️' },
+    drinks:   { label: 'Drinks',          badgeClass: 'badge-amber',  icon: '🍺' },
+    beers:    { label: 'Drinks',          badgeClass: 'badge-amber',  icon: '🍺' },
+    activity: { label: 'Activity',        badgeClass: 'badge-green',  icon: '🏃' },
+    cheat:    { label: 'Cheat Meal',      badgeClass: 'badge-red',    icon: '🍕' },
+    run:      { label: 'Run',             badgeClass: 'badge-green',  icon: '🏃' },
+    stair:    { label: 'Stair Climbing',  badgeClass: 'badge-purple', icon: '🪜' }
   };
 
   body.innerHTML = entries.map(e => {
     const cfg = typeConfig[e.type] || { label: e.type, badgeClass: 'badge-muted', icon: '📝' };
-    const valueText = e.type === 'weight' ? e.value + ' kg' : e.value;
-    const noteHtml  = e.note ? `<div class="log-entry-note">"${escHtml(e.note)}"</div>` : '';
+
+    let valueText = '';
+    let chipsHtml = '';
+    let noteHtml  = '';
+
+    if (e.type === 'weight') {
+      valueText = e.value + ' kg';
+      noteHtml  = e.note ? `<div class="log-entry-note">"${escHtml(e.note)}"</div>` : '';
+    } else if (e.type === 'run') {
+      valueText = e.duration ? e.duration + ' min run' : e.value;
+      const chips = [];
+      if (e.km)  chips.push(e.km + ' km');
+      if (e.kcal) chips.push(e.kcal + ' kcal');
+      if (e.bpm)  chips.push(e.bpm + ' bpm avg');
+      chipsHtml = chips.length ? `<div class="stat-chips">${chips.map(c => `<span class="stat-chip">${escHtml(c)}</span>`).join('')}</div>` : '';
+    } else if (e.type === 'stair') {
+      valueText = e.duration ? e.duration + ' min session' : e.value;
+      const chips = [];
+      if (e.kcal) chips.push(e.kcal + ' kcal');
+      if (e.bpm)  chips.push(e.bpm + ' bpm avg');
+      chipsHtml = chips.length ? `<div class="stat-chips">${chips.map(c => `<span class="stat-chip">${escHtml(c)}</span>`).join('')}</div>` : '';
+    } else if (e.type === 'drinks') {
+      valueText = e.breakdown || e.value;
+      if (e.kcal) chipsHtml = `<div class="stat-chips"><span class="stat-chip" style="color:var(--amber)">${e.kcal} kcal</span></div>`;
+      noteHtml = e.note ? `<div class="log-entry-note">"${escHtml(e.note)}"</div>` : '';
+    } else if (e.type === 'beers') {
+      valueText = e.value + ' pints';
+      if (e.outlierKcal) chipsHtml = `<div class="stat-chips"><span class="stat-chip" style="color:var(--amber)">${Math.abs(e.outlierKcal)} kcal est.</span></div>`;
+    } else {
+      valueText = e.value;
+      noteHtml  = e.note ? `<div class="log-entry-note">"${escHtml(e.note)}"</div>` : '';
+    }
+
     return `
       <div class="log-entry">
         <div class="log-entry-header">
@@ -956,6 +934,7 @@ function loadLogView() {
           <span class="log-entry-date">${formatDate(e.date)}</span>
         </div>
         <div class="log-entry-value">${escHtml(valueText)}</div>
+        ${chipsHtml}
         ${noteHtml}
       </div>`;
   }).join('');
@@ -974,9 +953,9 @@ function loadMealPlan() {
   const metaEl = document.getElementById('mealPlanMeta');
   if (metaEl) {
     const pills = [
-      mp.calorie_target    ? { label: 'Target',      value: mp.calorie_target,             color: 'var(--text)' } : null,
-      mp.maintenance_kcal  ? { label: 'Maintenance', value: mp.maintenance_kcal + ' kcal', color: 'var(--muted)' } : null,
-      mp.target_deficit    ? { label: 'Deficit',     value: mp.target_deficit,             color: 'var(--green)' } : null
+      mp.calorie_target   ? { label: 'Target',      value: mp.calorie_target,             color: 'var(--text)' }   : null,
+      mp.maintenance_kcal ? { label: 'Maintenance',  value: mp.maintenance_kcal + ' kcal', color: 'var(--muted)' } : null,
+      mp.target_deficit   ? { label: 'Deficit',      value: mp.target_deficit,             color: 'var(--green)' } : null
     ].filter(Boolean);
     metaEl.innerHTML = pills.map(p => `
       <div style="background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:5px 10px;font-size:12px">
@@ -990,14 +969,14 @@ function loadMealPlan() {
 function renderMealPlan(body, mp, tab) {
   activeMealTab = tab;
 
-  const plan = mp[tab];
+  const plan  = mp[tab];
   const items = plan ? plan.items || [] : [];
 
   let runKcal = 0;
   let runProt = 0;
   const itemsHtml = items.map(item => {
-    runKcal += item.kcal     || 0;
-    runProt += item.protein  || 0;
+    runKcal += item.kcal    || 0;
+    runProt += item.protein || 0;
     return `
       <div class="meal-item">
         <div class="meal-item-left">
@@ -1010,7 +989,7 @@ function renderMealPlan(body, mp, tab) {
             <div class="meal-kcal-running">${runKcal.toLocaleString()}</div>
           </div>
           <div class="meal-tally-col">
-            <div class="meal-kcal-add">+${(item.protein || 0)}g</div>
+            <div class="meal-kcal-add">+${item.protein || 0}g</div>
             <div class="meal-kcal-running">${runProt}g</div>
           </div>
         </div>
@@ -1018,7 +997,7 @@ function renderMealPlan(body, mp, tab) {
   }).join('');
 
   const deficit = mp.maintenance_kcal ? mp.maintenance_kcal - runKcal : null;
-  const deficitColor = deficit > 0 ? 'var(--green)' : 'var(--red)';
+  const deficitColor = deficit !== null && deficit > 0 ? 'var(--green)' : 'var(--red)';
 
   const totalHtml = `
     <div class="meal-total-row">
@@ -1054,6 +1033,140 @@ function renderMealPlan(body, mp, tab) {
     </div>`;
 }
 
+// ─── Weekly Progress Overlay ──────────────────────────────────
+function loadWeeklyProgress() {
+  const body = document.getElementById('weeklyProgressBody');
+  if (!dashData || !dashData.phase) {
+    body.innerHTML = '<div class="empty-state"><div class="empty-icon">📅</div>Load the dashboard first.</div>';
+    return;
+  }
+
+  const phase = dashData.phase;
+  if (phase.status !== 'active') {
+    body.innerHTML = '<div class="empty-state"><div class="empty-icon">📅</div>No active phase to show progress for.</div>';
+    return;
+  }
+
+  const allEntries = parseAllLogEntries(logText || '');
+  const weeks = getCompletedWeeks(allEntries, phase);
+
+  if (!weeks.length) {
+    body.innerHTML = '<div class="empty-state"><div class="empty-icon">📅</div>No completed weeks yet.<br><br>Progress cards will appear here at the end of each week.</div>';
+    return;
+  }
+
+  const target = (phase.meal_plan && phase.meal_plan.weekly_deficit_target) || 3500;
+
+  body.innerHTML = weeks.map(w => {
+    const weightDelta = (w.startWeight && w.endWeight)
+      ? +(w.startWeight - w.endWeight).toFixed(1)
+      : null;
+    const deltaText  = weightDelta !== null
+      ? (weightDelta > 0 ? '−' + weightDelta + ' kg' : '+' + Math.abs(weightDelta) + ' kg')
+      : '—';
+    const deltaColor = weightDelta === null ? 'var(--muted)' : weightDelta > 0 ? 'var(--green)' : 'var(--red)';
+
+    const deficitGap  = w.deficit - target;
+    const gapText     = (deficitGap >= 0 ? '+' : '') + deficitGap.toLocaleString() + ' kcal';
+    const gapColor    = deficitGap >= 0 ? 'var(--green)' : (deficitGap > -500 ? 'var(--amber)' : 'var(--red)');
+    const deficitColor = w.deficit >= target ? 'var(--green)' : w.deficit >= target * 0.75 ? 'var(--amber)' : 'var(--red)';
+
+    const outliersHtml = w.outliers.length
+      ? w.outliers.map(e => {
+          const sign = (e.outlierKcal || 0) >= 0 ? '+' : '';
+          const col  = (e.outlierKcal || 0) >= 0 ? 'var(--green)' : 'var(--red)';
+          return `<div style="display:flex;justify-content:space-between;align-items:center;padding:5px 0;border-bottom:1px solid var(--border);font-size:13px">
+            <div>
+              <div style="font-size:11px;color:var(--muted)">${formatDate(e.date)}</div>
+              <div>${escHtml(outlierLabel(e))}</div>
+            </div>
+            ${e.outlierKcal ? `<div style="font-weight:600;color:${col};flex-shrink:0;margin-left:8px">${sign}${e.outlierKcal} kcal</div>` : ''}
+          </div>`;
+        }).join('')
+      : '<div style="font-size:13px;color:var(--muted);padding:6px 0">No outliers this week</div>';
+
+    return `
+      <div class="week-card">
+        <div class="week-card-header">
+          <div>
+            <div style="font-size:11px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:0.6px">Week</div>
+            <div class="week-date-range">${formatDate(w.weekStart)} → ${formatDate(w.weekEnd)}</div>
+          </div>
+          <div style="text-align:right">
+            <div style="font-size:11px;color:var(--muted)">Weight change</div>
+            <div class="week-weight-delta" style="color:${deltaColor}">${deltaText}</div>
+          </div>
+        </div>
+        <div class="week-stats-row">
+          <div class="week-stat">
+            <div class="week-stat-label">Deficit</div>
+            <div class="week-stat-val" style="color:${deficitColor}">${w.deficit.toLocaleString()} kcal</div>
+          </div>
+          <div class="week-stat">
+            <div class="week-stat-label">Target</div>
+            <div class="week-stat-val">${target.toLocaleString()} kcal</div>
+          </div>
+          <div class="week-stat">
+            <div class="week-stat-label">vs Target</div>
+            <div class="week-stat-val" style="color:${gapColor}">${gapText}</div>
+          </div>
+        </div>
+        ${outliersHtml}
+      </div>`;
+  }).join('');
+}
+
+function getCompletedWeeks(allEntries, phase) {
+  const weeks = [];
+
+  const now = new Date();
+  const nowDow = now.getDay();
+  const daysFromMon = nowDow === 0 ? 6 : nowDow - 1;
+  const currentWeekStart = new Date(now);
+  currentWeekStart.setDate(now.getDate() - daysFromMon);
+  currentWeekStart.setHours(0, 0, 0, 0);
+
+  // Start from Monday of the week containing phase start
+  const phaseStart = new Date(phase.start_date + 'T00:00:00');
+  const psDow = phaseStart.getDay();
+  let weekCursor = new Date(phaseStart);
+  weekCursor.setDate(phaseStart.getDate() - (psDow === 0 ? 6 : psDow - 1));
+  weekCursor.setHours(0, 0, 0, 0);
+
+  const target = (phase.meal_plan && phase.meal_plan.weekly_deficit_target) || 3500;
+
+  while (weekCursor < currentWeekStart) {
+    const weekEnd = new Date(weekCursor);
+    weekEnd.setDate(weekEnd.getDate() + 6);
+
+    const ws = weekCursor.toISOString().slice(0, 10);
+    const we = weekEnd.toISOString().slice(0, 10);
+
+    const weekEntries = allEntries.filter(e => e.date >= ws && e.date <= we);
+    const wts = weekEntries.filter(e => e.type === 'weight').sort((a, b) => a.date.localeCompare(b.date));
+
+    const outliers = weekEntries
+      .filter(e => ['run','stair','drinks','beers','cheat'].includes(e.type))
+      .sort((a, b) => a.date.localeCompare(b.date));
+
+    const adjTotal = outliers.reduce((s, e) => s + (e.outlierKcal || 0), 0);
+    const deficit  = target + adjTotal;
+
+    weeks.push({
+      weekStart:   ws,
+      weekEnd:     we,
+      startWeight: wts.length ? wts[0].kg : null,
+      endWeight:   wts.length ? wts[wts.length - 1].kg : null,
+      outliers,
+      deficit
+    });
+
+    weekCursor.setDate(weekCursor.getDate() + 7);
+  }
+
+  return weeks.reverse();
+}
+
 // ─── Previous Phases ──────────────────────────────────────────
 function loadPrevPhases() {
   const body = document.getElementById('prevPhasesBody');
@@ -1064,7 +1177,7 @@ function loadPrevPhases() {
 
   const phases = dashData.previous_phases || [];
   if (!phases.length) {
-    body.innerHTML = '<div class="empty-state"><div class="empty-icon">📂</div>No previous phases yet.<br><br>When you end a phase it will appear here, with its full log and meal plan preserved.</div>';
+    body.innerHTML = '<div class="empty-state"><div class="empty-icon">📂</div>No previous phases yet.<br><br>When you end a phase it will appear here.</div>';
     return;
   }
 
@@ -1075,34 +1188,22 @@ function loadPrevPhases() {
       ? parseAllLogEntries(allLog).filter(e => e.date >= p.start_date && e.date <= (p.end_date || p.target_date))
       : [];
 
-    const weightEntries = phaseEntries.filter(e => e.type === 'weight');
-    const endKg = weightEntries.length ? weightEntries[weightEntries.length - 1].kg : null;
-    const totalLoss = endKg ? +(p.start_kg - endKg).toFixed(1) : null;
+    const wts    = phaseEntries.filter(e => e.type === 'weight');
+    const endKg  = wts.length ? wts[wts.length - 1].kg : null;
+    const loss   = endKg ? +(p.start_kg - endKg).toFixed(1) : null;
+    const lossText = loss !== null ? (loss > 0 ? `−${loss} kg` : `+${Math.abs(loss)} kg`) : '—';
 
-    const lossText = totalLoss !== null
-      ? (totalLoss > 0 ? `−${totalLoss} kg` : `+${Math.abs(totalLoss)} kg`)
-      : '—';
-
-    const mp = p.meal_plan;
-    const mealHtml = mp ? `
-      <div style="font-size:13px;color:var(--muted);margin-bottom:6px">${escHtml(mp.daily_calories)}</div>
-      ${(mp.items || []).map(item => `
-        <div style="margin-bottom:8px">
-          <div style="font-size:12px;font-weight:600;color:var(--green)">${escHtml(item.label)}</div>
-          <div style="font-size:13px;color:var(--text)">${escHtml(item.detail)}</div>
-        </div>`).join('')}
-      ${mp.notes ? `<div style="font-size:12px;color:var(--muted);margin-top:8px;font-style:italic">${escHtml(mp.notes)}</div>` : ''}
-    ` : '<div style="font-size:13px;color:var(--muted)">No meal plan recorded.</div>';
-
-    const logHtml = phaseEntries.length ? phaseEntries.map(e => {
-      const valueText = e.type === 'weight' ? e.value + ' kg' : e.value;
-      const noteText  = e.note ? ` — "${escHtml(e.note)}"` : '';
-      return `<div style="padding:6px 0;border-bottom:1px solid var(--border);font-size:13px">
-        <span style="color:var(--muted)">${e.date}</span>
-        <span style="margin:0 6px;font-weight:600">${escHtml(e.type)}</span>
-        <span>${escHtml(valueText)}${noteText}</span>
-      </div>`;
-    }).join('') : '<div style="font-size:13px;color:var(--muted)">No entries found for this phase.</div>';
+    const logHtml = phaseEntries.length
+      ? phaseEntries.map(e => {
+          const vt = e.type === 'weight' ? e.value + ' kg' : e.value;
+          const nt = e.note ? ` — "${escHtml(e.note)}"` : '';
+          return `<div style="padding:6px 0;border-bottom:1px solid var(--border);font-size:13px">
+            <span style="color:var(--muted)">${e.date}</span>
+            <span style="margin:0 6px;font-weight:600">${escHtml(e.type)}</span>
+            <span>${escHtml(vt)}${nt}</span>
+          </div>`;
+        }).join('')
+      : '<div style="font-size:13px;color:var(--muted)">No entries found for this phase.</div>';
 
     return `
       <div class="prev-phase-card">
@@ -1111,16 +1212,8 @@ function loadPrevPhases() {
         <div class="prev-phase-meta">${formatDate(p.start_date)} → ${formatDate(p.end_date || p.target_date)} · Goal: ${p.target_kg} kg</div>
         <div style="display:flex;align-items:baseline;gap:8px;margin-bottom:4px">
           <div class="prev-phase-result">${endKg ? endKg.toFixed(1) : '—'}<span> kg final</span></div>
-          <div style="font-size:15px;color:${totalLoss > 0 ? 'var(--green)' : 'var(--red)'}">${lossText}</div>
+          <div style="font-size:15px;color:${loss > 0 ? 'var(--green)' : 'var(--red)'}">${lossText}</div>
         </div>
-
-        <button class="collapsible-toggle" onclick="toggleCollapsible('meal-${idx}', this)">
-          Meal Plan <span>▸</span>
-        </button>
-        <div class="collapsible-body" id="meal-${idx}">
-          <div style="padding:12px 0">${mealHtml}</div>
-        </div>
-
         <button class="collapsible-toggle" onclick="toggleCollapsible('log-${idx}', this)">
           Log Entries (${phaseEntries.length}) <span>▸</span>
         </button>
@@ -1132,7 +1225,7 @@ function loadPrevPhases() {
 }
 
 function toggleCollapsible(id, btn) {
-  const body = document.getElementById(id);
+  const body  = document.getElementById(id);
   const arrow = btn.querySelector('span');
   const isOpen = body.classList.toggle('open');
   arrow.textContent = isOpen ? '▾' : '▸';
@@ -1156,9 +1249,7 @@ async function endPhase() {
 
     const newDash = {
       ...dashData,
-      phase: {
-        status: 'maintenance'
-      },
+      phase: { status: 'maintenance' },
       previous_phases: [...(dashData.previous_phases || []), phase],
       last_updated: new Date().toISOString().slice(0, 10)
     };
@@ -1190,7 +1281,6 @@ function parseWeightLog(text, phase) {
       if (!isNaN(kg)) points.push({ date: parts[0], kg });
     }
   }
-  // Only add the synthetic start point if no real log entry exists for start_date
   const hasStartEntry = points.some(p => p.date === phase.start_date);
   if (!hasStartEntry) {
     points.unshift({ date: phase.start_date, kg: phase.start_kg });
@@ -1200,25 +1290,89 @@ function parseWeightLog(text, phase) {
 }
 
 function parseAllLogEntries(text) {
+  const drinkKcal = (dashData && dashData.phase && dashData.phase.meal_plan && dashData.phase.meal_plan.drink_kcal)
+    || DEFAULT_DRINK_KCAL;
+
   const entries = [];
   for (const line of text.split('\n')) {
     const parts = line.split('|').map(s => s.trim());
-    if (parts.length >= 3 && parts[0] && parts[1] && parts[2]) {
-      const entry = {
-        date:  parts[0],
-        type:  parts[1],
-        value: parts[2],
-        note:  parts[3] || ''
-      };
-      if (entry.type === 'weight') {
-        const kg = parseFloat(entry.value);
-        if (!isNaN(kg)) { entry.kg = kg; entries.push(entry); }
-      } else {
-        entries.push(entry);
-      }
+    if (parts.length < 3 || !parts[0] || !parts[1]) continue;
+
+    const date = parts[0];
+    const type = parts[1];
+
+    // Skip non-data lines (headers, format docs)
+    if (!/^\d{4}-\d{2}-\d{2}$/.test(date)) continue;
+
+    let entry = { date, type };
+
+    if (type === 'weight') {
+      const kg = parseFloat(parts[2]);
+      if (isNaN(kg)) continue;
+      entry.value = parts[2];
+      entry.kg    = kg;
+      entry.note  = parts[3] || '';
+      entry.outlierKcal = 0;
+
+    } else if (type === 'run') {
+      // DATE | run | 15.0 min | 2.32 km | 176 kcal | 162 bpm
+      const durStr  = parts[2] || '';
+      const kmStr   = parts[3] || '';
+      const kcalStr = parts[4] || '';
+      const bpmStr  = parts[5] || '';
+      entry.duration = parseFloat(durStr) || null;
+      entry.km       = parseFloat(kmStr)  || null;
+      entry.kcal     = parseInt(kcalStr)  || null;
+      entry.bpm      = parseInt(bpmStr)   || null;
+      entry.value    = durStr;
+      entry.outlierKcal = entry.kcal || 0;
+
+    } else if (type === 'stair') {
+      // DATE | stair | 25.0 min | 230 kcal | 145 bpm
+      const durStr  = parts[2] || '';
+      const kcalStr = parts[3] || '';
+      const bpmStr  = parts[4] || '';
+      entry.duration = parseFloat(durStr) || null;
+      entry.kcal     = parseInt(kcalStr)  || null;
+      entry.bpm      = parseInt(bpmStr)   || null;
+      entry.value    = durStr;
+      entry.outlierKcal = entry.kcal || 0;
+
+    } else if (type === 'drinks') {
+      // DATE | drinks | TOTAL_KCAL | breakdown string | [note]
+      const totalKcal  = parseInt(parts[2]) || 0;
+      entry.kcal       = totalKcal;
+      entry.breakdown  = parts[3] || '';
+      entry.note       = parts[4] || '';
+      entry.value      = String(totalKcal);
+      entry.outlierKcal = -totalKcal;
+
+    } else if (type === 'beers') {
+      // Legacy: DATE | beers | PINTS
+      const pints = parseFloat(parts[2]) || 0;
+      entry.value = parts[2];
+      entry.outlierKcal = -Math.round(pints * (drinkKcal['Pint of beer'] || 210));
+
+    } else if (type === 'activity') {
+      entry.value = parts[2];
+      entry.note  = parts[3] || '';
+      entry.outlierKcal = 0;
+
+    } else if (type === 'cheat') {
+      entry.value = parts[2];
+      entry.note  = parts[3] || '';
+      const m = entry.value.match(/~(\d+)\s*kcal/i);
+      entry.outlierKcal = m ? -parseInt(m[1]) : 0;
+
+    } else {
+      entry.value = parts[2];
+      entry.note  = parts[3] || '';
+      entry.outlierKcal = 0;
     }
+
+    entries.push(entry);
   }
-  // Newest first
+
   return entries.sort((a, b) => b.date.localeCompare(a.date));
 }
 
@@ -1228,8 +1382,6 @@ function renderWeightChart(weights, phase) {
   if (weightChart) weightChart.destroy();
 
   const actualLabels = weights.map(p => p.date.slice(5));
-  const actualData   = weights.map(p => p.kg);
-
   const { slope, intercept } = linearRegression(weights);
   const startNum   = dateToNum(weights[0].date);
   const targetNum  = dateToNum(phase.target_date);
@@ -1309,7 +1461,7 @@ function renderWeightChart(weights, phase) {
           ticks: { color: '#64748b', font: { size: 10 }, callback: v => v + ' kg' },
           grid: { color: 'rgba(255,255,255,0.05)' },
           suggestedMin: phase.target_kg - 0.5,
-          suggestedMax: phase.start_kg + 0.5
+          suggestedMax: phase.start_kg  + 0.5
         }
       }
     }
@@ -1318,8 +1470,7 @@ function renderWeightChart(weights, phase) {
 
 // ─── Recommendations / Experiments / Planned ──────────────────
 function renderRecommendations(items) {
-  const el = document.getElementById('recommendationsList');
-  el.innerHTML = items.map(r => `
+  document.getElementById('recommendationsList').innerHTML = items.map(r => `
     <div class="card">
       <div class="card-title">${escHtml(r.title)}</div>
       <div class="card-detail">${escHtml(r.detail)}</div>
@@ -1335,12 +1486,11 @@ function renderExperiments(items) {
       <div class="card-detail">${escHtml(e.detail)}</div>
       <div style="margin-top:8px;font-size:12px;color:var(--muted)">Next check-in: ${escHtml(e.next_checkin)}</div>
     </div>`).join('')
-    : '<div class="card"><div class="card-detail" style="color:var(--muted)">No active experiments.</div></div>';
+  : '<div class="card"><div class="card-detail" style="color:var(--muted)">No active experiments.</div></div>';
 }
 
 function renderPlanned(items) {
-  const el = document.getElementById('plannedList');
-  el.innerHTML = items.map(p => `
+  document.getElementById('plannedList').innerHTML = items.map(p => `
     <div class="card">
       <span class="badge badge-blue">Planned</span>
       <div class="card-title">${escHtml(p.title)}</div>
@@ -1356,54 +1506,55 @@ const formConfigs = {
       { id: 'val',  label: 'Morning weight (kg)', type: 'number',   placeholder: '85.0', step: '0.1', inputmode: 'decimal' },
       { id: 'note', label: 'Note',                type: 'textarea', placeholder: 'e.g. Felt heavy — big meal last night', optional: true }
     ],
-    build: f => {
+    build: (f, date) => {
       const kg = parseFloat(f.val);
       if (isNaN(kg) || kg < 40 || kg > 200) throw new Error('Enter a valid weight between 40–200 kg');
-      const note = f.note ? f.note.trim() : '';
+      const note = (f.note || '').trim();
       return note
-        ? `${today()} | weight | ${kg.toFixed(1)} | ${note}`
-        : `${today()} | weight | ${kg.toFixed(1)}`;
-    }
-  },
-  beers: {
-    title: '🍺 Log Beers',
-    fields: [
-      { id: 'val', label: 'Number of pints', type: 'number', placeholder: '3', step: '0.5', inputmode: 'decimal' }
-    ],
-    build: f => {
-      const n = parseFloat(f.val);
-      if (isNaN(n) || n <= 0) throw new Error('Enter a valid number of pints');
-      return `${today()} | beers | ${n}`;
+        ? `${date} | weight | ${kg.toFixed(1)} | ${note}`
+        : `${date} | weight | ${kg.toFixed(1)}`;
     }
   },
   activity: {
     title: '🏃 Log Activity',
     fields: [
-      { id: 'type',   label: 'Activity type',               type: 'text', placeholder: 'e.g. Stair stepper, Run, Walk' },
-      { id: 'detail', label: 'Detail (distance / duration)', type: 'text', placeholder: 'e.g. 25 min' }
+      { id: 'type',   label: 'Activity type',               type: 'text',     placeholder: 'e.g. Walk, Stair stepper' },
+      { id: 'detail', label: 'Detail (distance / duration)', type: 'text',     placeholder: 'e.g. 45 min, 3 km' },
+      { id: 'date',   label: 'Date',                         type: 'date',     isDate: true },
+      { id: 'note',   label: 'Note',                         type: 'textarea', placeholder: 'e.g. Felt strong', optional: true }
     ],
-    build: f => {
+    build: (f, date) => {
       if (!f.type.trim()) throw new Error('Enter an activity type');
-      return `${today()} | activity | ${f.type.trim()}${f.detail.trim() ? ', ' + f.detail.trim() : ''}`;
+      const val  = f.type.trim() + (f.detail.trim() ? ', ' + f.detail.trim() : '');
+      const note = (f.note || '').trim();
+      return note
+        ? `${date} | activity | ${val} | ${note}`
+        : `${date} | activity | ${val}`;
     }
   },
   cheat: {
     title: '🍕 Log Cheat Meal',
     fields: [
-      { id: 'detail', label: 'What did you eat?',                         type: 'textarea', placeholder: 'e.g. Pizza and garlic bread' },
-      { id: 'kcal',   label: 'Extra calories (rough guess, optional)',     type: 'number',   placeholder: 'e.g. 800', inputmode: 'numeric', optional: true }
+      { id: 'detail', label: 'What did you eat?',                     type: 'textarea', placeholder: 'e.g. Pizza and garlic bread' },
+      { id: 'kcal',   label: 'Extra calories (rough guess, optional)', type: 'number',   placeholder: 'e.g. 800', inputmode: 'numeric', optional: true },
+      { id: 'date',   label: 'Date',                                   type: 'date',     isDate: true },
+      { id: 'note',   label: 'Note',                                   type: 'textarea', placeholder: 'e.g. Birthday dinner', optional: true }
     ],
-    build: f => {
+    build: (f, date) => {
       if (!f.detail.trim()) throw new Error('Describe what you ate');
-      const kcalPart = f.kcal.trim() ? `, ~${f.kcal.trim()} kcal extra` : '';
-      return `${today()} | cheat | ${f.detail.trim()}${kcalPart}`;
+      const kcalPart = (f.kcal || '').trim() ? `, ~${f.kcal.trim()} kcal extra` : '';
+      const val  = f.detail.trim() + kcalPart;
+      const note = (f.note || '').trim();
+      return note
+        ? `${date} | cheat | ${val} | ${note}`
+        : `${date} | cheat | ${val}`;
     }
   }
 };
 
 let currentFormType = null;
 
-function today() {
+function todayStr() {
   return new Date().toISOString().slice(0, 10);
 }
 
@@ -1415,11 +1566,13 @@ function openForm(type) {
   let html = '';
   for (const f of cfg.fields) {
     const optionalBadge = f.optional ? '<span class="optional-label">optional</span>' : '';
-    html += `<div class="field"><label>${f.label}${optionalBadge}</label>`;
+    html += `<div class="field"><label>${escHtml(f.label)}${optionalBadge}</label>`;
     if (f.type === 'textarea') {
-      html += `<textarea id="ff_${f.id}" placeholder="${f.placeholder}"></textarea>`;
+      html += `<textarea id="ff_${f.id}" placeholder="${f.placeholder || ''}"></textarea>`;
+    } else if (f.type === 'date' && f.isDate) {
+      html += `<input id="ff_${f.id}" type="date" value="${todayStr()}" />`;
     } else {
-      html += `<input id="ff_${f.id}" type="${f.type}" placeholder="${f.placeholder}"
+      html += `<input id="ff_${f.id}" type="${f.type}" placeholder="${f.placeholder || ''}"
         ${f.step ? `step="${f.step}"` : ''} ${f.inputmode ? `inputmode="${f.inputmode}"` : ''} />`;
     }
     html += '</div>';
@@ -1431,7 +1584,7 @@ function openForm(type) {
   showScreen('screen-form');
 
   setTimeout(() => {
-    const first = document.querySelector('#formBody input, #formBody textarea');
+    const first = document.querySelector('#formBody input:not([type=date]), #formBody textarea');
     if (first) first.focus();
   }, 100);
 }
@@ -1439,6 +1592,7 @@ function openForm(type) {
 function closeForm() {
   showScreen('app');
   currentFormType = null;
+  drinksOrder = [];
 }
 
 async function submitForm() {
@@ -1449,6 +1603,9 @@ async function submitForm() {
     fields[f.id] = el ? el.value : '';
   }
 
+  // Use the date field if present, else today
+  const date = fields.date || todayStr();
+
   const btn    = document.getElementById('saveBtn');
   const status = document.getElementById('formStatus');
 
@@ -1458,12 +1615,151 @@ async function submitForm() {
   status.textContent = '';
 
   try {
-    const line = cfg.build(fields);
+    const line = cfg.build(fields, date);
     const { user, repo, token } = ghConfig();
     if (!user || !token) throw new Error('GitHub not configured — go to Settings first');
     await ghAppend(LOG_PATH, line);
-    // Refresh cached log text
     if (logText !== null) logText += '\n' + line;
+    status.className = 'status-msg success';
+    status.textContent = '✓ Saved successfully';
+    btn.textContent = 'Saved ✓';
+    setTimeout(closeForm, 1200);
+  } catch(e) {
+    status.className = 'status-msg error';
+    status.textContent = '✗ ' + e.message;
+    btn.disabled = false;
+    btn.textContent = 'Save Entry';
+  }
+}
+
+// ─── Drinks Form ──────────────────────────────────────────────
+let drinksOrder = [];
+
+function getDrinkKcal() {
+  return (dashData && dashData.phase && dashData.phase.meal_plan && dashData.phase.meal_plan.drink_kcal)
+    || DEFAULT_DRINK_KCAL;
+}
+
+function openDrinksForm() {
+  currentFormType = 'drinks';
+  drinksOrder = [];
+  document.getElementById('formTitle').textContent = '🍺 Log Drinks';
+
+  const drinkKcal = getDrinkKcal();
+  const drinkTypes = Object.keys(drinkKcal);
+  const optionsHtml = drinkTypes.map(t => `<option value="${escHtml(t)}">${escHtml(t)} (${drinkKcal[t]} kcal)</option>`).join('');
+
+  const html = `
+    <div class="drinks-add-row">
+      <div class="field" style="flex:1">
+        <label>Drink type</label>
+        <select id="ff_drinkType">${optionsHtml}</select>
+      </div>
+      <div class="field qty-field">
+        <label>Qty</label>
+        <input id="ff_drinkQty" type="number" value="1" min="0.5" step="0.5" inputmode="decimal" style="text-align:center" />
+      </div>
+      <button class="add-drink-btn" onclick="addDrink()" style="margin-top:24px">+ Add</button>
+    </div>
+
+    <div>
+      <div class="drinks-list" id="drinksList">
+        <div class="drinks-list-empty" id="drinksEmpty">No drinks added yet</div>
+      </div>
+      <div class="drinks-total" id="drinksTotal" style="display:none">
+        <span class="drinks-total-label">Total</span>
+        <span class="drinks-total-val" id="drinksTotalVal">0 kcal</span>
+      </div>
+    </div>
+
+    <div class="field">
+      <label>Date</label>
+      <input id="ff_drinksDate" type="date" value="${todayStr()}" />
+    </div>
+
+    <div class="field">
+      <label>Note <span class="optional-label">optional</span></label>
+      <textarea id="ff_drinksNote" placeholder="e.g. Birthday drinks, work event"></textarea>
+    </div>
+
+    <button class="save-btn" id="saveBtn" onclick="submitDrinksForm()" disabled>Save Entry</button>
+    <div class="status-msg" id="formStatus"></div>`;
+
+  document.getElementById('formBody').innerHTML = html;
+  showScreen('screen-form');
+}
+
+function addDrink() {
+  const typeEl = document.getElementById('ff_drinkType');
+  const qtyEl  = document.getElementById('ff_drinkQty');
+  const type   = typeEl.value;
+  const qty    = parseFloat(qtyEl.value) || 1;
+  const kcal   = Math.round((getDrinkKcal()[type] || 0) * qty);
+
+  drinksOrder.push({ type, qty, kcal });
+  renderDrinksList();
+  qtyEl.value = '1';
+}
+
+function removeDrink(idx) {
+  drinksOrder.splice(idx, 1);
+  renderDrinksList();
+}
+
+function renderDrinksList() {
+  const list     = document.getElementById('drinksList');
+  const empty    = document.getElementById('drinksEmpty');
+  const totalEl  = document.getElementById('drinksTotal');
+  const totalVal = document.getElementById('drinksTotalVal');
+  const saveBtn  = document.getElementById('saveBtn');
+  const total    = drinksOrder.reduce((s, d) => s + d.kcal, 0);
+
+  if (!drinksOrder.length) {
+    list.innerHTML = '<div class="drinks-list-empty">No drinks added yet</div>';
+    totalEl.style.display = 'none';
+    saveBtn.disabled = true;
+    return;
+  }
+
+  list.innerHTML = drinksOrder.map((d, i) => `
+    <div class="drink-item">
+      <div>
+        <div class="drink-item-left">${d.qty > 1 ? d.qty + 'x ' : ''}${escHtml(d.type)}</div>
+        <div class="drink-item-kcal">${d.kcal} kcal</div>
+      </div>
+      <button class="drink-remove" onclick="removeDrink(${i})">✕</button>
+    </div>`).join('');
+
+  totalEl.style.display = 'flex';
+  totalVal.textContent = total + ' kcal';
+  saveBtn.disabled = false;
+}
+
+async function submitDrinksForm() {
+  if (!drinksOrder.length) return;
+  const btn    = document.getElementById('saveBtn');
+  const status = document.getElementById('formStatus');
+  btn.disabled = true;
+  btn.textContent = 'Saving…';
+  status.className = 'status-msg';
+  status.textContent = '';
+
+  try {
+    const { user, repo, token } = ghConfig();
+    if (!user || !token) throw new Error('GitHub not configured — go to Settings first');
+
+    const total     = drinksOrder.reduce((s, d) => s + d.kcal, 0);
+    const breakdown = drinksOrder.map(d => `${escHtml(d.type)}${d.qty !== 1 ? ' x' + d.qty : ''}`).join(', ');
+    const date      = document.getElementById('ff_drinksDate').value || todayStr();
+    const note      = (document.getElementById('ff_drinksNote').value || '').trim();
+
+    const line = note
+      ? `${date} | drinks | ${total} | ${breakdown} | ${note}`
+      : `${date} | drinks | ${total} | ${breakdown}`;
+
+    await ghAppend(LOG_PATH, line);
+    if (logText !== null) logText += '\n' + line;
+
     status.className = 'status-msg success';
     status.textContent = '✓ Saved successfully';
     btn.textContent = 'Saved ✓';
