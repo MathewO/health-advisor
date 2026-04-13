@@ -38,3 +38,4 @@ All entries: `YYYY-MM-DD | type | value | [optional note]`
 2026-04-13 | run |  min |  km | 10 kcal
 2026-04-13 | run |  min |  km | 10 kcal
 2026-04-13 | run |  min |  km | 10 kcal
+2026-04-13 | run |  min |  km | 13.885 kcal
