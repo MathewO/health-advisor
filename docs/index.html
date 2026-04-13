@@ -1654,19 +1654,30 @@ function openDrinksForm() {
 
   const drinkKcal = getDrinkKcal();
   const drinkTypes = Object.keys(drinkKcal);
-  const optionsHtml = drinkTypes.map(t => `<option value="${escHtml(t)}">${escHtml(t)} (${drinkKcal[t]} kcal)</option>`).join('');
+  const optionsHtml = drinkTypes.map(t => `<option value="${escHtml(t)}">${escHtml(t)} (${drinkKcal[t]} kcal)</option>`).join('')
+    + `<option value="__other__">Other (enter kcal manually)</option>`;
 
   const html = `
     <div class="drinks-add-row">
       <div class="field" style="flex:1">
         <label>Drink type</label>
-        <select id="ff_drinkType">${optionsHtml}</select>
+        <select id="ff_drinkType" onchange="onDrinkTypeChange()">${optionsHtml}</select>
       </div>
       <div class="field qty-field">
         <label>Qty</label>
         <input id="ff_drinkQty" type="number" value="1" min="0.5" step="0.5" inputmode="decimal" style="text-align:center" />
       </div>
       <button class="add-drink-btn" onclick="addDrink()" style="margin-top:24px">+ Add</button>
+    </div>
+    <div id="otherDrinkFields" style="display:none;gap:8px;display:none">
+      <div class="field">
+        <label>Drink name</label>
+        <input id="ff_otherName" type="text" placeholder="e.g. Aperol Spritz" />
+      </div>
+      <div class="field">
+        <label>Calories (kcal)</label>
+        <input id="ff_otherKcal" type="number" placeholder="e.g. 175" inputmode="numeric" />
+      </div>
     </div>
 
     <div>
@@ -1696,14 +1707,42 @@ function openDrinksForm() {
   showScreen('screen-form');
 }
 
+function onDrinkTypeChange() {
+  const type    = document.getElementById('ff_drinkType').value;
+  const otherEl = document.getElementById('otherDrinkFields');
+  otherEl.style.display = type === '__other__' ? 'flex' : 'none';
+  otherEl.style.flexDirection = 'column';
+  otherEl.style.gap = '8px';
+}
+
 function addDrink() {
   const typeEl = document.getElementById('ff_drinkType');
   const qtyEl  = document.getElementById('ff_drinkQty');
   const type   = typeEl.value;
   const qty    = parseFloat(qtyEl.value) || 1;
-  const kcal   = Math.round((getDrinkKcal()[type] || 0) * qty);
 
-  drinksOrder.push({ type, qty, kcal });
+  let label, kcal;
+
+  if (type === '__other__') {
+    const nameEl  = document.getElementById('ff_otherName');
+    const kcalEl  = document.getElementById('ff_otherKcal');
+    label = (nameEl.value || '').trim() || 'Other drink';
+    const kcalPerUnit = parseInt(kcalEl.value) || 0;
+    if (!kcalPerUnit) {
+      kcalEl.focus();
+      kcalEl.style.borderColor = 'var(--red)';
+      setTimeout(() => kcalEl.style.borderColor = '', 1500);
+      return;
+    }
+    kcal = Math.round(kcalPerUnit * qty);
+    nameEl.value = '';
+    kcalEl.value = '';
+  } else {
+    label = type;
+    kcal  = Math.round((getDrinkKcal()[type] || 0) * qty);
+  }
+
+  drinksOrder.push({ type: label, qty, kcal });
   renderDrinksList();
   qtyEl.value = '1';
 }
