@@ -986,6 +986,13 @@ function renderWeeklyBurndownChart(allEntries, weekStartStr, predicted) {
           tip.style.left = tx + 'px';
           tip.style.top  = ty + 'px';
           setTimeout(() => { if (tip.parentNode) tip.remove(); }, 2500);
+          setTimeout(() => {
+            document.addEventListener('click', function dismissTip() {
+              const t = document.getElementById('burndownTip');
+              if (t) t.remove();
+              document.removeEventListener('click', dismissTip);
+            });
+          }, 10);
         };
         wrap.appendChild(el);
       });
