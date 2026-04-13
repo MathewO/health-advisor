@@ -2,7 +2,6 @@ name: Log Workout
 
 # Triggered by the iOS Shortcut via the GitHub repository_dispatch API.
 # Accepts any workout type — Running, Stair Climbing, Cycling, MTB, etc.
-# The Shortcut sends event_type "log-workout" with workout data in client_payload.
 
 on:
   repository_dispatch:
@@ -27,64 +26,62 @@ jobs:
           KM:       ${{ github.event.client_payload.km }}
           KCAL:     ${{ github.event.client_payload.kcal }}
         run: |
-          # Parse and normalise all fields with Python
-          python3 << 'PYEOF'
-import os, re, sys
-from datetime import datetime
+          python3 - <<'EOF'
+          import os, re
+          from datetime import datetime
 
-date_raw  = os.environ.get('DATE', '')
-kcal_raw  = os.environ.get('KCAL', '0')
-dur_raw   = os.environ.get('DURATION', '0')
-event     = os.environ.get('EVENT', '')
-wtype     = os.environ.get('TYPE', '')
-km_raw    = os.environ.get('KM', '')
+          date_raw = os.environ.get("DATE", "")
+          kcal_raw = os.environ.get("KCAL", "0")
+          dur_raw  = os.environ.get("DURATION", "0")
+          event    = os.environ.get("EVENT", "")
+          wtype    = os.environ.get("TYPE", "")
+          km_raw   = os.environ.get("KM", "")
 
-# --- Date ---
-s = date_raw.strip()
-m = re.search(r'\d{4}-\d{2}-\d{2}', s)
-if m:
-    clean_date = m.group()
-else:
-    clean_date = s
-    for fmt in ['%d %b %Y at %H:%M', '%d %b %Y at %I:%M %p', '%d %b %Y', '%b %d, %Y', '%Y-%m-%dT%H:%M:%S']:
-        try:
-            clean_date = datetime.strptime(s, fmt).strftime('%Y-%m-%d')
-            break
-        except Exception:
-            pass
+          # Normalise date to yyyy-MM-dd
+          s = date_raw.strip()
+          m = re.search(r"\d{4}-\d{2}-\d{2}", s)
+          if m:
+              clean_date = m.group()
+          else:
+              clean_date = s
+              for fmt in ["%d %b %Y at %H:%M", "%d %b %Y at %I:%M %p", "%d %b %Y", "%b %d, %Y"]:
+                  try:
+                      clean_date = datetime.strptime(s, fmt).strftime("%Y-%m-%d")
+                      break
+                  except Exception:
+                      pass
 
-# --- Kcal ---
-try:
-    clean_kcal = str(round(float(re.sub(r'[^\d.]', '', kcal_raw or '0') or '0')))
-except Exception:
-    clean_kcal = '0'
+          # Round kcal
+          try:
+              clean_kcal = str(round(float(re.sub(r"[^\d.]", "", kcal_raw or "0") or "0")))
+          except Exception:
+              clean_kcal = "0"
 
-# --- Duration: Actions app returns seconds, divide by 60 ---
-try:
-    dur_num = float(re.sub(r'[^\d.]', '', dur_raw or '0') or '0')
-    # If value looks like seconds (>= 60), convert to minutes; otherwise treat as minutes
-    clean_dur = str(round(dur_num / 60) if dur_num >= 60 else round(dur_num))
-except Exception:
-    clean_dur = '0'
+          # Duration: Actions app returns seconds; divide by 60 if >= 60
+          try:
+              d = float(re.sub(r"[^\d.]", "", dur_raw or "0") or "0")
+              clean_dur = str(round(d / 60) if d >= 60 else round(d))
+          except Exception:
+              clean_dur = "0"
 
-# --- Build entry ---
-if event == 'log-run':
-    entry = f"{clean_date} | run | {clean_dur} min | {km_raw} km | {clean_kcal} kcal"
-    label = f"log-run for {clean_date}"
-elif event == 'log-stair':
-    entry = f"{clean_date} | stair | {clean_dur} min | {clean_kcal} kcal"
-    label = f"log-stair for {clean_date}"
-else:
-    entry = f"{clean_date} | workout | {wtype} | {clean_dur} min | {clean_kcal} kcal"
-    label = f"log-workout ({wtype}) for {clean_date}"
+          # Build log entry
+          if event == "log-run":
+              entry = f"{clean_date} | run | {clean_dur} min | {km_raw} km | {clean_kcal} kcal"
+              label = f"log-run for {clean_date}"
+          elif event == "log-stair":
+              entry = f"{clean_date} | stair | {clean_dur} min | {clean_kcal} kcal"
+              label = f"log-stair for {clean_date}"
+          else:
+              entry = f"{clean_date} | workout | {wtype} | {clean_dur} min | {clean_kcal} kcal"
+              label = f"log-workout ({wtype}) for {clean_date}"
 
-print(f"Appending: {entry}")
-with open('logs/phone-log.md', 'a') as f:
-    f.write(entry + '\n')
+          print(f"Appending: {entry}")
+          with open("logs/phone-log.md", "a") as f:
+              f.write(entry + "\n")
 
-with open(os.environ['GITHUB_ENV'], 'a') as f:
-    f.write(f"COMMIT_LABEL={label}\n")
-PYEOF
+          with open(os.environ["GITHUB_ENV"], "a") as f:
+              f.write(f"COMMIT_LABEL={label}\n")
+          EOF
 
           git config user.name  "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
