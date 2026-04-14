@@ -165,11 +165,13 @@
     .meal-protein-pill { display: inline-block; background: rgba(74,222,128,.1); color: var(--green); font-size: 12px; font-weight: 600; padding: 4px 12px; border-radius: 20px; margin-bottom: 16px; }
 
     /* ── Meal Plan items ── */
-    .meal-item { display: flex; justify-content: space-between; align-items: flex-start; padding: 14px 0; border-bottom: 1px solid var(--border); gap: 12px; }
-    .meal-item-left { flex: 1; min-width: 0; }
-    .meal-item-right { display: flex; gap: 12px; flex-shrink: 0; text-align: right; }
+    .meal-item { padding: 14px 0; border-bottom: 1px solid var(--border); }
     .meal-item.has-detail { cursor: pointer; }
     .meal-item.has-detail:active { background: var(--surface2); border-radius: 8px; margin: 0 -8px; padding: 14px 8px; }
+    .meal-item-main { display: flex; justify-content: space-between; align-items: baseline; gap: 8px; }
+    .meal-item-left { flex: 1; min-width: 0; }
+    .meal-item-macros { display: flex; gap: 10px; flex-shrink: 0; font-size: 14px; font-weight: 700; color: var(--text); }
+    .meal-item-tally { display: flex; justify-content: flex-end; gap: 10px; margin-top: 3px; font-size: 11px; color: var(--muted); }
     .meal-detail-info { display: inline-flex; align-items: center; justify-content: center; width: 15px; height: 15px; border-radius: 50%; border: 1.5px solid var(--muted); color: var(--muted); font-size: 10px; font-weight: 700; font-style: italic; font-family: Georgia, serif; margin-left: 6px; vertical-align: middle; flex-shrink: 0; line-height: 1; }
     /* ── Meal Breakdown Bottom Sheet ── */
     .meal-popup-backdrop { position: fixed; inset: 0; background: rgba(0,0,0,0.55); z-index: 200; opacity: 0; transition: opacity 0.2s; pointer-events: none; }
@@ -186,13 +188,8 @@
     .meal-popup-row { display: flex; justify-content: space-between; align-items: center; padding: 11px 16px; border-top: 1px solid var(--border); gap: 12px; }
     .meal-popup-ingredient { font-size: 14px; color: var(--text); flex: 1; }
     .meal-popup-macros { display: flex; gap: 20px; flex-shrink: 0; font-size: 13px; color: var(--muted); text-align: right; min-width: 100px; justify-content: flex-end; }
-    .meal-tally-col { display: flex; flex-direction: column; align-items: flex-end; min-width: 64px; }
     .meal-category { font-size: 11px; font-weight: 700; color: var(--green); text-transform: uppercase; letter-spacing: 0.7px; margin-bottom: 2px; }
     .meal-label { font-size: 15px; font-weight: 600; color: var(--text); }
-    .meal-kcal-add { font-size: 11px; color: var(--muted); }
-    .meal-kcal-running { font-size: 14px; font-weight: 700; color: var(--text); margin-top: 1px; }
-    .meal-tally-header { display: flex; justify-content: flex-end; gap: 12px; padding-bottom: 8px; border-bottom: 1px solid var(--border); margin-bottom: 4px; }
-    .meal-tally-header span { font-size: 11px; font-weight: 600; color: var(--muted); text-transform: uppercase; letter-spacing: 0.6px; min-width: 64px; text-align: right; }
     .meal-total-row { display: flex; justify-content: space-between; align-items: center; padding: 14px 0 4px; border-top: 2px solid var(--accent); margin-top: 4px; gap: 12px; }
     .meal-total-label { font-size: 13px; font-weight: 700; color: var(--muted); text-transform: uppercase; letter-spacing: 0.8px; flex: 1; }
     .meal-total-values { display: flex; gap: 12px; }
@@ -1398,19 +1395,19 @@ function renderMealPlan(body, mp, tab) {
     const hasDetail = item.ingredients && item.ingredients.length > 0;
     return `
       <div class="meal-item${hasDetail ? ' has-detail' : ''}"${hasDetail ? ` onclick="showMealPopup(window._mealPopupItems[${idx}])"` : ''}>
-        <div class="meal-item-left">
-          ${item.category ? `<div class="meal-category">${escHtml(item.category)}</div>` : ''}
-          <div class="meal-label">${escHtml(item.label)}${hasDetail ? '<span class="meal-detail-info">i</span>' : ''}</div>
+        ${item.category ? `<div class="meal-category">${escHtml(item.category)}</div>` : ''}
+        <div class="meal-item-main">
+          <div class="meal-item-left">
+            <div class="meal-label">${escHtml(item.label)}${hasDetail ? '<span class="meal-detail-info">i</span>' : ''}</div>
+          </div>
+          <div class="meal-item-macros">
+            <span>${(item.kcal || 0).toLocaleString()} kcal</span>
+            <span>${item.protein || 0}g</span>
+          </div>
         </div>
-        <div class="meal-item-right">
-          <div class="meal-tally-col">
-            <div class="meal-kcal-add">+${(item.kcal || 0).toLocaleString()}</div>
-            <div class="meal-kcal-running">${runKcal.toLocaleString()}</div>
-          </div>
-          <div class="meal-tally-col">
-            <div class="meal-kcal-add">+${item.protein || 0}g</div>
-            <div class="meal-kcal-running">${runProt}g</div>
-          </div>
+        <div class="meal-item-tally">
+          <span>${runKcal.toLocaleString()} kcal</span>
+          <span>${runProt}g protein</span>
         </div>
       </div>`;
   }).join('');
@@ -1443,10 +1440,6 @@ function renderMealPlan(body, mp, tab) {
     </div>
     ${proteinPill}
     <div style="background:var(--surface);border-radius:var(--radius);padding:14px">
-      <div class="meal-tally-header">
-        <span>kcal</span>
-        <span>protein</span>
-      </div>
       ${itemsHtml}
       ${totalHtml}
     </div>`;
