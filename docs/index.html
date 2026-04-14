@@ -1949,7 +1949,8 @@ const formConfigs = {
     title: '⚖️ Log Weight',
     fields: [
       { id: 'val',  label: 'Morning weight (kg)', type: 'number',   placeholder: '85.0', step: '0.1', inputmode: 'decimal' },
-      { id: 'note', label: 'Note',                type: 'textarea', placeholder: 'e.g. Felt heavy — big meal last night', optional: true }
+      { id: 'note', label: 'Note',                type: 'textarea', placeholder: 'e.g. Felt heavy — big meal last night', optional: true },
+      { id: 'date', label: 'Date (defaults to today)', type: 'date', isDate: true, optional: true }
     ],
     build: (f, date) => {
       const kg = parseFloat(f.val);
