@@ -932,7 +932,7 @@ function renderWeeklyBurndownChart(allEntries, weekStartStr, weekdayDeficit, wee
     if (idx === -1) return;
     const icon = eventIcons[e.type];
     if (!icon) return;
-    eventsByDay[idx].push({ icon, label: entryLabel(e) });
+    eventsByDay[idx].push({ icon, label: entryLabel(e), type: e.type });
   });
 
   const gridColor  = 'rgba(82,82,91,0.4)';
@@ -1028,44 +1028,53 @@ function renderWeeklyBurndownChart(allEntries, weekStartStr, weekdayDeficit, wee
       const yVal = actualData[i];
       const pyBase = canvasTop + yScale.getPixelForValue(yVal);
 
-      events.forEach(({ icon, label }, j) => {
-        const py = pyBase - 18 - j * 22;
-        const el = document.createElement('span');
-        el.className = 'bd-icon';
-        el.textContent = icon;
-        el.setAttribute('data-tip', label);
-        el.style.cssText = `position:absolute;left:${px}px;top:${py}px;transform:translate(-50%,-50%);font-size:16px;cursor:pointer;z-index:10;user-select:none;-webkit-user-select:none;-webkit-tap-highlight-color:transparent;padding:4px;`;
-        el.onclick = function(ev) {
-          ev.stopPropagation();
-          // Remove existing tip
-          const old = document.getElementById('burndownTip');
-          if (old) old.remove();
-          // Create new tip
-          const tip = document.createElement('div');
-          tip.id = 'burndownTip';
-          tip.textContent = label;
-          tip.style.cssText = 'position:fixed;z-index:9999;background:#3f3f46;border:1px solid #52525b;border-radius:8px;padding:8px 12px;font-size:13px;color:#f1f5f9;pointer-events:none;white-space:nowrap;box-shadow:0 4px 16px rgba(0,0,0,0.5);';
-          document.body.appendChild(tip);
-          const r = el.getBoundingClientRect();
-          const tw = tip.offsetWidth;
-          const th = tip.offsetHeight;
-          let tx = r.left + r.width / 2 - tw / 2;
-          let ty = r.top - th - 8;
-          tx = Math.max(8, Math.min(tx, window.innerWidth - tw - 8));
-          if (ty < 8) ty = r.bottom + 8;
-          tip.style.left = tx + 'px';
-          tip.style.top  = ty + 'px';
-          setTimeout(() => { if (tip.parentNode) tip.remove(); }, 2500);
-          setTimeout(() => {
-            document.addEventListener('click', function dismissTip() {
-              const t = document.getElementById('burndownTip');
-              if (t) t.remove();
-              document.removeEventListener('click', dismissTip);
-            });
-          }, 10);
-        };
-        wrap.appendChild(el);
+      // Merge all events on this day into a single icon + tooltip
+      const iconPriority = ['cheat','drinks','beers','run','stair','workout','weight','activity'];
+      const sorted = [...events].sort((a, b) => {
+        const ai = iconPriority.indexOf(a.type ?? '');
+        const bi = iconPriority.indexOf(b.type ?? '');
+        return (ai === -1 ? 99 : ai) - (bi === -1 ? 99 : bi);
       });
+      const mergedIcon   = sorted[0]?.icon || events[0].icon;
+      const mergedLabels = events.map(e => e.label);
+
+      const py = pyBase - 18;
+      const el = document.createElement('span');
+      el.className = 'bd-icon';
+      el.textContent = mergedIcon;
+      el.style.cssText = `position:absolute;left:${px}px;top:${py}px;transform:translate(-50%,-50%);font-size:16px;cursor:pointer;z-index:10;user-select:none;-webkit-user-select:none;-webkit-tap-highlight-color:transparent;padding:4px;`;
+      el.onclick = function(ev) {
+        ev.stopPropagation();
+        const old = document.getElementById('burndownTip');
+        if (old) old.remove();
+        const tip = document.createElement('div');
+        tip.id = 'burndownTip';
+        tip.style.cssText = 'position:fixed;z-index:9999;background:#3f3f46;border:1px solid #52525b;border-radius:8px;padding:8px 12px;font-size:13px;color:#f1f5f9;pointer-events:none;white-space:nowrap;box-shadow:0 4px 16px rgba(0,0,0,0.5);display:flex;flex-direction:column;gap:4px;';
+        mergedLabels.forEach(lbl => {
+          const row = document.createElement('div');
+          row.textContent = lbl;
+          tip.appendChild(row);
+        });
+        document.body.appendChild(tip);
+        const r = el.getBoundingClientRect();
+        const tw = tip.offsetWidth;
+        const th = tip.offsetHeight;
+        let tx = r.left + r.width / 2 - tw / 2;
+        let ty = r.top - th - 8;
+        tx = Math.max(8, Math.min(tx, window.innerWidth - tw - 8));
+        if (ty < 8) ty = r.bottom + 8;
+        tip.style.left = tx + 'px';
+        tip.style.top  = ty + 'px';
+        setTimeout(() => { if (tip.parentNode) tip.remove(); }, 2500);
+        setTimeout(() => {
+          document.addEventListener('click', function dismissTip() {
+            const t = document.getElementById('burndownTip');
+            if (t) t.remove();
+            document.removeEventListener('click', dismissTip);
+          });
+        }, 10);
+      };
+      wrap.appendChild(el);
     });
   }
 }
