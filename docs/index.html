@@ -2294,7 +2294,7 @@ function openCheatForm() {
 
   const commonCheats = (dashData?.phase?.common_cheats) || [];
   const quickOptHtml = commonCheats.length
-    ? `<option value="">Custom — fill in below</option>`
+    ? `<option value="">Common Choices</option>`
       + commonCheats.map((c, i) => `<option value="${i}">${escHtml(c.name)} (${c.kcal} kcal)</option>`).join('')
     : '';
 
