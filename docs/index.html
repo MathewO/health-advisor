@@ -712,19 +712,30 @@ function renderPhaseCard(phase, weights) {
   const left   = +(latest.kg - phase.target_kg).toFixed(1);
   const pct    = Math.min(100, Math.max(0, (lost / (phase.start_kg - phase.target_kg)) * 100));
 
-  const { slope, intercept } = linearRegression(weights);
-  const projectedAtTarget    = slope * dateToNum(phase.target_date) + intercept;
-  const diff                 = +(projectedAtTarget - phase.target_kg).toFixed(1);
+  // Project end weight using planned deficit rate anchored to smoothed recent weight
+  const weeklyTarget   = (phase.meal_plan && phase.meal_plan.weekly_deficit_target) || 3500;
+  const plannedKgPerDay = weeklyTarget / 7700 / 7;
+  const todayStr2      = localDateStr(new Date());
+  const todayNum2      = dateToNum(todayStr2);
+  const sevenAgo2      = new Date(); sevenAgo2.setDate(sevenAgo2.getDate() - 7);
+  const recentWts2     = weights.filter(p => p.date >= localDateStr(sevenAgo2));
+  const anchorWts2     = recentWts2.length > 0 ? recentWts2 : weights.slice(-3);
+  const smoothedKg2    = anchorWts2.reduce((s, p) => s + p.kg, 0) / anchorWts2.length;
+  const projectedAtTarget = +(smoothedKg2 - plannedKgPerDay * (dateToNum(phase.target_date) - todayNum2)).toFixed(1);
+  const diff           = +(projectedAtTarget - phase.target_kg).toFixed(1);
 
   let trendText, trendColor;
-  if (diff <= 0.3) {
+  if (diff < -0.3) {
+    trendText  = '✓ Trending to ' + projectedAtTarget + ' kg by ' + formatDate(phase.target_date);
+    trendColor = 'var(--green)';
+  } else if (diff <= 0.3) {
     trendText  = '✓ On track to hit ' + phase.target_kg + ' kg by ' + formatDate(phase.target_date);
     trendColor = 'var(--green)';
   } else if (diff <= 1.0) {
-    trendText  = '⚠ Trending to ' + projectedAtTarget.toFixed(1) + ' kg — slightly off';
+    trendText  = '⚠ Trending to ' + projectedAtTarget + ' kg — slightly off';
     trendColor = 'var(--amber)';
   } else {
-    trendText  = '✗ Trending to ' + projectedAtTarget.toFixed(1) + ' kg — needs adjustment';
+    trendText  = '✗ Trending to ' + projectedAtTarget + ' kg — needs adjustment';
     trendColor = 'var(--red)';
   }
 
@@ -1714,9 +1725,16 @@ function renderWeightChart(weights, phase) {
     ? 'rgba(251,191,36,0.8)'
     : 'rgba(248,113,113,0.8)';
 
-  // Trend line: only non-null at first and last label (spans via spanGaps)
+  // Trend line: anchored to smoothed weight, planned slope (non-null only at ends)
   const trendData = evenDates.map((d, i) => {
     if (i === 0 || i === N - 1) return trendAtDate(d);
+    return null;
+  });
+
+  // Grey reference line: pure meal plan from start_kg — unaffected by actual readings
+  const planRefData = evenDates.map((d, i) => {
+    if (i === 0) return +phase.start_kg.toFixed(2);
+    if (i === N - 1) return +(phase.start_kg - plannedKgPerDay * totalDays).toFixed(2);
     return null;
   });
 
@@ -1736,6 +1754,17 @@ function renderWeightChart(weights, phase) {
           tension: 0.3,
           fill: false,
           spanGaps: false
+        },
+        {
+          label: 'Plan',
+          data: planRefData,
+          borderColor: 'rgba(100,116,139,0.5)',
+          borderWidth: 1.5,
+          borderDash: [3, 5],
+          pointRadius: 0,
+          tension: 0,
+          fill: false,
+          spanGaps: true
         },
         {
           label: 'Trend',
