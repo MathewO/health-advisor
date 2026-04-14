@@ -8,15 +8,20 @@
     "start_kg": 85.8,
     "target_kg": 82.0,
     "meal_plan": {
-      "calorie_target": "~1,500 kcal/day",
       "maintenance_kcal": 1935,
-      "target_deficit": "~435 kcal/day",
       "protein_target": "130g+ per day",
+      "totals": {
+        "weekday_kcal": 1336,
+        "weekend_kcal": 1510,
+        "avg_daily_kcal": 1386,
+        "avg_daily_deficit": 549,
+        "_note": "avg = (weekday×5 + weekend×2) / 7 — update these whenever meal items change"
+      },
       "weekday": {
         "items": [
           { "category": "Morning Coffee", "label": "Coffee + Oatly",  "kcal": 50,  "protein": 1  },
           { "category": "Breakfast",      "label": "Double Shake",    "kcal": 170, "protein": 42 },
-          { "category": "Lunch",          "label": "Chicken Wrap",    "kcal": 430, "protein": 55 },
+          { "category": "Lunch",          "label": "Chicken Wrap",    "kcal": 376, "protein": 51 },
           { "category": "Dinner",         "label": "Gousto Meal",     "kcal": 640, "protein": 41 },
           { "category": "Pudding",        "label": "Milk Chocolate",  "kcal": 100, "protein": 2  }
         ]

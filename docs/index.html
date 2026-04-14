@@ -1317,10 +1317,11 @@ function loadMealPlan() {
   const mp = dashData.phase.meal_plan;
   const metaEl = document.getElementById('mealPlanMeta');
   if (metaEl) {
+    const t = mp.totals || {};
     const pills = [
-      mp.calorie_target   ? { label: 'Target',      value: mp.calorie_target,             color: 'var(--text)' }   : null,
-      mp.maintenance_kcal ? { label: 'Maintenance',  value: mp.maintenance_kcal + ' kcal', color: 'var(--muted)' } : null,
-      mp.target_deficit   ? { label: 'Deficit',      value: mp.target_deficit,             color: 'var(--green)' } : null
+      t.avg_daily_kcal    ? { label: 'Target',      value: '~' + t.avg_daily_kcal + ' kcal/day',   color: 'var(--text)' }   : null,
+      mp.maintenance_kcal ? { label: 'Maintenance',  value: mp.maintenance_kcal + ' kcal',           color: 'var(--muted)' } : null,
+      t.avg_daily_deficit ? { label: 'Deficit',      value: '~' + t.avg_daily_deficit + ' kcal/day', color: 'var(--green)' } : null
     ].filter(Boolean);
     metaEl.innerHTML = pills.map(p => `
       <div style="background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:5px 10px;font-size:12px">
