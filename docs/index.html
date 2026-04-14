@@ -781,7 +781,7 @@ function renderWeeklyDeficitCard(phase) {
   }
 
   const allEntries = parseAllLogEntries(logText);
-  const { target, carryover, weekOutliers, thisWeekAdj, predicted, weekStartStr, weekEndStr, daysElapsed }
+  const { target, carryover, weekOutliers, thisWeekAdj, predicted, weekStartStr, weekEndStr, daysElapsed, weekdayDeficit, weekendDeficit, fullWeekBase }
     = computeWeeklyDeficit(allEntries, phase);
 
   const carryoverHtml = carryover < 0
@@ -817,12 +817,12 @@ function renderWeeklyDeficitCard(phase) {
 
   // Defer until after browser has laid out the new canvas
   requestAnimationFrame(() => {
-    try { renderWeeklyBurndownChart(allEntries, weekStartStr, predicted); }
+    try { renderWeeklyBurndownChart(allEntries, weekStartStr, weekdayDeficit, weekendDeficit, daysElapsed, target, fullWeekBase); }
     catch(err) { console.error('Burndown chart error:', err); }
   });
 }
 
-function renderWeeklyBurndownChart(allEntries, weekStartStr, predicted) {
+function renderWeeklyBurndownChart(allEntries, weekStartStr, weekdayDeficit, weekendDeficit, daysElapsed, target, fullWeekBase) {
   const canvas = document.getElementById('weeklyBurndownChart');
   if (!canvas) return;
 
@@ -836,31 +836,34 @@ function renderWeeklyBurndownChart(allEntries, weekStartStr, predicted) {
     return localDateStr(d);
   });
 
-  // Predicted weight loss per day: predicted kcal / 7700 kcal per kg, spread linearly
-  const totalPredictedKg = Math.min(1, Math.max(0, predicted / 7700));
-  const predictedData = DAY_LABELS.map((_, i) => +(totalPredictedKg * (i + 1) / 7).toFixed(3));
+  // Grey dotted line: cumulative planned deficit per day (meal plan rates, no outliers)
+  const dailyRates = [weekdayDeficit, weekdayDeficit, weekdayDeficit, weekdayDeficit, weekdayDeficit, weekendDeficit, weekendDeficit];
+  let cumPlanned = 0;
+  const targetData = dailyRates.map(rate => { cumPlanned += rate; return +cumPlanned.toFixed(0); });
 
-  // Baseline weight: most recent weight entry on or before Monday
-  const mondayStr = weekDates[0];
-  const baselineEntry = allEntries
-    .filter(e => e.type === 'weight' && e.date <= mondayStr)
-    .sort((a, b) => b.date.localeCompare(a.date))[0];
-  const baselineKg = baselineEntry ? baselineEntry.kg : null;
-
-  // Actual weight loss line: null until first weigh-in, then cumulative loss
-  const actualData = weekDates.map(d => {
-    const entry = allEntries
-      .filter(e => e.type === 'weight' && e.date >= mondayStr && e.date <= d)
-      .sort((a, b) => b.date.localeCompare(a.date))[0];
-    if (!entry || baselineKg === null) return null;
-    return +(Math.max(0, baselineKg - entry.kg)).toFixed(3);
+  // Actual/projected line: full week, never null
+  // Elapsed days use actual outliers; future days project forward at planned daily rate
+  const isOutlierType = e => ['run','stair','workout','drinks','beers','cheat'].includes(e.type);
+  let cumActual = 0;
+  let cumOutlier = 0;
+  const actualData = weekDates.map((d, i) => {
+    if (i < daysElapsed) {
+      const dayOutliers = allEntries.filter(e => e.date === d && isOutlierType(e));
+      cumOutlier += dayOutliers.reduce((s, e) => s + (e.outlierKcal || 0), 0);
+      cumActual = targetData[i] + cumOutlier;
+    } else {
+      cumActual += dailyRates[i];
+    }
+    return +cumActual.toFixed(0);
   });
 
+  // Y-axis ceiling: whichever is larger — the target or the full week meal-plan base
+  const yMax = Math.max(target, fullWeekBase, actualData[6]) + 100;
+
   // Event icons + labels per day
-  const eventIcons = { weight: '⚖️', run: '🏃', stair: '🏃', workout: '🏃', drinks: '🍺', beers: '🍺', cheat: '🍕', activity: '✅' };
+  const eventIcons = { run: '🏃', stair: '🏃', workout: '🏃', drinks: '🍺', beers: '🍺', cheat: '🍕', activity: '✅' };
 
   function entryLabel(e) {
-    if (e.type === 'weight')   return `⚖️ Weigh-in · ${e.kg} kg`;
     if (e.type === 'run')      return `🏃 Run${e.duration ? ' · ' + e.duration + ' min' : ''}${e.kcal ? ' · ' + e.kcal + ' kcal' : ''}`;
     if (e.type === 'stair')    return `🏃 Stairs${e.duration ? ' · ' + e.duration + ' min' : ''}${e.kcal ? ' · ' + e.kcal + ' kcal' : ''}`;
     if (e.type === 'workout')  return `🏃 ${e.workoutType || 'Workout'}${e.duration ? ' · ' + e.duration + ' min' : ''}${e.kcal ? ' · ' + e.kcal + ' kcal' : ''}`;
@@ -871,21 +874,29 @@ function renderWeeklyBurndownChart(allEntries, weekStartStr, predicted) {
     return e.value || e.type;
   }
 
-  // Group events by day — store full entries for tooltip lookup
-  const eventsByDay = {};   // { dayIndex: [{ icon, label }] }
+  // Group events by day
+  const eventsByDay = {};
   weekDates.forEach((d, i) => { eventsByDay[i] = []; });
   allEntries.forEach(e => {
     const idx = weekDates.indexOf(e.date);
     if (idx === -1) return;
     const icon = eventIcons[e.type];
     if (!icon) return;
-    // Allow multiple weight entries on same day (each a separate dot)
     eventsByDay[idx].push({ icon, label: entryLabel(e) });
   });
 
-  // Don't draw emojis on canvas — render as HTML elements instead
   const gridColor  = 'rgba(82,82,91,0.4)';
   const mutedColor = 'rgba(148,163,184,0.5)';
+
+  // Segment colour: green if on/above plan, orange if ≤150 below, red if >150 below
+  function segmentColor(ctx) {
+    const y = ctx.p1.parsed.y;
+    const t = targetData[ctx.p1DataIndex];
+    const diff = y - t;
+    if (diff >= 0)    return '#4ade80';
+    if (diff >= -150) return '#f59e0b';
+    return '#ef4444';
+  }
 
   burndownChart = new Chart(canvas, {
     type: 'line',
@@ -894,8 +905,8 @@ function renderWeeklyBurndownChart(allEntries, weekStartStr, predicted) {
       labels: DAY_LABELS,
       datasets: [
         {
-          label: 'Predicted',
-          data: predictedData,
+          label: 'Planned',
+          data: targetData,
           borderColor: mutedColor,
           borderDash: [4, 4],
           borderWidth: 2,
@@ -906,12 +917,13 @@ function renderWeeklyBurndownChart(allEntries, weekStartStr, predicted) {
         {
           label: 'Actual',
           data: actualData,
-          borderColor: '#4ade80',
           borderWidth: 2.5,
-          pointRadius: actualData.map(v => v !== null ? 4 : 0),
+          borderColor: '#4ade80',
+          segment: { borderColor: segmentColor },
+          pointRadius: 3,
           pointBackgroundColor: '#4ade80',
           pointBorderColor: '#18181b',
-          pointBorderWidth: 2,
+          pointBorderWidth: 1.5,
           tension: 0.2,
           fill: false,
           spanGaps: false
@@ -931,13 +943,13 @@ function renderWeeklyBurndownChart(allEntries, weekStartStr, predicted) {
         },
         y: {
           min: 0,
-          max: 1,
+          max: yMax,
           grid: { color: gridColor },
           ticks: {
             color: '#94a3b8',
             font: { size: 11 },
-            stepSize: 0.25,
-            callback: v => v.toFixed(2) + ' kg'
+            maxTicksLimit: 5,
+            callback: v => Math.round(v / 100) * 100 === v ? (v >= 1000 ? (v/1000).toFixed(1)+'k' : v) : null
           },
           border: { color: gridColor }
         }
@@ -956,7 +968,6 @@ function renderWeeklyBurndownChart(allEntries, weekStartStr, predicted) {
     const xScale = burndownChart.scales.x;
     const yScale = burndownChart.scales.y;
 
-    // Chart.js getPixelForValue returns CSS pixels relative to the canvas element
     const canvasLeft = canvas.offsetLeft;
     const canvasTop  = canvas.offsetTop;
 
@@ -964,7 +975,7 @@ function renderWeeklyBurndownChart(allEntries, weekStartStr, predicted) {
       const events = eventsByDay[i];
       if (!events.length) return;
       const px = canvasLeft + xScale.getPixelForValue(i);
-      const yVal = actualData[i] !== null && actualData[i] !== undefined ? actualData[i] : predictedData[i];
+      const yVal = actualData[i];
       const pyBase = canvasTop + yScale.getPixelForValue(yVal);
 
       events.forEach(({ icon, label }, j) => {
@@ -1064,7 +1075,7 @@ function computeWeeklyDeficit(allEntries, phase) {
   // Predicted = full week meal-plan base + carryover from last week + outliers logged so far
   const predicted   = fullWeekBase + carryover + thisWeekAdj;
 
-  return { target, carryover, weekOutliers, thisWeekAdj, predicted, weekStartStr, weekEndStr, daysElapsed };
+  return { target, carryover, weekOutliers, thisWeekAdj, predicted, weekStartStr, weekEndStr, daysElapsed, weekdayDeficit, weekendDeficit, fullWeekBase };
 }
 
 function outlierLabel(e) {
@@ -1657,37 +1668,70 @@ function renderWeightChart(weights, phase) {
   const ctx = document.getElementById('weightChart').getContext('2d');
   if (weightChart) weightChart.destroy();
 
-  const actualLabels = weights.map(p => p.date.slice(5));
-  const { slope, intercept } = linearRegression(weights);
-  const startNum   = dateToNum(weights[0].date);
-  const targetNum  = dateToNum(phase.target_date);
-  const trendLabels = [weights[0].date.slice(5), phase.target_date.slice(5)];
-  const trendData   = [slope * startNum + intercept, slope * targetNum + intercept];
+  const startNum  = dateToNum(weights[0].date);
+  const targetNum = dateToNum(phase.target_date);
 
-  const allLabels = [...new Set([...actualLabels, ...trendLabels])].sort();
+  // Generate 8 evenly spaced date labels from first weight entry to target date
+  const totalDays = targetNum - startNum;
+  const N = 8;
+  const evenDates = Array.from({ length: N }, (_, i) => {
+    const d = new Date(weights[0].date + 'T00:00:00');
+    d.setDate(d.getDate() + Math.round(totalDays * i / (N - 1)));
+    return localDateStr(d);
+  });
+  const evenLabels = evenDates.map(d => d.slice(5));
 
-  const projectedEnd = +(slope * targetNum + intercept).toFixed(1);
+  // Map actual weights to the nearest even label (within ±4 days)
+  const actualData = evenDates.map(labelDate => {
+    const labelNum = dateToNum(labelDate);
+    const closest = weights
+      .map(p => ({ kg: p.kg, diff: Math.abs(dateToNum(p.date) - labelNum) }))
+      .filter(p => p.diff <= 4)
+      .sort((a, b) => a.diff - b.diff)[0];
+    return closest ? closest.kg : null;
+  });
+
+  // Planned slope from meal plan deficit — never distorted by single-day fluctuations
+  const weeklyTarget = (phase.meal_plan && phase.meal_plan.weekly_deficit_target) || 3500;
+  const plannedKgPerDay = weeklyTarget / 7700 / 7;
+
+  // Anchor: 7-day rolling average of recent weights to smooth water weight spikes/drops
+  const todayStr    = localDateStr(new Date());
+  const todayNum    = dateToNum(todayStr);
+  const sevenAgo    = new Date(); sevenAgo.setDate(sevenAgo.getDate() - 7);
+  const sevenAgoStr = localDateStr(sevenAgo);
+  const recentWts   = weights.filter(p => p.date >= sevenAgoStr);
+  const anchorWts   = recentWts.length > 0 ? recentWts : weights.slice(-3);
+  const smoothedKg  = anchorWts.reduce((s, p) => s + p.kg, 0) / anchorWts.length;
+
+  // Trend at any date: anchored to smoothed current weight, sloped at planned rate
+  const trendAtDate = d => +(smoothedKg - plannedKgPerDay * (dateToNum(d) - todayNum)).toFixed(2);
+
+  const projectedEnd = trendAtDate(phase.target_date);
   const trendColor = projectedEnd <= phase.target_kg + 0.3
     ? 'rgba(74,222,128,0.8)'
     : projectedEnd <= phase.target_kg + 1.0
     ? 'rgba(251,191,36,0.8)'
     : 'rgba(248,113,113,0.8)';
 
+  // Trend line: only non-null at first and last label (spans via spanGaps)
+  const trendData = evenDates.map((d, i) => {
+    if (i === 0 || i === N - 1) return trendAtDate(d);
+    return null;
+  });
+
   weightChart = new Chart(ctx, {
     type: 'line',
     data: {
-      labels: allLabels,
+      labels: evenLabels,
       datasets: [
         {
           label: 'Weight',
-          data: allLabels.map(l => {
-            const match = weights.find(p => p.date.slice(5) === l);
-            return match ? match.kg : null;
-          }),
+          data: actualData,
           borderColor: 'rgba(161,161,170,0.9)',
           backgroundColor: 'rgba(161,161,170,0.15)',
           borderWidth: 2.5,
-          pointRadius: 4,
+          pointRadius: actualData.map(v => v !== null ? 4 : 0),
           pointBackgroundColor: 'rgba(161,161,170,1)',
           tension: 0.3,
           fill: false,
@@ -1695,11 +1739,7 @@ function renderWeightChart(weights, phase) {
         },
         {
           label: 'Trend',
-          data: allLabels.map(l => {
-            if (l === trendLabels[0]) return trendData[0];
-            if (l === trendLabels[1]) return trendData[1];
-            return null;
-          }),
+          data: trendData,
           borderColor: trendColor,
           borderWidth: 2,
           borderDash: [5, 4],
@@ -1710,7 +1750,7 @@ function renderWeightChart(weights, phase) {
         },
         {
           label: 'Target',
-          data: allLabels.map(() => phase.target_kg),
+          data: evenLabels.map(() => phase.target_kg),
           borderColor: 'rgba(148,163,184,0.3)',
           borderWidth: 1,
           borderDash: [3, 3],
@@ -1734,10 +1774,15 @@ function renderWeightChart(weights, phase) {
       scales: {
         x: { ticks: { color: '#64748b', font: { size: 10 } }, grid: { color: 'rgba(255,255,255,0.05)' } },
         y: {
-          ticks: { color: '#64748b', font: { size: 10 }, callback: v => v + ' kg' },
+          min: 80,
+          suggestedMax: phase.start_kg + 0.5,
           grid: { color: 'rgba(255,255,255,0.05)' },
-          suggestedMin: phase.target_kg - 0.5,
-          suggestedMax: phase.start_kg  + 0.5
+          ticks: {
+            color: '#64748b',
+            font: { size: 10 },
+            stepSize: 1,
+            callback: v => Number.isInteger(v) ? v + ' kg' : null
+          }
         }
       }
     }
