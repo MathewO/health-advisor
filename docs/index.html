@@ -2292,7 +2292,19 @@ function openCheatForm() {
         `<option value="${i}">${escHtml(m.category ? m.category + ': ' : '')}${escHtml(m.label)} (${m.kcal} kcal)</option>`
       ).join('');
 
+  const commonCheats = (dashData?.phase?.common_cheats) || [];
+  const quickOptHtml = commonCheats.length
+    ? `<option value="">Custom — fill in below</option>`
+      + commonCheats.map((c, i) => `<option value="${i}">${escHtml(c.name)} (${c.kcal} kcal)</option>`).join('')
+    : '';
+
   const html = `
+    ${commonCheats.length ? `
+    <div class="field">
+      <label>Quick select <span class="optional-label">optional — fills details below</span></label>
+      <select id="ff_cheatPreset" onchange="applyCheatPreset()">${quickOptHtml}</select>
+    </div>` : ''}
+
     <div class="field">
       <label>What did you eat? <span class="optional-label">or "Skipped"</span></label>
       <textarea id="ff_cheatDetail" placeholder="e.g. Pizza and garlic bread, Skipped lunch, Burger"></textarea>
@@ -2332,10 +2344,35 @@ function openCheatForm() {
   // Store meal options for later use
   document.getElementById('ff_cheatReplaces')._mealOptions = mealOptions;
 
+  // Store common cheats on preset select for handler
+  const presetEl = document.getElementById('ff_cheatPreset');
+  if (presetEl) presetEl._commonCheats = commonCheats;
+
   setTimeout(() => {
     const first = document.getElementById('ff_cheatDetail');
     if (first) first.focus();
   }, 100);
+}
+
+function applyCheatPreset() {
+  const presetEl  = document.getElementById('ff_cheatPreset');
+  const detailEl  = document.getElementById('ff_cheatDetail');
+  const kcalEl    = document.getElementById('ff_cheatKcal');
+  if (!presetEl || !detailEl || !kcalEl) return;
+
+  const idx = presetEl.value;
+  if (idx === '') {
+    detailEl.value = '';
+    kcalEl.value   = '';
+  } else {
+    const cheats = presetEl._commonCheats || [];
+    const preset = cheats[parseInt(idx)];
+    if (preset) {
+      detailEl.value = preset.description || preset.name;
+      kcalEl.value   = preset.kcal;
+    }
+  }
+  updateCheatImpact();
 }
 
 function updateCheatImpact() {

@@ -7,6 +7,14 @@
     "target_date": "2026-06-06",
     "start_kg": 85.8,
     "target_kg": 82.0,
+    "common_cheats": [
+      {
+        "name": "Caesar Salad",
+        "description": "Sainsbury's caesar salad (½ bag) + lightly dusted mini chicken fillets (½ pack, air fryer)",
+        "kcal": 497,
+        "protein": 30
+      }
+    ],
     "meal_plan": {
       "maintenance_kcal": 1935,
       "protein_target": "130g+ per day",
