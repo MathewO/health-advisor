@@ -913,17 +913,28 @@ function renderWeeklyBurndownChart(allEntries, weekStartStr, weekdayDeficit, wee
   const yMax = Math.max(target, fullWeekBase, actualData[6]) + 100;
 
   // Event icons + labels per day
-  const eventIcons = { weight: '⚖️', run: '🏃', stair: '🏃', workout: '🏃', drinks: '🍺', beers: '🍺', cheat: '🍔', activity: '🏌️' };
+  const baseIcons = { weight: '⚖️', run: '🏃', stair: '🪜', drinks: '🍺', beers: '🍺', cheat: '🍔', activity: '🏌️' };
+  const workoutTypeIcons = {
+    'Running': '🏃', 'Cycling': '🚴', 'Mountain Biking': '🚵',
+    'Stair Climbing': '🪜', 'HIIT': '💪', 'Hiking': '🥾',
+    'Swimming': '🏊', 'Strength Training': '🏋️', 'Yoga': '🧘', 'Elliptical': '🔄'
+  };
+
+  function eventIcon(e) {
+    if (e.type === 'workout' && e.workoutType) return workoutTypeIcons[e.workoutType] || '🏅';
+    return baseIcons[e.type] || '📝';
+  }
 
   function entryLabel(e) {
-    if (e.type === 'weight')   return `⚖️ Weigh-in · ${e.kg} kg`;
-    if (e.type === 'run')      return `🏃 Run${e.duration ? ' · ' + e.duration + ' min' : ''}${e.kcal ? ' · ' + e.kcal + ' kcal' : ''}`;
-    if (e.type === 'stair')    return `🏃 Stairs${e.duration ? ' · ' + e.duration + ' min' : ''}${e.kcal ? ' · ' + e.kcal + ' kcal' : ''}`;
-    if (e.type === 'workout')  return `🏃 ${e.workoutType || 'Workout'}${e.duration ? ' · ' + e.duration + ' min' : ''}${e.kcal ? ' · ' + e.kcal + ' kcal' : ''}`;
-    if (e.type === 'drinks')   return `🍺 Drinks · ${e.kcal ? e.kcal + ' kcal' : e.breakdown || ''}`;
-    if (e.type === 'beers')    return `🍺 Drinks · ${e.value} pints`;
-    if (e.type === 'cheat')    return `🍔 Cheat · ${e.value}`;
-    if (e.type === 'activity') return `🏌️ Activity · ${e.value}`;
+    const ic = eventIcon(e);
+    if (e.type === 'weight')   return `${ic} Weigh-in · ${e.kg} kg`;
+    if (e.type === 'run')      return `${ic} Run${e.duration ? ' · ' + e.duration + ' min' : ''}${e.kcal ? ' · ' + e.kcal + ' kcal' : ''}`;
+    if (e.type === 'stair')    return `${ic} Stairs${e.duration ? ' · ' + e.duration + ' min' : ''}${e.kcal ? ' · ' + e.kcal + ' kcal' : ''}`;
+    if (e.type === 'workout')  return `${ic} ${e.workoutType || 'Workout'}${e.duration ? ' · ' + e.duration + ' min' : ''}${e.kcal ? ' · ' + e.kcal + ' kcal' : ''}`;
+    if (e.type === 'drinks')   return `${ic} Drinks · ${e.kcal ? e.kcal + ' kcal' : e.breakdown || ''}`;
+    if (e.type === 'beers')    return `${ic} Drinks · ${e.value} pints`;
+    if (e.type === 'cheat')    return `${ic} Cheat · ${e.value}`;
+    if (e.type === 'activity') return `${ic} Activity · ${e.value}`;
     return e.value || e.type;
   }
 
@@ -933,7 +944,7 @@ function renderWeeklyBurndownChart(allEntries, weekStartStr, weekdayDeficit, wee
   allEntries.forEach(e => {
     const idx = weekDates.indexOf(e.date);
     if (idx === -1) return;
-    const icon = eventIcons[e.type];
+    const icon = eventIcon(e);
     if (!icon) return;
     eventsByDay[idx].push({ icon, label: entryLabel(e), type: e.type });
   });
