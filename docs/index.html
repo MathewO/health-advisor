@@ -895,9 +895,10 @@ function renderWeeklyBurndownChart(allEntries, weekStartStr, weekdayDeficit, wee
   const yMax = Math.max(target, fullWeekBase, actualData[6]) + 100;
 
   // Event icons + labels per day
-  const eventIcons = { run: '🏃', stair: '🏃', workout: '🏃', drinks: '🍺', beers: '🍺', cheat: '🍕', activity: '✅' };
+  const eventIcons = { weight: '⚖️', run: '🏃', stair: '🏃', workout: '🏃', drinks: '🍺', beers: '🍺', cheat: '🍕', activity: '✅' };
 
   function entryLabel(e) {
+    if (e.type === 'weight')   return `⚖️ Weigh-in · ${e.kg} kg`;
     if (e.type === 'run')      return `🏃 Run${e.duration ? ' · ' + e.duration + ' min' : ''}${e.kcal ? ' · ' + e.kcal + ' kcal' : ''}`;
     if (e.type === 'stair')    return `🏃 Stairs${e.duration ? ' · ' + e.duration + ' min' : ''}${e.kcal ? ' · ' + e.kcal + ' kcal' : ''}`;
     if (e.type === 'workout')  return `🏃 ${e.workoutType || 'Workout'}${e.duration ? ' · ' + e.duration + ' min' : ''}${e.kcal ? ' · ' + e.kcal + ' kcal' : ''}`;
