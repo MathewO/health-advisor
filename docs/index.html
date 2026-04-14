@@ -170,7 +170,7 @@
     .meal-item-right { display: flex; gap: 12px; flex-shrink: 0; text-align: right; }
     .meal-item.has-detail { cursor: pointer; }
     .meal-item.has-detail:active { background: var(--surface2); border-radius: 8px; margin: 0 -8px; padding: 14px 8px; }
-    .meal-detail-chevron { font-size: 16px; color: var(--muted); align-self: center; margin-left: 4px; flex-shrink: 0; }
+    .meal-detail-info { display: inline-flex; align-items: center; justify-content: center; width: 15px; height: 15px; border-radius: 50%; border: 1.5px solid var(--muted); color: var(--muted); font-size: 10px; font-weight: 700; font-style: italic; font-family: Georgia, serif; margin-left: 6px; vertical-align: middle; flex-shrink: 0; line-height: 1; }
     /* ── Meal Breakdown Bottom Sheet ── */
     .meal-popup-backdrop { position: fixed; inset: 0; background: rgba(0,0,0,0.55); z-index: 200; opacity: 0; transition: opacity 0.2s; pointer-events: none; }
     .meal-popup-backdrop.visible { opacity: 1; pointer-events: auto; }
@@ -1371,7 +1371,7 @@ function renderMealPlan(body, mp, tab) {
       <div class="meal-item${hasDetail ? ' has-detail' : ''}"${hasDetail ? ` onclick="showMealPopup(window._mealPopupItems[${idx}])"` : ''}>
         <div class="meal-item-left">
           ${item.category ? `<div class="meal-category">${escHtml(item.category)}</div>` : ''}
-          <div class="meal-label">${escHtml(item.label)}</div>
+          <div class="meal-label">${escHtml(item.label)}${hasDetail ? '<span class="meal-detail-info">i</span>' : ''}</div>
         </div>
         <div class="meal-item-right">
           <div class="meal-tally-col">
@@ -1382,7 +1382,6 @@ function renderMealPlan(body, mp, tab) {
             <div class="meal-kcal-add">+${item.protein || 0}g</div>
             <div class="meal-kcal-running">${runProt}g</div>
           </div>
-          ${hasDetail ? '<div class="meal-detail-chevron">›</div>' : ''}
         </div>
       </div>`;
   }).join('');
