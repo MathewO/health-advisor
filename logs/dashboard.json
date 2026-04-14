@@ -20,8 +20,20 @@
       "weekday": {
         "items": [
           { "category": "Morning Coffee", "label": "Coffee + Oatly",  "kcal": 50,  "protein": 1  },
-          { "category": "Breakfast",      "label": "Double Shake",    "kcal": 232, "protein": 42 },
-          { "category": "Lunch",          "label": "Chicken Wrap",    "kcal": 376, "protein": 51 },
+          { "category": "Breakfast",      "label": "Double Shake",    "kcal": 232, "protein": 42,
+            "ingredients": [
+              { "name": "Impact Whey × 2 scoops", "kcal": 232, "protein": 42 },
+              { "name": "Water", "kcal": 0, "protein": 0 }
+            ]
+          },
+          { "category": "Lunch",          "label": "Chicken Wrap",    "kcal": 376, "protein": 51,
+            "ingredients": [
+              { "name": "Sainsbury's protein wrap (61g)", "kcal": 170, "protein": 10 },
+              { "name": "Chicken breast (160g raw, air fryer)", "kcal": 176, "protein": 37 },
+              { "name": "Fage 0% Greek yoghurt (2 big tsp)", "kcal": 20, "protein": 4 },
+              { "name": "Salad leaves & spring onion", "kcal": 10, "protein": 1 }
+            ]
+          },
           { "category": "Dinner",         "label": "Gousto Meal",     "kcal": 640, "protein": 41 },
           { "category": "Pudding",        "label": "Milk Chocolate",  "kcal": 100, "protein": 2  }
         ]
@@ -29,8 +41,20 @@
       "weekend": {
         "items": [
           { "category": "Morning Coffee", "label": "Coffee + Oatly",  "kcal": 50,  "protein": 1  },
-          { "category": "Breakfast",      "label": "Single Shake",    "kcal": 116, "protein": 21 },
-          { "category": "Brunch",         "label": "Weekend Brunch",  "kcal": 648, "protein": 41 },
+          { "category": "Breakfast",      "label": "Single Shake",    "kcal": 116, "protein": 21,
+            "ingredients": [
+              { "name": "Impact Whey × 1 scoop", "kcal": 116, "protein": 21 },
+              { "name": "Water", "kcal": 0, "protein": 0 }
+            ]
+          },
+          { "category": "Brunch",         "label": "Weekend Brunch",  "kcal": 648, "protein": 41,
+            "ingredients": [
+              { "name": "Sainsbury's hash browns × 3 (air fryer)", "kcal": 183, "protein": 3 },
+              { "name": "Branston baked beans (½ tin ~205g)", "kcal": 175, "protein": 9 },
+              { "name": "Eggs × 2, fried with small oil", "kcal": 188, "protein": 13 },
+              { "name": "Heck Chicken Italia sausages × 3 (air fryer)", "kcal": 102, "protein": 17 }
+            ]
+          },
           { "category": "Dinner",         "label": "Gousto Meal",     "kcal": 640, "protein": 41 },
           { "category": "Pudding",        "label": "Milk Chocolate",  "kcal": 100, "protein": 2  }
         ]

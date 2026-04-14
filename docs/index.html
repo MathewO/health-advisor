@@ -168,6 +168,24 @@
     .meal-item { display: flex; justify-content: space-between; align-items: flex-start; padding: 14px 0; border-bottom: 1px solid var(--border); gap: 12px; }
     .meal-item-left { flex: 1; min-width: 0; }
     .meal-item-right { display: flex; gap: 12px; flex-shrink: 0; text-align: right; }
+    .meal-item.has-detail { cursor: pointer; }
+    .meal-item.has-detail:active { background: var(--surface2); border-radius: 8px; margin: 0 -8px; padding: 14px 8px; }
+    .meal-detail-chevron { font-size: 16px; color: var(--muted); align-self: center; margin-left: 4px; flex-shrink: 0; }
+    /* ── Meal Breakdown Bottom Sheet ── */
+    .meal-popup-backdrop { position: fixed; inset: 0; background: rgba(0,0,0,0.55); z-index: 200; opacity: 0; transition: opacity 0.2s; pointer-events: none; }
+    .meal-popup-backdrop.visible { opacity: 1; pointer-events: auto; }
+    .meal-popup-sheet { position: fixed; bottom: 0; left: 0; right: 0; background: var(--surface); border-radius: 18px 18px 0 0; z-index: 201; padding-bottom: calc(var(--safe-bottom) + 20px); max-height: 75vh; overflow-y: auto; transform: translateY(100%); transition: transform 0.25s cubic-bezier(0.32,0.72,0,1); }
+    .meal-popup-sheet.visible { transform: translateY(0); }
+    .meal-popup-handle { width: 36px; height: 4px; background: var(--border); border-radius: 2px; margin: 12px auto 0; }
+    .meal-popup-header { padding: 14px 16px 12px; border-bottom: 1px solid var(--border); }
+    .meal-popup-title { font-size: 17px; font-weight: 700; color: var(--text); }
+    .meal-popup-subtitle { font-size: 12px; color: var(--muted); margin-top: 2px; }
+    .meal-popup-col-header { display: flex; justify-content: space-between; padding: 8px 16px; }
+    .meal-popup-col-header span { font-size: 11px; font-weight: 600; color: var(--muted); text-transform: uppercase; letter-spacing: 0.6px; }
+    .meal-popup-col-header .popup-macros { display: flex; gap: 20px; }
+    .meal-popup-row { display: flex; justify-content: space-between; align-items: center; padding: 11px 16px; border-top: 1px solid var(--border); gap: 12px; }
+    .meal-popup-ingredient { font-size: 14px; color: var(--text); flex: 1; }
+    .meal-popup-macros { display: flex; gap: 20px; flex-shrink: 0; font-size: 13px; color: var(--muted); text-align: right; min-width: 100px; justify-content: flex-end; }
     .meal-tally-col { display: flex; flex-direction: column; align-items: flex-end; min-width: 64px; }
     .meal-category { font-size: 11px; font-weight: 700; color: var(--green); text-transform: uppercase; letter-spacing: 0.7px; margin-bottom: 2px; }
     .meal-label { font-size: 15px; font-weight: 600; color: var(--text); }
@@ -1343,11 +1361,14 @@ function renderMealPlan(body, mp, tab) {
 
   let runKcal = 0;
   let runProt = 0;
-  const itemsHtml = items.map(item => {
+  // Store items on window so click handlers can reference them by index
+  window._mealPopupItems = items;
+  const itemsHtml = items.map((item, idx) => {
     runKcal += item.kcal    || 0;
     runProt += item.protein || 0;
+    const hasDetail = item.ingredients && item.ingredients.length > 0;
     return `
-      <div class="meal-item">
+      <div class="meal-item${hasDetail ? ' has-detail' : ''}"${hasDetail ? ` onclick="showMealPopup(window._mealPopupItems[${idx}])"` : ''}>
         <div class="meal-item-left">
           ${item.category ? `<div class="meal-category">${escHtml(item.category)}</div>` : ''}
           <div class="meal-label">${escHtml(item.label)}</div>
@@ -1361,6 +1382,7 @@ function renderMealPlan(body, mp, tab) {
             <div class="meal-kcal-add">+${item.protein || 0}g</div>
             <div class="meal-kcal-running">${runProt}g</div>
           </div>
+          ${hasDetail ? '<div class="meal-detail-chevron">›</div>' : ''}
         </div>
       </div>`;
   }).join('');
@@ -2450,6 +2472,50 @@ function escHtml(str) {
 
 // ─── Boot ─────────────────────────────────────────────────────
 checkAuth();
+
+// ─── Meal Breakdown Popup ──────────────────────────────────────
+function showMealPopup(item) {
+  if (!item.ingredients || !item.ingredients.length) return;
+  const totalKcal = item.ingredients.reduce((s, i) => s + (i.kcal || 0), 0);
+  const totalProt = item.ingredients.reduce((s, i) => s + (i.protein || 0), 0);
+
+  document.getElementById('mealPopupTitle').textContent = item.label;
+  document.getElementById('mealPopupSubtitle').textContent =
+    `${totalKcal} kcal · ${totalProt}g protein`;
+
+  document.getElementById('mealPopupContent').innerHTML = item.ingredients.map(ing => `
+    <div class="meal-popup-row">
+      <div class="meal-popup-ingredient">${escHtml(ing.name)}</div>
+      <div class="meal-popup-macros">
+        <span>${ing.kcal} kcal</span>
+        <span>${ing.protein}g</span>
+      </div>
+    </div>`).join('');
+
+  document.getElementById('mealPopupBackdrop').classList.add('visible');
+  document.getElementById('mealPopupSheet').classList.add('visible');
+}
+
+function closeMealPopup() {
+  document.getElementById('mealPopupBackdrop').classList.remove('visible');
+  document.getElementById('mealPopupSheet').classList.remove('visible');
+}
 </script>
+
+<!-- ═══════════════ MEAL BREAKDOWN POPUP ═══════════════ -->
+<div id="mealPopupBackdrop" class="meal-popup-backdrop" onclick="closeMealPopup()"></div>
+<div id="mealPopupSheet" class="meal-popup-sheet">
+  <div class="meal-popup-handle"></div>
+  <div class="meal-popup-header">
+    <div class="meal-popup-title" id="mealPopupTitle"></div>
+    <div class="meal-popup-subtitle" id="mealPopupSubtitle"></div>
+  </div>
+  <div class="meal-popup-col-header">
+    <span>Ingredient</span>
+    <div class="popup-macros"><span>Kcal</span><span>Protein</span></div>
+  </div>
+  <div id="mealPopupContent"></div>
+</div>
+
 </body>
 </html>
