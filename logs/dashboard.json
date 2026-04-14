@@ -10,7 +10,7 @@
     "common_cheats": [
       {
         "name": "Caesar Salad",
-        "description": "Sainsbury's caesar salad (½ bag) + lightly dusted mini chicken fillets (½ pack, air fryer)",
+        "description": "Sainsbury's caesar salad (1/2 bag) + lightly dusted mini chicken fillets (1/2 pack, air fryer)",
         "kcal": 497,
         "protein": 30
       }
@@ -58,7 +58,7 @@
           { "category": "Brunch",         "label": "Weekend Brunch",  "kcal": 648, "protein": 41,
             "ingredients": [
               { "name": "Sainsbury's hash browns × 3 (air fryer)", "kcal": 183, "protein": 3 },
-              { "name": "Branston baked beans (½ tin ~205g)", "kcal": 175, "protein": 9 },
+              { "name": "Branston baked beans (1/2 tin ~205g)", "kcal": 175, "protein": 9 },
               { "name": "Eggs × 2, fried with small oil", "kcal": 188, "protein": 13 },
               { "name": "Heck Chicken Italia sausages × 3 (air fryer)", "kcal": 102, "protein": 17 }
             ]
