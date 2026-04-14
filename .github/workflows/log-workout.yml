@@ -64,16 +64,20 @@ jobs:
           except Exception:
               clean_dur = "0"
 
-          # Build log entry
-          if event == "log-run":
+          # Build log entry — use type variable to distinguish workout kinds
+          is_run   = event == "log-run" and (not wtype or wtype.lower() == "running")
+          is_stair = event == "log-stair" and (not wtype or wtype.lower() == "stair climbing")
+
+          if is_run:
               entry = f"{clean_date} | run | {clean_dur} min | {km_raw} km | {clean_kcal} kcal"
               label = f"log-run for {clean_date}"
-          elif event == "log-stair":
+          elif is_stair:
               entry = f"{clean_date} | stair | {clean_dur} min | {clean_kcal} kcal"
               label = f"log-stair for {clean_date}"
           else:
-              entry = f"{clean_date} | workout | {wtype} | {clean_dur} min | {clean_kcal} kcal"
-              label = f"log-workout ({wtype}) for {clean_date}"
+              kind = wtype or "Workout"
+              entry = f"{clean_date} | workout | {kind} | {clean_dur} min | {clean_kcal} kcal"
+              label = f"log-workout ({kind}) for {clean_date}"
 
           print(f"Appending: {entry}")
           with open("logs/phone-log.md", "a") as f:
