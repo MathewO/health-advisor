@@ -5,7 +5,7 @@
     "status": "active",
     "start_date": "2026-04-13",
     "target_date": "2026-06-06",
-    "start_kg": 85.5,
+    "start_kg": 85.8,
     "target_kg": 82.0,
     "meal_plan": {
       "calorie_target": "~1,500 kcal/day",
