@@ -150,6 +150,11 @@
     .log-entry-date { font-size: 12px; color: var(--muted); }
     .log-entry-value { font-size: 15px; font-weight: 600; }
     .log-entry-note { font-size: 13px; color: var(--muted); margin-top: 4px; font-style: italic; }
+    .log-entry-actions { display: flex; gap: 8px; margin-top: 10px; }
+    .log-entry-actions button { font-size: 12px; padding: 4px 14px; border-radius: 20px; border: 1px solid var(--border); background: transparent; color: var(--muted); cursor: pointer; -webkit-tap-highlight-color: transparent; }
+    .log-entry-actions button:last-child { color: var(--red); border-color: var(--red); }
+    .log-edit-field { width: 100%; font-size: 12px; font-family: monospace; background: var(--surface); color: var(--text); border: 1px solid var(--border); border-radius: 8px; padding: 8px; box-sizing: border-box; resize: vertical; min-height: 56px; }
+    .log-edit-actions { display: flex; gap: 8px; margin-top: 8px; }
     .stat-chips { display: flex; gap: 6px; flex-wrap: wrap; margin-top: 6px; }
     .stat-chip { background: var(--surface2); border-radius: 20px; font-size: 12px; font-weight: 500; padding: 3px 10px; color: var(--text); }
 
@@ -633,6 +638,12 @@ async function ghAppend(path, newLine) {
   const parts = newLine.split('|');
   const label = parts[1] ? parts[1].trim() : 'entry';
   await ghPut(path, updated, file.sha, 'log: ' + label + ' entry');
+}
+
+async function ghWriteLog(newText, message) {
+  const file = await ghGet(LOG_PATH);
+  await ghPut(LOG_PATH, newText, file.sha, message);
+  logText = newText;
 }
 
 // ─── Global state ─────────────────────────────────────────────
@@ -1200,6 +1211,7 @@ function loadLogView() {
       noteHtml  = e.note ? `<div class="log-entry-note">"${escHtml(e.note)}"</div>` : '';
     }
 
+    const encodedRaw = btoa(unescape(encodeURIComponent(e.rawLine || '')));
     return `
       <div class="log-entry">
         <div class="log-entry-header">
@@ -1209,8 +1221,63 @@ function loadLogView() {
         <div class="log-entry-value">${escHtml(valueText)}</div>
         ${chipsHtml}
         ${noteHtml}
+        <div class="log-entry-actions">
+          <button onclick="editLogEntry(this)" data-raw="${encodedRaw}">Edit</button>
+          <button onclick="deleteLogEntry(this)" data-raw="${encodedRaw}">Delete</button>
+        </div>
       </div>`;
   }).join('');
+}
+
+// ─── Log Entry Edit / Delete ──────────────────────────────────
+async function deleteLogEntry(btn) {
+  if (!confirm('Remove this entry from the log?')) return;
+  const rawLine = decodeURIComponent(escape(atob(btn.dataset.raw)));
+  btn.closest('.log-entry').style.opacity = '0.4';
+  btn.closest('.log-entry').style.pointerEvents = 'none';
+  try {
+    const newText = logText.split('\n').filter(l => l !== rawLine).join('\n');
+    await ghWriteLog(newText, 'log: delete entry');
+    loadLogView();
+    loadDashboard();
+  } catch (err) {
+    alert('Failed to delete: ' + err.message);
+    btn.closest('.log-entry').style.opacity = '';
+    btn.closest('.log-entry').style.pointerEvents = '';
+  }
+}
+
+function editLogEntry(btn) {
+  const rawLine = decodeURIComponent(escape(atob(btn.dataset.raw)));
+  const card = btn.closest('.log-entry');
+  const encodedOld = btn.dataset.raw;
+  card.innerHTML = `
+    <div style="font-size:11px;color:var(--muted);margin-bottom:6px">Edit entry — pipe-separated fields</div>
+    <textarea class="log-edit-field">${escHtml(rawLine)}</textarea>
+    <div class="log-edit-actions">
+      <button class="pill-btn" style="flex:1" onclick="saveLogEdit(this, '${encodedOld}')">Save</button>
+      <button class="pill-btn" style="flex:1;color:var(--muted)" onclick="loadLogView()">Cancel</button>
+    </div>`;
+  card.querySelector('textarea').focus();
+}
+
+async function saveLogEdit(btn, encodedOld) {
+  const oldLine = decodeURIComponent(escape(atob(encodedOld)));
+  const textarea = btn.closest('.log-entry').querySelector('textarea');
+  const newLine = textarea.value.trim();
+  if (!newLine || newLine === oldLine) { loadLogView(); return; }
+  btn.textContent = 'Saving…';
+  btn.disabled = true;
+  try {
+    const newText = logText.split('\n').map(l => l === oldLine ? newLine : l).join('\n');
+    await ghWriteLog(newText, 'log: edit entry');
+    loadLogView();
+    loadDashboard();
+  } catch (err) {
+    alert('Failed to save: ' + err.message);
+    btn.textContent = 'Save';
+    btn.disabled = false;
+  }
 }
 
 // ─── Meal Plan ────────────────────────────────────────────────
@@ -1668,6 +1735,7 @@ function parseAllLogEntries(text) {
       entry.outlierKcal = 0;
     }
 
+    entry.rawLine = line;
     entries.push(entry);
   }
 
