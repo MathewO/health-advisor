@@ -379,7 +379,7 @@
       <div class="log-grid" style="margin-top:20px">
         <button class="log-card" onclick="openForm('weight')">
           <div class="log-icon">⚖️</div>
-          <div class="log-label">Weight</div>
+          <div class="log-label">Weigh In</div>
           <div class="log-sub">Morning reading</div>
         </button>
         <button class="log-card" onclick="openDrinksForm()">
@@ -393,7 +393,7 @@
           <div class="log-sub">Run, walk, etc.</div>
         </button>
         <button class="log-card" onclick="openCheatForm()">
-          <div class="log-icon">🍕</div>
+          <div class="log-icon">🍔</div>
           <div class="log-label">Cheat Meal</div>
           <div class="log-sub">Off-plan eating</div>
         </button>
@@ -910,7 +910,7 @@ function renderWeeklyBurndownChart(allEntries, weekStartStr, weekdayDeficit, wee
   const yMax = Math.max(target, fullWeekBase, actualData[6]) + 100;
 
   // Event icons + labels per day
-  const eventIcons = { weight: '⚖️', run: '🏃', stair: '🏃', workout: '🏃', drinks: '🍺', beers: '🍺', cheat: '🍕', activity: '✅' };
+  const eventIcons = { weight: '⚖️', run: '🏃', stair: '🏃', workout: '🏃', drinks: '🍺', beers: '🍺', cheat: '🍔', activity: '✅' };
 
   function entryLabel(e) {
     if (e.type === 'weight')   return `⚖️ Weigh-in · ${e.kg} kg`;
@@ -919,7 +919,7 @@ function renderWeeklyBurndownChart(allEntries, weekStartStr, weekdayDeficit, wee
     if (e.type === 'workout')  return `🏃 ${e.workoutType || 'Workout'}${e.duration ? ' · ' + e.duration + ' min' : ''}${e.kcal ? ' · ' + e.kcal + ' kcal' : ''}`;
     if (e.type === 'drinks')   return `🍺 Drinks · ${e.kcal ? e.kcal + ' kcal' : e.breakdown || ''}`;
     if (e.type === 'beers')    return `🍺 Drinks · ${e.value} pints`;
-    if (e.type === 'cheat')    return `🍕 Cheat · ${e.value}`;
+    if (e.type === 'cheat')    return `🍔 Cheat · ${e.value}`;
     if (e.type === 'activity') return `✅ Activity · ${e.value}`;
     return e.value || e.type;
   }
@@ -1177,7 +1177,7 @@ function loadLogView() {
     drinks:   { label: 'Drinks',          badgeClass: 'badge-amber',  icon: '🍺' },
     beers:    { label: 'Drinks',          badgeClass: 'badge-amber',  icon: '🍺' },
     activity: { label: 'Activity',        badgeClass: 'badge-green',  icon: '🏃' },
-    cheat:    { label: 'Cheat Meal',      badgeClass: 'badge-red',    icon: '🍕' },
+    cheat:    { label: 'Cheat Meal',      badgeClass: 'badge-red',    icon: '🍔' },
     run:      { label: 'Run',             badgeClass: 'badge-green',  icon: '🏃' },
     stair:    { label: 'Stair Climbing',  badgeClass: 'badge-purple', icon: '🪜' },
     workout:  { label: 'Workout',         badgeClass: 'badge-green',  icon: '🏅' }
@@ -1969,7 +1969,7 @@ function renderPlanned(items) {
 // ─── Log Form ─────────────────────────────────────────────────
 const formConfigs = {
   weight: {
-    title: '⚖️ Log Weight',
+    title: '⚖️ Weigh In',
     fields: [
       { id: 'val',  label: 'Morning weight (kg)', type: 'number',   placeholder: '85.0', step: '0.1', inputmode: 'decimal' },
       { id: 'note', label: 'Note',                type: 'textarea', placeholder: 'e.g. Felt heavy — big meal last night', optional: true },
@@ -2284,7 +2284,7 @@ function getMealOptions() {
 
 function openCheatForm() {
   currentFormType = 'cheat';
-  document.getElementById('formTitle').textContent = '🍕 Log Cheat Meal';
+  document.getElementById('formTitle').textContent = '🍔 Log Cheat Meal';
 
   const mealOptions = getMealOptions();
   const mealOptHtml = `<option value="">None — additional calories</option>`
