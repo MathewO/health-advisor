@@ -801,11 +801,7 @@ function renderPhaseCard(phase, weights) {
       <span>${lost > 0 ? lost : 0} kg lost</span>
       <span>${left > 0 ? left : 0} kg to go</span>
     </div>
-    <div class="chart-wrap"><canvas id="weightChart"></canvas></div>
-    <div class="phase-actions">
-      <button class="pill-btn" onclick="openOverlay('screen-log-view')">Show Log</button>
-      <button class="pill-btn" onclick="openOverlay('screen-meal-plan')">Meal Plan</button>
-    </div>`;
+    <div class="chart-wrap"><canvas id="weightChart"></canvas></div>`;
 
   renderWeightChart(weights, phase);
 }
@@ -862,6 +858,10 @@ function renderWeeklyDeficitCard(phase) {
         <div style="font-size:11px;color:var(--muted);margin-top:2px">Day ${daysElapsed} of 7</div>
       </div>
       <div class="predicted-val" style="color:${predictedColor}">${predicted.toLocaleString()} kcal</div>
+    </div>
+    <div class="phase-actions">
+      <button class="pill-btn" onclick="openOverlay('screen-log-view')">Show Log</button>
+      <button class="pill-btn" onclick="openOverlay('screen-meal-plan')">Meal Plan</button>
     </div>`;
 
   // Defer until after browser has laid out the new canvas
