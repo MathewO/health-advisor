@@ -1401,13 +1401,13 @@ function renderMealPlan(body, mp, tab) {
             <div class="meal-label">${escHtml(item.label)}${hasDetail ? '<span class="meal-detail-info">i</span>' : ''}</div>
           </div>
           <div class="meal-item-macros">
-            <span>${(item.kcal || 0).toLocaleString()} kcal</span>
+            <span>${(item.kcal || 0).toLocaleString()}</span>
             <span>${item.protein || 0}g</span>
           </div>
         </div>
         <div class="meal-item-tally">
-          <span>${runKcal.toLocaleString()} kcal</span>
-          <span>${runProt}g protein</span>
+          <span>${runKcal.toLocaleString()}</span>
+          <span>${runProt}g</span>
         </div>
       </div>`;
   }).join('');
@@ -1440,6 +1440,10 @@ function renderMealPlan(body, mp, tab) {
     </div>
     ${proteinPill}
     <div style="background:var(--surface);border-radius:var(--radius);padding:14px">
+      <div style="display:flex;justify-content:flex-end;gap:10px;padding-bottom:8px;border-bottom:1px solid var(--border);margin-bottom:4px">
+        <span style="font-size:11px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:0.6px">kcal</span>
+        <span style="font-size:11px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:0.6px">protein</span>
+      </div>
       ${itemsHtml}
       ${totalHtml}
     </div>`;
