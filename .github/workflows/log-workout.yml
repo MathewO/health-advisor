@@ -64,9 +64,10 @@ jobs:
           except Exception:
               clean_dur = "0"
 
-          # Build log entry — use type variable to distinguish workout kinds
-          is_run   = event == "log-run" and (not wtype or wtype.lower() == "running")
-          is_stair = event == "log-stair" and (not wtype or wtype.lower() == "stair climbing")
+          # Build log entry — type variable overrides event for workout detection
+          wt = wtype.lower().strip() if wtype else ""
+          is_run   = wt in ("", "running") and event in ("log-run",)
+          is_stair = wt == "stair climbing" or (not wt and event == "log-stair")
 
           if is_run:
               entry = f"{clean_date} | run | {clean_dur} min | {km_raw} km | {clean_kcal} kcal"
