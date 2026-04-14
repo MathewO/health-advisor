@@ -13,6 +13,12 @@
         "description": "Caesar Salad",
         "kcal": 497,
         "protein": 30
+      },
+      {
+        "name": "Tuna Power Bowl",
+        "description": "Tuna Power Bowl",
+        "kcal": 508,
+        "protein": 41
       }
     ],
     "meal_plan": {
