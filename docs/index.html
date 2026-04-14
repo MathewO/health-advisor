@@ -1098,10 +1098,13 @@ function computeWeeklyDeficit(allEntries, phase) {
   const weekOutliers = allEntries.filter(e => e.date >= weekStartStr && e.date <= weekEndStr && isOutlierType(e))
                                  .sort((a, b) => a.date.localeCompare(b.date));
 
-  // Carryover: previous week's meal-plan deficit ± its outliers vs target
+  // Carryover: previous week's meal-plan deficit ± its outliers vs target.
+  // Only applies if the previous week falls within the active phase (i.e. phase started before this week).
+  const phaseStartStr = phase.start_date || weekStartStr;
+  const prevWeekInPhase = pweStr >= phaseStartStr;
   const prevWeekAdj = prevOutliers.reduce((s, e) => s + (e.outlierKcal || 0), 0);
   const prevDeficit = fullWeekBase + prevWeekAdj;
-  const carryover   = Math.min(0, prevDeficit - target); // only shortfall carries forward
+  const carryover   = prevWeekInPhase ? Math.min(0, prevDeficit - target) : 0;
 
   const thisWeekAdj = weekOutliers.reduce((s, e) => s + (e.outlierKcal || 0), 0);
   // Predicted = full week meal-plan base + carryover from last week + outliers logged so far
