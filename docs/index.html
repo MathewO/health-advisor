@@ -671,6 +671,14 @@ async function ghAppend(path, newLine) {
 }
 
 async function ghWriteLog(newText, message) {
+  if (!newText || !newText.includes('## Log')) {
+    throw new Error('Safety check failed — log content missing header. Aborting write.');
+  }
+  const oldLineCount = (logText || '').split('\n').length;
+  const newLineCount = newText.split('\n').length;
+  if (oldLineCount > 5 && newLineCount < oldLineCount - 5) {
+    throw new Error('Safety check failed — too many lines removed (' + oldLineCount + ' → ' + newLineCount + '). Aborting write.');
+  }
   const file = await ghGet(LOG_PATH);
   await ghPut(LOG_PATH, newText, file.sha, message);
   logText = newText;
@@ -1291,11 +1299,17 @@ async function deleteLogEntry(btn) {
     btn.closest('.log-entry').style.opacity = '0.4';
     btn.closest('.log-entry').style.pointerEvents = 'none';
     try {
-      const newText = logText.split('\n').filter(l => l !== rawLine).join('\n');
+      const lines = logText.split('\n');
+      const matchIndices = lines.reduce((acc, l, i) => { if (l === rawLine) acc.push(i); return acc; }, []);
+      if (matchIndices.length === 0) throw new Error('Could not find the entry to delete — no changes made.');
+      if (matchIndices.length > 1) throw new Error('Multiple matches found — delete aborted for safety.');
+      lines.splice(matchIndices[0], 1);
+      const newText = lines.join('\n');
       await ghWriteLog(newText, 'log: delete entry');
       loadLogView();
       loadDashboard();
     } catch (err) {
+      alert('Delete failed: ' + err.message);
       btn.closest('.log-entry').style.opacity = '';
       btn.closest('.log-entry').style.pointerEvents = '';
     }
