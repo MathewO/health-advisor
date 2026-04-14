@@ -12,9 +12,9 @@
       "protein_target": "130g+ per day",
       "totals": {
         "weekday_kcal": 1398,
-        "weekend_kcal": 1572,
-        "avg_daily_kcal": 1448,
-        "avg_daily_deficit": 487,
+        "weekend_kcal": 1596,
+        "avg_daily_kcal": 1455,
+        "avg_daily_deficit": 480,
         "_note": "avg = (weekday×5 + weekend×2) / 7 — update these whenever meal items change"
       },
       "weekday": {
@@ -29,8 +29,8 @@
       "weekend": {
         "items": [
           { "category": "Morning Coffee", "label": "Coffee + Oatly",  "kcal": 50,  "protein": 1  },
-          { "category": "Breakfast",      "label": "Double Shake",    "kcal": 232, "protein": 42 },
-          { "category": "Brunch",         "label": "Weekend Brunch",  "kcal": 550, "protein": 37 },
+          { "category": "Breakfast",      "label": "Single Shake",    "kcal": 116, "protein": 21 },
+          { "category": "Brunch",         "label": "Weekend Brunch",  "kcal": 690, "protein": 48 },
           { "category": "Dinner",         "label": "Gousto Meal",     "kcal": 640, "protein": 41 },
           { "category": "Pudding",        "label": "Milk Chocolate",  "kcal": 100, "protein": 2  }
         ]
