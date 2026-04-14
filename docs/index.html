@@ -374,28 +374,23 @@
 
     <!-- LOG -->
     <div id="tab-log" class="tab-pane">
-      <h2>Log Entry</h2>
-      <div style="font-size:14px;color:var(--muted);margin-top:4px">What do you want to record?</div>
+      <h2>Tracking</h2>
       <div class="log-grid" style="margin-top:20px">
         <button class="log-card" onclick="openForm('weight')">
           <div class="log-icon">⚖️</div>
           <div class="log-label">Weigh In</div>
-          <div class="log-sub">Morning reading</div>
         </button>
         <button class="log-card" onclick="openDrinksForm()">
           <div class="log-icon">🍺</div>
           <div class="log-label">Drinks</div>
-          <div class="log-sub">Alcohol consumed</div>
         </button>
         <button class="log-card" onclick="openForm('activity')">
           <div class="log-icon">🏃</div>
           <div class="log-label">Extra Activity</div>
-          <div class="log-sub">Run, walk, etc.</div>
         </button>
         <button class="log-card" onclick="openCheatForm()">
           <div class="log-icon">🍔</div>
-          <div class="log-label">Cheat Meal</div>
-          <div class="log-sub">Off-plan eating</div>
+          <div class="log-label">Off-plan Meal</div>
         </button>
       </div>
     </div>
@@ -1194,7 +1189,7 @@ function loadLogView() {
     drinks:   { label: 'Drinks',          badgeClass: 'badge-amber',  icon: '🍺' },
     beers:    { label: 'Drinks',          badgeClass: 'badge-amber',  icon: '🍺' },
     activity: { label: 'Activity',        badgeClass: 'badge-green',  icon: '🏃' },
-    cheat:    { label: 'Cheat Meal',      badgeClass: 'badge-red',    icon: '🍔' },
+    cheat:    { label: 'Off-plan Meal',   badgeClass: 'badge-red',    icon: '🍔' },
     run:      { label: 'Run',             badgeClass: 'badge-green',  icon: '🏃' },
     stair:    { label: 'Stair Climbing',  badgeClass: 'badge-purple', icon: '🪜' },
     workout:  { label: 'Workout',         badgeClass: 'badge-green',  icon: '🏅' }
@@ -2307,7 +2302,7 @@ function getMealOptions() {
 
 function openCheatForm() {
   currentFormType = 'cheat';
-  document.getElementById('formTitle').textContent = '🍔 Log Cheat Meal';
+  document.getElementById('formTitle').textContent = '🍔 Log Off-plan Meal';
 
   const mealOptions = getMealOptions();
   const mealOptHtml = `<option value="">None — additional calories</option>`
