@@ -748,17 +748,14 @@ function renderPhaseCard(phase, weights) {
   const diff           = +(projectedAtTarget - phase.target_kg).toFixed(1);
 
   let trendText, trendColor;
-  if (diff < -0.3) {
+  if (diff <= 0) {
     trendText  = '✓ Trending to ' + projectedAtTarget + ' kg by ' + formatDate(phase.target_date);
     trendColor = 'var(--green)';
-  } else if (diff <= 0.3) {
-    trendText  = '✓ On track to hit ' + phase.target_kg + ' kg by ' + formatDate(phase.target_date);
-    trendColor = 'var(--green)';
   } else if (diff <= 1.0) {
-    trendText  = '⚠ Trending to ' + projectedAtTarget + ' kg — slightly off';
+    trendText  = '⚠ Trending to ' + projectedAtTarget + ' kg by ' + formatDate(phase.target_date);
     trendColor = 'var(--amber)';
   } else {
-    trendText  = '✗ Trending to ' + projectedAtTarget + ' kg — needs adjustment';
+    trendText  = '✗ Trending to ' + projectedAtTarget + ' kg by ' + formatDate(phase.target_date);
     trendColor = 'var(--red)';
   }
 
