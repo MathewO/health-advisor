@@ -11,6 +11,7 @@
   <meta name="apple-mobile-web-app-title" content="Health" />
   <title>Health Logger</title>
   <link rel="manifest" href="manifest.json" />
+  <script>document.documentElement.style.setProperty('--app-h',(navigator.standalone?screen.height:window.innerHeight)+'px');</script>
   <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.2/dist/chart.umd.min.js"></script>
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -503,14 +504,12 @@
 // ─── Viewport height fix for iOS standalone ──────────────────
 (function() {
   function setH() {
-    document.documentElement.style.setProperty('--app-h', window.innerHeight + 'px');
+    var h = navigator.standalone ? screen.height : window.innerHeight;
+    document.documentElement.style.setProperty('--app-h', h + 'px');
   }
   setH();
   window.addEventListener('resize', setH);
   window.addEventListener('orientationchange', setH);
-  setTimeout(setH, 50);
-  setTimeout(setH, 150);
-  setTimeout(setH, 500);
 })();
 
 // ─── Config ───────────────────────────────────────────────────
