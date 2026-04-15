@@ -625,6 +625,11 @@ async function testConnection() {
 }
 
 // ─── GitHub API helpers ───────────────────────────────────────
+function ghDecode(base64) {
+  const raw = atob(base64.replace(/\n/g, ''));
+  return decodeURIComponent(escape(raw));
+}
+
 async function ghGet(path) {
   const { user, repo, token } = ghConfig();
   const r = await fetch(`https://api.github.com/repos/${user}/${repo}/contents/${path}`, {
@@ -655,7 +660,10 @@ async function ghPut(path, content, sha, message) {
 
 async function ghAppend(path, newLine) {
   const file = await ghGet(path);
-  const current = atob(file.content.replace(/\n/g, ''));
+  const current = ghDecode(file.content);
+  if (path === LOG_PATH && !current.includes('## Log')) {
+    throw new Error('Safety check failed — decoded content missing header. File may be corrupted.');
+  }
   const updated = current + newLine + '\n';
   const parts = newLine.split('|');
   const label = parts[1] ? parts[1].trim() : 'entry';
@@ -688,7 +696,7 @@ async function loadDashboard() {
   try {
     const dashFile = await ghGet(DASH_PATH);
     dashSha  = dashFile.sha;
-    dashData = JSON.parse(atob(dashFile.content.replace(/\n/g, '')));
+    dashData = JSON.parse(ghDecode(dashFile.content));
 
     document.getElementById('lastUpdated').textContent = 'Last updated: ' + dashData.last_updated;
 
@@ -706,7 +714,7 @@ async function loadDashboard() {
     renderPlanned(dashData.planned || []);
 
     const logFile = await ghGet(LOG_PATH);
-    logText = atob(logFile.content.replace(/\n/g, ''));
+    logText = ghDecode(logFile.content);
 
     if (phase) {
       const weights = parseWeightLog(logText, phase);
