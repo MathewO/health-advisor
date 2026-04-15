@@ -502,11 +502,18 @@
 <script>
 // ─── Viewport height fix for iOS standalone ──────────────────
 function setAppHeight() {
-  document.documentElement.style.setProperty('--app-h', window.innerHeight + 'px');
+  const h = window.visualViewport ? window.visualViewport.height : window.innerHeight;
+  document.documentElement.style.setProperty('--app-h', h + 'px');
 }
 setAppHeight();
 window.addEventListener('resize', setAppHeight);
 window.addEventListener('orientationchange', setAppHeight);
+if (window.visualViewport) window.visualViewport.addEventListener('resize', setAppHeight);
+setTimeout(function() {
+  setAppHeight();
+  var tc = document.querySelector('.tab-content');
+  if (tc) { tc.scrollTop = 1; requestAnimationFrame(function() { tc.scrollTop = 0; }); }
+}, 300);
 
 // ─── Config ───────────────────────────────────────────────────
 const CORRECT_PIN = '2050';
@@ -2599,5 +2606,6 @@ function closeMealPopup() {
   <div id="mealPopupContent"></div>
 </div>
 
+<div style="position:fixed;bottom:0;left:0;right:0;height:50px;background:#27272a;z-index:-1"></div>
 </body>
 </html>
