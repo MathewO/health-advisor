@@ -33,10 +33,10 @@
       --safe-top: env(safe-area-inset-top, 0px);
     }
 
-    html, body { margin: 0; padding: 0; height: 100%; overflow: hidden; background: var(--bg); color: var(--text); font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Text', sans-serif; -webkit-font-smoothing: antialiased; }
+    html, body { margin: 0; padding: 0; height: 100%; background: var(--bg); color: var(--text); font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Text', sans-serif; -webkit-font-smoothing: antialiased; }
 
     /* ── Screens ── */
-    .screen { display: none; flex-direction: column; height: var(--app-h, 100vh); overflow: hidden; }
+    .screen { display: none; flex-direction: column; height: 100dvh; overflow: hidden; }
     .screen.active { display: flex; }
 
     /* ── Password Screen ── */
@@ -56,7 +56,7 @@
     /* ── App Shell ── */
     #app { flex-direction: column; }
     .tab-content { flex: 1; overflow-y: auto; overflow-x: hidden; -webkit-overflow-scrolling: touch; }
-    .tab-pane { display: none; padding: calc(var(--safe-top) + 2px) 16px 16px; }
+    .tab-pane { display: none; padding: calc(var(--safe-top) + 2px) 16px 16px; box-sizing: border-box; }
     .tab-pane.active { display: block; }
 
     .tab-bar { display: flex; background: var(--surface); border-top: 1px solid var(--border); padding-bottom: var(--safe-bottom); height: calc(var(--tab-h) + var(--safe-bottom)); flex-shrink: 0; }
@@ -500,20 +500,31 @@
 </div>
 
 <script>
-// ─── Viewport height fix for iOS standalone ──────────────────
-function setAppHeight() {
-  const h = window.visualViewport ? window.visualViewport.height : window.innerHeight;
-  document.documentElement.style.setProperty('--app-h', h + 'px');
-}
-setAppHeight();
-window.addEventListener('resize', setAppHeight);
-window.addEventListener('orientationchange', setAppHeight);
-if (window.visualViewport) window.visualViewport.addEventListener('resize', setAppHeight);
+// ─── Debug: show viewport dimensions (temporary) ────────────
 setTimeout(function() {
-  setAppHeight();
-  var tc = document.querySelector('.tab-content');
-  if (tc) { tc.scrollTop = 1; requestAnimationFrame(function() { tc.scrollTop = 0; }); }
-}, 300);
+  var d = document.createElement('div');
+  d.id = 'dbg';
+  d.style.cssText = 'position:fixed;top:0;left:0;right:0;background:rgba(255,0,0,0.85);color:#fff;font:10px monospace;padding:40px 8px 4px;z-index:9999;white-space:pre-wrap;';
+  document.body.appendChild(d);
+  function upd() {
+    var app = document.getElementById('app');
+    var bar = document.querySelector('.tab-bar');
+    var barRect = bar ? bar.getBoundingClientRect() : {};
+    var sab = getComputedStyle(document.documentElement).getPropertyValue('--safe-bottom');
+    d.textContent =
+      'innerH: ' + window.innerHeight +
+      '  screen.h: ' + screen.height +
+      '  vv.h: ' + (window.visualViewport ? window.visualViewport.height : 'N/A') +
+      '\nclientH: ' + document.documentElement.clientHeight +
+      '  app.clientH: ' + (app ? app.clientHeight : 'N/A') +
+      '\nbar.bottom: ' + (barRect.bottom ? barRect.bottom.toFixed(1) : 'N/A') +
+      '  bar.height: ' + (barRect.height ? barRect.height.toFixed(1) : 'N/A') +
+      '\n--safe-bottom: ' + sab +
+      '  standalone: ' + (navigator.standalone ? 'YES' : 'no');
+  }
+  upd();
+  setInterval(upd, 2000);
+}, 500);
 
 // ─── Config ───────────────────────────────────────────────────
 const CORRECT_PIN = '2050';
@@ -2606,6 +2617,5 @@ function closeMealPopup() {
   <div id="mealPopupContent"></div>
 </div>
 
-<div style="position:fixed;bottom:0;left:0;right:0;height:50px;background:#27272a;z-index:-1"></div>
 </body>
 </html>
