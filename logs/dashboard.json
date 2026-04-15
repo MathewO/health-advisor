@@ -87,7 +87,7 @@
   "recommendations": [
     {
       "title": "Improve VO2 Max",
-      "detail": "Currently 32.9 mL/kg/min — below average for age 39. This is the strongest single predictor of longevity. Zone 2 cardio and intervals are the main levers."
+      "detail": "2x runs/week at current pace (7.2 kph, ~160 bpm). Extend one run from 20 to 30 min over 6-8 weeks. No intervals during the deficit. Re-assess after fat loss phase ends."
     },
     {
       "title": "Consider switching to dark chocolate (70%+)",
@@ -111,10 +111,6 @@
     {
       "title": "Fibre & Micronutrient Boost",
       "detail": "1 tbsp chia seeds in morning shake + 1 kiwi at ~3–4pm on weekdays. +~100 kcal/day, +~6g fibre/day. Adds vitamin C, calcium, magnesium, and prebiotic soluble fibre."
-    },
-    {
-      "title": "VO2 Max Protocol",
-      "detail": "2x runs/week at current pace (7.2 kph, ~160 bpm). Extend one run from 20 to 30 min over 6-8 weeks. No intervals during the deficit. Re-assess after fat loss phase ends."
     }
   ],
   "last_updated": "2026-04-14"
