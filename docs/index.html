@@ -59,7 +59,7 @@
     .tab-pane { display: none; padding: calc(var(--safe-top) + 2px) 16px 16px; box-sizing: border-box; }
     .tab-pane.active { display: block; }
 
-    .tab-bar { display: flex; background: var(--surface); border-top: 1px solid var(--border); padding-bottom: var(--safe-bottom); height: calc(var(--tab-h) + var(--safe-bottom)); flex-shrink: 0; }
+    .tab-bar { display: flex; background: var(--surface); border-top: 1px solid var(--border); height: var(--tab-h); flex-shrink: 0; }
     .tab-btn { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 2px; background: none; border: none; color: var(--muted); font-size: 10px; font-weight: 500; cursor: pointer; -webkit-tap-highlight-color: transparent; transition: color .15s; padding: 4px 0; }
     .tab-btn .icon { font-size: 18px; }
     .tab-btn.active { color: var(--accent); }
@@ -500,32 +500,6 @@
 </div>
 
 <script>
-// ─── Debug: show viewport dimensions (temporary) ────────────
-setTimeout(function() {
-  var d = document.createElement('div');
-  d.id = 'dbg';
-  d.style.cssText = 'position:fixed;top:0;left:0;right:0;background:rgba(255,0,0,0.85);color:#fff;font:10px monospace;padding:40px 8px 4px;z-index:9999;white-space:pre-wrap;';
-  document.body.appendChild(d);
-  function upd() {
-    var app = document.getElementById('app');
-    var bar = document.querySelector('.tab-bar');
-    var barRect = bar ? bar.getBoundingClientRect() : {};
-    var sab = getComputedStyle(document.documentElement).getPropertyValue('--safe-bottom');
-    d.textContent =
-      'innerH: ' + window.innerHeight +
-      '  screen.h: ' + screen.height +
-      '  vv.h: ' + (window.visualViewport ? window.visualViewport.height : 'N/A') +
-      '\nclientH: ' + document.documentElement.clientHeight +
-      '  app.clientH: ' + (app ? app.clientHeight : 'N/A') +
-      '\nbar.bottom: ' + (barRect.bottom ? barRect.bottom.toFixed(1) : 'N/A') +
-      '  bar.height: ' + (barRect.height ? barRect.height.toFixed(1) : 'N/A') +
-      '\n--safe-bottom: ' + sab +
-      '  standalone: ' + (navigator.standalone ? 'YES' : 'no');
-  }
-  upd();
-  setInterval(upd, 2000);
-}, 500);
-
 // ─── Config ───────────────────────────────────────────────────
 const CORRECT_PIN = '2050';
 const LOG_PATH    = 'logs/phone-log.md';
