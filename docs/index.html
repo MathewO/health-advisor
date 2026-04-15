@@ -36,7 +36,7 @@
     html, body { margin: 0; padding: 0; height: 100%; background: var(--bg); color: var(--text); font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Text', sans-serif; -webkit-font-smoothing: antialiased; }
 
     /* ── Screens ── */
-    .screen { display: none; flex-direction: column; height: 100dvh; overflow: hidden; }
+    .screen { display: none; flex-direction: column; height: var(--app-h, 100dvh); overflow: hidden; }
     .screen.active { display: flex; }
 
     /* ── Password Screen ── */
@@ -500,6 +500,19 @@
 </div>
 
 <script>
+// ─── Viewport height fix for iOS standalone ──────────────────
+(function() {
+  function setH() {
+    document.documentElement.style.setProperty('--app-h', window.innerHeight + 'px');
+  }
+  setH();
+  window.addEventListener('resize', setH);
+  window.addEventListener('orientationchange', setH);
+  setTimeout(setH, 50);
+  setTimeout(setH, 150);
+  setTimeout(setH, 500);
+})();
+
 // ─── Config ───────────────────────────────────────────────────
 const CORRECT_PIN = '2050';
 const LOG_PATH    = 'logs/phone-log.md';
