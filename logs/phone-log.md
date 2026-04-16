@@ -31,3 +31,4 @@ All entries: `YYYY-MM-DD | type | value | [optional note]`
 2026-04-14 | weight | 85.1
 2026-04-14 | run | 20 min |  km | 188 kcal
 2026-04-15 | weight | 85
+2026-04-16 | weight | 84.6 | Bad tummy last night
