@@ -38,4 +38,4 @@ All entries: `YYYY-MM-DD | type | value | [optional note]`
 2026-04-17 | weight | 84.6
 2026-04-17 | cheat | Skipped coffee | replaces: Coffee + Oatly (50 kcal)
 2026-04-17 | cheat | Anchovies, ~50 kcal
-2026-04-17 | cheat | Lux pasta, ~1080 kcal | replaces: Gousto Meal (640 kcal)
+2026-04-17 | cheat | Lux pasta, ~780 kcal | replaces: Gousto Meal (640 kcal)
