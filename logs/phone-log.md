@@ -36,3 +36,4 @@ All entries: `YYYY-MM-DD | type | value | [optional note]`
 2026-04-16 | drinks | 89 | Alcohol free beer
 2026-04-16 | cheat | Caesar Salad + chips, ~650 kcal | replaces: Gousto Meal (640 kcal)
 2026-04-17 | weight | 84.6
+2026-04-17 | cheat | Skipped coffee | replaces: Coffee + Oatly (50 kcal)
