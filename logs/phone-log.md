@@ -47,3 +47,4 @@ All entries: `YYYY-MM-DD | type | value | [optional note]`
 2026-04-18 | workout | Walking | 23 min | 106 kcal
 2026-04-18 | cheat | Double shake, ~220 kcal | replaces: Single Shake (116 kcal)
 2026-04-18 | drinks | 312 | 1/2 bottle win
+2026-04-18 | cheat | Greedy Greek, ~1100 kcal | replaces: Gousto Meal (640 kcal)
