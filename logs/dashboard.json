@@ -95,15 +95,19 @@
     },
     {
       "title": "Start Vitamin D3 + K2 (MK-7)",
-      "detail": "2,000–4,000 IU D3 + 100 mcg K2 daily with food. UK latitude means near-zero UV synthesis Oct–Apr, and desk work limits exposure year-round. Strong evidence for metabolic health, immune function, and longevity. Test 25-OH vitamin D after 2–3 months to dial in dose."
+      "detail": "4,000 IU D3 + 100 mcg K2 daily, morning with shake. Blood panel confirmed insufficiency at 43 nmol/l — higher dose justified. Supports insulin sensitivity, testosterone (low-normal at 11 nmol/l), immune function. Retest in July to confirm target range of 75–100 nmol/l."
     },
     {
       "title": "Start Magnesium Glycinate",
-      "detail": "300–400 mg, 30–60 min before bed. Second most common nutrient deficiency, depleted further by exercise. Good RCT evidence for improved sleep latency and quality — relevant given 30-day sleep avg (7.2 hrs) below 90-day (7.5 hrs). Also supports insulin sensitivity and muscle recovery."
+      "detail": "400 mg elemental magnesium (glycinate form), 30–60 min before bed. Serum Mg was optimal (0.92) but serum is a poor marker of intracellular stores. Supports sleep, muscle recovery, insulin sensitivity (HOMA-IR 2.23), and testosterone via HPG axis."
     },
     {
       "title": "Start Omega-3 (EPA+DHA)",
-      "detail": "2–3g combined EPA+DHA daily with dinner. One of the strongest evidence-backed supplements for cardiovascular and brain health. Check the label — a '1,000 mg fish oil' capsule often contains only ~300 mg EPA+DHA. Anti-inflammatory effect is particularly relevant during a deficit with training."
+      "detail": "3g combined EPA+DHA daily with dinner. Dosing at the higher end based on lipid findings: LDL 4.61, HDL 1.14, ApoB 142, small LDL 64.59 — all unfavourable. Need concentrated capsules (≥750 mg EPA+DHA per cap) or liquid to hit 3g without taking 10 pills."
+    },
+    {
+      "title": "Start Ashwagandha (KSM-66)",
+      "detail": "600 mg/day KSM-66 standardised extract, morning with shake + vitamin D. Brought forward based on blood panel: testosterone low-normal (11 nmol/l), LH low (0.9), likely driven by adiposity + deficit + recent strep. RCT evidence for cortisol reduction (20–30%), testosterone increase (~15% in Wankhede 2015), and recovery. Effects on T expected at 8–12 weeks — will be ~10 weeks in by July retest."
     }
   ],
   "experiments": [],
@@ -117,9 +121,9 @@
       "detail": "Baseline body composition — fat %, lean mass, visceral fat, bone density, BMR. Nearest dedicated clinic: DexaStrong in Leeds (~45 min via M1 from Archer Lane). Ideal timing: once current fat loss phase ends, to get a clean post-cut baseline."
     },
     {
-      "title": "Blood Panel (booked)",
-      "detail": "Randox Discovery at Holland & Barrett Meadowhall (150 biomarkers, £257). Includes fasting insulin, C-peptide, HOMA-IR, full hormone panel (T, free T, SHBG, LH, FSH), thyroid, HbA1c, lipids, vitamin D, ferritin, metabolic syndrome markers. Fasted 9:10am Friday slot."
+      "title": "Blood Panel — DONE ✓",
+      "detail": "Randox Discovery completed 17 Apr 2026. Full results received 18 Apr. Key findings: lipid profile is primary concern, testosterone low-normal (11 nmol/l), vitamin D insufficient (43 nmol/l), mild insulin resistance (HOMA-IR 2.23). Thyroid, liver, kidney all excellent. Next retests: testosterone + LH (July 2026), lipids (post-cut)."
     }
   ],
-  "last_updated": "2026-04-14"
+  "last_updated": "2026-04-18"
 }
