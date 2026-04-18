@@ -40,3 +40,4 @@ All entries: `YYYY-MM-DD | type | value | [optional note]`
 2026-04-17 | cheat | Anchovies, ~50 kcal
 2026-04-17 | cheat | Lux pasta, ~780 kcal | replaces: Gousto Meal (640 kcal)
 2026-04-18 | weight | 84.2
+2026-04-16 | run | 20 min |  km | 192 kcal
