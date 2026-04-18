@@ -45,3 +45,4 @@ All entries: `YYYY-MM-DD | type | value | [optional note]`
 2026-04-18 | cheat | Pasta, ~300 kcal | replaces: Weekend Brunch (648 kcal)
 2026-04-18 | cheat | Sausage roll + coffee, ~500 kcal
 2026-04-18 | workout | Walking | 23 min | 106 kcal
+2026-04-18 | cheat | Double shake, ~220 kcal | replaces: Single Shake (116 kcal)
