@@ -43,3 +43,4 @@ All entries: `YYYY-MM-DD | type | value | [optional note]`
 2026-04-16 | run | 20 min |  km | 192 kcal
 2026-04-18 | workout | Cycling | 92 min | 783 kcal
 2026-04-18 | cheat | Pasta, ~300 kcal | replaces: Weekend Brunch (648 kcal)
+2026-04-18 | cheat | Sausage roll + coffee, ~500 kcal
