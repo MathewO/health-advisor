@@ -50,3 +50,4 @@ All entries: `YYYY-MM-DD | type | value | [optional note]`
 2026-04-18 | cheat | Greedy Greek, ~1100 kcal | replaces: Gousto Meal (640 kcal)
 2026-04-18 | cheat | Skipped pudding | replaces: Milk Chocolate (100 kcal)
 2026-04-19 | weight | 83.9
+2026-04-19 | cheat | Omelette, ~250 kcal | replaces: Weekend Brunch (648 kcal)
