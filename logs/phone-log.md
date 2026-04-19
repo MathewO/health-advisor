@@ -51,3 +51,4 @@ All entries: `YYYY-MM-DD | type | value | [optional note]`
 2026-04-18 | cheat | Skipped pudding | replaces: Milk Chocolate (100 kcal)
 2026-04-19 | weight | 83.9
 2026-04-19 | cheat | Omelette, ~250 kcal | replaces: Weekend Brunch (648 kcal)
+2026-04-19 | cheat | Coffee, ~50 kcal | replaces: Single Shake (116 kcal)
