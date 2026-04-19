@@ -49,3 +49,4 @@ All entries: `YYYY-MM-DD | type | value | [optional note]`
 2026-04-18 | drinks | 312 | 1/2 bottle win
 2026-04-18 | cheat | Greedy Greek, ~1100 kcal | replaces: Gousto Meal (640 kcal)
 2026-04-18 | cheat | Skipped pudding | replaces: Milk Chocolate (100 kcal)
+2026-04-19 | weight | 83.9
