@@ -52,7 +52,7 @@ All entries: `YYYY-MM-DD | type | value | [optional note]`
 2026-04-19 | cheat | Omelette, ~250 kcal | replaces: Weekend Brunch (648 kcal)
 2026-04-19 | cheat | Coffee, ~50 kcal | replaces: Single Shake (116 kcal)
 2026-04-19 | cheat | Broadfield, ~1250 kcal | replaces: Gousto Meal (640 kcal)
-2026-04-19 | cheat | Ice cream, ~103 kcal | replaces: Milk Chocolate (100 kcal)
+2026-04-19 | cheat | Ice cream, ~102 kcal | replaces: Milk Chocolate (100 kcal)
 2026-04-20 | weight | 84.1 | Big roast dinner yesterday
 2026-04-20 | cheat | Tuna Power Bowl, ~508 kcal | replaces: Chicken Wrap (376 kcal)
 2026-04-20 | workout | Walking | 34 min | 134 kcal
