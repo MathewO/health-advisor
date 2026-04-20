@@ -55,3 +55,4 @@ All entries: `YYYY-MM-DD | type | value | [optional note]`
 2026-04-19 | cheat | Broadfield, ~1250 kcal | replaces: Gousto Meal (640 kcal)
 2026-04-19 | cheat | Ice cream, ~185 kcal | replaces: Milk Chocolate (100 kcal)
 2026-04-20 | weight | 84.1 | Big roast dinner yesterday
+2026-04-20 | cheat | Tuna Power Bowl, ~508 kcal | replaces: Chicken Wrap (376 kcal)
