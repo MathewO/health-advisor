@@ -1,4 +1,4 @@
-const CACHE_VERSION = 'mybody-v1';
+const CACHE_VERSION = 'mybody-v2';
 const APP_SHELL = [
   './',
   './index.html',
