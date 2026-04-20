@@ -1127,17 +1127,26 @@ function totalMealKcal(mealPlan, tab) {
   return plan.items.reduce((s, i) => s + (i.kcal || 0), 0);
 }
 
-function computeWeeklyDeficit(allEntries, phase) {
-  const target = (phase.meal_plan && phase.meal_plan.weekly_deficit_target) || 3500;
-  const mp     = phase.meal_plan || {};
+// Meal-plan-only weekly deficit components — shared by current-week and historic-week math
+// to ensure they agree on the baseline (the meal plan often falls short of the weekly target,
+// so using `target` as a stand-in for the baseline produces misleading numbers).
+function computeMealPlanWeekDeficit(phase) {
+  const mp           = phase.meal_plan || {};
   const maintenance  = mp.maintenance_kcal || 1935;
   const weekdayKcal  = totalMealKcal(mp, 'weekday');
   const weekendKcal  = totalMealKcal(mp, 'weekend');
-  // Deficit per day from meal plan alone
   const weekdayDeficit = maintenance - weekdayKcal;
   const weekendDeficit = maintenance - weekendKcal;
-  // Full Mon-Sun week base: 5 weekdays + 2 weekend days
-  const fullWeekBase = weekdayDeficit * 5 + weekendDeficit * 2;
+  return {
+    weekdayDeficit,
+    weekendDeficit,
+    fullWeekBase: weekdayDeficit * 5 + weekendDeficit * 2,
+  };
+}
+
+function computeWeeklyDeficit(allEntries, phase) {
+  const target = (phase.meal_plan && phase.meal_plan.weekly_deficit_target) || 3500;
+  const { weekdayDeficit, weekendDeficit, fullWeekBase } = computeMealPlanWeekDeficit(phase);
 
   // Monday of current week — use local date string to avoid UTC offset issues
   const now = new Date();
@@ -1581,6 +1590,7 @@ function getCompletedWeeks(allEntries, phase) {
   weekCursor.setHours(0, 0, 0, 0);
 
   const target = (phase.meal_plan && phase.meal_plan.weekly_deficit_target) || 3500;
+  const { fullWeekBase } = computeMealPlanWeekDeficit(phase);
 
   while (weekCursor < currentWeekStart) {
     const weekEnd = new Date(weekCursor);
@@ -1597,7 +1607,7 @@ function getCompletedWeeks(allEntries, phase) {
       .sort((a, b) => a.date.localeCompare(b.date));
 
     const adjTotal = outliers.reduce((s, e) => s + (e.outlierKcal || 0), 0);
-    const deficit  = target + adjTotal;
+    const deficit  = fullWeekBase + adjTotal;
 
     weeks.push({
       weekStart:   ws,
