@@ -1864,31 +1864,19 @@ function renderWeightChart(weights, phase) {
   const ctx = document.getElementById('weightChart').getContext('2d');
   if (weightChart) weightChart.destroy();
 
-  const startNum  = dateToNum(weights[0].date);
+  const startStr  = weights[0].date;
+  const startNum  = dateToNum(startStr);
   const targetNum = dateToNum(phase.target_date);
-
-  // Generate 8 evenly spaced date labels from first weight entry to target date
   const totalDays = targetNum - startNum;
-  const N = 8;
-  const evenDates = Array.from({ length: N }, (_, i) => {
-    const d = new Date(weights[0].date + 'T00:00:00');
-    d.setDate(d.getDate() + Math.round(totalDays * i / (N - 1)));
-    return localDateStr(d);
-  });
-  const evenLabels = evenDates.map(d => d.slice(5));
 
-  // Map actual weights to the nearest even label (within ±4 days)
-  const actualData = evenDates.map(labelDate => {
-    const labelNum = dateToNum(labelDate);
-    const closest = weights
-      .map(p => ({ kg: p.kg, diff: Math.abs(dateToNum(p.date) - labelNum) }))
-      .filter(p => p.diff <= 4)
-      .sort((a, b) => a.diff - b.diff)[0];
-    return closest ? closest.kg : null;
-  });
+  const dayToDate = offset => {
+    const d = new Date(startStr + 'T00:00:00');
+    d.setDate(d.getDate() + offset);
+    return localDateStr(d);
+  };
 
   // Planned slope from meal plan deficit — never distorted by single-day fluctuations
-  const weeklyTarget = (phase.meal_plan && phase.meal_plan.weekly_deficit_target) || 3500;
+  const weeklyTarget    = (phase.meal_plan && phase.meal_plan.weekly_deficit_target) || 3500;
   const plannedKgPerDay = weeklyTarget / 7700 / 7;
 
   // Anchor: 7-day rolling average of recent weights to smooth water weight spikes/drops
@@ -1910,68 +1898,72 @@ function renderWeightChart(weights, phase) {
     ? 'rgba(251,191,36,0.8)'
     : 'rgba(248,113,113,0.8)';
 
-  // Trend line: anchored to smoothed weight, planned slope (non-null only at ends)
-  const trendData = evenDates.map((d, i) => {
-    if (i === 0 || i === N - 1) return trendAtDate(d);
-    return null;
-  });
+  // Every weigh-in plotted at its exact day offset from phase start
+  const actualPoints = weights
+    .slice()
+    .sort((a, b) => a.date.localeCompare(b.date))
+    .map(p => ({ x: dateToNum(p.date) - startNum, y: p.kg }));
 
-  // Grey reference line: pure meal plan from start_kg — unaffected by actual readings
-  const planRefData = evenDates.map((d, i) => {
-    if (i === 0) return +phase.start_kg.toFixed(2);
-    if (i === N - 1) return +(phase.start_kg - plannedKgPerDay * totalDays).toFixed(2);
-    return null;
-  });
+  // Plan / trend / target as two-point endpoints (linear x-axis spans 0 → totalDays)
+  const planPoints = [
+    { x: 0,         y: +phase.start_kg.toFixed(2) },
+    { x: totalDays, y: +(phase.start_kg - plannedKgPerDay * totalDays).toFixed(2) },
+  ];
+  const trendPoints = [
+    { x: 0,         y: trendAtDate(startStr) },
+    { x: totalDays, y: trendAtDate(phase.target_date) },
+  ];
+  const targetPoints = [
+    { x: 0,         y: phase.target_kg },
+    { x: totalDays, y: phase.target_kg },
+  ];
 
   weightChart = new Chart(ctx, {
     type: 'line',
     data: {
-      labels: evenLabels,
       datasets: [
         {
           label: 'Weight',
-          data: actualData,
+          data: actualPoints,
           borderColor: 'rgba(161,161,170,0.9)',
           backgroundColor: 'rgba(161,161,170,0.15)',
-          borderWidth: 2.5,
-          pointRadius: actualData.map(v => v !== null ? 4 : 0),
+          borderWidth: 2,
+          pointRadius: 1.5,
+          pointHoverRadius: 4,
           pointBackgroundColor: 'rgba(161,161,170,1)',
-          tension: 0.3,
+          tension: 0.2,
           fill: false,
-          spanGaps: false
         },
         {
           label: 'Plan',
-          data: planRefData,
+          data: planPoints,
           borderColor: 'rgba(100,116,139,0.5)',
           borderWidth: 1.5,
           borderDash: [3, 5],
           pointRadius: 0,
           tension: 0,
           fill: false,
-          spanGaps: true
         },
         {
           label: 'Trend',
-          data: trendData,
+          data: trendPoints,
           borderColor: trendColor,
           borderWidth: 2,
           borderDash: [5, 4],
           pointRadius: 0,
           tension: 0,
           fill: false,
-          spanGaps: true
         },
         {
           label: 'Target',
-          data: evenLabels.map(() => phase.target_kg),
+          data: targetPoints,
           borderColor: 'rgba(148,163,184,0.3)',
           borderWidth: 1,
           borderDash: [3, 3],
           pointRadius: 0,
-          fill: false
-        }
-      ]
+          fill: false,
+        },
+      ],
     },
     options: {
       responsive: true,
@@ -1981,12 +1973,24 @@ function renderWeightChart(weights, phase) {
         legend: { display: false },
         tooltip: {
           callbacks: {
-            label: ctx => ctx.dataset.label + ': ' + (ctx.parsed.y ? ctx.parsed.y.toFixed(1) + ' kg' : '')
-          }
-        }
+            title: items => items.length ? dayToDate(Math.round(items[0].parsed.x)) : '',
+            label: ctx => ctx.dataset.label + ': ' + (ctx.parsed.y ? ctx.parsed.y.toFixed(1) + ' kg' : ''),
+          },
+        },
       },
       scales: {
-        x: { ticks: { color: '#64748b', font: { size: 10 } }, grid: { color: 'rgba(255,255,255,0.05)' } },
+        x: {
+          type: 'linear',
+          min: 0,
+          max: totalDays,
+          ticks: {
+            color: '#64748b',
+            font: { size: 10 },
+            maxTicksLimit: 8,
+            callback: v => dayToDate(Math.round(v)).slice(5),
+          },
+          grid: { color: 'rgba(255,255,255,0.05)' },
+        },
         y: {
           min: 80,
           suggestedMax: phase.start_kg + 0.5,
@@ -1995,11 +1999,11 @@ function renderWeightChart(weights, phase) {
             color: '#64748b',
             font: { size: 10 },
             stepSize: 1,
-            callback: v => Number.isInteger(v) ? v + ' kg' : null
-          }
-        }
-      }
-    }
+            callback: v => Number.isInteger(v) ? v + ' kg' : null,
+          },
+        },
+      },
+    },
   });
 }
 
