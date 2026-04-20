@@ -94,20 +94,8 @@
       "detail": "Dark chocolate 70%+ has significantly less sugar than milk chocolate, and has meaningful evidence behind it: flavanols support cardiovascular health (improved blood flow, lower blood pressure), and there's reasonable data for cognitive benefits too. It's also more satiating per calorie, so 100 kcal goes further. Worth trying as a swap once the current fat loss phase is established."
     },
     {
-      "title": "Start Vitamin D3 + K2 (MK-7)",
-      "detail": "4,000 IU D3 + 100 mcg K2 daily, morning with shake. Blood panel confirmed insufficiency at 43 nmol/l — higher dose justified. Supports insulin sensitivity, testosterone (low-normal at 11 nmol/l), immune function. Retest in July to confirm target range of 75–100 nmol/l."
-    },
-    {
-      "title": "Start Magnesium Glycinate",
-      "detail": "400 mg elemental magnesium (glycinate form), 30–60 min before bed. Serum Mg was optimal (0.92) but serum is a poor marker of intracellular stores. Supports sleep, muscle recovery, insulin sensitivity (HOMA-IR 2.23), and testosterone via HPG axis."
-    },
-    {
-      "title": "Start Omega-3 (EPA+DHA)",
-      "detail": "3g combined EPA+DHA daily with dinner. Dosing at the higher end based on lipid findings: LDL 4.61, HDL 1.14, ApoB 142, small LDL 64.59 — all unfavourable. Need concentrated capsules (≥750 mg EPA+DHA per cap) or liquid to hit 3g without taking 10 pills."
-    },
-    {
-      "title": "Start Ashwagandha (KSM-66)",
-      "detail": "600 mg/day KSM-66 standardised extract, morning with shake + vitamin D. Brought forward based on blood panel: testosterone low-normal (11 nmol/l), LH low (0.9), likely driven by adiposity + deficit + recent strep. RCT evidence for cortisol reduction (20–30%), testosterone increase (~15% in Wankhede 2015), and recovery. Effects on T expected at 8–12 weeks — will be ~10 weeks in by July retest."
+      "title": "Start Ashwagandha (KSM-66) when it arrives",
+      "detail": "600 mg/day KSM-66 standardised extract, morning with shake + vitamin D. Currently pending arrival; D3+K2, Magnesium, and Omega-3 already started 19 Apr 2026. Brought forward based on blood panel: testosterone low-normal (11 nmol/l), LH low (0.9), likely driven by adiposity + deficit + recent strep. RCT evidence for cortisol reduction (20–30%), testosterone increase (~15% in Wankhede 2015). Effects on T expected at 8–12 weeks."
     }
   ],
   "experiments": [],
@@ -121,5 +109,5 @@
       "detail": "Baseline body composition — fat %, lean mass, visceral fat, bone density, BMR. Nearest dedicated clinic: DexaStrong in Leeds (~45 min via M1 from Archer Lane). Ideal timing: once current fat loss phase ends, to get a clean post-cut baseline."
     }
   ],
-  "last_updated": "2026-04-18"
+  "last_updated": "2026-04-20"
 }

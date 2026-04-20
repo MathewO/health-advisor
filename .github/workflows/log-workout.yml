@@ -80,14 +80,29 @@ jobs:
               entry = f"{clean_date} | workout | {kind} | {clean_dur} min | {clean_kcal} kcal"
               label = f"log-workout ({kind}) for {clean_date}"
 
-          print(f"Appending: {entry}")
-          with open("logs/phone-log.md", "a") as f:
-              f.write(entry + "\n")
+          log_path = "logs/phone-log.md"
+          try:
+              with open(log_path) as f:
+                  existing_lines = [ln.rstrip("\n") for ln in f.readlines()]
+          except FileNotFoundError:
+              existing_lines = []
 
-          with open(os.environ["GITHUB_ENV"], "a") as f:
-              f.write(f"COMMIT_LABEL={label}\n")
+          if entry in existing_lines[-50:]:
+              print(f"Skipping duplicate (already in last 50 lines): {entry}")
+              with open(os.environ["GITHUB_ENV"], "a") as f:
+                  f.write("SKIP_COMMIT=1\n")
+          else:
+              print(f"Appending: {entry}")
+              with open(log_path, "a") as f:
+                  f.write(entry + "\n")
+              with open(os.environ["GITHUB_ENV"], "a") as f:
+                  f.write(f"COMMIT_LABEL={label}\n")
           EOF
 
+          if [ "${SKIP_COMMIT:-0}" = "1" ]; then
+            echo "Duplicate detected — no commit needed."
+            exit 0
+          fi
           git config user.name  "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
           git add logs/phone-log.md
