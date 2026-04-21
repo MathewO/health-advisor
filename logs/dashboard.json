@@ -19,6 +19,12 @@
         "description": "Tuna Power Bowl",
         "kcal": 508,
         "protein": 41
+      },
+      {
+        "name": "Turkey Meatball Spaghetti",
+        "description": "Turkey Meatball Spaghetti (187.5g 2% turkey mince + 40g spaghetti + 125g passata + onion, herbs, chilli)",
+        "kcal": 400,
+        "protein": 49
       }
     ],
     "meal_plan": {
@@ -92,10 +98,6 @@
     {
       "title": "Consider switching to dark chocolate (70%+)",
       "detail": "Dark chocolate 70%+ has significantly less sugar than milk chocolate, and has meaningful evidence behind it: flavanols support cardiovascular health (improved blood flow, lower blood pressure), and there's reasonable data for cognitive benefits too. It's also more satiating per calorie, so 100 kcal goes further. Worth trying as a swap once the current fat loss phase is established."
-    },
-    {
-      "title": "Start Ashwagandha (KSM-66) when it arrives",
-      "detail": "600 mg/day KSM-66 standardised extract, morning with shake + vitamin D. Currently pending arrival; D3+K2, Magnesium, and Omega-3 already started 19 Apr 2026. Brought forward based on blood panel: testosterone low-normal (11 nmol/l), LH low (0.9), likely driven by adiposity + deficit + recent strep. RCT evidence for cortisol reduction (20–30%), testosterone increase (~15% in Wankhede 2015). Effects on T expected at 8–12 weeks."
     }
   ],
   "experiments": [],
