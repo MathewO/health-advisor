@@ -755,6 +755,58 @@ async function loadDashboard() {
   }
 }
 
+// ─── Trend & Projection ───────────────────────────────────────
+// Past = 7-day trailing rolling average over actual weigh-ins (smooths
+// daily water-weight noise). Future = linear projection from the last
+// rolling-average point at the planned meal-plan deficit slope — keeps
+// the forecast honest instead of being skewed by single-day fluctuations.
+function computeTrendProjection(weights, phase) {
+  const startNum  = dateToNum(phase.start_date);
+  const targetNum = dateToNum(phase.target_date);
+  const totalDays = targetNum - startNum;
+
+  const weeklyTarget    = (phase.meal_plan && phase.meal_plan.weekly_deficit_target) || 3500;
+  const plannedKgPerDay = weeklyTarget / 7700 / 7;
+
+  const sortedActuals = (weights || []).slice().sort((a, b) => a.date.localeCompare(b.date));
+
+  const rollingAvg = [];
+  if (sortedActuals.length > 0) {
+    const lastNum = dateToNum(sortedActuals[sortedActuals.length - 1].date);
+    for (let dayNum = startNum; dayNum <= lastNum; dayNum++) {
+      const win = sortedActuals.filter(p => {
+        const n = dateToNum(p.date);
+        return n >= dayNum - 6 && n <= dayNum;
+      });
+      if (!win.length) continue;
+      const avg = win.reduce((s, p) => s + p.kg, 0) / win.length;
+      rollingAvg.push({ x: dayNum - startNum, y: +avg.toFixed(2) });
+    }
+  }
+
+  // Anchor day 0 to the planned start weight so the line begins at start_kg
+  if (rollingAvg.length === 0 || rollingAvg[0].x !== 0) {
+    rollingAvg.unshift({ x: 0, y: +phase.start_kg.toFixed(2) });
+  }
+
+  const lastPoint = rollingAvg[rollingAvg.length - 1];
+  const projectedAtTarget = +(lastPoint.y - plannedKgPerDay * (totalDays - lastPoint.x)).toFixed(2);
+  const projection = [
+    { x: lastPoint.x,  y: lastPoint.y },
+    { x: totalDays,    y: projectedAtTarget },
+  ];
+
+  return {
+    rollingAvg,
+    projection,
+    projectedAtTarget,
+    lastPoint,
+    plannedKgPerDay,
+    totalDays,
+    startNum,
+  };
+}
+
 // ─── Phase card ───────────────────────────────────────────────
 function renderPhaseCard(phase, weights) {
   const card = document.getElementById('goalCard');
@@ -781,17 +833,11 @@ function renderPhaseCard(phase, weights) {
   const left   = +(latest.kg - phase.target_kg).toFixed(1);
   const pct    = Math.min(100, Math.max(0, (lost / (phase.start_kg - phase.target_kg)) * 100));
 
-  // Project end weight using planned deficit rate anchored to smoothed recent weight
-  const weeklyTarget   = (phase.meal_plan && phase.meal_plan.weekly_deficit_target) || 3500;
-  const plannedKgPerDay = weeklyTarget / 7700 / 7;
-  const todayStr2      = localDateStr(new Date());
-  const todayNum2      = dateToNum(todayStr2);
-  const sevenAgo2      = new Date(); sevenAgo2.setDate(sevenAgo2.getDate() - 7);
-  const recentWts2     = weights.filter(p => p.date >= localDateStr(sevenAgo2));
-  const anchorWts2     = recentWts2.length > 0 ? recentWts2 : weights.slice(-3);
-  const smoothedKg2    = anchorWts2.reduce((s, p) => s + p.kg, 0) / anchorWts2.length;
-  const projectedAtTarget = +(smoothedKg2 - plannedKgPerDay * (dateToNum(phase.target_date) - todayNum2)).toFixed(1);
-  const diff           = +(projectedAtTarget - phase.target_kg).toFixed(1);
+  // Project end weight using planned deficit rate, anchored to the
+  // 7-day rolling average of recent weigh-ins (matches chart trend line)
+  const trend             = computeTrendProjection(weights, phase);
+  const projectedAtTarget = +trend.projectedAtTarget.toFixed(1);
+  const diff              = +(projectedAtTarget - phase.target_kg).toFixed(1);
 
   let trendText, trendColor;
   if (diff <= 0) {
@@ -1875,23 +1921,10 @@ function renderWeightChart(weights, phase) {
     return localDateStr(d);
   };
 
-  // Planned slope from meal plan deficit — never distorted by single-day fluctuations
-  const weeklyTarget    = (phase.meal_plan && phase.meal_plan.weekly_deficit_target) || 3500;
-  const plannedKgPerDay = weeklyTarget / 7700 / 7;
-
-  // Anchor: 7-day rolling average of recent weights to smooth water weight spikes/drops
-  const todayStr    = localDateStr(new Date());
-  const todayNum    = dateToNum(todayStr);
-  const sevenAgo    = new Date(); sevenAgo.setDate(sevenAgo.getDate() - 7);
-  const sevenAgoStr = localDateStr(sevenAgo);
-  const recentWts   = weights.filter(p => p.date >= sevenAgoStr);
-  const anchorWts   = recentWts.length > 0 ? recentWts : weights.slice(-3);
-  const smoothedKg  = anchorWts.reduce((s, p) => s + p.kg, 0) / anchorWts.length;
-
-  // Trend at any date: anchored to smoothed current weight, sloped at planned rate
-  const trendAtDate = d => +(smoothedKg - plannedKgPerDay * (dateToNum(d) - todayNum)).toFixed(2);
-
-  const projectedEnd = trendAtDate(phase.target_date);
+  // Trend = 7-day rolling avg over actuals (past) + planned-deficit projection (future)
+  const trend           = computeTrendProjection(weights, phase);
+  const plannedKgPerDay = trend.plannedKgPerDay;
+  const projectedEnd    = trend.projectedAtTarget;
   const trendColor = projectedEnd <= phase.target_kg + 0.3
     ? 'rgba(74,222,128,0.8)'
     : projectedEnd <= phase.target_kg + 1.0
@@ -1909,10 +1942,8 @@ function renderWeightChart(weights, phase) {
     { x: 0,         y: +phase.start_kg.toFixed(2) },
     { x: totalDays, y: +(phase.start_kg - plannedKgPerDay * totalDays).toFixed(2) },
   ];
-  const trendPoints = [
-    { x: 0,         y: trendAtDate(startStr) },
-    { x: totalDays, y: trendAtDate(phase.target_date) },
-  ];
+  const trendPastPoints   = trend.rollingAvg;
+  const trendFuturePoints = trend.projection;
   const targetPoints = [
     { x: 0,         y: phase.target_kg },
     { x: totalDays, y: phase.target_kg },
@@ -1946,7 +1977,16 @@ function renderWeightChart(weights, phase) {
         },
         {
           label: 'Trend',
-          data: trendPoints,
+          data: trendPastPoints,
+          borderColor: trendColor,
+          borderWidth: 2.5,
+          pointRadius: 0,
+          tension: 0.3,
+          fill: false,
+        },
+        {
+          label: 'Projection',
+          data: trendFuturePoints,
           borderColor: trendColor,
           borderWidth: 2,
           borderDash: [5, 4],
