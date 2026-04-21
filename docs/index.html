@@ -756,10 +756,11 @@ async function loadDashboard() {
 }
 
 // ─── Trend & Projection ───────────────────────────────────────
-// Past = 7-day trailing rolling average over actual weigh-ins (smooths
-// daily water-weight noise). Future = linear projection from the last
-// rolling-average point at the planned meal-plan deficit slope — keeps
-// the forecast honest instead of being skewed by single-day fluctuations.
+// Past = 3-point centered moving average over each weigh-in (the
+// reading itself + the one before + the one after). This smooths
+// single-day water-weight spikes without lagging behind the trend
+// the way a trailing average does. Future = linear projection from
+// the last smoothed point at the planned meal-plan deficit slope.
 function computeTrendProjection(weights, phase) {
   const startNum  = dateToNum(phase.start_date);
   const targetNum = dateToNum(phase.target_date);
@@ -771,22 +772,22 @@ function computeTrendProjection(weights, phase) {
   const sortedActuals = (weights || []).slice().sort((a, b) => a.date.localeCompare(b.date));
 
   const rollingAvg = [];
-  if (sortedActuals.length > 0) {
-    const lastNum = dateToNum(sortedActuals[sortedActuals.length - 1].date);
-    for (let dayNum = startNum; dayNum <= lastNum; dayNum++) {
-      const win = sortedActuals.filter(p => {
-        const n = dateToNum(p.date);
-        return n >= dayNum - 6 && n <= dayNum;
-      });
-      if (!win.length) continue;
-      const avg = win.reduce((s, p) => s + p.kg, 0) / win.length;
-      rollingAvg.push({ x: dayNum - startNum, y: +avg.toFixed(2) });
-    }
+  for (let i = 0; i < sortedActuals.length; i++) {
+    const window = [
+      sortedActuals[i - 1],
+      sortedActuals[i],
+      sortedActuals[i + 1],
+    ].filter(Boolean);
+    const avg = window.reduce((s, p) => s + p.kg, 0) / window.length;
+    rollingAvg.push({
+      x: dateToNum(sortedActuals[i].date) - startNum,
+      y: +avg.toFixed(2),
+    });
   }
 
-  // Anchor day 0 to the planned start weight so the line begins at start_kg
-  if (rollingAvg.length === 0 || rollingAvg[0].x !== 0) {
-    rollingAvg.unshift({ x: 0, y: +phase.start_kg.toFixed(2) });
+  // Fallback if there are no weigh-ins yet
+  if (rollingAvg.length === 0) {
+    rollingAvg.push({ x: 0, y: +phase.start_kg.toFixed(2) });
   }
 
   const lastPoint = rollingAvg[rollingAvg.length - 1];
