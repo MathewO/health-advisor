@@ -56,5 +56,5 @@ All entries: `YYYY-MM-DD | type | value | [optional note]`
 2026-04-20 | weight | 84.1 | Big roast dinner yesterday
 2026-04-20 | cheat | Tuna Power Bowl, ~508 kcal | replaces: Chicken Wrap (376 kcal)
 2026-04-20 | workout | Walking | 34 min | 134 kcal
-2026-04-21 | weight | 84.6
+2026-04-21 | weight | 84.2
 2026-04-21 | run | 24 min |  km | 216 kcal
