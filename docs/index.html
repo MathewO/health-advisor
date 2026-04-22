@@ -1957,14 +1957,11 @@ function renderWeightChart(weights, phase) {
         {
           label: 'Weight',
           data: actualPoints,
-          borderColor: 'rgba(161,161,170,0.9)',
-          backgroundColor: 'rgba(161,161,170,0.15)',
-          borderWidth: 2,
-          pointRadius: 1.5,
-          pointHoverRadius: 4,
+          showLine: false,
+          pointRadius: 3,
+          pointHoverRadius: 5,
           pointBackgroundColor: 'rgba(161,161,170,1)',
-          tension: 0.2,
-          fill: false,
+          pointBorderColor: 'rgba(161,161,170,1)',
         },
         {
           label: 'Plan',
