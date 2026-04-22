@@ -60,3 +60,4 @@ All entries: `YYYY-MM-DD | type | value | [optional note]`
 2026-04-21 | run | 24 min |  km | 216 kcal
 2026-04-21 | cheat | Turkey Meatball Spaghetti, ~400 kcal | replaces: Chicken Wrap (376 kcal)
 2026-04-22 | weight | 83.7
+2026-04-22 | cheat | Gousto Calories, ~28 kcal
