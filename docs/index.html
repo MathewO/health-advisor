@@ -790,6 +790,14 @@ function computeTrendProjection(weights, phase) {
     rollingAvg.push({ x: 0, y: +phase.start_kg.toFixed(2) });
   }
 
+  // Anchor day 0 to the actual phase start weight so the smoothed line
+  // begins exactly at start_kg instead of a smoothed value
+  if (rollingAvg[0].x === 0) {
+    rollingAvg[0].y = +phase.start_kg.toFixed(2);
+  } else {
+    rollingAvg.unshift({ x: 0, y: +phase.start_kg.toFixed(2) });
+  }
+
   const lastPoint = rollingAvg[rollingAvg.length - 1];
   const projectedAtTarget = +(lastPoint.y - plannedKgPerDay * (totalDays - lastPoint.x)).toFixed(2);
   const projection = [
