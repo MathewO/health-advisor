@@ -64,3 +64,4 @@ All entries: `YYYY-MM-DD | type | value | [optional note]`
 2026-04-22 | cheat | Turkey Meatball Spaghetti , ~400 kcal | replaces: Chicken Wrap (376 kcal)
 2026-04-23 | weight | 83.8
 2026-04-23 | run | 20 min |  km | 215 kcal
+2026-04-23 | cheat | Turkey Meatball Spaghetti, ~400 kcal | replaces: Chicken Wrap (376 kcal)
