@@ -170,6 +170,18 @@
     .meal-tab.active { background: var(--surface2); color: var(--text); border-color: var(--accent); }
     .meal-protein-pill { display: inline-block; background: rgba(74,222,128,.1); color: var(--green); font-size: 12px; font-weight: 600; padding: 4px 12px; border-radius: 20px; margin-bottom: 16px; }
 
+    /* ── Supplements ── */
+    .supplement-section-label { font-size: 11px; font-weight: 600; color: var(--muted); text-transform: uppercase; letter-spacing: 0.6px; margin-bottom: 8px; }
+    .supplement-card { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 14px; margin-bottom: 10px; }
+    .supplement-card-header { display: flex; justify-content: space-between; align-items: flex-start; gap: 10px; margin-bottom: 6px; }
+    .supplement-name { font-size: 15px; font-weight: 700; color: var(--text); flex: 1; min-width: 0; }
+    .supplement-evidence { font-size: 10px; font-weight: 600; padding: 3px 9px; border: 1px solid; border-radius: 20px; text-transform: uppercase; letter-spacing: 0.4px; flex-shrink: 0; white-space: nowrap; }
+    .supplement-meta { font-size: 13px; color: var(--text); margin-bottom: 6px; }
+    .supplement-dose { font-weight: 600; }
+    .supplement-sep { color: var(--muted); margin: 0 6px; }
+    .supplement-timing { color: var(--muted); }
+    .supplement-reason { font-size: 13px; color: var(--muted); line-height: 1.45; }
+
     /* ── Meal Plan items ── */
     .meal-item { padding: 14px 0; border-bottom: 1px solid var(--border); }
     .meal-item.has-detail { cursor: pointer; }
@@ -1457,25 +1469,57 @@ function loadMealPlan() {
     return;
   }
   const mp = dashData.phase.meal_plan;
+  renderMealPlanMeta(mp, activeMealTab);
+  renderMealPlan(body, mp, activeMealTab);
+}
+
+function renderMealPlanMeta(mp, tab) {
   const metaEl = document.getElementById('mealPlanMeta');
-  if (metaEl) {
-    const t = mp.totals || {};
+  if (!metaEl) return;
+
+  if (tab === 'supplements') {
+    const active  = (dashData.supplements || []).length;
+    const pending = (dashData.supplements_pending || []).length;
     const pills = [
-      t.avg_daily_kcal    ? { label: 'Target',      value: '~' + t.avg_daily_kcal + ' kcal/day',   color: 'var(--text)' }   : null,
-      mp.maintenance_kcal ? { label: 'Maintenance',  value: mp.maintenance_kcal + ' kcal',           color: 'var(--muted)' } : null,
-      t.avg_daily_deficit ? { label: 'Deficit',      value: '~' + t.avg_daily_deficit + ' kcal/day', color: 'var(--green)' } : null
+      { label: 'Active',  value: active + ' supplements',    color: 'var(--green)' },
+      pending ? { label: 'Pending', value: pending.toString(), color: 'var(--muted)' } : null,
     ].filter(Boolean);
     metaEl.innerHTML = pills.map(p => `
       <div style="background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:5px 10px;font-size:12px">
         <span style="color:var(--muted)">${p.label}: </span>
         <span style="font-weight:600;color:${p.color}">${escHtml(p.value)}</span>
       </div>`).join('');
+    return;
   }
-  renderMealPlan(body, mp, activeMealTab);
+
+  const t = mp.totals || {};
+  const pills = [
+    t.avg_daily_kcal    ? { label: 'Target',      value: '~' + t.avg_daily_kcal + ' kcal/day',   color: 'var(--text)' }   : null,
+    mp.maintenance_kcal ? { label: 'Maintenance',  value: mp.maintenance_kcal + ' kcal',           color: 'var(--muted)' } : null,
+    t.avg_daily_deficit ? { label: 'Deficit',      value: '~' + t.avg_daily_deficit + ' kcal/day', color: 'var(--green)' } : null
+  ].filter(Boolean);
+  metaEl.innerHTML = pills.map(p => `
+    <div style="background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:5px 10px;font-size:12px">
+      <span style="color:var(--muted)">${p.label}: </span>
+      <span style="font-weight:600;color:${p.color}">${escHtml(p.value)}</span>
+    </div>`).join('');
 }
 
 function renderMealPlan(body, mp, tab) {
   activeMealTab = tab;
+  renderMealPlanMeta(mp, tab);
+
+  const tabBar = `
+    <div class="meal-tab-bar">
+      <button class="meal-tab ${tab === 'weekday'     ? 'active' : ''}" onclick="renderMealPlan(document.getElementById('mealPlanBody'), dashData.phase.meal_plan, 'weekday')">Weekday</button>
+      <button class="meal-tab ${tab === 'weekend'     ? 'active' : ''}" onclick="renderMealPlan(document.getElementById('mealPlanBody'), dashData.phase.meal_plan, 'weekend')">Weekend</button>
+      <button class="meal-tab ${tab === 'supplements' ? 'active' : ''}" onclick="renderMealPlan(document.getElementById('mealPlanBody'), dashData.phase.meal_plan, 'supplements')">Supplements</button>
+    </div>`;
+
+  if (tab === 'supplements') {
+    body.innerHTML = tabBar + renderSupplementsList();
+    return;
+  }
 
   const plan  = mp[tab];
   const items = plan ? plan.items || [] : [];
@@ -1529,10 +1573,7 @@ function renderMealPlan(body, mp, tab) {
     : '';
 
   body.innerHTML = `
-    <div class="meal-tab-bar">
-      <button class="meal-tab ${tab === 'weekday' ? 'active' : ''}" onclick="renderMealPlan(document.getElementById('mealPlanBody'), dashData.phase.meal_plan, 'weekday')">Weekday</button>
-      <button class="meal-tab ${tab === 'weekend' ? 'active' : ''}" onclick="renderMealPlan(document.getElementById('mealPlanBody'), dashData.phase.meal_plan, 'weekend')">Weekend</button>
-    </div>
+    ${tabBar}
     ${proteinPill}
     <div style="background:var(--surface);border-radius:var(--radius);padding:14px">
       <div style="display:flex;justify-content:flex-end;gap:10px;padding-bottom:8px;border-bottom:1px solid var(--border);margin-bottom:4px">
@@ -1542,6 +1583,52 @@ function renderMealPlan(body, mp, tab) {
       ${itemsHtml}
       ${totalHtml}
     </div>`;
+}
+
+function evidenceBadgeColor(rating) {
+  const r = (rating || '').toLowerCase();
+  if (r.includes('strong'))     return 'var(--green)';
+  if (r.includes('moderate'))   return 'var(--amber)';
+  if (r.includes('preliminary')) return 'var(--muted)';
+  if (r.includes('weak'))       return 'var(--muted)';
+  if (r.includes('harmful'))    return 'var(--red)';
+  return 'var(--muted)';
+}
+
+function renderSupplementsList() {
+  const active  = dashData.supplements         || [];
+  const pending = dashData.supplements_pending || [];
+
+  if (!active.length && !pending.length) {
+    return '<div class="empty-state"><div class="empty-icon">💊</div>No supplements logged.</div>';
+  }
+
+  const renderCard = (s) => `
+    <div class="supplement-card">
+      <div class="supplement-card-header">
+        <div class="supplement-name">${escHtml(s.name)}</div>
+        ${s.evidence ? `<div class="supplement-evidence" style="color:${evidenceBadgeColor(s.evidence)};border-color:${evidenceBadgeColor(s.evidence)}">${escHtml(s.evidence)}</div>` : ''}
+      </div>
+      ${s.dose || s.timing ? `
+        <div class="supplement-meta">
+          ${s.dose   ? `<span class="supplement-dose">${escHtml(s.dose)}</span>`   : ''}
+          ${s.dose && s.timing ? '<span class="supplement-sep">·</span>' : ''}
+          ${s.timing ? `<span class="supplement-timing">${escHtml(s.timing)}</span>` : ''}
+        </div>` : ''}
+      ${s.reason ? `<div class="supplement-reason">${escHtml(s.reason)}</div>` : ''}
+    </div>`;
+
+  const activeHtml = active.length ? `
+    <div class="supplement-section-label">Active stack</div>
+    ${active.map(renderCard).join('')}
+  ` : '';
+
+  const pendingHtml = pending.length ? `
+    <div class="supplement-section-label" style="margin-top:14px">Pending</div>
+    ${pending.map(renderCard).join('')}
+  ` : '';
+
+  return activeHtml + pendingHtml;
 }
 
 // ─── Weekly Progress Overlay ──────────────────────────────────

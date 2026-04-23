@@ -89,6 +89,45 @@
       }
     }
   },
+  "supplements": [
+    {
+      "name": "Creatine Monohydrate",
+      "dose": "3g",
+      "timing": "Morning, in coffee",
+      "reason": "Muscle strength, performance, recovery; emerging cognitive and longevity benefits",
+      "evidence": "Strong"
+    },
+    {
+      "name": "Vitamin D3 + K2 (MK-7)",
+      "dose": "4,000 IU + 100 mcg",
+      "timing": "Morning, with food",
+      "reason": "Baseline 43 nmol/l (insufficiency); also supports insulin sensitivity, testosterone, immunity, cardiovascular health",
+      "evidence": "Strong"
+    },
+    {
+      "name": "Magnesium Glycinate",
+      "dose": "400 mg",
+      "timing": "30–60 min before bed",
+      "reason": "Sleep quality, muscle recovery, insulin sensitivity (HOMA-IR 2.23), stress resilience",
+      "evidence": "Moderate-Strong"
+    },
+    {
+      "name": "Omega-3 (EPA+DHA)",
+      "dose": "3g EPA+DHA",
+      "timing": "With dinner (fat improves absorption)",
+      "reason": "Targets high LDL/ApoB and low HDL; anti-inflammatory; longevity",
+      "evidence": "Strong"
+    }
+  ],
+  "supplements_pending": [
+    {
+      "name": "Ashwagandha (KSM-66)",
+      "dose": "600 mg",
+      "timing": "Morning, with food",
+      "reason": "Testosterone support (low-normal at 11 nmol/l, low LH); cortisol reduction during deficit",
+      "evidence": "Moderate"
+    }
+  ],
   "previous_phases": [],
   "recommendations": [
     {
