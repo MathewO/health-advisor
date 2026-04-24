@@ -32,6 +32,7 @@ All entries: `YYYY-MM-DD | type | value | [optional note]`
 2026-04-14 | weight | 85.1
 2026-04-14 | run | 20 min |  km | 188 kcal
 2026-04-15 | weight | 85
+2026-04-15 | waist | 108 | Baseline — navel, relaxed, end of exhale, fasted morning (body comp)
 2026-04-16 | weight | 84.6 | Bad tummy last night
 2026-04-16 | run | 20 min |  km | 192 kcal
 2026-04-16 | drinks | 89 | Alcohol free beer
@@ -68,4 +69,4 @@ All entries: `YYYY-MM-DD | type | value | [optional note]`
 2026-04-23 | cheat | Turkey Meatball Spaghetti, ~400 kcal | replaces: Chicken Wrap (376 kcal)
 2026-04-23 | cheat | Caesar Salad + Bread, ~690 kcal | replaces: Gousto Meal (640 kcal)
 2026-04-24 | weight | 83.4
-2026-04-24 | waist | 106 | Navel, relaxed, end of exhale, fasted morning. Baseline 108 cm on 15 Apr.
+2026-04-24 | waist | 106 | Navel, relaxed, end of exhale, fasted morning
