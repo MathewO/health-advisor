@@ -72,3 +72,4 @@ All entries: `YYYY-MM-DD | type | value | [optional note]`
 2026-04-24 | waist | 106 | Navel, relaxed, end of exhale, fasted morning
 2026-04-24 | cheat | Turkey Meatball Spaghetti, ~400 kcal | replaces: Chicken Wrap (376 kcal)
 2026-04-24 | workout | Walking | 23 min | 97 kcal
+2026-04-24 | drinks | 190 | Green mountain
