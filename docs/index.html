@@ -330,6 +330,10 @@
     <button class="num-btn" onclick="pinKey('0')">0</button>
     <button class="num-btn del" onclick="pinDel()">⌫</button>
   </div>
+  <div id="swVersion"
+       title="Tap to clear cache and force-update"
+       style="position:absolute;bottom:env(safe-area-inset-bottom,8px);left:0;right:0;text-align:center;font-size:10px;color:var(--muted);opacity:0.5;cursor:pointer;padding:6px;"
+       onclick="forceSwUpdate()">v –</div>
 </div>
 
 <!-- ═══════════════ Confirm Modal ═══════════════ -->
@@ -2766,7 +2770,45 @@ function closeMealPopup() {
 })();
 
 if ('serviceWorker' in navigator) {
-  navigator.serviceWorker.register('sw.js');
+  navigator.serviceWorker.register('sw.js').then(function(reg) {
+    function showVersion(active) {
+      if (!active) return;
+      var ch = new MessageChannel();
+      ch.port1.onmessage = function(e) {
+        var el = document.getElementById('swVersion');
+        if (el && e.data && e.data.version) el.textContent = e.data.version;
+      };
+      active.postMessage({ type: 'GET_VERSION' }, [ch.port2]);
+    }
+    showVersion(reg.active);
+
+    reg.addEventListener('updatefound', function() {
+      var newSw = reg.installing;
+      if (!newSw) return;
+      newSw.addEventListener('statechange', function() {
+        if (newSw.state === 'activated') {
+          showVersion(newSw);
+          // Only reload automatically if the user is already past the lock screen,
+          // so they're not interrupted mid-PIN-entry on a cold start.
+          var pwd = document.getElementById('screen-password');
+          if (!pwd || !pwd.classList.contains('active')) location.reload();
+        }
+      });
+    });
+  });
+
+  // Manual nuclear option: clear all caches + unregister SW + reload.
+  window.forceSwUpdate = async function() {
+    try {
+      var regs = await navigator.serviceWorker.getRegistrations();
+      await Promise.all(regs.map(function(r) { return r.unregister(); }));
+      var keys = await caches.keys();
+      await Promise.all(keys.map(function(k) { return caches.delete(k); }));
+    } catch (e) { /* swallow */ }
+    location.reload();
+  };
+} else {
+  window.forceSwUpdate = function() { location.reload(); };
 }
 </script>
 
