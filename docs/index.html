@@ -409,6 +409,10 @@
           <div class="log-icon">🏌️</div>
           <div class="log-label">Extra Activity</div>
         </button>
+        <button class="log-card" onclick="openForm('waist')">
+          <div class="log-icon">📏</div>
+          <div class="log-label">Waist (cm)</div>
+        </button>
         <button class="log-card" onclick="openCheatForm()">
           <div class="log-icon">🍔</div>
           <div class="log-label">Off-plan Meal</div>
@@ -1012,7 +1016,7 @@ function renderWeeklyBurndownChart(allEntries, weekStartStr, weekdayDeficit, wee
   const yMax = Math.max(target, fullWeekBase, actualData[6]) + 100;
 
   // Event icons + labels per day
-  const baseIcons = { weight: '⚖️', run: '🏃', stair: '🪜', drinks: '🍺', beers: '🍺', cheat: '🍔', activity: '🏌️' };
+  const baseIcons = { weight: '⚖️', waist: '📏', run: '🏃', stair: '🪜', drinks: '🍺', beers: '🍺', cheat: '🍔', activity: '🏌️' };
   const workoutTypeIcons = {
     'Running': '🏃', 'Cycling': '🚴', 'Mountain Biking': '🚵',
     'Stair Climbing': '🪜', 'HIIT': '💪', 'Hiking': '🥾',
@@ -1027,6 +1031,7 @@ function renderWeeklyBurndownChart(allEntries, weekStartStr, weekdayDeficit, wee
   function entryLabel(e) {
     const ic = eventIcon(e);
     if (e.type === 'weight')   return `${ic} Weigh-in · ${e.kg} kg`;
+    if (e.type === 'waist')    return `${ic} Waist · ${(e.cm != null ? e.cm : e.value)} cm`;
     if (e.type === 'run')      return `${ic} Run${e.duration ? ' · ' + e.duration + ' min' : ''}${e.kcal ? ' · ' + e.kcal + ' kcal' : ''}`;
     if (e.type === 'stair')    return `${ic} Stairs${e.duration ? ' · ' + e.duration + ' min' : ''}${e.kcal ? ' · ' + e.kcal + ' kcal' : ''}`;
     if (e.type === 'workout')  return `${ic} ${e.workoutType || 'Workout'}${e.duration ? ' · ' + e.duration + ' min' : ''}${e.kcal ? ' · ' + e.kcal + ' kcal' : ''}`;
@@ -1264,6 +1269,7 @@ function computeWeeklyDeficit(allEntries, phase) {
 
 function outlierLabel(e) {
   if (e.type === 'run')     return 'Run: ' + e.value;
+  if (e.type === 'waist')   return 'Waist: ' + (e.value || '') + ' cm';
   if (e.type === 'stair')   return 'Stair Climbing: ' + e.value;
   if (e.type === 'workout') return (e.workoutType || 'Workout') + ': ' + e.duration + ' min';
   if (e.type === 'drinks') return 'Drinks: ' + (e.breakdown || e.value);
@@ -1305,6 +1311,7 @@ function loadLogView() {
 
   const typeConfig = {
     weight:   { label: 'Weight',          badgeClass: 'badge-blue',   icon: '⚖️' },
+    waist:    { label: 'Waist',            badgeClass: 'badge-muted',  icon: '📏' },
     drinks:   { label: 'Drinks',          badgeClass: 'badge-amber',  icon: '🍺' },
     beers:    { label: 'Drinks',          badgeClass: 'badge-amber',  icon: '🍺' },
     activity: { label: 'Activity',        badgeClass: 'badge-green',  icon: '🏌️' },
@@ -1329,6 +1336,9 @@ function loadLogView() {
 
     if (e.type === 'weight') {
       valueText = e.value + ' kg';
+      noteHtml  = e.note ? `<div class="log-entry-note">"${escHtml(e.note)}"</div>` : '';
+    } else if (e.type === 'waist') {
+      valueText = e.value + ' cm';
       noteHtml  = e.note ? `<div class="log-entry-note">"${escHtml(e.note)}"</div>` : '';
     } else if (e.type === 'run') {
       valueText = e.duration ? e.duration + ' min run' : e.value;
@@ -1798,7 +1808,9 @@ function loadPrevPhases() {
 
     const logHtml = phaseEntries.length
       ? phaseEntries.map(e => {
-          const vt = e.type === 'weight' ? e.value + ' kg' : e.value;
+          const vt = e.type === 'weight' ? e.value + ' kg'
+            : e.type === 'waist' ? e.value + ' cm'
+            : e.value;
           const nt = e.note ? ` — "${escHtml(e.note)}"` : '';
           return `<div style="padding:6px 0;border-bottom:1px solid var(--border);font-size:13px">
             <span style="color:var(--muted)">${e.date}</span>
@@ -1968,6 +1980,14 @@ function parseAllLogEntries(text) {
 
     } else if (type === 'activity') {
       entry.value = parts[2];
+      entry.note  = parts[3] || '';
+      entry.outlierKcal = 0;
+
+    } else if (type === 'waist') {
+      const cm = parseFloat(parts[2]);
+      if (isNaN(cm)) continue;
+      entry.value = parts[2];
+      entry.cm    = cm;
       entry.note  = parts[3] || '';
       entry.outlierKcal = 0;
 
@@ -2216,6 +2236,23 @@ const formConfigs = {
       return note
         ? `${date} | activity | ${val} | ${note}`
         : `${date} | activity | ${val}`;
+    }
+  },
+  waist: {
+    title: '📏 Log Waist',
+    fields: [
+      { id: 'val',  label: 'Waist (cm), navel level, relaxed, end of exhale', type: 'number',   placeholder: '108', step: '0.1', inputmode: 'decimal' },
+      { id: 'note', label: 'Note',                                      type: 'textarea', placeholder: 'e.g. fasted morning', optional: true },
+      { id: 'date', label: 'Date (defaults to today)',                 type: 'date',     isDate: true, optional: true }
+    ],
+    build: (f, date) => {
+      const cm = parseFloat(f.val);
+      if (isNaN(cm) || cm < 50 || cm > 200) throw new Error('Enter a valid waist between 50–200 cm');
+      const note = (f.note || '').trim();
+      const s = +cm % 1 === 0 ? cm.toFixed(0) : cm.toFixed(1);
+      return note
+        ? `${date} | waist | ${s} | ${note}`
+        : `${date} | waist | ${s}`;
     }
   },
 };
