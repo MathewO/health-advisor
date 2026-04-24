@@ -2116,10 +2116,19 @@ function renderWeightChart(weights, phase) {
           type: 'linear',
           min: 0,
           max: totalDays,
+          afterBuildTicks: (axis) => {
+            // Vertical gridlines / labels at the end of each Mon–Sun cycle
+            const start = new Date(weights[0].date + 'T00:00:00');
+            const dow = start.getDay(); // 0 = Sun, 1 = Mon, ...
+            let firstSun = (7 - dow) % 7;
+            if (firstSun === 0) firstSun = 7;
+            const ticks = [];
+            for (let d = firstSun; d <= totalDays; d += 7) ticks.push({ value: d });
+            axis.ticks = ticks;
+          },
           ticks: {
             color: '#64748b',
             font: { size: 10 },
-            maxTicksLimit: 8,
             callback: v => dayToDate(Math.round(v)).slice(5),
           },
           grid: { color: 'rgba(255,255,255,0.05)' },
