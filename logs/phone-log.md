@@ -11,6 +11,7 @@ All entries: `YYYY-MM-DD | type | value | [optional note]`
 | Type | Format | Example |
 |---|---|---|
 | `weight` | `DATE \| weight \| KG \| [note]` | `2026-04-13 \| weight \| 85.8 \| Post-spa` |
+| `waist` | `DATE \| waist \| CM \| [note]` | `2026-04-21 \| waist \| 106 \| Navel, relaxed, end of exhale, fasted morning` |
 | `drinks` | `DATE \| drinks \| TOTAL_KCAL \| breakdown \| [note]` | `2026-04-19 \| drinks \| 370 \| Pint of beer x1, Negroni x1 \| Birthday` |
 | `beers` | `DATE \| beers \| PINTS` | `2026-04-19 \| beers \| 3` _(legacy — use drinks)_ |
 | `activity` | `DATE \| activity \| description \| [note]` | `2026-04-19 \| activity \| Walk, 45 min` |
@@ -67,3 +68,4 @@ All entries: `YYYY-MM-DD | type | value | [optional note]`
 2026-04-23 | cheat | Turkey Meatball Spaghetti, ~400 kcal | replaces: Chicken Wrap (376 kcal)
 2026-04-23 | cheat | Caesar Salad + Bread, ~690 kcal | replaces: Gousto Meal (640 kcal)
 2026-04-24 | weight | 83.4
+2026-04-24 | waist | 106 | Navel, relaxed, end of exhale, fasted morning. Baseline 108 cm on 15 Apr.
