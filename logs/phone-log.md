@@ -74,3 +74,4 @@ All entries: `YYYY-MM-DD | type | value | [optional note]`
 2026-04-24 | workout | Walking | 23 min | 97 kcal
 2026-04-24 | drinks | 190 | Green mountain
 2026-04-24 | cheat | Prawn Stir Fry, ~510 kcal | replaces: Gousto Meal (640 kcal)
+2026-04-25 | weight | 83.7 | One pint after work yesterday
