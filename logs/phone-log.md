@@ -77,3 +77,4 @@ All entries: `YYYY-MM-DD | type | value | [optional note]`
 2026-04-25 | weight | 83.7 | One pint after work yesterday
 2026-04-25 | cheat | Bacon roll + eggs, ~550 kcal | replaces: Weekend Brunch (648 kcal)
 2026-04-25 | workout | Walking | 15 min | 84 kcal
+2026-04-25 | workout | Walking | 16 min | 85 kcal
