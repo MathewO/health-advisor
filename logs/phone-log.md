@@ -75,3 +75,4 @@ All entries: `YYYY-MM-DD | type | value | [optional note]`
 2026-04-24 | drinks | 190 | Green mountain
 2026-04-24 | cheat | Prawn Stir Fry, ~510 kcal | replaces: Gousto Meal (640 kcal)
 2026-04-25 | weight | 83.7 | One pint after work yesterday
+2026-04-25 | cheat | Bacon roll + eggs, ~550 kcal | replaces: Weekend Brunch (648 kcal)
