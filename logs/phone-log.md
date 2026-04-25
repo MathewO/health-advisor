@@ -79,3 +79,4 @@ All entries: `YYYY-MM-DD | type | value | [optional note]`
 2026-04-25 | workout | Walking | 15 min | 84 kcal
 2026-04-25 | workout | Walking | 16 min | 85 kcal
 2026-04-25 | cheat | Skipped shake | replaces: Single Shake (116 kcal)
+2026-04-25 | drinks | 56 | AF beer
