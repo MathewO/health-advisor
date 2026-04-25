@@ -83,3 +83,4 @@ All entries: `YYYY-MM-DD | type | value | [optional note]`
 2026-04-25 | workout | Walking | 31 min | 161 kcal
 2026-04-25 | drinks | 454 | Pale ale, Cobra
 2026-04-25 | cheat | Skipped chocolate | replaces: Milk Chocolate (100 kcal)
+2026-04-25 | cheat | BBQ, ~1050 kcal | replaces: Gousto Meal (640 kcal)
