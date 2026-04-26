@@ -86,3 +86,4 @@ All entries: `YYYY-MM-DD | type | value | [optional note]`
 2026-04-25 | cheat | BBQ, ~1050 kcal | replaces: Gousto Meal (640 kcal)
 2026-04-26 | stair | 25 min | 241 kcal
 2026-04-26 | weight | 83.3
+2026-04-26 | cheat | Sandwich, ~500 kcal | replaces: Weekend Brunch (648 kcal)
