@@ -87,3 +87,4 @@ All entries: `YYYY-MM-DD | type | value | [optional note]`
 2026-04-26 | stair | 25 min | 241 kcal
 2026-04-26 | weight | 83.3
 2026-04-26 | cheat | Sandwich, ~600 kcal | replaces: Weekend Brunch (648 kcal)
+2026-04-26 | drinks | 155 | Aperol Spritz
