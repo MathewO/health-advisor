@@ -84,3 +84,4 @@ All entries: `YYYY-MM-DD | type | value | [optional note]`
 2026-04-25 | drinks | 454 | Pale ale, Cobra
 2026-04-25 | cheat | Skipped chocolate | replaces: Milk Chocolate (100 kcal)
 2026-04-25 | cheat | BBQ, ~1050 kcal | replaces: Gousto Meal (640 kcal)
+2026-04-26 | stair | 25 min | 241 kcal
