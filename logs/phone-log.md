@@ -89,3 +89,4 @@ All entries: `YYYY-MM-DD | type | value | [optional note]`
 2026-04-26 | cheat | Sandwich, ~600 kcal | replaces: Weekend Brunch (648 kcal)
 2026-04-26 | drinks | 155 | Aperol Spritz
 2026-04-26 | cheat | Urban pitta, ~700 kcal | replaces: Gousto Meal (640 kcal)
+2026-04-27 | weight | 83.2
