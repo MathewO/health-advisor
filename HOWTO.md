@@ -3,6 +3,9 @@
 This project is a personal health and longevity knowledge base that runs inside Cursor.
 Claude reads your full profile at the start of every session — so it always knows who you are, what you're working on, and what you've already tried.
 
+**Durable planning context (in git, safe if chat history is lost):** see  
+[`docs/health-conversation-snapshot.md`](docs/health-conversation-snapshot.md) — trip dates (e.g. **Italy 7 Jun ~82 kg**, **Bali 12 Sep**), how success is measured, 2025 activity/stair insight, and deficit/muscle heuristics. The PWA does not read this file; it is for you and the AI.
+
 ---
 
 ## First-Time Setup
