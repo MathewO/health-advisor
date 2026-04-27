@@ -90,3 +90,4 @@ All entries: `YYYY-MM-DD | type | value | [optional note]`
 2026-04-26 | drinks | 155 | Aperol Spritz
 2026-04-26 | cheat | Urban pitta, ~700 kcal | replaces: Gousto Meal (640 kcal)
 2026-04-27 | weight | 83.2
+2026-04-27 | cheat | Egg fried rice, ~570 kcal | replaces: Chicken Wrap (376 kcal)
