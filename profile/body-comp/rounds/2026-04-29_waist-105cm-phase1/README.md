@@ -1,0 +1,45 @@
+# Progress round — waist ~105 cm (Phase 1, ~week 3–4)
+
+**Purpose:** Shirtless body-composition reference photos for **visual** tracking — complements tape measure and scale (see `profile/profile.md` Primary Outcome Metric).
+
+## Metrics at this round (from owner log / stated context)
+
+| Field | Value |
+|-------|--------|
+| **Waist (navel, self)** | **105 cm** (filename suffix `_105_c` matches export metadata) |
+| **Approx. era** | Late Apr 2026 |
+| **Phase** | Fat loss Phase 1 → Italy prep |
+
+Exact photo **timestamp** is in iPhone Photos EXIF if needed — not duplicated here.
+
+## File → pose map
+
+Numbered files are **canonical names** for agents. Original HEIC/PNG UUID exports from Photos are listed for traceability.
+
+| File | Pose | Distinctive landmarks (for verification) |
+|------|------|------------------------------------------|
+| `01-front-relaxed.png` | Front, arms at sides | Crown tattoo R bicep; sleeve L arm (skull, etc.); STEP ONE waistband; smartwatch L wrist |
+| `02-side-left-dragon-tattoo.png` | **Subject’s left** side profile | Large winged creature / skulls / “MY POISON” bottle on L arm; wood door BG |
+| `03-side-right-mushroom-tattoo.png` | **Subject’s right** side profile | Mushroom-head figure tattoo on upper arm; pink “YOU ARE ENOUGH” poster; dog on couch |
+| `04-side-relaxed-you-are-enough.png` | Side medium (~same room as 03; relaxed upright) | Poster + dog + desk; moles/freckles visible |
+| `05-side-arms-raised-forward.png` | Side profile, **arms raised forward** (abdominal stretch) | STEP ONE waistband legible; wooden door BG — **not comparable to relaxed sides for waist line** |
+
+**Pose note:** `05` systematically elongates the trunk — use only for posture/skin tension comparison, not for “waist shrink” vs `02–04`.
+
+## Original export filenames (Photos → Cursor)
+
+| Canonical file | Original |
+|------------------|----------|
+| `01-front-relaxed.png` | `9757A0EF-1469-4AB0-9D8C-11BA2A0009F2_1_105_c-….png` |
+| `02-side-left-dragon-tattoo.png` | `FB71C166-2B6B-45E1-8F49-D3AA5C882515_1_105_c-….png` |
+| `03-side-right-mushroom-tattoo.png` | `D54AB619-35EB-416D-BD62-398F16A392FD_1_105_c-….png` |
+| `04-side-relaxed-you-are-enough.png` | `2F7356EB-A7E9-4BC5-A49F-A4C5DA0D5A72_1_105_c-….png` |
+| `05-side-arms-raised-forward.png` | `D41F92B7-949A-4EF5-8EC0-1DD6F35860F6_1_105_c-….png` |
+
+Copies also remain under `.cursor/projects/…/assets/` until manually deleted.
+
+## For AI agents
+
+1. Read **`profile/body-comp/README.md`** (parent) for privacy / git rules.
+2. Use **`01–05`** filenames when comparing to **future rounds** — match pose where possible (front vs front, side vs side).
+3. Do **not** commit image binaries — they stay gitignored by extension.

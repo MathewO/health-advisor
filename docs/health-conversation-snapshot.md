@@ -2,7 +2,7 @@
 
 > **Purpose:** Recovery of key decisions and dates from planning chats if **chat history is unavailable**.  
 > **Not used by the PWA** — for humans and AI sessions only.  
-> **Last updated:** 2026-04-27
+> **Last updated:** 2026-04-29
 
 ---
 
@@ -31,6 +31,8 @@ If `profile/profile.md` is missing or empty, this table is the backup for **Ital
 - **Clinic / Randox waist (e.g. 105 cm with clothes, different landmark):** do **not** mix into the self-measured navel series — see profile note.
 
 `logs/phone-log.md` supports `waist` lines; the app can **log** waist but has **no waist progress chart** (by design).
+
+**Progress photo catalogue (for humans + agents):** canonical shirtless rounds live under **`profile/body-comp/rounds/<date>_<label>/`** with numbered PNGs and a **`README.md`** per round (pose map + metrics). Start with **`profile/body-comp/AGENTS.md`**. Image binaries are gitignored and never pushed.
 
 ---
 
