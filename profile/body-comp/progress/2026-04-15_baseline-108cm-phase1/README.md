@@ -34,6 +34,12 @@ Same canonical names as the **29 Apr** set so you can diff folder‑for‑folder
 | `04-side-relaxed-you-are-enough.png` | `6DB15815-BA8C-4E7D-8E39-A211A54071EA_1_105_c-….png` |
 | `05-side-arms-raised-forward.png` | `3FDEA422-628F-4556-992A-6F5B4D6A37CD_1_105_c-….png` |
 
+## Folder integrity
+
+After copying files between dated folders, **`DateTimeOriginal`** in EXIF should fall on **15 Apr 2026** for every image here (and **29 Apr** for the sibling folder). Verify from `profile/body-comp/progress/`:
+
+`python3 verify-exif-dates.py`
+
 ## For AI agents
 
 Compare **`01–05`** to the **`2026-04-29_waist-105cm-phase1`** folder pose‑by‑pose. Do not commit binaries — gitignored.

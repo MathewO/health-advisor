@@ -24,6 +24,7 @@ profile/body-comp/
   AGENTS.md              ← instructions for AI assistants (tracked)
   README.md              ← this file (tracked)
   progress/
+    verify-exif-dates.py ← optional: confirm EXIF dates match folder names (tracked)
     <date>_<label>/
       README.md          ← metrics + pose map for that shoot (tracked)
       01-….png           ← images gitignored

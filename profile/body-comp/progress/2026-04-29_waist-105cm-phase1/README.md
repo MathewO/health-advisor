@@ -38,6 +38,12 @@ Numbered files are **canonical names** for agents. Original HEIC/PNG UUID export
 
 Copies also remain under `.cursor/projects/…/assets/` until manually deleted.
 
+## Folder integrity
+
+After copying files between dated folders, **`DateTimeOriginal`** in EXIF should fall on **29 Apr 2026** for every image here (and **15 Apr** for the baseline folder). Verify from `profile/body-comp/progress/`:
+
+`python3 verify-exif-dates.py`
+
 ## For AI agents
 
 1. Read **`profile/body-comp/README.md`** (parent) for privacy / git rules.
