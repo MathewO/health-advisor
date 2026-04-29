@@ -36,7 +36,7 @@ profile/body-comp/
         …
 ```
 
-**Full-res vs review:** Keep canonical **`01`–`05`** files only under each **`YYYY-MM-DD_*`** folder. **`progress/review/`** duplicates the **folder names** and **file stems** but stores **JPEG**, long edge **~1600 px** — faster to flip through in Cursor. Regenerate review copies whenever full-res files change (see **Adding new progress sets**).
+**Full-res vs review:** Keep canonical **`01`–`05`** files only under each **`YYYY-MM-DD_*`** folder. **`progress/review/`** duplicates the **folder names** and **file stems** but stores **JPEG** (default long edge **~800 px**, quality **~78** — small enough for quick tab flips; full-res stays the source of truth). Override with `generate-review-images.py --max-edge` / `--quality` if needed. Regenerate review copies whenever full-res files change (see **Adding new progress sets**).
 
 ---
 

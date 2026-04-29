@@ -26,8 +26,9 @@ except ImportError:
 
 DATED_DIR = re.compile(r"^\d{4}-\d{2}-\d{2}_")
 SOURCE_EXT = {".png", ".jpg", ".jpeg", ".webp"}
-DEFAULT_MAX_EDGE = 1600
-DEFAULT_JPEG_QUALITY = 85
+# Tuned for fast IDE image preview (Cursor/VS Code); use full-res for real comparisons.
+DEFAULT_MAX_EDGE = 800
+DEFAULT_JPEG_QUALITY = 78
 
 
 def iter_dated_folders(progress_root: Path) -> list[Path]:
