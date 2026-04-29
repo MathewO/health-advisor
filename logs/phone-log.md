@@ -98,3 +98,4 @@ All entries: `YYYY-MM-DD | type | value | [optional note]`
 2026-04-29 | weight | 83.5
 2026-04-29 | workout | Walking | 13 min | 62 kcal
 2026-04-29 | workout | Walking | 13 min | 68 kcal
+2026-04-29 | waist | 105
