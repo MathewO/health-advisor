@@ -93,7 +93,7 @@ All entries: `YYYY-MM-DD | type | value | [optional note]`
 2026-04-27 | cheat | Egg fried rice, ~570 kcal | replaces: Chicken Wrap (376 kcal)
 2026-04-27 | cheat | Gousto, ~458 kcal | replaces: Gousto Meal (640 kcal)
 2026-04-27 | cheat | Skipped chocolate | replaces: Milk Chocolate (100 kcal)
-2026-04-28 | weight | 83.1
+2026-04-28 | weight | 83.4
 2026-04-28 | run | 22 min |  km | 202 kcal
 2026-04-29 | weight | 83.5
 2026-04-29 | workout | Walking | 13 min | 62 kcal
