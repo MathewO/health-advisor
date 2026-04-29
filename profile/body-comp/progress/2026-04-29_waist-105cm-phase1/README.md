@@ -1,8 +1,8 @@
-# Progress round — waist ~105 cm (Phase 1, ~week 3–4)
+# Progress photos — waist ~105 cm (Phase 1, ~week 3–4)
 
-**Purpose:** Shirtless body-composition reference photos for **visual** tracking — complements tape measure and scale (see `profile/profile.md` Primary Outcome Metric).
+**Purpose:** Shirtless body-composition reference photos for **visual** tracking — complements tape measure and scale (see `profile/profile.md` Primary Outcome Metric). Compare to **`2026-04-15_baseline-108cm-phase1/`** using matching **`01`–`05`** filenames.
 
-## Metrics at this round (from owner log / stated context)
+## Metrics at this set (from owner log / stated context)
 
 | Field | Value |
 |-------|--------|
@@ -41,5 +41,5 @@ Copies also remain under `.cursor/projects/…/assets/` until manually deleted.
 ## For AI agents
 
 1. Read **`profile/body-comp/README.md`** (parent) for privacy / git rules.
-2. Use **`01–05`** filenames when comparing to **future rounds** — match pose where possible (front vs front, side vs side).
+2. Use **`01–05`** filenames when comparing to **other dated folders under `progress/`** — match pose where possible (front vs front, side vs side).
 3. Do **not** commit image binaries — they stay gitignored by extension.

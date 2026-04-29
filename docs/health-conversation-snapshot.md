@@ -32,7 +32,7 @@ If `profile/profile.md` is missing or empty, this table is the backup for **Ital
 
 `logs/phone-log.md` supports `waist` lines; the app can **log** waist but has **no waist progress chart** (by design).
 
-**Progress photo catalogue (for humans + agents):** canonical shirtless rounds live under **`profile/body-comp/rounds/<date>_<label>/`** with numbered PNGs and a **`README.md`** per round (pose map + metrics). Start with **`profile/body-comp/AGENTS.md`**. Image binaries are gitignored and never pushed.
+**Progress photo catalogue (for humans + agents):** canonical shirtless sets live under **`profile/body-comp/progress/<date>_<label>/`** with numbered PNGs and a **`README.md`** per set (pose map + metrics). Start with **`profile/body-comp/AGENTS.md`**. Image binaries are gitignored and never pushed.
 
 ---
 
