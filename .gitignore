@@ -24,8 +24,14 @@ data/export.xml
 *.swp
 *.swo
 
-# Body composition photos — never push to remote
-profile/body-comp/
+# Body composition photos — never push images/video to remote (README may be tracked)
+profile/body-comp/**/*.png
+profile/body-comp/**/*.jpg
+profile/body-comp/**/*.jpeg
+profile/body-comp/**/*.webp
+profile/body-comp/**/*.heic
+profile/body-comp/**/*.mov
+profile/body-comp/**/*.mp4
 
 # Private health data — kept local only, not tracked in public repo
 profile/profile.md
