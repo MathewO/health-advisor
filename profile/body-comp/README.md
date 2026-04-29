@@ -21,15 +21,22 @@ Older loose imports (screenshots mixed with unrelated snaps) remain under **`202
 
 ```
 profile/body-comp/
-  AGENTS.md              ← instructions for AI assistants (tracked)
-  README.md              ← this file (tracked)
+  AGENTS.md                     ← instructions for AI assistants (tracked)
+  README.md                     ← this file (tracked)
   progress/
-    verify-exif-dates.py ← optional: confirm EXIF dates match folder names (tracked)
-    <date>_<label>/
-      README.md          ← metrics + pose map for that shoot (tracked)
-      01-….png           ← images gitignored
+    verify-exif-dates.py        ← optional: confirm EXIF dates match folder names (tracked)
+    generate-review-images.py   ← build fast-preview JPEGs under review/ (tracked)
+    <date>_<label>/              ← full-resolution / export copies (source of truth)
+      README.md                 ← metrics + pose map for that shoot (tracked)
+      01-….png                  ← images gitignored
       …
+    review/                     ← mirrors each dated folder; same stems, **.jpg** previews (gitignored)
+      <date>_<label>/
+        01-….jpg
+        …
 ```
+
+**Full-res vs review:** Keep canonical **`01`–`05`** files only under each **`YYYY-MM-DD_*`** folder. **`progress/review/`** duplicates the **folder names** and **file stems** but stores **JPEG**, long edge **~1600 px** — faster to flip through in Cursor. Regenerate review copies whenever full-res files change (see **Adding new progress sets**).
 
 ---
 
@@ -42,6 +49,8 @@ profile/body-comp/
 ## Adding new progress sets
 
 1. Create **`progress/YYYY-MM-DD_short-label/`**.
-2. Add **`01-front-….png`**, **`02-side-….png`**, … with consistent numbering.
+2. Add **`01-front-….png`**, **`02-side-….png`**, … with consistent numbering (full-resolution / Photos exports live here only).
 3. Write **`README.md`** in that folder (metrics + pose table + original filenames).
 4. Append one row to the **Progress catalogue** table above.
+5. Run **`python3 profile/body-comp/progress/generate-review-images.py`** so **`progress/review/<same-folder>/`** gets matching **`01`–`05`.jpg** previews (same stems as step 2). Re-run after any full-res add/replace.
+6. Optionally run **`python3 profile/body-comp/progress/verify-exif-dates.py`** to confirm EXIF dates match folder names.
