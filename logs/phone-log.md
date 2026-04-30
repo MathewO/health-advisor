@@ -101,3 +101,4 @@ All entries: `YYYY-MM-DD | type | value | [optional note]`
 2026-04-29 | waist | 105
 2026-04-29 | cheat | Caesar Salad, ~450 kcal | replaces: Gousto Meal (640 kcal)
 2026-04-29 | drinks | 154 | Guinness
+2026-04-30 | weight | 83.3
