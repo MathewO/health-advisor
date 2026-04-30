@@ -20,6 +20,8 @@
 - **Maintenance (planned):** ~7 Jun–5 Jul refeed at ~1,935 kcal; expect **~83.5–84 kg** on the scale when fully glycogen-loaded (not “fat regain” — see experiments / profile).  
 - **Phase 2 cut:** ~7 Jul–12 Sep toward Bali.
 
+**Maintenance block — training (intent):** **Italy trip** (first ~week of the maintenance window) = deliberate **no resistance training** while away. **Following ~3 weeks** = **maintenance calories** in the same ~7 Jun–5 Jul refeed window as above; **resume lifting** and ease volume/intensity in the first sessions back after travel.
+
 If `profile/profile.md` is missing or empty, this table is the backup for **Italy 7 Jun** and **Bali 12 Sep**.
 
 ---
@@ -77,6 +79,8 @@ These are often **gitignored**; duplicate critical dates here and in `profile` w
 
 ## PWA / local dev (debugging)
 
-- Serve from **`docs/`** (e.g. `python3 -m http.server 8765`).  
+- **Preview in Cursor (recommended):** **Run → Start Debugging** or press **F5**, choose **“Preview: Health Advisor”** — starts the static server on **8765** (repo root) via `preLaunchTask`, then opens **`http://localhost:8765/docs/index.html`** in the **integrated browser** with the URL set in `.vscode/launch.json` (no empty address bar).  
+- **Alternative:** **Cmd+Shift+B** runs the build task **“Preview: open in Cursor Simple Browser”** (server + `workbench.action.browser.open`). If the browser tab is still blank, use **F5** instead. **Terminal → Run Task… → Preview: static server** — server only. A bookmark alone cannot start the server.  
+- Serve from the **repository root** on port **8765** (e.g. run task **Preview: static server (repo root, port 8765)**), then open **`http://localhost:8765/docs/index.html`** — so `/logs/` resolves and **Cursor Browser** can load data without a GitHub token (same as empty Settings). Optional: `?local=1` forces local files even if a token is set.  
 - If the **Simple Browser** shows an old build: new **`docs/sw.js` CACHE_VERSION`**, or tap the **SW version** on the lock screen, or **Unregister** the service worker.  
 - Does not affect the **health plan**; only how you view the app locally.

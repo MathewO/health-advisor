@@ -150,19 +150,79 @@
     .overlay-body { flex: 1; overflow-y: auto; -webkit-overflow-scrolling: touch; padding: 16px; }
 
     /* ── Log View entries ── */
-    .log-entry { padding: 12px 0; border-bottom: 1px solid var(--border); }
+    .log-entry { padding: 12px 0; border-bottom: 1px solid var(--border); text-align: center; max-width: 420px; margin-left: auto; margin-right: auto; }
     .log-entry:last-child { border-bottom: none; }
-    .log-entry-header { display: flex; align-items: center; gap: 8px; margin-bottom: 4px; }
+    .log-entry-header { display: flex; align-items: center; justify-content: center; gap: 8px; flex-wrap: wrap; margin-bottom: 4px; }
     .log-entry-date { font-size: 12px; color: var(--muted); }
     .log-entry-value { font-size: 15px; font-weight: 600; }
-    .log-entry-note { font-size: 13px; color: var(--muted); margin-top: 4px; font-style: italic; }
-    .log-entry-actions { display: flex; gap: 8px; margin-top: 10px; }
-    .log-entry-actions button { font-size: 12px; padding: 4px 14px; border-radius: 20px; border: 1px solid var(--border); background: transparent; color: var(--muted); cursor: pointer; -webkit-tap-highlight-color: transparent; }
-    .log-entry-actions button:last-child { color: var(--red); border-color: var(--red); }
+    .log-entry-value-row {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 2px;
+    }
+    .log-entry-value-row .log-entry-duration { font-size: 15px; font-weight: 600; }
+    .log-entry-note { font-size: 13px; color: var(--muted); margin-top: 4px; font-style: italic; text-align: center; }
+    .log-entry-actions { display: flex; gap: 16px; margin-top: 10px; justify-content: center; flex-wrap: wrap; align-items: center; }
+    .log-entry-btn {
+      font-size: 18px;
+      line-height: 1;
+      padding: 8px 10px;
+      min-width: 40px;
+      min-height: 40px;
+      border: none;
+      border-radius: 12px;
+      background: transparent;
+      cursor: pointer;
+      -webkit-tap-highlight-color: transparent;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .log-entry-btn-edit { color: var(--muted); }
+    .log-entry-btn-edit:active { background: var(--surface2); color: var(--text); }
+    .log-entry-btn-del {
+      color: var(--red);
+      font-size: 22px;
+      font-weight: 300;
+      line-height: 1;
+    }
+    .log-entry-btn-del:active { background: rgba(248,113,113,.12); }
     .log-edit-field { width: 100%; font-size: 12px; font-family: monospace; background: var(--surface); color: var(--text); border: 1px solid var(--border); border-radius: 8px; padding: 8px; box-sizing: border-box; resize: vertical; min-height: 56px; }
     .log-edit-actions { display: flex; gap: 8px; margin-top: 8px; }
-    .stat-chips { display: flex; gap: 6px; flex-wrap: wrap; margin-top: 6px; }
+    .stat-chips { display: flex; gap: 6px; flex-wrap: wrap; margin-top: 6px; justify-content: center; }
     .stat-chip { background: var(--surface2); border-radius: 20px; font-size: 12px; font-weight: 500; padding: 3px 10px; color: var(--text); }
+
+    .log-view-filters-wrap {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 8px;
+      margin: -4px -16px 14px;
+      padding: 4px 16px 8px;
+      flex-shrink: 0;
+    }
+    .log-filter-pill {
+      flex-shrink: 0;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      color: var(--muted);
+      font-size: 12px;
+      font-weight: 600;
+      padding: 7px 14px;
+      cursor: pointer;
+      -webkit-tap-highlight-color: transparent;
+      transition: border-color .12s, color .12s, background .12s;
+    }
+    .log-filter-pill:active { background: var(--surface2); }
+    .log-filter-pill.active {
+      border-color: var(--green);
+      color: var(--green);
+      background: rgba(74,222,128,.08);
+    }
 
     /* ── Meal Plan tabs ── */
     .meal-tab-bar { display: flex; gap: 8px; margin-bottom: 16px; }
@@ -446,7 +506,12 @@
         <div class="settings-status" id="settingsStatus"></div>
         <div class="divider"></div>
         <div class="settings-hint">
-          Generate a fine-grained token at <strong>github.com/settings/tokens</strong> with <strong>Contents: Read and Write</strong> scoped to this repo only. Your token is stored only on this device.
+          Generate a fine-grained token at <strong>github.com/settings/tokens</strong> with <strong>Contents: Read and Write</strong> scoped to this repo only.
+          Your GitHub fields are stored in this browser only (<strong>localStorage</strong>) — each app has separate storage: Safari vs Chrome vs <strong>Cursor’s browser</strong>, and <code style="font-size:11px">localhost</code> vs <code style="font-size:11px">127.0.0.1</code> count as different sites. If you already saved elsewhere, use <strong>Copy</strong> there and <strong>Paste</strong> here once.
+        </div>
+        <div style="display:flex;gap:10px;margin-top:14px;flex-wrap:wrap">
+          <button type="button" class="settings-save-btn" style="flex:1;min-width:140px;background:var(--surface2);color:var(--text);font-size:14px;padding:10px 12px" onclick="exportGhSettings()">Copy settings JSON</button>
+          <button type="button" class="settings-save-btn" style="flex:1;min-width:140px;background:var(--surface2);color:var(--text);font-size:14px;padding:10px 12px" onclick="importGhSettings()">Paste settings JSON</button>
         </div>
       </div>
 
@@ -543,6 +608,9 @@
 const CORRECT_PIN = '2050';
 const LOG_PATH    = 'logs/phone-log.md';
 const DASH_PATH   = 'logs/dashboard.json';
+
+/** Log overlay filters: `null` = All; otherwise Set of category keys (OR). */
+let logViewFilterKeys = null;
 
 const DEFAULT_DRINK_KCAL = {
   'Pint of beer':  210,
@@ -641,12 +709,79 @@ function saveSettings() {
   setTimeout(() => s.textContent = '', 2000);
 }
 
+function ghSettingsPayload() {
+  return {
+    hl_user: document.getElementById('ghUser').value.trim(),
+    hl_repo: document.getElementById('ghRepo').value.trim() || 'health-advisor',
+    hl_token: document.getElementById('ghToken').value.trim()
+  };
+}
+
+async function exportGhSettings() {
+  loadSettings();
+  const s = document.getElementById('settingsStatus');
+  try {
+    await navigator.clipboard.writeText(JSON.stringify(ghSettingsPayload(), null, 2));
+    s.style.color = 'var(--green)';
+    s.textContent = 'Copied JSON to clipboard — treat it like a password.';
+    setTimeout(() => { s.textContent = ''; }, 4000);
+  } catch (e) {
+    s.style.color = 'var(--red)';
+    s.textContent = 'Could not copy automatically — copy fields manually.';
+    setTimeout(() => { s.textContent = ''; }, 4000);
+  }
+}
+
+async function importGhSettings() {
+  const s = document.getElementById('settingsStatus');
+  let text = '';
+  try {
+    text = await navigator.clipboard.readText();
+  } catch (err) { /* clipboard read may need permission */ }
+  text = (text || '').trim();
+  if (!text || text.charAt(0) !== '{') {
+    text = (window.prompt('Paste the JSON from “Copy settings JSON” (from your other browser):') || '').trim();
+    if (!text) return;
+  }
+  let o;
+  try {
+    o = JSON.parse(text.trim());
+  } catch (e) {
+    s.style.color = 'var(--red)';
+    s.textContent = 'Invalid JSON.';
+    setTimeout(() => { s.textContent = ''; }, 3000);
+    return;
+  }
+  const u = String(o.hl_user !== undefined ? o.hl_user : o.user !== undefined ? o.user : '').trim();
+  const r = String(o.hl_repo !== undefined ? o.hl_repo : o.repo !== undefined ? o.repo : 'health-advisor').trim() || 'health-advisor';
+  const t = String(o.hl_token !== undefined ? o.hl_token : o.token !== undefined ? o.token : '').trim();
+  localStorage.setItem('hl_user', u);
+  localStorage.setItem('hl_repo', r);
+  localStorage.setItem('hl_token', t);
+  loadSettings();
+  s.style.color = 'var(--green)';
+  s.textContent = 'Imported. Loading…';
+  await loadDashboard();
+  s.style.color = 'var(--green)';
+  s.textContent = 'Imported and applied.';
+  setTimeout(() => { s.textContent = ''; }, 2500);
+}
+
 function ghConfig() {
   return {
     user:  localStorage.getItem('hl_user')  || '',
     repo:  localStorage.getItem('hl_repo')  || 'health-advisor',
     token: localStorage.getItem('hl_token') || ''
   };
+}
+
+/** True → read dashboard/log from same-origin files (repo served at site root). Used when there is no GitHub token (e.g. Cursor Browser isolated storage) or ?local=1. */
+function useLocalRepoFiles() {
+  const h = location.hostname;
+  if (h !== 'localhost' && h !== '127.0.0.1' && h !== '::1') return false;
+  const params = new URLSearchParams(location.search);
+  if (params.get('local') === '1') return true;
+  return !(localStorage.getItem('hl_token') || '').trim();
 }
 
 async function testConnection() {
@@ -671,6 +806,16 @@ function ghDecode(base64) {
 }
 
 async function ghGet(path) {
+  if (useLocalRepoFiles()) {
+    const url = '/' + path.replace(/^\/+/, '');
+    const r = await fetch(url);
+    if (!r.ok) throw new Error('Local file GET failed: ' + r.status + ' ' + url);
+    const text = await r.text();
+    return {
+      content: btoa(unescape(encodeURIComponent(text))),
+      sha: 'local-' + path
+    };
+  }
   const { user, repo, token } = ghConfig();
   const r = await fetch(`https://api.github.com/repos/${user}/${repo}/contents/${path}`, {
     headers: { Authorization: `Bearer ${token}`, 'X-GitHub-Api-Version': '2022-11-28' }
@@ -680,6 +825,9 @@ async function ghGet(path) {
 }
 
 async function ghPut(path, content, sha, message) {
+  if (useLocalRepoFiles()) {
+    throw new Error('Read-only local preview — add a GitHub token in Settings to save, or use the deployed app.');
+  }
   const { user, repo, token } = ghConfig();
   const r = await fetch(`https://api.github.com/repos/${user}/${repo}/contents/${path}`, {
     method: 'PUT',
@@ -727,6 +875,8 @@ async function ghWriteLog(newText, message) {
 // ─── Global state ─────────────────────────────────────────────
 let weightChart   = null;
 let burndownChart = null;
+/** Outside-dismiss listener for #burndownTip (removed when tip closes or another opens). */
+let burndownTipOutsideHandler = null;
 let dashData    = null;
 let logText     = null;
 let dashSha     = null;
@@ -767,8 +917,11 @@ async function loadDashboard() {
     }
 
   } catch(e) {
+    const hint = useLocalRepoFiles()
+      ? 'Could not load local files — run the preview task (repo root, port 8765) and open <code style="font-size:12px">/docs/index.html</code>, or add a GitHub token in Settings.'
+      : 'Configure GitHub in Settings to load data.';
     document.getElementById('goalCard').innerHTML =
-      '<div class="card-detail" style="color:var(--muted)">Configure GitHub in Settings to load data.</div>';
+      '<div class="card-detail" style="color:var(--muted)">' + hint + '</div>';
     document.getElementById('weeklyDeficitCard').innerHTML =
       '<div class="card-detail" style="color:var(--muted)">Could not load data.</div>';
     console.warn('Dashboard load error:', e);
@@ -1020,7 +1173,8 @@ function renderWeeklyBurndownChart(allEntries, weekStartStr, weekdayDeficit, wee
   const workoutTypeIcons = {
     'Running': '🏃', 'Cycling': '🚴', 'Mountain Biking': '🚵',
     'Stair Climbing': '🪜', 'HIIT': '💪', 'Hiking': '🥾',
-    'Swimming': '🏊', 'Strength Training': '🏋️', 'Yoga': '🧘', 'Elliptical': '🔄'
+    'Swimming': '🏊', 'Strength Training': '🏋️', 'Yoga': '🧘', 'Elliptical': '🔄',
+    'Walk': '🚶', 'Walking': '🚶'
   };
 
   function eventIcon(e) {
@@ -1032,10 +1186,10 @@ function renderWeeklyBurndownChart(allEntries, weekStartStr, weekdayDeficit, wee
     const ic = eventIcon(e);
     if (e.type === 'weight')   return `${ic} Weigh-in · ${e.kg} kg`;
     if (e.type === 'waist')    return `${ic} Waist · ${(e.cm != null ? e.cm : e.value)} cm`;
-    if (e.type === 'run')      return `${ic} Run${e.duration ? ' · ' + e.duration + ' min' : ''}${e.kcal ? ' · ' + e.kcal + ' kcal' : ''}`;
-    if (e.type === 'stair')    return `${ic} Stairs${e.duration ? ' · ' + e.duration + ' min' : ''}${e.kcal ? ' · ' + e.kcal + ' kcal' : ''}`;
-    if (e.type === 'workout')  return `${ic} ${e.workoutType || 'Workout'}${e.duration ? ' · ' + e.duration + ' min' : ''}${e.kcal ? ' · ' + e.kcal + ' kcal' : ''}`;
-    if (e.type === 'drinks')   return `${ic} Drinks · ${e.kcal ? e.kcal + ' kcal' : e.breakdown || ''}`;
+    if (e.type === 'run')      return `${ic} Run${e.duration ? ' · ' + e.duration + ' min' : ''}${e.km != null ? ' · ' + e.km + ' km' : ''}`;
+    if (e.type === 'stair')    return `${ic} Stairs${e.duration ? ' · ' + e.duration + ' min' : ''}`;
+    if (e.type === 'workout')  return `${ic} ${e.workoutType || 'Workout'}${e.duration ? ' · ' + e.duration + ' min' : ''}`;
+    if (e.type === 'drinks')   return `${ic} Drinks${e.breakdown ? ' · ' + e.breakdown : ''}`;
     if (e.type === 'beers')    return `${ic} Drinks · ${e.value} pints`;
     if (e.type === 'cheat')    return `${ic} Cheat · ${e.value}`;
     if (e.type === 'activity') return `${ic} Activity · ${e.value}`;
@@ -1050,7 +1204,7 @@ function renderWeeklyBurndownChart(allEntries, weekStartStr, weekdayDeficit, wee
     if (idx === -1) return;
     const icon = eventIcon(e);
     if (!icon) return;
-    eventsByDay[idx].push({ icon, label: entryLabel(e), type: e.type });
+    eventsByDay[idx].push({ icon, label: entryLabel(e), type: e.type, outlierKcal: e.outlierKcal ?? 0 });
   });
 
   const gridColor  = 'rgba(82,82,91,0.4)';
@@ -1154,7 +1308,6 @@ function renderWeeklyBurndownChart(allEntries, weekStartStr, weekdayDeficit, wee
         return (ai === -1 ? 99 : ai) - (bi === -1 ? 99 : bi);
       });
       const mergedIcon   = sorted[0]?.icon || events[0].icon;
-      const mergedLabels = events.map(e => e.label);
 
       const py = pyBase - 18;
       const el = document.createElement('span');
@@ -1163,14 +1316,29 @@ function renderWeeklyBurndownChart(allEntries, weekStartStr, weekdayDeficit, wee
       el.style.cssText = `position:absolute;left:${px}px;top:${py}px;transform:translate(-50%,-50%);font-size:16px;cursor:pointer;z-index:10;user-select:none;-webkit-user-select:none;-webkit-tap-highlight-color:transparent;padding:4px;`;
       el.onclick = function(ev) {
         ev.stopPropagation();
+        if (burndownTipOutsideHandler) {
+          document.removeEventListener('pointerdown', burndownTipOutsideHandler, true);
+          burndownTipOutsideHandler = null;
+        }
         const old = document.getElementById('burndownTip');
         if (old) old.remove();
         const tip = document.createElement('div');
         tip.id = 'burndownTip';
-        tip.style.cssText = 'position:fixed;z-index:9999;background:#3f3f46;border:1px solid #52525b;border-radius:8px;padding:8px 12px;font-size:13px;color:#f1f5f9;pointer-events:none;white-space:nowrap;box-shadow:0 4px 16px rgba(0,0,0,0.5);display:flex;flex-direction:column;gap:4px;';
-        mergedLabels.forEach(lbl => {
+        tip.style.cssText = 'position:fixed;z-index:9999;background:#3f3f46;border:1px solid #52525b;border-radius:8px;padding:8px 12px;font-size:13px;color:#f1f5f9;pointer-events:auto;white-space:nowrap;box-shadow:0 4px 16px rgba(0,0,0,0.5);display:flex;flex-direction:column;gap:4px;';
+        events.forEach(ev => {
           const row = document.createElement('div');
-          row.textContent = lbl;
+          row.style.cssText = 'display:flex;align-items:baseline;gap:8px;';
+          const text = document.createElement('span');
+          text.textContent = ev.label;
+          row.appendChild(text);
+          const k = ev.outlierKcal != null ? ev.outlierKcal : 0;
+          if (k !== 0) {
+            const imp = document.createElement('span');
+            imp.style.cssText = 'font-weight:600;font-variant-numeric:tabular-nums;flex-shrink:0;' +
+              (k > 0 ? 'color:var(--green);' : 'color:var(--red);');
+            imp.textContent = (k > 0 ? '+' : '') + k;
+            row.appendChild(imp);
+          }
           tip.appendChild(row);
         });
         document.body.appendChild(tip);
@@ -1183,14 +1351,21 @@ function renderWeeklyBurndownChart(allEntries, weekStartStr, weekdayDeficit, wee
         if (ty < 8) ty = r.bottom + 8;
         tip.style.left = tx + 'px';
         tip.style.top  = ty + 'px';
-        setTimeout(() => { if (tip.parentNode) tip.remove(); }, 2500);
-        setTimeout(() => {
-          document.addEventListener('click', function dismissTip() {
+        requestAnimationFrame(function() {
+          burndownTipOutsideHandler = function(ev2) {
             const t = document.getElementById('burndownTip');
-            if (t) t.remove();
-            document.removeEventListener('click', dismissTip);
-          });
-        }, 10);
+            if (!t) {
+              document.removeEventListener('pointerdown', burndownTipOutsideHandler, true);
+              burndownTipOutsideHandler = null;
+              return;
+            }
+            if (t.contains(ev2.target) || el.contains(ev2.target)) return;
+            t.remove();
+            document.removeEventListener('pointerdown', burndownTipOutsideHandler, true);
+            burndownTipOutsideHandler = null;
+          };
+          document.addEventListener('pointerdown', burndownTipOutsideHandler, true);
+        });
       };
       wrap.appendChild(el);
     });
@@ -1281,6 +1456,49 @@ function outlierLabel(e) {
   return e.value;
 }
 
+function logEntryCategory(e) {
+  const t = e.type;
+  if (t === 'weight') return 'weight';
+  if (t === 'run' || t === 'stair' || t === 'workout' || t === 'activity') return 'activity';
+  if (t === 'cheat') return 'food';
+  if (t === 'drinks' || t === 'beers') return 'drinks';
+  if (t === 'waist') return 'measurements';
+  return null;
+}
+
+function logFilterClick(which) {
+  if (which === 'all') {
+    logViewFilterKeys = null;
+    loadLogView();
+    return;
+  }
+  if (logViewFilterKeys === null) {
+    logViewFilterKeys = new Set([which]);
+  } else if (logViewFilterKeys.has(which)) {
+    logViewFilterKeys.delete(which);
+    if (logViewFilterKeys.size === 0) logViewFilterKeys = null;
+  } else {
+    logViewFilterKeys.add(which);
+  }
+  loadLogView();
+}
+
+function renderLogViewFilterBar() {
+  const defs = [
+    { key: 'all', label: 'All' },
+    { key: 'weight', label: 'Weight' },
+    { key: 'activity', label: 'Activity' },
+    { key: 'food', label: 'Food' },
+    { key: 'drinks', label: 'Drinks' },
+    { key: 'measurements', label: 'Measurements' },
+  ];
+  const allMode = logViewFilterKeys === null;
+  return defs.map(({ key, label }) => {
+    const active = key === 'all' ? allMode : (!allMode && logViewFilterKeys.has(key));
+    return `<button type="button" class="log-filter-pill${active ? ' active' : ''}" onclick="logFilterClick('${key}')">${label}</button>`;
+  }).join('');
+}
+
 // ─── Log View ─────────────────────────────────────────────────
 function loadLogView() {
   const body = document.getElementById('logViewBody');
@@ -1295,6 +1513,12 @@ function loadLogView() {
     return;
   }
 
+  const filtered = entries.filter(e => {
+    if (logViewFilterKeys === null) return true;
+    const cat = logEntryCategory(e);
+    return cat !== null && logViewFilterKeys.has(cat);
+  });
+
   const workoutIcons = {
     'Running':          { icon: '🏃', label: 'Run' },
     'Cycling':          { icon: '🚴', label: 'Cycling' },
@@ -1307,6 +1531,8 @@ function loadLogView() {
     'Yoga':             { icon: '🧘', label: 'Yoga' },
     'Elliptical':       { icon: '🔄', label: 'Elliptical' },
     'Rowing':           { icon: '🚣', label: 'Rowing' },
+    'Walk':             { icon: '🚶', label: 'Walk' },
+    'Walking':          { icon: '🚶', label: 'Walk' },
   };
 
   const typeConfig = {
@@ -1321,7 +1547,9 @@ function loadLogView() {
     workout:  { label: 'Workout',         badgeClass: 'badge-green',  icon: '🏅' }
   };
 
-  body.innerHTML = entries.map(e => {
+  const filtersBar = renderLogViewFilterBar();
+  const listHtml = filtered.length
+    ? filtered.map(e => {
     let cfg = typeConfig[e.type] || { label: e.type, badgeClass: 'badge-muted', icon: '📝' };
     // For generic workout entries, look up a specific icon/label by workout type name
     if (e.type === 'workout' && e.workoutType) {
@@ -1333,6 +1561,7 @@ function loadLogView() {
     let valueText = '';
     let chipsHtml = '';
     let noteHtml  = '';
+    let activityValueRow = '';
 
     if (e.type === 'weight') {
       valueText = e.value + ' kg';
@@ -1341,23 +1570,20 @@ function loadLogView() {
       valueText = e.value + ' cm';
       noteHtml  = e.note ? `<div class="log-entry-note">"${escHtml(e.note)}"</div>` : '';
     } else if (e.type === 'run') {
-      valueText = e.duration ? e.duration + ' min run' : e.value;
-      const chips = [];
-      if (e.km)  chips.push(e.km + ' km');
-      if (e.kcal) chips.push(e.kcal + ' kcal');
-      if (e.bpm)  chips.push(e.bpm + ' bpm avg');
-      chipsHtml = chips.length ? `<div class="stat-chips">${chips.map(c => `<span class="stat-chip">${escHtml(c)}</span>`).join('')}</div>` : '';
+      const parts = [`<span class="log-entry-duration">${escHtml(e.duration ? e.duration + ' min run' : e.value)}</span>`];
+      if (e.kcal) parts.push(`<span class="stat-chip">${e.kcal} kcal</span>`);
+      if (e.km) parts.push(`<span class="stat-chip">${escHtml(String(e.km))} km</span>`);
+      if (e.bpm) parts.push(`<span class="stat-chip">${e.bpm} bpm avg</span>`);
+      activityValueRow = `<div class="log-entry-value-row">${parts.join('')}</div>`;
     } else if (e.type === 'stair') {
-      valueText = e.duration ? e.duration + ' min session' : e.value;
-      const chips = [];
-      if (e.kcal) chips.push(e.kcal + ' kcal');
-      if (e.bpm)  chips.push(e.bpm + ' bpm avg');
-      chipsHtml = chips.length ? `<div class="stat-chips">${chips.map(c => `<span class="stat-chip">${escHtml(c)}</span>`).join('')}</div>` : '';
+      const parts = [`<span class="log-entry-duration">${escHtml(e.duration ? e.duration + ' min session' : e.value)}</span>`];
+      if (e.kcal) parts.push(`<span class="stat-chip">${e.kcal} kcal</span>`);
+      if (e.bpm) parts.push(`<span class="stat-chip">${e.bpm} bpm avg</span>`);
+      activityValueRow = `<div class="log-entry-value-row">${parts.join('')}</div>`;
     } else if (e.type === 'workout') {
-      valueText = e.duration ? e.duration + ' min' : e.value;
-      const chips = [];
-      if (e.kcal) chips.push(e.kcal + ' kcal');
-      chipsHtml = chips.length ? `<div class="stat-chips">${chips.map(c => `<span class="stat-chip">${escHtml(c)}</span>`).join('')}</div>` : '';
+      const parts = [`<span class="log-entry-duration">${escHtml(e.duration ? e.duration + ' min' : e.value)}</span>`];
+      if (e.kcal) parts.push(`<span class="stat-chip">${e.kcal} kcal</span>`);
+      activityValueRow = `<div class="log-entry-value-row">${parts.join('')}</div>`;
     } else if (e.type === 'drinks') {
       valueText = e.breakdown || e.value;
       if (e.kcal) chipsHtml = `<div class="stat-chips"><span class="stat-chip" style="color:var(--amber)">${e.kcal} kcal</span></div>`;
@@ -1390,15 +1616,17 @@ function loadLogView() {
           <span class="badge ${cfg.badgeClass}">${cfg.icon} ${cfg.label}</span>
           <span class="log-entry-date">${formatDate(e.date)}</span>
         </div>
-        <div class="log-entry-value">${escHtml(valueText)}</div>
-        ${chipsHtml}
+        ${activityValueRow || `<div class="log-entry-value">${escHtml(valueText)}</div>${chipsHtml}`}
         ${noteHtml}
         <div class="log-entry-actions">
-          <button onclick="editLogEntry(this)" data-raw="${encodedRaw}">Edit</button>
-          <button onclick="deleteLogEntry(this)" data-raw="${encodedRaw}">Delete</button>
+          <button type="button" class="log-entry-btn log-entry-btn-edit" onclick="editLogEntry(this)" data-raw="${encodedRaw}" aria-label="Edit entry">✏️</button>
+          <button type="button" class="log-entry-btn log-entry-btn-del" onclick="deleteLogEntry(this)" data-raw="${encodedRaw}" aria-label="Delete entry">×</button>
         </div>
       </div>`;
-  }).join('');
+  }).join('')
+    : '<div class="empty-state"><div class="empty-icon">🔍</div>No entries match these filters.</div>';
+
+  body.innerHTML = `<div class="log-view-filters-wrap">${filtersBar}</div>${listHtml}`;
 }
 
 // ─── Confirm Modal ────────────────────────────────────────────
