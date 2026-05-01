@@ -107,3 +107,4 @@ All entries: `YYYY-MM-DD | type | value | [optional note]`
 2026-04-30 | workout | Walking | 10 min | 76 kcal
 2026-04-30 | cheat | Single shake, ~116 kcal
 2026-04-30 | cheat | Crisps, ~60 kcal
+2026-05-01 | weight | 82.6
