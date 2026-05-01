@@ -109,3 +109,4 @@ All entries: `YYYY-MM-DD | type | value | [optional note]`
 2026-04-30 | cheat | Crisps, ~60 kcal
 2026-05-01 | weight | 82.6
 2026-05-01 | workout | Cycling | 15 min | 107 kcal
+2026-05-01 | cheat | Chicken burger + chicken, ~920 kcal | replaces: Gousto Meal (640 kcal)
