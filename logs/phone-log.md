@@ -116,3 +116,4 @@ All entries: `YYYY-MM-DD | type | value | [optional note]`
 2026-05-02 | workout | Cycling | 101 min | 1045 kcal
 2026-05-02 | cheat | Brunch, ~608 kcal | replaces: Weekend Brunch (648 kcal)
 2026-05-02 | drinks | 210 | Pint of beer
+2026-05-02 | drinks | 210 | Pint of beer
