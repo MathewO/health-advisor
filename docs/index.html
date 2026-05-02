@@ -18,10 +18,10 @@
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
     :root {
-      --bg: #18181b;
-      --surface: #27272a;
-      --surface2: #3f3f46;
-      --border: #52525b;
+      --bg: #181818;
+      --surface: #272727;
+      --surface2: #424242;
+      --border: #545454;
       --text: #f1f5f9;
       --muted: #94a3b8;
       --accent: #a1a1aa;
@@ -150,30 +150,32 @@
     .overlay-body { flex: 1; overflow-y: auto; -webkit-overflow-scrolling: touch; padding: 16px; }
 
     /* ── Log View entries ── */
-    .log-entry { padding: 12px 0; border-bottom: 1px solid var(--border); text-align: center; max-width: 420px; margin-left: auto; margin-right: auto; }
-    .log-entry:last-child { border-bottom: none; }
-    .log-entry-header { display: flex; align-items: center; justify-content: center; gap: 8px; flex-wrap: wrap; margin-bottom: 4px; }
-    .log-entry-date { font-size: 12px; color: var(--muted); }
-    .log-entry-value { font-size: 15px; font-weight: 600; }
+    .log-entry { display: flex; align-items: center; gap: 8px; padding: 10px 0; flex-wrap: wrap; }
+    .log-entry--same-day { border-bottom: 1px dashed var(--border); }
+    .log-entry--day-end { border-bottom: 4px solid var(--border); }
+    .log-entry--last { border-bottom: none; }
+    .log-entry-main { display: flex; align-items: baseline; gap: 8px; flex: 1; min-width: 0; flex-wrap: nowrap; }
+    .log-entry-date { font-size: 12px; color: var(--muted); white-space: nowrap; flex-shrink: 0; }
+    .log-entry-content { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; flex: 1; min-width: 0; }
+    .log-entry-value { font-size: 12px; font-weight: 600; }
     .log-entry-value-row {
       display: flex;
       align-items: center;
-      justify-content: center;
       flex-wrap: wrap;
-      gap: 8px;
-      margin-top: 2px;
+      gap: 6px;
     }
-    .log-entry-value-row .log-entry-duration { font-size: 15px; font-weight: 600; }
-    .log-entry-note { font-size: 13px; color: var(--muted); margin-top: 4px; font-style: italic; text-align: center; }
-    .log-entry-actions { display: flex; gap: 16px; margin-top: 10px; justify-content: center; flex-wrap: wrap; align-items: center; }
+    .log-entry-duration { font-size: 12px; font-weight: 600; }
+    .log-entry-note { width: 100%; font-size: 12px; color: var(--muted); font-style: italic; padding-left: 4px; }
+    .log-entry-sub-row { display: flex; gap: 6px; flex-wrap: wrap; width: 100%; padding-left: 2px; margin-top: 2px; }
+    .log-entry-actions { display: flex; gap: 2px; align-items: center; flex-shrink: 0; margin-left: auto; }
     .log-entry-btn {
-      font-size: 18px;
+      font-size: 16px;
       line-height: 1;
-      padding: 8px 10px;
-      min-width: 40px;
-      min-height: 40px;
+      padding: 6px 4px;
+      min-width: 28px;
+      min-height: 34px;
       border: none;
-      border-radius: 12px;
+      border-radius: 10px;
       background: transparent;
       cursor: pointer;
       -webkit-tap-highlight-color: transparent;
@@ -181,18 +183,18 @@
       align-items: center;
       justify-content: center;
     }
-    .log-entry-btn-edit { color: var(--muted); }
+    .log-entry-btn-edit { color: var(--muted); font-size: 16px; font-weight: 300; }
     .log-entry-btn-edit:active { background: var(--surface2); color: var(--text); }
     .log-entry-btn-del {
       color: var(--red);
-      font-size: 22px;
+      font-size: 20px;
       font-weight: 300;
       line-height: 1;
     }
     .log-entry-btn-del:active { background: rgba(248,113,113,.12); }
     .log-edit-field { width: 100%; font-size: 12px; font-family: monospace; background: var(--surface); color: var(--text); border: 1px solid var(--border); border-radius: 8px; padding: 8px; box-sizing: border-box; resize: vertical; min-height: 56px; }
     .log-edit-actions { display: flex; gap: 8px; margin-top: 8px; }
-    .stat-chips { display: flex; gap: 6px; flex-wrap: wrap; margin-top: 6px; justify-content: center; }
+    .stat-chips { display: flex; gap: 6px; flex-wrap: wrap; }
     .stat-chip { background: var(--surface2); border-radius: 20px; font-size: 12px; font-weight: 500; padding: 3px 10px; color: var(--text); }
 
     .log-view-filters-wrap {
@@ -446,8 +448,6 @@
       <div class="section-label">Recommendations</div>
       <div id="recommendationsList"></div>
 
-      <div class="section-label">Active Experiments</div>
-      <div id="experimentsList"></div>
 
       <div class="section-label">Planned</div>
       <div id="plannedList"></div>
@@ -900,7 +900,6 @@ async function loadDashboard() {
     }
 
     renderRecommendations(dashData.recommendations || []);
-    renderExperiments(dashData.experiments || []);
     renderPlanned(dashData.planned || []);
 
     const logFile = await ghGet(LOG_PATH);
@@ -1191,7 +1190,7 @@ function renderWeeklyBurndownChart(allEntries, weekStartStr, weekdayDeficit, wee
     if (e.type === 'workout')  return `${ic} ${e.workoutType || 'Workout'}${e.duration ? ' · ' + e.duration + ' min' : ''}`;
     if (e.type === 'drinks')   return `${ic} Drinks${e.breakdown ? ' · ' + e.breakdown : ''}`;
     if (e.type === 'beers')    return `${ic} Drinks · ${e.value} pints`;
-    if (e.type === 'cheat')    return `${ic} Cheat · ${e.value}`;
+    if (e.type === 'cheat')    return `${ic} Food · ${e.value}`;
     if (e.type === 'activity') return `${ic} Activity · ${e.value}`;
     return e.value || e.type;
   }
@@ -1450,7 +1449,7 @@ function outlierLabel(e) {
   if (e.type === 'drinks') return 'Drinks: ' + (e.breakdown || e.value);
   if (e.type === 'beers')  return 'Drinks: ' + e.value + ' pints';
   if (e.type === 'cheat') {
-    const base = 'Cheat meal: ' + e.value;
+    const base = 'Food: ' + e.value;
     return e.replaces ? base + ' (replaces ' + e.replaces.replace(/\s*\(\d+ kcal\)/, '') + ')' : base;
   }
   return e.value;
@@ -1536,20 +1535,20 @@ function loadLogView() {
   };
 
   const typeConfig = {
-    weight:   { label: 'Weight',          badgeClass: 'badge-blue',   icon: '⚖️' },
-    waist:    { label: 'Waist',            badgeClass: 'badge-muted',  icon: '📏' },
+    weight:   { label: 'Weight',          badgeClass: 'badge-green',  icon: '⚖️' },
+    waist:    { label: 'Waist',            badgeClass: 'badge-green',  icon: '📏' },
     drinks:   { label: 'Drinks',          badgeClass: 'badge-amber',  icon: '🍺' },
     beers:    { label: 'Drinks',          badgeClass: 'badge-amber',  icon: '🍺' },
     activity: { label: 'Activity',        badgeClass: 'badge-green',  icon: '🏌️' },
-    cheat:    { label: 'Off-plan Meal',   badgeClass: 'badge-red',    icon: '🍔' },
+    cheat:    { label: 'Off-plan Meal',   badgeClass: 'badge-green',  icon: '🍔' },
     run:      { label: 'Run',             badgeClass: 'badge-green',  icon: '🏃' },
-    stair:    { label: 'Stair Climbing',  badgeClass: 'badge-purple', icon: '🪜' },
+    stair:    { label: 'Stair Climbing',  badgeClass: 'badge-green',  icon: '🪜' },
     workout:  { label: 'Workout',         badgeClass: 'badge-green',  icon: '🏅' }
   };
 
   const filtersBar = renderLogViewFilterBar();
   const listHtml = filtered.length
-    ? filtered.map(e => {
+    ? filtered.map((e, i) => {
     let cfg = typeConfig[e.type] || { label: e.type, badgeClass: 'badge-muted', icon: '📝' };
     // For generic workout entries, look up a specific icon/label by workout type name
     if (e.type === 'workout' && e.workoutType) {
@@ -1565,61 +1564,63 @@ function loadLogView() {
 
     if (e.type === 'weight') {
       valueText = e.value + ' kg';
-      noteHtml  = e.note ? `<div class="log-entry-note">"${escHtml(e.note)}"</div>` : '';
+      noteHtml  = e.note ? `<span class="log-entry-note">"${escHtml(e.note)}"</span>` : '';
     } else if (e.type === 'waist') {
       valueText = e.value + ' cm';
-      noteHtml  = e.note ? `<div class="log-entry-note">"${escHtml(e.note)}"</div>` : '';
+      noteHtml  = e.note ? `<span class="log-entry-note">"${escHtml(e.note)}"</span>` : '';
     } else if (e.type === 'run') {
       const parts = [`<span class="log-entry-duration">${escHtml(e.duration ? e.duration + ' min run' : e.value)}</span>`];
-      if (e.kcal) parts.push(`<span class="stat-chip">${e.kcal} kcal</span>`);
+      if (e.kcal) parts.push(`<span class="stat-chip" style="color:var(--green)">${e.kcal} kcal</span>`);
       if (e.km) parts.push(`<span class="stat-chip">${escHtml(String(e.km))} km</span>`);
       if (e.bpm) parts.push(`<span class="stat-chip">${e.bpm} bpm avg</span>`);
-      activityValueRow = `<div class="log-entry-value-row">${parts.join('')}</div>`;
+      activityValueRow = parts.join('');
     } else if (e.type === 'stair') {
       const parts = [`<span class="log-entry-duration">${escHtml(e.duration ? e.duration + ' min session' : e.value)}</span>`];
-      if (e.kcal) parts.push(`<span class="stat-chip">${e.kcal} kcal</span>`);
+      if (e.kcal) parts.push(`<span class="stat-chip" style="color:var(--green)">${e.kcal} kcal</span>`);
       if (e.bpm) parts.push(`<span class="stat-chip">${e.bpm} bpm avg</span>`);
-      activityValueRow = `<div class="log-entry-value-row">${parts.join('')}</div>`;
+      activityValueRow = parts.join('');
     } else if (e.type === 'workout') {
       const parts = [`<span class="log-entry-duration">${escHtml(e.duration ? e.duration + ' min' : e.value)}</span>`];
-      if (e.kcal) parts.push(`<span class="stat-chip">${e.kcal} kcal</span>`);
-      activityValueRow = `<div class="log-entry-value-row">${parts.join('')}</div>`;
+      if (e.kcal) parts.push(`<span class="stat-chip" style="color:var(--green)">${e.kcal} kcal</span>`);
+      activityValueRow = parts.join('');
     } else if (e.type === 'drinks') {
       valueText = e.breakdown || e.value;
-      if (e.kcal) chipsHtml = `<div class="stat-chips"><span class="stat-chip" style="color:var(--amber)">${e.kcal} kcal</span></div>`;
-      noteHtml = e.note ? `<div class="log-entry-note">"${escHtml(e.note)}"</div>` : '';
+      if (e.kcal) chipsHtml = `<span class="stat-chip" style="color:var(--amber)">${e.kcal} kcal</span>`;
+      noteHtml = e.note ? `<span class="log-entry-note">"${escHtml(e.note)}"</span>` : '';
     } else if (e.type === 'beers') {
       valueText = e.value + ' pints';
-      if (e.outlierKcal) chipsHtml = `<div class="stat-chips"><span class="stat-chip" style="color:var(--amber)">${Math.abs(e.outlierKcal)} kcal est.</span></div>`;
+      if (e.outlierKcal) chipsHtml = `<span class="stat-chip" style="color:var(--amber)">${Math.abs(e.outlierKcal)} kcal est.</span>`;
     } else if (e.type === 'cheat') {
-      valueText = e.value;
       const chips = [];
-      if (e.replaces)   chips.push('replaces ' + e.replaces.replace(/\s*\(\d+ kcal\)/, ''));
+      if (e.replaces) chips.push({ html: `<s>${escHtml(e.replaces.replace(/\s*\(\d+ kcal\)/, ''))}</s>`, color: 'var(--muted)' });
       if (e.outlierKcal !== 0) {
         const sign = e.outlierKcal > 0 ? '+' : '';
-        chips.push('net: ' + sign + e.outlierKcal + ' kcal');
+        chips.push({ html: escHtml('net: ' + sign + e.outlierKcal + ' kcal'), color: e.outlierKcal > 0 ? 'var(--green)' : 'var(--red)' });
       }
-      if (chips.length) {
-        const chipColors = [null, e.outlierKcal > 0 ? 'var(--green)' : 'var(--red)'];
-        chipsHtml = `<div class="stat-chips">${chips.map((c, i) => `<span class="stat-chip"${i === 1 && chipColors[i] ? ` style="color:${chipColors[i]}"` : ''}>${escHtml(c)}</span>`).join('')}</div>`;
-      }
-      noteHtml = e.note ? `<div class="log-entry-note">"${escHtml(e.note)}"</div>` : '';
+      const chipSpans = chips.map(c => `<span class="stat-chip"${c.color ? ` style="color:${c.color}"` : ''}>${c.html}</span>`).join('');
+      activityValueRow = chipSpans + `<span class="log-entry-value">${escHtml(e.value)}</span>`;
+      noteHtml = e.note ? `<span class="log-entry-note">"${escHtml(e.note)}"</span>` : '';
     } else {
       valueText = e.value;
-      noteHtml  = e.note ? `<div class="log-entry-note">"${escHtml(e.note)}"</div>` : '';
+      noteHtml  = e.note ? `<span class="log-entry-note">"${escHtml(e.note)}"</span>` : '';
     }
 
     const encodedRaw = btoa(unescape(encodeURIComponent(e.rawLine || '')));
+    const isLast = i === filtered.length - 1;
+    const nextIsSameDay = !isLast && filtered[i + 1].date === e.date;
+    const borderClass = isLast ? 'log-entry--last' : nextIsSameDay ? 'log-entry--same-day' : 'log-entry--day-end';
     return `
-      <div class="log-entry">
-        <div class="log-entry-header">
-          <span class="badge ${cfg.badgeClass}">${cfg.icon} ${cfg.label}</span>
+      <div class="log-entry ${borderClass}">
+        <div class="log-entry-main">
           <span class="log-entry-date">${formatDate(e.date)}</span>
+          <div class="log-entry-content">
+            <span class="badge ${cfg.badgeClass}">${cfg.icon} ${cfg.label}</span>
+            ${activityValueRow || `<span class="log-entry-value">${escHtml(valueText)}</span>${chipsHtml}`}
+            ${noteHtml}
+          </div>
         </div>
-        ${activityValueRow || `<div class="log-entry-value">${escHtml(valueText)}</div>${chipsHtml}`}
-        ${noteHtml}
         <div class="log-entry-actions">
-          <button type="button" class="log-entry-btn log-entry-btn-edit" onclick="editLogEntry(this)" data-raw="${encodedRaw}" aria-label="Edit entry">✏️</button>
+          <button type="button" class="log-entry-btn log-entry-btn-edit" onclick="editLogEntry(this)" data-raw="${encodedRaw}" aria-label="Edit entry">✎</button>
           <button type="button" class="log-entry-btn log-entry-btn-del" onclick="deleteLogEntry(this)" data-raw="${encodedRaw}" aria-label="Delete entry">×</button>
         </div>
       </div>`;
@@ -2105,7 +2106,6 @@ async function endPhase() {
 
     document.getElementById('phaseEndBanner').style.display = 'none';
     renderPhaseCard(newDash.phase, []);
-    renderExperiments([]);
 
   } catch(e) {
     btn.textContent = 'End Phase';
@@ -2137,7 +2137,9 @@ function parseAllLogEntries(text) {
     || DEFAULT_DRINK_KCAL;
 
   const entries = [];
-  for (const line of text.split('\n')) {
+  const lines = text.split('\n');
+  for (let i = 0; i < lines.length; i++) {
+    const line = lines[i];
     const parts = line.split('|').map(s => s.trim());
     if (parts.length < 3 || !parts[0] || !parts[1]) continue;
 
@@ -2147,7 +2149,7 @@ function parseAllLogEntries(text) {
     // Skip non-data lines (headers, format docs)
     if (!/^\d{4}-\d{2}-\d{2}$/.test(date)) continue;
 
-    let entry = { date, type };
+    let entry = { date, type, lineIndex: i };
 
     if (type === 'weight') {
       const kg = parseFloat(parts[2]);
@@ -2250,7 +2252,11 @@ function parseAllLogEntries(text) {
     entries.push(entry);
   }
 
-  return entries.sort((a, b) => b.date.localeCompare(a.date));
+  return entries.sort((a, b) => {
+    const dateCmp = b.date.localeCompare(a.date);
+    if (dateCmp !== 0) return dateCmp;
+    return b.lineIndex - a.lineIndex;
+  });
 }
 
 // ─── Chart ────────────────────────────────────────────────────
@@ -2410,17 +2416,6 @@ function renderRecommendations(items) {
     </div>`).join('');
 }
 
-function renderExperiments(items) {
-  const el = document.getElementById('experimentsList');
-  el.innerHTML = items.length ? items.map(e => `
-    <div class="card">
-      <span class="badge badge-green">Active</span>
-      <div class="card-title">${escHtml(e.title)}</div>
-      <div class="card-detail">${escHtml(e.detail)}</div>
-      <div style="margin-top:8px;font-size:12px;color:var(--muted)">Next check-in: ${escHtml(e.next_checkin)}</div>
-    </div>`).join('')
-    : '<div class="card"><div class="card-detail" style="color:var(--muted)">No active experiments.</div></div>';
-}
 
 function renderPlanned(items) {
   document.getElementById('plannedList').innerHTML = items.map(p => `

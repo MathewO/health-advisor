@@ -117,9 +117,7 @@
       "timing": "With dinner (fat improves absorption)",
       "reason": "Targets high LDL/ApoB and low HDL; anti-inflammatory; longevity",
       "evidence": "Strong"
-    }
-  ],
-  "supplements_pending": [
+    },
     {
       "name": "Ashwagandha (KSM-66)",
       "dose": "600 mg",
@@ -128,6 +126,7 @@
       "evidence": "Moderate"
     }
   ],
+  "supplements_pending": [],
   "previous_phases": [],
   "recommendations": [
     {
