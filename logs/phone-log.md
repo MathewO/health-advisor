@@ -118,3 +118,4 @@ All entries: `YYYY-MM-DD | type | value | [optional note]`
 2026-05-02 | drinks | 210 | Pint of beer
 2026-05-02 | drinks | 210 | Pint of beer
 2026-05-02 | drinks | 180 | Half DIPA
+2026-05-02 | drinks | 210 | Pint of beer
