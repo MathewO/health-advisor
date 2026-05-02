@@ -121,3 +121,4 @@ All entries: `YYYY-MM-DD | type | value | [optional note]`
 2026-05-02 | drinks | 210 | Pint of beer
 2026-05-02 | cheat | Watt bar, ~1000 kcal | replaces: Gousto Meal (640 kcal)
 2026-05-02 | drinks | 155 | 2/3 Sour
+2026-05-02 | cheat | Skipped pudding | replaces: Milk Chocolate (100 kcal)
