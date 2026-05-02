@@ -10,7 +10,7 @@
 
 | When | What | Target / note |
 |------|------|-----------------|
-| **7 Jun 2026** | **Italy** | **~82 kg** (morning scale target for the trip) |
+| **7 Jun 2026** | **Italy** | **~82 kg** (original morning scale target — overshot early; new app target 81 kg; happy range 80–81.5 kg as long as it's fat loss) |
 | **12 Sep 2026** | **Bali** | **~77–78 kg / ~22% BF** (longer-horizon goal; see `profile/profile.md` Phase Roadmap if present) |
 
 **Phase wiring (from `logs/dashboard.json` and profile roadmap):**
