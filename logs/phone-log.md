@@ -113,3 +113,4 @@ All entries: `YYYY-MM-DD | type | value | [optional note]`
 2026-05-01 | cheat | Fruit Stack, ~55 kcal | replaces: Milk Chocolate (100 kcal)
 2026-05-02 | weight | 82.2
 2026-05-02 | cheat | Oats, ~185 kcal | replaces: Single Shake (116 kcal)
+2026-05-02 | workout | Cycling | 101 min | 1045 kcal
