@@ -127,3 +127,4 @@ All entries: `YYYY-MM-DD | type | value | [optional note]`
 2026-05-03 | workout | Cycling | 65 min | 735 kcal
 2026-05-03 | cheat | Fancy Bacon Butty, ~550 kcal | replaces: Weekend Brunch (648 kcal)
 2026-05-03 | cheat | Double Shake, ~232 kcal
+2026-05-03 | cheat | Caesar Salad, ~555 kcal | replaces: Gousto Meal (640 kcal)
