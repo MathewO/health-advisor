@@ -119,11 +119,10 @@ All entries: `YYYY-MM-DD | type | value | [optional note]`
 2026-05-02 | drinks | 210 | Pint of beer
 2026-05-02 | drinks | 180 | Half DIPA
 2026-05-02 | drinks | 210 | Pint of beer
-2026-05-02 | cheat | Watt bar, ~1200 kcal | replaces: Gousto Meal (640 kcal)
+2026-05-02 | cheat | Watt bar, ~1100 kcal | replaces: Gousto Meal (640 kcal)
 2026-05-02 | drinks | 155 | 2/3 Sour
 2026-05-02 | cheat | Skipped pudding | replaces: Milk Chocolate (100 kcal)
 2026-05-03 | weight | 82.5 | 4-5 Pints Yesterday
 2026-05-03 | cheat | PB Toast, ~275 kcal | replaces: Single Shake (116 kcal)
 2026-05-03 | workout | Cycling | 65 min | 735 kcal
 2026-05-03 | cheat | Fancy Bacon Butty, ~550 kcal | replaces: Weekend Brunch (648 kcal)
-2026-05-03 | cheat | Double Shake, ~232 kcal
