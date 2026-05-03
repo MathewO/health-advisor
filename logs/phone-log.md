@@ -124,3 +124,4 @@ All entries: `YYYY-MM-DD | type | value | [optional note]`
 2026-05-02 | cheat | Skipped pudding | replaces: Milk Chocolate (100 kcal)
 2026-05-03 | weight | 83.3 | 4-5 Pints Yesterday
 2026-05-03 | cheat | PB Toast, ~275 kcal | replaces: Single Shake (116 kcal)
+2026-05-03 | workout | Cycling | 65 min | 735 kcal
