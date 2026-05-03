@@ -1081,10 +1081,10 @@ function renderWeeklyDeficitCard(phase) {
   const { target, carryover, weekOutliers, thisWeekAdj, predicted, weekStartStr, weekEndStr, daysElapsed, weekdayDeficit, weekendDeficit, fullWeekBase }
     = computeWeeklyDeficit(allEntries, phase);
 
-  const carryoverHtml = carryover < 0
+  const carryoverHtml = carryover !== 0
     ? `<div class="deficit-row">
         <span class="deficit-label">Carryover from last week</span>
-        <span class="deficit-val" style="color:var(--red)">${carryover.toLocaleString()} kcal</span>
+        <span class="deficit-val" style="color:${carryover > 0 ? 'var(--green)' : 'var(--red)'}">${carryover > 0 ? '+' : ''}${carryover.toLocaleString()} kcal</span>
        </div>`
     : '';
 
@@ -1430,7 +1430,7 @@ function computeWeeklyDeficit(allEntries, phase) {
   const prevWeekInPhase = pweStr >= phaseStartStr;
   const prevWeekAdj = prevOutliers.reduce((s, e) => s + (e.outlierKcal || 0), 0);
   const prevDeficit = fullWeekBase + prevWeekAdj;
-  const carryover   = prevWeekInPhase ? Math.min(0, prevDeficit - target) : 0;
+  const carryover   = prevWeekInPhase ? (prevDeficit - target) : 0;
 
   const thisWeekAdj = weekOutliers.reduce((s, e) => s + (e.outlierKcal || 0), 0);
   // Predicted = full week meal-plan base + carryover from last week + outliers logged so far
