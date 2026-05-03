@@ -128,11 +128,11 @@
     .deficit-row:last-child { border-bottom: none; }
     .deficit-label { color: var(--muted); font-size: 13px; }
     .deficit-val { font-weight: 700; }
-    .burndown-wrap { position: relative; height: 160px; margin: 14px 0 4px; }
+    .burndown-wrap { position: relative; height: 160px; margin: 2px 0 4px; }
     #weeklyBurndownChart { width: 100% !important; }
     .predicted-deficit-row { display: flex; justify-content: space-between; align-items: center; padding-top: 12px; margin-top: 8px; border-top: 2px solid var(--border); }
-    .predicted-label { font-size: 13px; color: var(--muted); font-weight: 600; text-transform: uppercase; letter-spacing: 0.6px; }
-    .predicted-val { font-size: 22px; font-weight: 700; letter-spacing: -0.5px; }
+    .predicted-label { font-size: 16px; color: var(--muted); font-weight: 600; text-transform: uppercase; letter-spacing: 0.6px; }
+    .predicted-val { font-size: 16px; font-weight: 700; }
 
     /* ── Log Tab ── */
     .log-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 8px; }
@@ -439,11 +439,6 @@
 
       <div class="section-label">Current Phase</div>
       <div class="card" id="goalCard"><!-- Populated by renderPhaseCard() --></div>
-
-      <div class="section-label">Weekly Deficit</div>
-      <div class="card" id="weeklyDeficitCard">
-        <div style="font-size:13px;color:var(--muted)">Loading…</div>
-      </div>
 
       <div class="section-label">Recommendations</div>
       <div id="recommendationsList"></div>
@@ -911,8 +906,6 @@ async function loadDashboard() {
       renderWeeklyDeficitCard(phase);
     } else {
       renderMaintenanceCard();
-      document.getElementById('weeklyDeficitCard').innerHTML =
-        '<div style="font-size:13px;color:var(--muted)">No active phase.</div>';
     }
 
   } catch(e) {
@@ -1057,7 +1050,10 @@ function renderPhaseCard(phase, weights) {
       <span>${lost > 0 ? lost : 0} kg lost</span>
       <span>${left > 0 ? left : 0} kg to go</span>
     </div>
-    <div class="chart-wrap"><canvas id="weightChart"></canvas></div>`;
+    <div class="chart-wrap"><canvas id="weightChart" height="120"></canvas></div>
+    <div id="weeklyDeficitCard" style="margin-top:12px;border-top:1px solid var(--border)">
+      <div style="font-size:13px;color:var(--muted)">Loading…</div>
+    </div>`;
 
   renderWeightChart(weights, phase);
 }
@@ -1081,8 +1077,6 @@ function renderWeeklyDeficitCard(phase) {
     return;
   }
 
-  card.className = 'card phase-card-active';
-
   const allEntries = parseAllLogEntries(logText);
   const { target, carryover, weekOutliers, thisWeekAdj, predicted, weekStartStr, weekEndStr, daysElapsed, weekdayDeficit, weekendDeficit, fullWeekBase }
     = computeWeeklyDeficit(allEntries, phase);
@@ -1101,9 +1095,6 @@ function renderWeeklyDeficitCard(phase) {
     : 'var(--red)';
 
   card.innerHTML = `
-    <div style="font-size:11px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:0.7px;margin-bottom:10px">
-      Week of ${formatDate(weekStartStr)}
-    </div>
     <div class="deficit-row">
       <span class="deficit-label">Target this week</span>
       <span class="deficit-val">${target.toLocaleString()} kcal</span>
@@ -1111,11 +1102,8 @@ function renderWeeklyDeficitCard(phase) {
     ${carryoverHtml}
     <div class="burndown-wrap" id="burndownWrap"><canvas id="weeklyBurndownChart" height="160"></canvas></div>
     <div class="predicted-deficit-row">
-      <div>
-        <div class="predicted-label">Predicted deficit</div>
-        <div style="font-size:11px;color:var(--muted);margin-top:2px">Day ${daysElapsed} of 7</div>
-      </div>
-      <div class="predicted-val" style="color:${predictedColor}">${predicted.toLocaleString()} kcal</div>
+      <span class="predicted-label">Predicted deficit</span>
+      <span class="predicted-val" style="color:${predictedColor}">${predicted.toLocaleString()} kcal</span>
     </div>
     <div class="phase-actions">
       <button class="pill-btn" onclick="openOverlay('screen-log-view')">Show Log</button>
@@ -1226,6 +1214,16 @@ function renderWeeklyBurndownChart(allEntries, weekStartStr, weekdayDeficit, wee
       labels: DAY_LABELS,
       datasets: [
         {
+          label: '5k',
+          data: [5000, 5000, 5000, 5000, 5000, 5000, 5000],
+          borderColor: 'rgba(82,82,91,0.5)',
+          borderDash: [3, 5],
+          borderWidth: 1,
+          pointRadius: 0,
+          tension: 0,
+          fill: false
+        },
+        {
           label: 'Planned',
           data: targetData,
           borderColor: mutedColor,
@@ -1255,7 +1253,7 @@ function renderWeeklyBurndownChart(allEntries, weekStartStr, weekdayDeficit, wee
       responsive: true,
       maintainAspectRatio: false,
       animation: { duration: 400 },
-      layout: { padding: { top: 28, bottom: 0 } },
+      layout: { padding: { top: 14, bottom: 0 } },
       scales: {
         x: {
           grid: { color: gridColor },
@@ -1264,13 +1262,13 @@ function renderWeeklyBurndownChart(allEntries, weekStartStr, weekdayDeficit, wee
         },
         y: {
           min: 0,
-          max: 4000,
+          max: 5000,
           grid: { color: gridColor },
           ticks: {
             color: '#94a3b8',
             font: { size: 11 },
-            stepSize: 500,
-            callback: v => v % 1000 === 0 ? (v >= 1000 ? (v/1000)+'k' : '0') : ''
+            stepSize: 1000,
+            callback: v => v >= 1000 ? (v/1000)+'k' : '0'
           },
           border: { color: gridColor }
         }
@@ -1297,7 +1295,7 @@ function renderWeeklyBurndownChart(allEntries, weekStartStr, weekdayDeficit, wee
       if (!events.length) return;
       const px = canvasLeft + xScale.getPixelForValue(i);
       const yVal = actualData[i];
-      const pyBase = canvasTop + yScale.getPixelForValue(yVal);
+      const pyBase = canvasTop + yScale.getPixelForValue(Math.min(yVal, 5000));
 
       // Merge all events on this day into a single icon + tooltip
       const iconPriority = ['cheat','drinks','beers','run','stair','workout','weight','activity'];
