@@ -108,7 +108,7 @@
     .goal-meta { display: flex; justify-content: space-between; font-size: 12px; color: var(--muted); }
     .weight-stat { font-size: 36px; font-weight: 700; letter-spacing: -1px; }
     .weight-stat span { font-size: 16px; font-weight: 400; color: var(--muted); }
-    .trend-line { font-size: 13px; color: var(--muted); margin-top: 4px; }
+    .trend-line { font-size: 12px; color: var(--muted); margin-top: 4px; white-space: nowrap; }
     .chart-wrap { position: relative; height: 180px; margin: 12px 0 4px; }
     #weightChart { width: 100% !important; }
 
@@ -131,7 +131,7 @@
     .burndown-wrap { position: relative; height: 160px; margin: 2px 0 4px; }
     #weeklyBurndownChart { width: 100% !important; }
     .predicted-deficit-row { display: flex; justify-content: space-between; align-items: center; padding-top: 12px; margin-top: 8px; border-top: 2px solid var(--border); }
-    .predicted-label { font-size: 16px; color: var(--muted); font-weight: 600; text-transform: uppercase; letter-spacing: 0.6px; }
+    .predicted-label { font-size: 13px; color: var(--muted); font-weight: 600; text-transform: uppercase; letter-spacing: 0.6px; }
     .predicted-val { font-size: 16px; font-weight: 700; }
 
     /* ── Log Tab ── */
@@ -1029,16 +1029,16 @@ function renderPhaseCard(phase, weights) {
 
   card.innerHTML = `
     <div style="position:relative">
-      <div style="position:absolute;left:0;right:0;top:4px;text-align:center;pointer-events:none">
+      <div style="position:absolute;left:0;right:0;top:-6px;text-align:center;pointer-events:none">
         <span style="font-size:17px;font-weight:700;color:var(--green);text-transform:uppercase;letter-spacing:0.8px">${escHtml(phaseLabel)}</span>
       </div>
       <div style="display:flex;justify-content:space-between;align-items:flex-start">
-        <div>
+        <div style="min-width:0">
           <div style="font-size:13px;color:var(--muted)">Current</div>
           <div class="weight-stat">${latest.kg.toFixed(1)}<span> kg</span></div>
           <div class="trend-line" style="color:${trendColor}">${trendText}</div>
         </div>
-        <div style="text-align:right">
+        <div style="text-align:right;flex-shrink:0;white-space:nowrap">
           <div style="font-size:13px;color:var(--muted)">Goal</div>
         <div style="font-size:20px;font-weight:700">${phase.start_kg} <span style="font-size:14px;font-weight:400;color:var(--muted)">→</span> ${phase.target_kg} <span style="font-size:14px;font-weight:400;color:var(--muted)">kg</span></div>
         <div style="font-size:12px;color:var(--muted)">${formatDate(phase.target_date)}</div>
