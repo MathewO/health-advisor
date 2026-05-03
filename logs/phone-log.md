@@ -125,3 +125,4 @@ All entries: `YYYY-MM-DD | type | value | [optional note]`
 2026-05-03 | weight | 82.5 | 4-5 Pints Yesterday
 2026-05-03 | cheat | PB Toast, ~275 kcal | replaces: Single Shake (116 kcal)
 2026-05-03 | workout | Cycling | 65 min | 735 kcal
+2026-05-03 | cheat | Fancy Bacon Roll, ~550 kcal | replaces: Weekend Brunch (648 kcal)
