@@ -1112,12 +1112,12 @@ function renderWeeklyDeficitCard(phase) {
 
   // Defer until after browser has laid out the new canvas
   requestAnimationFrame(() => {
-    try { renderWeeklyBurndownChart(allEntries, weekStartStr, weekdayDeficit, weekendDeficit, daysElapsed, target, fullWeekBase); }
+    try { renderWeeklyBurndownChart(allEntries, weekStartStr, weekdayDeficit, weekendDeficit, daysElapsed, target, fullWeekBase, carryover); }
     catch(err) { console.error('Burndown chart error:', err); }
   });
 }
 
-function renderWeeklyBurndownChart(allEntries, weekStartStr, weekdayDeficit, weekendDeficit, daysElapsed, target, fullWeekBase) {
+function renderWeeklyBurndownChart(allEntries, weekStartStr, weekdayDeficit, weekendDeficit, daysElapsed, target, fullWeekBase, carryover = 0) {
   const canvas = document.getElementById('weeklyBurndownChart');
   if (!canvas) return;
 
@@ -1145,7 +1145,7 @@ function renderWeeklyBurndownChart(allEntries, weekStartStr, weekdayDeficit, wee
     if (i < daysElapsed) {
       const dayOutliers = allEntries.filter(e => e.date === d && isOutlierType(e));
       cumOutlier += dayOutliers.reduce((s, e) => s + (e.outlierKcal || 0), 0);
-      cumActual = targetData[i] + cumOutlier;
+      cumActual = targetData[i] + cumOutlier + carryover;
     } else {
       cumActual += dailyRates[i];
     }
