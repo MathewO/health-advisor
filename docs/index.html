@@ -127,6 +127,7 @@
     .deficit-row { display: flex; justify-content: space-between; align-items: center; padding: 8px 0; border-bottom: 1px solid var(--border); font-size: 14px; }
     .deficit-row:last-child { border-bottom: none; }
     .deficit-row--no-border { border-bottom: none; }
+    .deficit-row--tight { padding-top: 2px; padding-bottom: 2px; }
     .deficit-label { color: var(--muted); font-size: 13px; }
     .deficit-val { font-weight: 700; }
     .burndown-wrap { position: relative; height: 160px; margin: 2px 0 4px; }
@@ -1083,7 +1084,7 @@ function renderWeeklyDeficitCard(phase) {
     = computeWeeklyDeficit(allEntries, phase);
 
   const carryoverHtml = carryover !== 0
-    ? `<div class="deficit-row">
+    ? `<div class="deficit-row deficit-row--tight">
         <span class="deficit-label">Carryover from last week</span>
         <span class="deficit-val" style="color:${carryover > 0 ? 'var(--green)' : 'var(--red)'}">${carryover > 0 ? '+' : ''}${carryover.toLocaleString()} kcal</span>
        </div>`
@@ -1096,7 +1097,7 @@ function renderWeeklyDeficitCard(phase) {
     : 'var(--red)';
 
   card.innerHTML = `
-    <div class="deficit-row${carryover !== 0 ? ' deficit-row--no-border' : ''}">
+    <div class="deficit-row${carryover !== 0 ? ' deficit-row--no-border deficit-row--tight' : ''}">
       <span class="deficit-label">Target this week</span>
       <span class="deficit-val">${target.toLocaleString()} kcal</span>
     </div>
