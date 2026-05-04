@@ -132,4 +132,4 @@ All entries: `YYYY-MM-DD | type | value | [optional note]`
 2026-05-04 | cheat | Haddock Sandwich, ~530 kcal | replaces: Chicken Wrap (376 kcal)
 2026-05-04 | drinks | 210 | Pint of beer
 2026-05-04 | cheat | Skipped shake | replaces: Double Shake (232 kcal)
-2026-05-04 | cheat | Cutlery works, ~1500 kcal | replaces: Gousto Meal (640 kcal)
+2026-05-04 | cheat | Cutlery works, ~1000 kcal | replaces: Gousto Meal (640 kcal)
