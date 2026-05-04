@@ -130,3 +130,4 @@ All entries: `YYYY-MM-DD | type | value | [optional note]`
 2026-05-03 | cheat | Caesar Salad, ~555 kcal | replaces: Gousto Meal (640 kcal)
 2026-05-04 | weight | 82.9
 2026-05-04 | cheat | Haddock Sandwich, ~530 kcal | replaces: Chicken Wrap (376 kcal)
+2026-05-04 | drinks | 210 | Pint of beer
