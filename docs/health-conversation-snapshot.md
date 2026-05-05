@@ -121,16 +121,23 @@ From `data/export.xml` (analysed Apr 2026) vs `profile/historical-weights.csv`:
 
 ---
 
-## Apple Health metrics baseline (12 Apr 2026 export)
+## Apple Health metrics (5 May 2026 export — current)
 
-| Metric | 30-day avg | 90-day avg | Trend |
-|---|---|---|---|
-| Sleep | 7.2 hrs | 7.5 hrs | Stable |
-| Resting HR | 59.6 bpm | 60.9 bpm | ↓ improving |
-| HRV (SDNN) | 53.0 ms | 51.4 ms | ↑ improving |
-| Steps/day | 7,292 | 6,599 | ↑ improving |
-| Active kcal/day | 595 | 554 | ↑ improving |
-| VO2 Max | 32.89 mL/kg/min | — | Likely underestimate (e-MTB confounds cycling data; Watch needs GPS outdoor run to calibrate) |
+| Metric | 30-day avg | 90-day avg | Trend | Notes |
+|---|---|---|---|---|
+| Total sleep | 7.4 hrs | 7.4 hrs | Stable | |
+| REM sleep | 2.1 hrs | 2.1 hrs | Stable | ~28% of sleep — healthy |
+| Core sleep | 4.0 hrs | 3.8 hrs | Stable | |
+| Deep sleep | 0.6 hrs | 0.6 hrs | Stable | AW known to undercount deep |
+| Respiratory rate | 16.4 br/min | 16.4 br/min | Stable | Normal (12–20) |
+| SpO2 | 96.8% | 96.7% | Stable | Normal; no apnea concern |
+| Wrist temp (sleep) | 36.0 °C | 36.1 °C | Stable | Normal |
+| Resting HR | 56.3 bpm | 59.6 bpm | ↓ **−3.3 bpm** | Significant improvement since cut started |
+| HRV (SDNN) | 53.6 ms | 51.8 ms | ↑ improving | |
+| Steps/day | 8,138 | 6,476 | ↑ +1,662 | Big increase since phase started |
+| Active kcal/day | 717 | 560 | ↑ +157 | |
+| Exercise min/day | 49.8 | 30.9 | ↑ +19 | |
+| VO2 Max | **35.45** mL/kg/min | — | ↑ from 32.89 | +2.56 since Apr export — weight loss + fitness both contributing |
 
 > Source: `profile/health-metrics.md` (auto-generated from Apple Health export). Refresh this table when a new export is run.
 

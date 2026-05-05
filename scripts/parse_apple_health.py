@@ -25,14 +25,27 @@ DATA_DIR    = Path(__file__).parent.parent / "data"
 METRICS_MD  = Path(__file__).parent.parent / "profile" / "health-metrics.md"
 
 RECORD_TYPES = {
-    "HKQuantityTypeIdentifierHeartRateVariabilitySDNN": "hrv",
-    "HKQuantityTypeIdentifierRestingHeartRate":         "resting_hr",
-    "HKQuantityTypeIdentifierStepCount":                "steps",
-    "HKQuantityTypeIdentifierActiveEnergyBurned":       "active_calories",
-    "HKQuantityTypeIdentifierAppleExerciseTime":        "exercise_minutes",
-    "HKQuantityTypeIdentifierAppleStandHour":           "stand_hours",
-    "HKQuantityTypeIdentifierBodyMass":                 "weight",
-    "HKQuantityTypeIdentifierVO2Max":                   "vo2max",
+    "HKQuantityTypeIdentifierHeartRateVariabilitySDNN":          "hrv",
+    "HKQuantityTypeIdentifierRestingHeartRate":                   "resting_hr",
+    "HKQuantityTypeIdentifierStepCount":                          "steps",
+    "HKQuantityTypeIdentifierActiveEnergyBurned":                 "active_calories",
+    "HKQuantityTypeIdentifierAppleExerciseTime":                  "exercise_minutes",
+    "HKQuantityTypeIdentifierAppleStandHour":                     "stand_hours",
+    "HKQuantityTypeIdentifierBodyMass":                           "weight",
+    "HKQuantityTypeIdentifierVO2Max":                             "vo2max",
+    "HKQuantityTypeIdentifierRespiratoryRate":                    "respiratory_rate",
+    "HKQuantityTypeIdentifierOxygenSaturation":                   "spo2",
+    "HKQuantityTypeIdentifierAppleSleepingWristTemperature":      "wrist_temp",
+}
+
+# Sleep stage category values (Apple Health stores stages as SleepAnalysis categories)
+SLEEP_STAGE_VALUES = {
+    "HKCategoryValueSleepAnalysisAsleepREM":   "rem",
+    "HKCategoryValueSleepAnalysisAsleepCore":  "core",
+    "HKCategoryValueSleepAnalysisAsleepDeep":  "deep",
+    "HKCategoryValueSleepAnalysisAsleep":       "total",  # legacy combined value
+    "HKCategoryValueSleepAnalysisInBed":        None,     # skip in-bed (not asleep)
+    "HKCategoryValueSleepAnalysisAwake":        None,     # skip awake periods
 }
 
 # These metrics are recorded by multiple sources; restrict to Apple Watch only.
@@ -123,19 +136,29 @@ def parse_records(xml_path):
 
         data[key].append((dt, val))
 
-    # Sleep (CategorySamples, not Records)
-    sleep_data = []
+    # Sleep stages (CategorySamples)
+    sleep_data  = []   # (date, hours) — total asleep only (all stage values)
+    sleep_stages = defaultdict(lambda: defaultdict(float))  # {date: {stage: hours}}
     for sample in root.iter("Record"):
         if sample.get("type") != "HKCategoryTypeIdentifierSleepAnalysis":
             continue
-        if "Asleep" not in sample.get("value", ""):
+        val = sample.get("value", "")
+        stage = SLEEP_STAGE_VALUES.get(val)
+        if stage is None:
             continue
         try:
             start = datetime.fromisoformat(normalise_date(sample.get("startDate", "")))
             end   = datetime.fromisoformat(normalise_date(sample.get("endDate",   "")))
             hours = (end - start).total_seconds() / 3600
-            if 0.05 < hours < 14:
-                sleep_data.append((end.date(), hours))
+            if not (0.05 < hours < 14):
+                continue
+            day = end.date()
+            if stage == "total":
+                # Legacy combined "Asleep" value — count as total only if no stage data
+                sleep_data.append((day, hours))
+            else:
+                sleep_stages[day][stage] += hours
+                sleep_data.append((day, hours))
         except (ValueError, TypeError):
             continue
 
@@ -164,7 +187,7 @@ def parse_records(xml_path):
         })
     workouts.sort(key=lambda x: x["date"], reverse=True)
 
-    return data, sleep_data, cutoff_30, cutoff_90, workouts
+    return data, sleep_data, sleep_stages, cutoff_30, cutoff_90, workouts
 
 
 def avg(values):
@@ -180,7 +203,7 @@ def trend(recent, older):
     return f"{'up' if diff > 0 else 'down'} {abs(round(diff, 1))}"
 
 
-def summarise(data, sleep_data, cutoff_30, cutoff_90):
+def summarise(data, sleep_data, sleep_stages, cutoff_30, cutoff_90):
     def split(key):
         all_vals = data.get(key, [])
         r30 = [v for d, v in all_vals if d >= cutoff_30]
@@ -196,6 +219,17 @@ def summarise(data, sleep_data, cutoff_30, cutoff_90):
         r90 = [v for d, v in tracked.items() if cutoff_90 <= d < cutoff_30]
         return r30, r90
 
+    def split_stage(stage):
+        r30, r90 = [], []
+        for day, stages in sleep_stages.items():
+            v = stages.get(stage)
+            if v and v > 0:
+                if day >= cutoff_30:
+                    r30.append(v)
+                elif day >= cutoff_90:
+                    r90.append(v)
+        return r30, r90
+
     def daily_sum(key):
         by_day = defaultdict(float)
         for d, v in data.get(key, []):
@@ -204,12 +238,18 @@ def summarise(data, sleep_data, cutoff_30, cutoff_90):
         r90 = [v for d, v in by_day.items() if cutoff_90 <= d < cutoff_30]
         return r30, r90
 
-    sleep30, sleep90 = split_sleep()
-    hrv30,   hrv90   = split("hrv")
-    rhr30,   rhr90   = split("resting_hr")
-    steps30, steps90 = daily_sum("steps")
-    cal30,   cal90   = daily_sum("active_calories")
-    ex30,    ex90    = daily_sum("exercise_minutes")
+    sleep30,  sleep90  = split_sleep()
+    hrv30,    hrv90    = split("hrv")
+    rhr30,    rhr90    = split("resting_hr")
+    steps30,  steps90  = daily_sum("steps")
+    cal30,    cal90    = daily_sum("active_calories")
+    ex30,     ex90     = daily_sum("exercise_minutes")
+    resp30,   resp90   = split("respiratory_rate")
+    spo2_30,  spo2_90  = split("spo2")
+    temp30,   temp90   = split("wrist_temp")
+    rem30,    rem90    = split_stage("rem")
+    core30,   core90   = split_stage("core")
+    deep30,   deep90   = split_stage("deep")
 
     weight_vals   = sorted(data.get("weight", []), key=lambda x: x[0])
     latest_weight = weight_vals[-1][1]  if weight_vals else None
@@ -223,15 +263,25 @@ def summarise(data, sleep_data, cutoff_30, cutoff_90):
     else:
         wt = "Stable"
 
+    # SpO2 is stored as 0–1 fraction; convert to percentage
+    spo2_30_pct = [round(v * 100, 1) for v in spo2_30] if spo2_30 else []
+    spo2_90_pct = [round(v * 100, 1) for v in spo2_90] if spo2_90 else []
+
     return {
-        "sleep":    {"avg30": avg(sleep30), "avg90": avg(sleep90), "trend": trend(sleep30, sleep90)},
-        "hrv":      {"avg30": avg(hrv30),   "avg90": avg(hrv90),   "trend": trend(hrv30, hrv90)},
-        "rhr":      {"avg30": avg(rhr30),   "avg90": avg(rhr90),   "trend": trend(rhr30, rhr90)},
-        "steps":    {"avg30": avg(steps30), "avg90": avg(steps90), "trend": trend(steps30, steps90)},
-        "calories": {"avg30": avg(cal30),   "avg90": avg(cal90),   "trend": trend(cal30, cal90)},
-        "exercise": {"avg30": avg(ex30),    "avg90": avg(ex90),    "trend": trend(ex30, ex90)},
-        "weight":   {"latest": latest_weight, "trend": wt},
-        "vo2":      {"latest": latest_vo2},
+        "sleep":      {"avg30": avg(sleep30),    "avg90": avg(sleep90),    "trend": trend(sleep30, sleep90)},
+        "sleep_rem":  {"avg30": avg(rem30),       "avg90": avg(rem90),      "trend": trend(rem30, rem90)},
+        "sleep_core": {"avg30": avg(core30),      "avg90": avg(core90),     "trend": trend(core30, core90)},
+        "sleep_deep": {"avg30": avg(deep30),      "avg90": avg(deep90),     "trend": trend(deep30, deep90)},
+        "hrv":        {"avg30": avg(hrv30),       "avg90": avg(hrv90),      "trend": trend(hrv30, hrv90)},
+        "rhr":        {"avg30": avg(rhr30),       "avg90": avg(rhr90),      "trend": trend(rhr30, rhr90)},
+        "steps":      {"avg30": avg(steps30),     "avg90": avg(steps90),    "trend": trend(steps30, steps90)},
+        "calories":   {"avg30": avg(cal30),       "avg90": avg(cal90),      "trend": trend(cal30, cal90)},
+        "exercise":   {"avg30": avg(ex30),        "avg90": avg(ex90),       "trend": trend(ex30, ex90)},
+        "resp_rate":  {"avg30": avg(resp30),      "avg90": avg(resp90),     "trend": trend(resp30, resp90)},
+        "spo2":       {"avg30": avg(spo2_30_pct), "avg90": avg(spo2_90_pct),"trend": trend(spo2_30_pct, spo2_90_pct)},
+        "wrist_temp": {"avg30": avg(temp30),      "avg90": avg(temp90),     "trend": trend(temp30, temp90)},
+        "weight":     {"latest": latest_weight, "trend": wt},
+        "vo2":        {"latest": latest_vo2},
     }
 
 
@@ -261,6 +311,12 @@ def write_metrics_md(s, workouts=None):
         "| Metric | 30-day avg | 90-day avg | Trend |",
         "|---|---|---|---|",
         f"| Total sleep | {fmt(s['sleep']['avg30'], ' hrs')} | {fmt(s['sleep']['avg90'], ' hrs')} | {s['sleep']['trend']} |",
+        f"| REM sleep | {fmt(s['sleep_rem']['avg30'], ' hrs')} | {fmt(s['sleep_rem']['avg90'], ' hrs')} | {s['sleep_rem']['trend']} |",
+        f"| Core sleep | {fmt(s['sleep_core']['avg30'], ' hrs')} | {fmt(s['sleep_core']['avg90'], ' hrs')} | {s['sleep_core']['trend']} |",
+        f"| Deep sleep | {fmt(s['sleep_deep']['avg30'], ' hrs')} | {fmt(s['sleep_deep']['avg90'], ' hrs')} | {s['sleep_deep']['trend']} |",
+        f"| Respiratory rate | {fmt(s['resp_rate']['avg30'], ' br/min')} | {fmt(s['resp_rate']['avg90'], ' br/min')} | {s['resp_rate']['trend']} |",
+        f"| Blood oxygen (SpO2) | {fmt(s['spo2']['avg30'], '%')} | {fmt(s['spo2']['avg90'], '%')} | {s['spo2']['trend']} |",
+        f"| Wrist temp (sleep) | {fmt(s['wrist_temp']['avg30'], ' °C')} | {fmt(s['wrist_temp']['avg90'], ' °C')} | {s['wrist_temp']['trend']} |",
         "",
         "---",
         "",
@@ -327,8 +383,8 @@ def main():
     if not xml_path:
         return
 
-    data, sleep_data, cutoff_30, cutoff_90, workouts = parse_records(xml_path)
-    summary = summarise(data, sleep_data, cutoff_30, cutoff_90)
+    data, sleep_data, sleep_stages, cutoff_30, cutoff_90, workouts = parse_records(xml_path)
+    summary = summarise(data, sleep_data, sleep_stages, cutoff_30, cutoff_90)
     write_metrics_md(summary, workouts)
 
     print("\nKey metrics:")
