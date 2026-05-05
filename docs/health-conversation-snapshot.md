@@ -121,6 +121,23 @@ From `data/export.xml` (analysed Apr 2026) vs `profile/historical-weights.csv`:
 
 ---
 
+## Apple Health metrics baseline (12 Apr 2026 export)
+
+| Metric | 30-day avg | 90-day avg | Trend |
+|---|---|---|---|
+| Sleep | 7.2 hrs | 7.5 hrs | Stable |
+| Resting HR | 59.6 bpm | 60.9 bpm | ↓ improving |
+| HRV (SDNN) | 53.0 ms | 51.4 ms | ↑ improving |
+| Steps/day | 7,292 | 6,599 | ↑ improving |
+| Active kcal/day | 595 | 554 | ↑ improving |
+| VO2 Max | 32.89 mL/kg/min | — | Likely underestimate (e-MTB confounds cycling data; Watch needs GPS outdoor run to calibrate) |
+
+> Source: `profile/health-metrics.md` (auto-generated from Apple Health export). Refresh this table when a new export is run.
+
+**Cross-reference rule for agents:** `profile/health-metrics.md` is authoritative for Apple Health data. If `profile/profile.md` shows "Not recorded yet" for sleep, HRV, resting HR, or VO2 max, check `health-metrics.md` before concluding the data is missing. Flag any gap to the user and offer to backfill `profile/profile.md`.
+
+---
+
 ## Repo workflow (so data isn't stale)
 
 - Before answering **any** health / log / phase question, run **`git pull --rebase`** in this repo; the PWA writes **`logs/phone-log.md`** via GitHub.
