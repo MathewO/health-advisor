@@ -70,6 +70,20 @@ From `data/export.xml` (analysed Apr 2026) vs `profile/historical-weights.csv`:
 
 ---
 
+## Session notes — 5 May 2026
+
+### Weight spike explanation (83.5 kg on 5 May)
+- **Imodium taken ~Sun 3 May** to settle an upset stomach. Caused 2–3 days of constipation. Being backed up can add 0.5–1.5 kg on the scale with zero fat change. Explains a significant portion of the 5 May spike.
+- **Bank holiday weekend (2–4 May)** also contributed: May 2 was essentially a zero-deficit day (4–5 pints + Watt bar dinner despite 101-min ride), May 4 had another pint + Cutlery Works. Three consecutive days of restaurant food + alcohol = glycogen + sodium + alcohol water retention.
+- **Not a fat story.** 7-day avg was 82.9 kg — only 0.9 kg from Italy target. Scale expected to drop back to 82–83 range within 2–3 days once constipation resolves.
+
+### Ride day + social occasion behavioural heuristic (validated 5 May 2026)
+- A big e-MTB ride does **not** create a licence for both a restaurant meal *and* significant drinking on the same day.
+- After the 0.65 correction factor, even a 100-min ride ≈ ~680 kcal of real burn — roughly one restaurant meal's buffer, not a restaurant meal + 4–5 pints.
+- **Decision rule:** on a ride day that is also a social occasion, treat the ride as covering one of the two extras (the meal *or* the drinks), not both. If both happen, log it as a near-zero deficit day and don't compensate by eating less the next day — just return to plan.
+
+---
+
 ## Session notes — 2 May 2026
 
 - **Gym performance:** Feeling strong as of 2 May — no strength drops noted despite running above 1 kg/week loss rate. Key signal for 8–9 May check-in: if this holds, no calorie adjustment needed (Scenario A/B). If strength drops appear, add 100–150 kcal/day immediately.
