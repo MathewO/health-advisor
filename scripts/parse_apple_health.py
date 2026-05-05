@@ -21,8 +21,9 @@ from datetime import datetime, date, timedelta
 from pathlib import Path
 from collections import defaultdict
 
-DATA_DIR    = Path(__file__).parent.parent / "data"
-METRICS_MD  = Path(__file__).parent.parent / "profile" / "health-metrics.md"
+DATA_DIR      = Path(__file__).parent.parent / "data"
+METRICS_MD    = Path(__file__).parent.parent / "profile" / "health-metrics.md"
+BASELINES_MD  = Path(__file__).parent.parent / "profile" / "health-baselines.md"
 
 RECORD_TYPES = {
     "HKQuantityTypeIdentifierHeartRateVariabilitySDNN":          "hrv",
@@ -377,6 +378,47 @@ def write_metrics_md(s, workouts=None):
     print(f"\nWritten to {METRICS_MD}")
 
 
+def append_baseline(s, today_str):
+    """Append a new snapshot row to health-baselines.md if this export date isn't already there."""
+    if not BASELINES_MD.exists():
+        print(f"  Note: {BASELINES_MD} not found — skipping baseline append.")
+        return
+
+    existing = BASELINES_MD.read_text()
+    if today_str in existing:
+        print(f"  Baseline for {today_str} already recorded — skipping.")
+        return
+
+    row = (
+        f"| {today_str} | _add context_ "
+        f"| _add weight_ "
+        f"| {fmt(s['sleep']['avg30'], ' hrs')} "
+        f"| {fmt(s['sleep_rem']['avg30'], ' hrs')} "
+        f"| {fmt(s['sleep_core']['avg30'], ' hrs')} "
+        f"| {fmt(s['sleep_deep']['avg30'], ' hrs')} "
+        f"| {fmt(s['resp_rate']['avg30'], ' br/min')} "
+        f"| {fmt(s['spo2']['avg30'], '%')} "
+        f"| {fmt(s['wrist_temp']['avg30'], ' °C')} "
+        f"| {fmt(s['rhr']['avg30'], ' bpm')} "
+        f"| {fmt(s['hrv']['avg30'], ' ms')} "
+        f"| {fmt(s['vo2']['latest'])} "
+        f"| {fmt(s['steps']['avg30'])} "
+        f"| {fmt(s['calories']['avg30'], ' kcal')} |"
+    )
+
+    # Insert before the "---\n\n## Notable Deltas" section
+    marker = "\n---\n\n## Notable Deltas"
+    if marker in existing:
+        updated = existing.replace(marker, f"\n{row}{marker}", 1)
+    else:
+        # Fall back: append to end of table
+        updated = existing.rstrip() + f"\n{row}\n"
+
+    BASELINES_MD.write_text(updated)
+    print(f"  Appended new baseline row for {today_str} to {BASELINES_MD}")
+    print(f"  ⚠️  Fill in 'phase context' and 'weight' columns manually in health-baselines.md")
+
+
 def main():
     DATA_DIR.mkdir(exist_ok=True)
     xml_path = find_export()
@@ -386,6 +428,7 @@ def main():
     data, sleep_data, sleep_stages, cutoff_30, cutoff_90, workouts = parse_records(xml_path)
     summary = summarise(data, sleep_data, sleep_stages, cutoff_30, cutoff_90)
     write_metrics_md(summary, workouts)
+    append_baseline(summary, date.today().isoformat())
 
     print("\nKey metrics:")
     print(f"  Sleep:      {summary['sleep']['avg30']} hrs avg (30d), trend: {summary['sleep']['trend']}")
