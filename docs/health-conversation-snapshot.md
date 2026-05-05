@@ -54,6 +54,9 @@ From `data/export.xml` (analysed Apr 2026) vs `profile/historical-weights.csv`:
 - **Resistance sessions:** 3–5x/week (guaranteed); includes a **squat/legs day**, a **deadlift day**, and 1–2 **accessory/smaller-muscle days**.
 - **Cardio:** 1–2 runs/week (auto-logged via Apple Watch shortcut); treated as **additive** to deficit, **not** baked into maintenance baseline.
 - **Philosophy:** maintenance figure excludes cardio by design — runs show up as bonus deficit kcal in the app burndown.
+- **All `workout` entries:** all logged workout types (cycling, walking, MTB, etc.) are treated as **additive to deficit** (same as `run` and `stair`). Routine dog walks are NOT logged and are already baked into maintenance NEAT.
+- **E-bike correction (`cycling_kcal_factor`):** for `Cycling`, `Mountain Biking`, and `E-Bike` workout types, the app applies `cycling_kcal_factor` from `dashboard.json` (currently **0.65**) to the raw Apple Watch kcal before using it in deficit calculations and charts. The raw kcal is preserved in the log; the corrected value is shown in the app log view as ~~raw~~ → corrected. Chat calculations must apply the same factor.
+- **Cheat net-delta logic (mirrors app):** `outlierKcal = -(cheat_kcal - replaced_kcal)`. Parse `~NNN kcal` from the cheat description; parse replaced meal kcal from `replaces: X (NNN kcal)` if present (0 if absent). A cheat cheaper than its replaced meal adds to the deficit; a cheat with no replaces tag is fully additional calories.
 
 ---
 

@@ -80,6 +80,7 @@
         ]
       },
       "weekly_deficit_target": 3500,
+      "cycling_kcal_factor": 0.65,
       "drink_kcal": {
         "Pint of beer":  210,
         "Can of beer":   140,

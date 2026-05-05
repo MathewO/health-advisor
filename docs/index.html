@@ -1582,7 +1582,12 @@ function loadLogView() {
       activityValueRow = parts.join('');
     } else if (e.type === 'workout') {
       const parts = [`<span class="log-entry-duration">${escHtml(e.duration ? e.duration + ' min' : e.value)}</span>`];
-      if (e.kcal) parts.push(`<span class="stat-chip" style="color:var(--green)">${e.kcal} kcal</span>`);
+      if (e.kcal && e.kcalFactor) {
+        parts.push(`<span class="stat-chip" style="color:var(--muted);text-decoration:line-through">${e.kcal} kcal</span>`);
+        parts.push(`<span class="stat-chip" style="color:var(--green)">${e.correctedKcal} kcal <span style="font-size:10px;opacity:0.7">×${e.kcalFactor}</span></span>`);
+      } else if (e.kcal) {
+        parts.push(`<span class="stat-chip" style="color:var(--green)">${e.kcal} kcal</span>`);
+      }
       activityValueRow = parts.join('');
     } else if (e.type === 'drinks') {
       valueText = e.breakdown || e.value;
@@ -2192,7 +2197,19 @@ function parseAllLogEntries(text) {
       entry.duration = parseFloat(durStr) || null;
       entry.kcal     = parseInt(kcalStr)  || null;
       entry.value    = durStr;
-      entry.outlierKcal = entry.kcal || 0;
+
+      // Apply e-bike correction factor to cycling workout types.
+      // Raw Apple Watch kcal is preserved in entry.kcal; corrected value drives deficit calc.
+      const eBikeTypes   = ['Cycling', 'Mountain Biking', 'E-Bike'];
+      const cyclingFactor = (dashData && dashData.phase && dashData.phase.meal_plan &&
+                             dashData.phase.meal_plan.cycling_kcal_factor) || null;
+      if (cyclingFactor && eBikeTypes.includes(entry.workoutType) && entry.kcal) {
+        entry.kcalFactor    = cyclingFactor;
+        entry.correctedKcal = Math.round(entry.kcal * cyclingFactor);
+        entry.outlierKcal   = entry.correctedKcal;
+      } else {
+        entry.outlierKcal = entry.kcal || 0;
+      }
 
     } else if (type === 'drinks') {
       // DATE | drinks | TOTAL_KCAL | breakdown string | [note]
