@@ -33,6 +33,33 @@ Each row is a 30-day average at the time of the export. Use this to compare acro
 
 ---
 
+## Blood Pressure History
+
+> White coat effect confirmed — always use readings 3–4 of a series. Single readings are unreliable for this individual.
+
+### Protocol
+- Home cuff, seated, ~2–3 min between readings
+- Take 4 readings; use readings 3–4 as the true resting estimate
+- UK NICE home hypertension threshold: ≥135/85 (settled readings)
+
+### Reading Log
+
+| Date | Setting | R1 | R2 | R3 | R4 | **Settled avg (R3–4)** | Notes |
+|---|---|---|---|---|---|---|---|
+| 17 Apr 2026 | Randox clinic | ~140/? | **127/76** | — | — | **~127/76** | 2-reading session; R1 white coat spike, R2 settled. Fasted 13 hrs, 09:10. |
+| 5 May 2026 | Home | 141/85 | 146/69 | 129/71 | 127/70 | **128/71** | Phase 1 day 22. Afternoon. White coat effect persists at home for R1–2. Large diastolic swing R1→R2 (85→69) = cuff repositioning artefact. |
+
+### Target / Alert Thresholds
+
+| Threshold | Value | Action |
+|---|---|---|
+| Normal (target) | <125/80 settled | No action |
+| Monitor | 125–130 / 80–85 settled | Recheck within 2 weeks |
+| Flag to GP | ≥130/85 settled on 2+ occasions | Book appointment; review minoxidil dose |
+| Urgent | ≥160/100 any reading | Same-day GP contact |
+
+---
+
 ## Planned Future Snapshots
 
 | Target date | Context |
