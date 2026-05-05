@@ -135,3 +135,4 @@ All entries: `YYYY-MM-DD | type | value | [optional note]`
 2026-05-04 | cheat | Cutlery works, ~1000 kcal | replaces: Gousto Meal (640 kcal)
 2026-05-05 | weight | 83.5
 2026-05-05 | workout | Walking | 13 min | 60 kcal
+2026-05-05 | run | 20 min |  km | 184 kcal
