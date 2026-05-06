@@ -141,3 +141,4 @@ All entries: `YYYY-MM-DD | type | value | [optional note]`
 2026-05-06 | workout | Walking | 13 min | 59 kcal
 2026-05-06 | weight | 83.0
 2026-05-06 | workout | Walking | 11 min | 61 kcal
+2026-05-06 | cheat | Extra gousto, ~130 kcal
