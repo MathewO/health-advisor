@@ -139,3 +139,4 @@ All entries: `YYYY-MM-DD | type | value | [optional note]`
 2026-05-05 | workout | Walking | 13 min | 85 kcal
 2026-05-05 | cheat | Leftover fried chicken, ~565 kcal | replaces: Chicken Wrap (376 kcal)
 2026-05-06 | weight | 83.5
+2026-05-06 | workout | Walking | 13 min | 59 kcal
