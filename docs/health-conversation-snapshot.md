@@ -93,6 +93,20 @@ From `data/export.xml` (analysed Apr 2026) vs `profile/historical-weights.csv`:
 
 ---
 
+## Strength check-ins — Phase 1
+
+| Date | Movement | Result | Verdict |
+|---|---|---|---|
+| 2 May 2026 | General | No drops noted | Scenario A — no change |
+| 6 May 2026 | Squat 1RM | **100 kg** — matches pre-phase max | ✅ Strength preserved |
+| 6 May 2026 | Deadlift | Failed 140 kg | ⚠️ Explained by BH weekend MTB fatigue (101+65 min rides 2–3 days prior, posterior chain unrecovered). Curls + lateral raises were above normal same session = systemic strength fine. **Not a muscle loss signal.** |
+| 6 May 2026 | Dips | More reps than normal (BW + 15 kg plate) | ✅ Upper body strength maintained/improving |
+| ~10 May 2026 | Deadlift retest | Planned — clean session, no recent heavy rides | To confirm Mon fail was fatigue, not strength decline |
+
+**Decision rule:** if deadlift retest hits normal numbers (~140 kg), confirmed Scenario A throughout. If it fails clean, reassess deficit and consider +100 kcal/day.
+
+---
+
 ## Phase 1 check-in schedule
 
 | Date | Action |
