@@ -145,3 +145,4 @@ All entries: `YYYY-MM-DD | type | value | [optional note]`
 2026-05-07 | weight | 82.8
 2026-05-07 | workout | Walking | 13 min | 60 kcal
 2026-05-07 | stair | 20 min | 191 kcal
+2026-05-07 | workout | Walking | 13 min | 66 kcal
