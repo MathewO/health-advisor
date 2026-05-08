@@ -154,3 +154,4 @@ All entries: `YYYY-MM-DD | type | value | [optional note]`
 2026-05-08 | workout | Walking | 89 min | 217 kcal
 2026-05-08 | cheat | Chicken wrap, ~376 kcal | replaces: Gousto Meal (640 kcal)
 2026-05-08 | cheat | Magnum, ~220 kcal | replaces: Milk Chocolate (100 kcal)
+2026-05-08 | cheat | Spaghetti + mozarella, ~365 kcal
