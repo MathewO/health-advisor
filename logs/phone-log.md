@@ -152,3 +152,4 @@ All entries: `YYYY-MM-DD | type | value | [optional note]`
 2026-05-08 | cheat | Chicken burger, ~400 kcal | replaces: Chicken Wrap (376 kcal)
 2026-05-08 | drinks | 105 | Half Pint
 2026-05-08 | workout | Walking | 89 min | 217 kcal
+2026-05-08 | cheat | Chicken wrap, ~376 kcal | replaces: Gousto Meal (640 kcal)
