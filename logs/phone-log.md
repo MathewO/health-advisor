@@ -149,3 +149,4 @@ All entries: `YYYY-MM-DD | type | value | [optional note]`
 2026-05-07 | cheat | Gousto, ~620 kcal | replaces: Gousto Meal (640 kcal)
 2026-05-08 | weight | 82.4
 2026-05-08 | waist | 103
+2026-05-08 | cheat | Chicken burger, ~400 kcal | replaces: Chicken Wrap (376 kcal)
