@@ -150,3 +150,4 @@ All entries: `YYYY-MM-DD | type | value | [optional note]`
 2026-05-08 | weight | 82.4
 2026-05-08 | waist | 103
 2026-05-08 | cheat | Chicken burger, ~400 kcal | replaces: Chicken Wrap (376 kcal)
+2026-05-08 | drinks | 105 | Half Pint
