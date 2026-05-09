@@ -161,3 +161,4 @@ All entries: `YYYY-MM-DD | type | value | [optional note]`
 2026-05-09 | cheat | Coffee, ~50 kcal
 2026-05-09 | cheat | Skipped Shake | replaces: Single Shake (116 kcal)
 2026-05-09 | drinks | 330 | Half bottle of wine
+2026-05-09 | cheat | Lasagna, ~600 kcal | replaces: Gousto Meal (640 kcal)
