@@ -158,3 +158,4 @@ All entries: `YYYY-MM-DD | type | value | [optional note]`
 2026-05-09 | weight | 82.0
 2026-05-09 | cheat | Breakfast, ~613 kcal | replaces: Weekend Brunch (648 kcal)
 2026-05-09 | workout | Walking | 51 min | 161 kcal
+2026-05-09 | cheat | Coffee, ~50 kcal
