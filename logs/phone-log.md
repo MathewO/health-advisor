@@ -163,3 +163,4 @@ All entries: `YYYY-MM-DD | type | value | [optional note]`
 2026-05-09 | drinks | 330 | Half bottle of wine
 2026-05-09 | cheat | Lasagna, ~600 kcal | replaces: Gousto Meal (640 kcal)
 2026-05-10 | weight | 81.5
+2026-05-10 | workout | Cycling | 99 min | 1116 kcal
