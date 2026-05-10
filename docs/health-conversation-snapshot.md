@@ -2,7 +2,7 @@
 
 > **Purpose:** Recovery of key decisions and dates from planning chats if **chat history is unavailable**.  
 > **Not used by the PWA** — for humans and AI sessions only.  
-> **Last updated:** 2026-05-01
+> **Last updated:** 2026-05-10
 
 ---
 
@@ -10,7 +10,7 @@
 
 | When | What | Target / note |
 |------|------|-----------------|
-| **7 Jun 2026** | **Italy** | **~82 kg** (original morning scale target — overshot early; new app target 81 kg; happy range 80–81.5 kg as long as it's fat loss) |
+| **7 Jun 2026** | **Italy** | **~82 kg** (original dashboard target — **already hit on 9 May, 28 days early**). **Revised live target: 80 kg** (decided 10 May — Phase 2 insurance, trajectory already points here at 0.83 kg/wk). Dashboard kept at 82 kg to preserve the overachievement record. |
 | **12 Sep 2026** | **Bali** | **~77–78 kg / ~22% BF** (longer-horizon goal; see `profile/profile.md` Phase Roadmap if present) |
 
 **Phase wiring (from `logs/dashboard.json` and profile roadmap):**
@@ -60,13 +60,52 @@ From `data/export.xml` (analysed Apr 2026) vs `profile/historical-weights.csv`:
 
 ---
 
-## Estimated maintenance (cardio-free) — working hypothesis
+## Estimated maintenance (cardio-free) — data-derived estimate
 
-- **~2,100 kcal/day** with lifting + daily life activity, no structured cardio.
-- Current `dashboard.json` figure of **1,935 kcal** is likely an **underestimate** given actual activity level.
-- Back-calculated from May 2026 data: implied TDEE ~2,100–2,350; ~2,100 chosen as the **cardio-free** anchor.
-- **To be validated at the 25 May 6-week check** using total weight change + estimated average intake.
-- **Maintenance planning post-Italy** (~7 Jun): target **~2,100 kcal/day** base; add cardio kcal on top as desired.
+> **This section is the single source of truth for the TDEE estimate.** `experiments/experiments.md` references this; do not maintain a separate figure there. When revising the estimate, update this section first, then sync any references in other files.
+
+- **Data-derived estimate: ~2,050–2,075 kcal/day** (cardio-free — gym + dog walks only, no structured cardio).
+- **How derived (10 May 2026):** ~2.0 kg true fat loss (3.2 kg total minus ~1.2 kg estimated water/glycogen) over 27 days = ~570 kcal/day average deficit. Average actual intake estimated ~1,500–1,550 kcal/day → implied TDEE ~2,070–2,120. Mid-point rounded conservatively to ~2,050–2,075.
+- **Algorithm baseline was ~1,850–2,000** (Mifflin-St Jeor / formula-based). Phase 1 data suggests this was an underestimate.
+- `dashboard.json` `maintenance_kcal` left at **1,935** as a conservative anchor and to preserve the original phase record. The data-derived estimate here supersedes it for planning purposes.
+- **Pending final validation at the 25 May 6-week check-in** — more data points and settled water noise will sharpen this number.
+- **Maintenance planning post-Italy** (~7 Jun): target **~2,100 kcal/day** base (rounding up from 2,075 to give a clean working number); add workout kcal on top as logged.
+
+---
+
+## Session notes — 10 May 2026
+
+### Revised Phase 1 target: 80 kg (from 82 kg)
+- Original dashboard target of 82 kg was **hit on 9 May 2026**, 28 days early. Dashboard left unchanged as historical record of the original plan.
+- **New live target: 80 kg by 6 Jun 2026.** Rationale: current trajectory (0.83 kg/wk) already points to ~79.4 kg; 80 kg is the conservative version of where this is heading.
+- Phase 2 insurance: ending leaner absorbs the maintenance rebound and gives Phase 2 a better starting position.
+- Waist at 80 kg expected to be ~100–101 cm (vs 102–104 cm target at 82 kg).
+
+### Maintenance rebound expectation (confirmed understanding)
+- Returning to maintenance calories will add **~1.5–2 kg on the scale** within 1–2 weeks — this is glycogen (~400–500g) + bound water (~3g per g glycogen), stored in **skeletal muscle and liver**, not in fat depots.
+- Gut content adds another ~0.3–0.5 kg.
+- **Scale at full maintenance: ~82–82.5 kg from an 80 kg depleted starting point.** Waist measurement unchanged — glycogen does not live in love handles or belly.
+- Rolling average ceiling for maintenance month remains 84 kg. If it plateaus at 82–82.5 kg and stops, that's the plan working.
+
+### Maintenance calorie baseline (revised upward — 10 May 2026)
+- Earlier estimate of ~1,950–2,050 kcal/day was algorithm-based. Phase 1 back-calculation (10 May) revised this upward to **~2,050–2,075 kcal/day**. See the *Estimated maintenance* section above for full derivation.
+- Phase has run hot due to elevated activity (MTB rides, stair sessions, higher step count) — these are logged as additive workout kcal, not baked into the baseline.
+- Dashboard `maintenance_kcal` (1,935) left unchanged as a conservative anchor; use 2,050–2,075 for planning and back-calculation purposes.
+
+---
+
+## Session notes — 9 May 2026
+
+### Phase milestone — Italy target hit 28 days early
+- Morning weight **82.0 kg** on 9 May 2026 — the exact Phase 1 target, with 28 days still remaining (phase end: 6 Jun 2026)
+- 7-day rolling avg: **82.73 kg** — well inside the 82 kg target zone
+- Rate of loss has been ~0.83 kg/wk (target was 0.45 kg/wk) — nearly double, with no strength regression
+- Waist: **103 cm** (8 May) — inside the Phase 1 success range (102–104 cm), 28 days ahead of schedule
+- **Strength fully preserved:** squat 100 kg (matched pre-phase max), deadlift 140 kg (clean, confirmed Scenario A), DB chest press 35 kg × 5–6 reps (near all-time best)
+- **Next decision:** whether to push toward 80–81 kg (Phase 2 insurance option — already flagged in profile as preferred), ease deficit, or hold pace. To be discussed after Sunday's ride and weekly review.
+
+### Rex
+- AI coach/assistant name chosen by Mathew on 9 May 2026. Name was self-chosen by the AI and approved by Mathew. Recorded in `.cursor/rules/health-context.mdc`.
 
 ---
 
@@ -101,9 +140,10 @@ From `data/export.xml` (analysed Apr 2026) vs `profile/historical-weights.csv`:
 | 6 May 2026 | Squat 1RM | **100 kg** — matches pre-phase max | ✅ Strength preserved |
 | 6 May 2026 | Deadlift | Failed 140 kg | ⚠️ Explained by BH weekend MTB fatigue (101+65 min rides 2–3 days prior, posterior chain unrecovered). Curls + lateral raises were above normal same session = systemic strength fine. **Not a muscle loss signal.** |
 | 6 May 2026 | Dips | More reps than normal (BW + 15 kg plate) | ✅ Upper body strength maintained/improving |
-| ~10 May 2026 | Deadlift retest | Planned — clean session, no recent heavy rides | To confirm Mon fail was fatigue, not strength decline |
+| 9 May 2026 | Deadlift retest | **140 kg — clean pull, felt good** | ✅ Scenario A confirmed — May 6 failure was MTB fatigue, not strength decline. No calorie adjustment needed. |
+| 9 May 2026 | DB Chest Press | **35 kg × 5–6 reps — near all-time best** | ✅ Upper body strength at personal best levels during a deficit — strong muscle retention signal |
 
-**Decision rule:** if deadlift retest hits normal numbers (~140 kg), confirmed Scenario A throughout. If it fails clean, reassess deficit and consider +100 kcal/day.
+**Decision rule:** ~~Planned retest to confirm~~ **Resolved 9 May — Scenario A confirmed across all movements. No calorie adjustment needed.**
 
 ---
 

@@ -7,6 +7,24 @@
     "target_date": "2026-06-06",
     "start_kg": 85.8,
     "target_kg": 82.0,
+    "common_lunches": [
+      {
+        "name": "Beef & Bean Chilli Bowl",
+        "description": "Batch lunch (makes 4). 500g 5% beef mince + 1 tin kidney beans + 1 tin black beans + chopped tomatoes + onion/garlic/spices. Topped with Fage 0% Greek yoghurt.",
+        "kcal": 426,
+        "protein": 54,
+        "ingredients": [
+          { "name": "5% beef mince (raw)", "amount": "125g", "kcal": 210, "protein": 39 },
+          { "name": "Kidney beans, drained (¼ tin)", "amount": "~65g", "kcal": 63, "protein": 4 },
+          { "name": "Black beans, drained (¼ tin)", "amount": "~65g", "kcal": 62, "protein": 4 },
+          { "name": "Chopped tomatoes", "amount": "150g", "kcal": 27, "protein": 1 },
+          { "name": "Onion + garlic", "amount": "70g", "kcal": 30, "protein": 1 },
+          { "name": "Fage 0% Greek yoghurt (topping)", "amount": "50g", "kcal": 29, "protein": 5 },
+          { "name": "Spices (cumin, smoked paprika, chilli, oregano)", "amount": "to taste", "kcal": 5, "protein": 0 }
+        ],
+        "batch_note": "500g mince + 1 tin kidney beans + 1 tin black beans = exactly 4 portions. Brown mince, add onion/garlic, spices, tomatoes, beans. Simmer 15 min. Portion into 4 containers. Top with Fage when serving."
+      }
+    ],
     "common_cheats": [
       {
         "name": "Caesar Salad",
@@ -150,5 +168,5 @@
       "detail": "Baseline body composition — fat %, lean mass, visceral fat, bone density, BMR. Nearest dedicated clinic: DexaStrong in Leeds (~45 min via M1 from Archer Lane). Ideal timing: once current fat loss phase ends, to get a clean post-cut baseline."
     }
   ],
-  "last_updated": "2026-04-20"
+  "last_updated": "2026-05-10"
 }
