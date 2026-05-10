@@ -168,3 +168,4 @@ All entries: `YYYY-MM-DD | type | value | [optional note]`
 2026-05-10 | cheat | Brunch, ~669 kcal | replaces: Weekend Brunch (648 kcal)
 2026-05-10 | workout | Walking | 70 min | 306 kcal
 2026-05-10 | cheat | Guinness & Crisps, ~355 kcal
+2026-05-10 | cheat | Lasagna, ~600 kcal | replaces: Gousto Meal (640 kcal)
