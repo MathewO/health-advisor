@@ -171,3 +171,4 @@ All entries: `YYYY-MM-DD | type | value | [optional note]`
 2026-05-10 | cheat | Lasagna, ~600 kcal | replaces: Gousto Meal (640 kcal)
 2026-05-11 | weight | 81.7
 2026-05-11 | cheat | Chicken fried rice, ~530 kcal | replaces: Chicken Wrap (376 kcal)
+2026-05-11 | cheat | Enchilada’s, ~745 kcal | replaces: Gousto Meal (640 kcal)
