@@ -199,6 +199,53 @@ From `data/export.xml` (analysed Apr 2026) vs `profile/historical-weights.csv`:
 
 ---
 
+## Exercise philosophy & VPA guidance (established 12 May 2026)
+
+> **Read this before making any cardio or fitness recommendations.** It supersedes generic advice to "run longer" or "add Zone 2."
+
+### Core principle — frequency over duration
+
+Based on the 2025 Nature Communications study (Biswas, Ahmadi, Stamatakis et al.) and the 2022 VILPA Nature Medicine paper, the evidence strongly supports **short, frequent vigorous efforts** as the highest-ROI cardio approach for Mathew. See `research/activity/vigorous-exercise-equivalence-vilpa-2025.md`.
+
+- The true VPA:MPA equivalence ratio is **4–10x** (not 2x as assumed by WHO guidelines)
+- **VILPA (1–2 min vigorous bouts, 3–4×/day)** in non-exercisers cuts all-cause mortality ~40% and cancer mortality ~50%
+- Light activity (LPA) **cannot** achieve more than ~15% risk reduction regardless of volume
+- The dose-response is nearly linear — every additional VPA minute has meaningful returns
+
+### Mathew's current VPA sources (confirmed vigorous, HR 144–161 bpm)
+
+| Source | Frequency | Notes |
+|---|---|---|
+| Runs | 1–2×/week | 19–24 min, 144–161 bpm — confirmed vigorous |
+| Stair sessions | 1–2×/week | 20–25 min, 147 bpm — confirmed vigorous |
+| Ride hill bursts | Multiple per ride | Hard climbs during MTB/e-bike sessions; natural interval pattern |
+
+Estimated confirmed VPA: **~40–50 min/week** on average (excluding hill bursts, which add meaningfully but aren't measured precisely).
+
+### Constraints to respect always
+
+- **Time-poor** — efficiency is a hard requirement, not a preference
+- Sedentary job means incidental VILPA (stairs, fast walking) is the most time-efficient VPA lever
+- Runs do **not** need to get longer — the current 19–24 min runs are appropriate; more days > longer sessions
+- E-bike rides already accumulate real VPA via hill climbs — do not discount these
+
+### Target state
+
+- VPA on **5–6 days/week** (currently ~2–3) — primary gap to close
+- Each vigorous effort can be as short as **2–5 minutes** (VILPA counts)
+- VO2 max from **35.45 → 40+ mL/kg/min** over 6–12 months (weight loss + more VPA frequency)
+- Do NOT suggest adding long Zone 2 sessions or extending run duration as the primary lever
+
+### Recommended default suggestions (in priority order)
+
+1. **Protect existing stair sessions** — highest VPA density per minute of commitment
+2. **Add a second short run mid-week** — 15–20 min is sufficient; don't extend existing ones
+3. **Exploit VILPA opportunities** — office stairs at pace, fast walking uphill, a 90-second sprint burst during a lunchtime walk
+4. **Ride hard on climbs** — already doing this; validate and count it explicitly
+5. **Structured intervals (optional uplift)** — 4×4 min hard / 3 min easy is the most evidence-backed VO2 max protocol if time allows once per week
+
+---
+
 ## Repo workflow (so data isn't stale)
 
 - Before answering **any** health / log / phase question, run **`git pull --rebase`** in this repo; the PWA writes **`logs/phone-log.md`** via GitHub.
