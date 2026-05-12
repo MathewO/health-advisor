@@ -178,3 +178,4 @@ All entries: `YYYY-MM-DD | type | value | [optional note]`
 2026-05-12 | weight | 81.6
 2026-05-12 | cheat | Chicken fried rice, ~530 kcal | replaces: Chicken Wrap (376 kcal)
 2026-05-12 | cheat | Coffee & Tonic, ~25 kcal
+2026-05-10 | drinks | 155 | Guinness
