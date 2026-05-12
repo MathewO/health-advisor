@@ -175,23 +175,23 @@ From `data/export.xml` (analysed Apr 2026) vs `profile/historical-weights.csv`:
 
 ---
 
-## Apple Health metrics (5 May 2026 export — current)
+## Apple Health metrics (12 May 2026 export — current)
 
 | Metric | 30-day avg | 90-day avg | Trend | Notes |
 |---|---|---|---|---|
-| Total sleep | 7.4 hrs | 7.4 hrs | Stable | |
-| REM sleep | 2.1 hrs | 2.1 hrs | Stable | ~28% of sleep — healthy |
-| Core sleep | 4.0 hrs | 3.8 hrs | Stable | |
-| Deep sleep | 0.6 hrs | 0.6 hrs | Stable | AW known to undercount deep |
-| Respiratory rate | 16.4 br/min | 16.4 br/min | Stable | Normal (12–20) |
+| Total sleep | 7.6 hrs | 7.3 hrs | Stable | ↑ +0.2 hrs vs May 5 export |
+| REM sleep | 2.3 hrs | 2.1 hrs | Stable | ↑ +0.2 hrs — good quality signal |
+| Core sleep | 4.3 hrs | 3.7 hrs | Stable | ↑ +0.3 hrs |
+| Deep sleep | 0.6 hrs | 0.5 hrs | Stable | AW known to undercount deep |
+| Respiratory rate | 16.2 br/min | 16.5 br/min | Stable | Normal (12–20) |
 | SpO2 | 96.8% | 96.7% | Stable | Normal; no apnea concern |
 | Wrist temp (sleep) | 36.0 °C | 36.1 °C | Stable | Normal |
-| Resting HR | 56.3 bpm | 59.6 bpm | ↓ **−3.3 bpm** | Significant improvement since cut started |
-| HRV (SDNN) | 53.6 ms | 51.8 ms | ↑ improving | |
-| Steps/day | 8,138 | 6,476 | ↑ +1,662 | Big increase since phase started |
-| Active kcal/day | 717 | 560 | ↑ +157 | |
-| Exercise min/day | 49.8 | 30.9 | ↑ +19 | |
-| VO2 Max | **35.45** mL/kg/min | — | ↑ from 32.89 | +2.56 since Apr export — weight loss + fitness both contributing |
+| Resting HR | 55.0 bpm | 59.8 bpm | ↓ **−4.8 bpm** | ↓ −1.3 bpm vs May 5 — continued improvement |
+| HRV (SDNN) | 54.5 ms | 51.6 ms | ↑ up 2.9 | ↑ +0.9 ms vs May 5 — continued improvement |
+| Steps/day | 8,073 | 6,708 | ↑ +1,365 | Sustained elevated activity |
+| Active kcal/day | 758 | 570 | ↑ +189 | ↑ +41 vs May 5 |
+| Exercise min/day | 57.9 | 31.5 | ↑ +26.4 | ↑ +8.1 min vs May 5 |
+| VO2 Max | **36.6** mL/kg/min | — | ↑ **+1.15 from May 5** | Now 36.6 (was 35.45). +3.71 since Apr export. Target: 40+ by Sep 2026. |
 
 > Source: `profile/health-metrics.md` (auto-generated from Apple Health export). Refresh this table when a new export is run.
 
