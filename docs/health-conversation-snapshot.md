@@ -73,6 +73,20 @@ From `data/export.xml` (analysed Apr 2026) vs `profile/historical-weights.csv`:
 
 ---
 
+## Session notes — 12 May 2026 (afternoon)
+
+### Thrifty vs spendthrift metabolic phenotype — tentative assessment
+- Studied Hollstein et al. 2020 (*J Clin Endocrinol Metab*) — the NIH study on thrifty vs spendthrift metabolism referenced in Jeremy Ethier's 3 Jan 2026 YouTube video.
+- Key finding: thrifty people have *higher* metabolism at energy balance, not lower — their metabolism crashes more steeply during a deficit. Spendthrift people burn less at balance but maintain more of that burn during a cut (driven by 4× higher epinephrine response to fasting).
+- **Tentative verdict: spendthrift.** Three converging signals as of 4 weeks in:
+  1. Data-derived TDEE (~2,050–2,075) is above formula baseline (~1,850–2,000) — higher actual burn than predicted
+  2. Loss rate (~0.87 kg/week 7d-avg) sustained at 4 weeks with no metabolic crash
+  3. RHR and HRV both *improving* during the cut — body not fighting the deficit
+- **Not confirmed.** Cannot know without whole-room calorimetry. Pending validation at 25 May check-in — if rate is still solid at 6 weeks (water weight fully settled), spendthrift more likely.
+- Research saved: `research/metabolic/thrifty-spendthrift-phenotype-2020.md`
+
+---
+
 ## Session notes — 12 May 2026
 
 ### Apple Health export refreshed
@@ -184,7 +198,7 @@ From `data/export.xml` (analysed Apr 2026) vs `profile/historical-weights.csv`:
 | Date | Action |
 |------|---------|
 | **~8–9 May 2026** | **Weekly check.** Pull log, compute 7-day avg weight (2–8 May) vs prior week avg (~83.24 kg for 25 Apr–1 May). Apply scenario framework below. |
-| **~25 May 2026** | **6-week maintenance back-calculation.** Use total weight change + estimated avg intake to tighten TDEE. Decide if ~2,100 stands or needs updating. |
+| **~25 May 2026** | **6-week check-in.** (1) TDEE back-calculation: use total weight change + avg intake to tighten estimate. Decide if ~2,100 maintenance stands or needs updating. (2) **Metabolic phenotype assessment:** by 6 weeks, water weight is settled and rate-of-loss signal is clean. If 7-day avg is still dropping at ~0.4–0.7 kg/week on current intake, spendthrift phenotype is supported. If rate has slowed significantly (< 0.3 kg/week) without obvious dietary cause, thrifty adaptation may be occurring — consider increasing activity rather than cutting calories further. See `research/metabolic/thrifty-spendthrift-phenotype-2020.md`. |
 | **6 Jun 2026** | **Phase end.** DEXA scan (DexaStrong, Leeds — baseline post-cut). Start maintenance at ~2,100 kcal + cardio as additive. |
 
 **Weekly check scenario framework (8–9 May and onward):**
