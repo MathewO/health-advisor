@@ -2,7 +2,7 @@
 
 > **Purpose:** Recovery of key decisions and dates from planning chats if **chat history is unavailable**.  
 > **Not used by the PWA** — for humans and AI sessions only.  
-> **Last updated:** 2026-05-10
+> **Last updated:** 2026-05-12
 
 ---
 
@@ -70,6 +70,27 @@ From `data/export.xml` (analysed Apr 2026) vs `profile/historical-weights.csv`:
 - `dashboard.json` `maintenance_kcal` left at **1,935** as a conservative anchor and to preserve the original phase record. The data-derived estimate here supersedes it for planning purposes.
 - **Pending final validation at the 25 May 6-week check-in** — more data points and settled water noise will sharpen this number.
 - **Maintenance planning post-Italy** (~7 Jun): target **~2,100 kcal/day** base (rounding up from 2,075 to give a clean working number); add workout kcal on top as logged.
+
+---
+
+## Body fat % projections and phase structure (12 May 2026)
+
+> Source: Navy formula baseline + DEXA belly fat layer analysis (Ethier / Built With Science, 18k scans). See `research/metabolic/belly-fat-layers-dexa-2026.md`. **DEXA on 6 Jun will replace these estimates with actuals.**
+
+| Weight | Est. BF% | Layer | Notes |
+|---|---|---|---|
+| 85.4 kg (Apr baseline) | ~28.5% | Layer 1 | Starting point |
+| 81.6 kg (12 May) | ~25.1% | Layer 1→2 | At belly fat inflection point — accelerating now |
+| 80 kg (Phase 1 target) | ~23.6% | Layer 2 | Not yet into stubborn-fat territory — right stop point |
+| 78 kg (Bali / Phase 2) | ~21.7% | Layer 2→3 boundary | Lower belly/love handles last to go |
+
+**10% rule check:** Phase 1 (85.8→80 kg) = 6.7% loss ✅. Phase 2 (~82→78 kg) = ~4.9% ✅. Both within the research-backed 5–7% per phase sweet spot.
+
+**Why 80 kg is the right Phase 1 stop:** At 80 kg you're in Layer 2 (~23.6% BF), making good visible progress, but not yet in the high-cortisol Layer 3 zone. Pushing harder pre-Italy would hit the stubborn-fat wall at a poorly timed moment. Phase 2 starts fresh from a better position after the maintenance month.
+
+**Steps insurance policy (Layer 2 stall lever):** Current avg steps: 8,073/day. If rate slows in the next 2 weeks, the first lever is **bumping steps to 10,000/day** before cutting calories further. This maintains calorie burn without spiking hunger or triggering deeper metabolic adaptation.
+
+**Diet break protocol (Phase 2 / Layer 3 tool):** When deep in Layer 3 (~15–20% BF), if cortisol-driven water retention and severe hunger appear, a 5–14 day break at +500 kcal (mainly carbs) brings cortisol down and resets hunger. Not the same as the maintenance month — this is a short tactical tool for mid-phase if needed in Phase 2.
 
 ---
 
