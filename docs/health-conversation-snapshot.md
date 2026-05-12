@@ -73,6 +73,38 @@ From `data/export.xml` (analysed Apr 2026) vs `profile/historical-weights.csv`:
 
 ---
 
+## Session notes — 12 May 2026
+
+### Apple Health export refreshed
+- New export processed (12 May 2026). `profile/health-metrics.md` updated.
+- VO2 max: 35.45 → **36.6 mL/kg/min** (+1.15 in 7 days). Absolute VO2 baseline: 2,822 mL/min (recorded in snapshot for projection maths).
+- RHR: 56.3 → 55.0 bpm. HRV: 53.6 → 54.5 ms. Sleep: 7.4 → 7.6 hrs. All trending right.
+- Passive uplift from 3.9 kg weight loss: ~1.3 mL/kg/min (~35% of total gain). Fitness-driven gain: ~2.4 mL/kg/min (~65%). See VO2 Max working figures table below.
+
+### VPA frequency gap identified (12 May 2026)
+- Current confirmed VPA: ~2–3 days/week (runs + stair sessions). Hill bursts on rides add unmeasured VPA.
+- Evidence-backed target: 5–6 days/week of some vigorous effort (even 2–5 min counts as VILPA).
+- This is the primary cardiorespiratory gap. Not urgent during the cut — establish the habit going into Phase 2.
+- Research ingested: Biswas et al. Nat Comms 2025 + Stamatakis VILPA Nat Med 2022. See `research/activity/vigorous-exercise-equivalence-vilpa-2025.md`.
+
+### VILPA / exercise philosophy codified (12 May 2026)
+- Short frequent vigorous efforts are the primary target — not longer runs.
+- Time-poor constraint is a hard requirement. Frequency over duration.
+- Exercise philosophy section added to this snapshot and to `profile/profile.md`.
+- Numerical reasoning rule added to `.cursor/rules/health-context.mdc` to prevent sloppy maths in future sessions.
+
+### Phase status (12 May 2026)
+- Weight: 81.6 kg (evening). 7-day avg: 82.2 kg. Start: 85.8 kg. Loss: 3.9–4.2 kg depending on reading.
+- 80 kg target by 6 Jun: 2.2 kg remaining over ~25 days (~0.6 kg/week needed) — comfortably on track.
+- Waist: 103 cm (8 May). Strength fully preserved. Phase outperforming on all dimensions.
+
+### Log correction (12 May 2026)
+- `2026-05-10 | cheat | Guinness & Crisps, ~355 kcal` was incorrectly combined. Corrected in app to:
+  - `2026-05-10 | drinks | 155 | Guinness` (now correctly subtracted from deficit)
+  - `2026-05-10 | cheat | Crisps, ~200 kcal`
+
+---
+
 ## Session notes — 10 May 2026
 
 ### Revised Phase 1 target: 80 kg (from 82 kg)
