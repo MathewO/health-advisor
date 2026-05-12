@@ -195,6 +195,23 @@ From `data/export.xml` (analysed Apr 2026) vs `profile/historical-weights.csv`:
 
 > Source: `profile/health-metrics.md` (auto-generated from Apple Health export). Refresh this table when a new export is run.
 
+### VO2 Max — working figures (12 May 2026)
+
+| Figure | Value | Notes |
+|---|---|---|
+| VO2 max at Apr export | 32.89 mL/kg/min | Baseline, ~85.8 kg |
+| VO2 max at May 5 export | 35.45 mL/kg/min | ~82–83 kg range |
+| VO2 max at May 12 export | **36.6 mL/kg/min** | 81.9 kg |
+| Total improvement since Apr | **+3.71 mL/kg/min** | |
+| Absolute VO2 at baseline | **2,822 mL/min** | 85.8 kg × 32.89 — use this to project forward |
+| Passive uplift from weight loss (85.8 → 81.9 kg) | ~1.3 mL/kg/min | 3.9 kg × ~0.33 mL/kg/min per kg (estimate; range 0.25–0.40) |
+| Passive uplift as % of total gain | **~35%** | 1.3 ÷ 3.71 |
+| Fitness-driven gain (residual) | **~2.4 mL/kg/min** | Total − passive — genuine aerobic adaptation |
+| Projected VO2 max at 78 kg (passive only) | **~36.2 mL/kg/min** | 2,822 ÷ 78 — fitness gains add on top |
+| Projected VO2 max at 78 kg (passive + continued fitness) | **~39–41 mL/kg/min** | Assumes ~2–3 mL/kg/min further fitness gain by Sep 2026 |
+
+**Rule for future VO2 max projections:** always split the gain into (a) passive weight-loss component (2,822 ÷ new_kg − current reading) and (b) fitness-driven component. Never attribute all improvement to one factor without showing the split.
+
 **Cross-reference rule for agents:** `profile/health-metrics.md` is authoritative for Apple Health data. If `profile/profile.md` shows "Not recorded yet" for sleep, HRV, resting HR, or VO2 max, check `health-metrics.md` before concluding the data is missing. Flag any gap to the user and offer to backfill `profile/profile.md`.
 
 ---
