@@ -176,3 +176,4 @@ All entries: `YYYY-MM-DD | type | value | [optional note]`
 2026-05-12 | run | 19 min |  km | 200 kcal
 2026-05-12 | workout | Walking | 28 min | 147 kcal
 2026-05-12 | weight | 81.6
+2026-05-12 | cheat | Chicken fried rice, ~530 kcal | replaces: Chicken Wrap (376 kcal)
