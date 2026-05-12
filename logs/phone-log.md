@@ -175,3 +175,4 @@ All entries: `YYYY-MM-DD | type | value | [optional note]`
 2026-05-12 | workout | Walking | 12 min | 61 kcal
 2026-05-12 | run | 19 min |  km | 200 kcal
 2026-05-12 | workout | Walking | 28 min | 147 kcal
+2026-05-12 | weight | 81.9
