@@ -181,3 +181,4 @@ All entries: `YYYY-MM-DD | type | value | [optional note]`
 2026-05-10 | drinks | 155 | Guinness
 2026-05-12 | cheat | Caesar Salad, ~497 kcal | replaces: Gousto Meal (640 kcal)
 2026-05-12 | cheat | Skipped chocolate | replaces: Milk Chocolate (100 kcal)
+2026-05-13 | weight | 81.6
