@@ -94,6 +94,33 @@ From `data/export.xml` (analysed Apr 2026) vs `profile/historical-weights.csv`:
 
 ---
 
+## Session notes — 13 May 2026 (afternoon)
+
+### Hunger increase — first noted 13 May
+- Afternoon hunger (pre-dinner) and going-to-bed hungry noted for the first time. Day 30 of phase, ~25% BF.
+- Consistent with leptin drop at this stage — as fat mass decreases, leptin production falls and hunger signals increase. Normal physiology, not a red flag.
+- Response: added a single whey shake (~116 kcal) as a mid-afternoon bridge on hungry days. Low calorie cost, good protein hit.
+- Also noted: Caesar salad lunch (30g protein) is lower satiety than the chicken wrap (51g protein). Protein quantity matters for satiety during a deficit.
+- **Low-cal satiety options identified:** sparkling water, Pepsi Max, black coffee, pickles, cucumber, Fage 0% yoghurt, miso soup (especially for bedtime hunger).
+- Weight still flat 4 days (81.5–81.7 kg) — not a plateau, normal noise. 7-day avg is the signal. 4-day flat at this stage likely reflects water catching up to real fat loss rate after early glycogen/water flush.
+
+### Dr. Mike Israetel / Renaissance Periodization video review (13 May)
+- Video: "I Lost Over Half My Body Fat DOING THIS" (YouTube, Jan 2026 approx). 15.6% → 6.0% BF over ~15 weeks.
+- **Transferable takeaways:**
+  1. **10,000 steps/day** is the single most-emphasised practical lever — Dr. Mike tried 12k and 14k but found 10k was the sweet spot (diminishing fatigue returns above that). Directly validates the steps lever in the plan as the first response to any stall.
+  2. **Conservative progression during a cut** — 2.5 lbs/week or +1 rep. Don't chase big strength gains; provide just enough stimulus to retain muscle and keep strength stable.
+  3. **Consistency formula** (his closing takeaway): high protein + moderate calorie deficit + 10k steps + regular weight training = the transformation formula. Drugs help but don't replace this.
+- **Non-transferable (pharmacological context):** Results included gaining 9.7 lbs of lean mass simultaneously — enabled by escalating TRT from 150mg → ~750mg testosterone-equivalent + SARMs. The fat loss methodology transfers; the simultaneous recomp at that rate does not apply to a natural trainee.
+- He also used tirzepatide + retatrutide (GLP-1/GIP/glucagon triple agonist) to manage steroid-induced hunger and preferentially reduce visceral fat. Transparent about this.
+
+### Retatrutide (reta) — UK status (13 May 2026)
+- **Not approved anywhere.** Still in Phase 3 trials. FDA approval expected late 2026/early 2027. MHRA (UK) approval would follow, putting realistic UK availability at **2027–2028**.
+- NHS availability would require additional NICE evaluation — likely 2028 or later.
+- **Closest available UK equivalent now:** Mounjaro (tirzepatide, dual GLP-1/GIP agonist) — available privately. ~22.5% average weight loss in trials.
+- **Relevance to Mathew:** not needed given current progress. Worth revisiting after July blood panel **only if** HOMA-IR and fasting glucose haven't improved with fat loss.
+
+---
+
 ## Session notes — 12 May 2026 (afternoon)
 
 ### Thrifty vs spendthrift metabolic phenotype — tentative assessment
