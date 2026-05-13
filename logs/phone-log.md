@@ -183,3 +183,4 @@ All entries: `YYYY-MM-DD | type | value | [optional note]`
 2026-05-12 | cheat | Skipped chocolate | replaces: Milk Chocolate (100 kcal)
 2026-05-13 | weight | 81.6
 2026-05-13 | workout | Walking | 13 min | 60 kcal
+2026-05-13 | workout | Walking | 12 min | 72 kcal
