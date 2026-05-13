@@ -195,7 +195,7 @@ From `data/export.xml` (analysed Apr 2026) vs `profile/historical-weights.csv`:
 - **Gym performance:** Feeling strong as of 2 May — no strength drops noted despite running above 1 kg/week loss rate. Key signal for 8–9 May check-in: if this holds, no calorie adjustment needed (Scenario A/B). If strength drops appear, add 100–150 kcal/day immediately.
 - **Monday weight warning:** 2 May involved 101 min cycling (1,045 kcal) + 3–4 pints + higher-calorie dinner (~400 kcal above plan). Expect Monday 4 May scale to read 0.5–1.5 kg above today's 82.2 due to glycogen refill, alcohol, sodium. Not fat gain — do not panic. Use 7-day avg, not daily readings.
 - **Whey protein:** MyProtein Impact Whey (not isolate), various flavours. Dashboard shows 116 kcal / 21g protein per scoop (single) and 232 kcal / 42g protein (double) — consistent with Impact Whey macros. No need to update if flavour changes.
-- **Ashwagandha check-in due:** Started ~25 Apr 2026. First noticeable effects (cortisol/stress, sleep) expected 2–4 weeks in (~9–23 May). At 25 May 6-week check, do a brief self-assessment: stress levels, sleep quality, gym recovery. Testosterone effects take 8–12 weeks (retest July 2026).
+- **Ashwagandha check-in (13 May 2026):** 18 days in. **Reported feeling calmer and less stressed** — consistent with the 2–4 week cortisol/stress window. Testosterone effects not expected until 8–12 weeks (retest July 2026 with lipid panel). No side effects noted. Continue monitoring at 25 May 6-week check.
 
 ---
 
@@ -209,6 +209,7 @@ From `data/export.xml` (analysed Apr 2026) vs `profile/historical-weights.csv`:
 | 6 May 2026 | Dips | More reps than normal (BW + 15 kg plate) | ✅ Upper body strength maintained/improving |
 | 9 May 2026 | Deadlift retest | **140 kg — clean pull, felt good** | ✅ Scenario A confirmed — May 6 failure was MTB fatigue, not strength decline. No calorie adjustment needed. |
 | 9 May 2026 | DB Chest Press | **35 kg × 5–6 reps — near all-time best** | ✅ Upper body strength at personal best levels during a deficit — strong muscle retention signal |
+| 13 May 2026 | Squat 1RM | **100 kg with knee sleeves (first time using them)** | ✅ Matched pre-phase max — knee sleeves felt good; will use going forward |
 
 **Decision rule:** ~~Planned retest to confirm~~ **Resolved 9 May — Scenario A confirmed across all movements. No calorie adjustment needed.**
 

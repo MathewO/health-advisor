@@ -12,6 +12,7 @@ Progress photos live **only on this machine**. Image and video files under this 
 |--------|--------------|--------|
 | **`progress/2026-04-15_baseline-108cm-phase1/`** | **~108 cm** | Baseline at Phase 1 start — five poses matching **`01`–`05`** naming — see folder **`README.md`** |
 | **`progress/2026-04-29_waist-105cm-phase1/`** | **105 cm** | ~week 3–4 — five poses — see folder **`README.md`** |
+|| **`progress/2026-05-13_week4-103cm-phase1/`** | **103 cm** | Day 30 of Phase 1, 81.6 kg, ~25.1% BF — five poses (01–03 directly comparable to baseline; 04–05 new rear angles) — see folder **`README.md`** |
 
 Older loose imports (screenshots mixed with unrelated snaps) remain under **`2026-04-12/`**, **`2026-04-13/`**, **`2026-04-15/`** — **not** a clean progress set; prefer **`progress/`** dated folders for comparisons.
 
