@@ -133,7 +133,7 @@
     .deficit-val { font-weight: 700; }
     .burndown-wrap { position: relative; height: 160px; margin: 2px 0 4px; }
     #weeklyBurndownChart { width: 100% !important; }
-    .predicted-deficit-row { display: flex; justify-content: space-between; align-items: center; padding-top: 12px; margin-top: 8px; border-top: 2px solid var(--border); }
+    .predicted-deficit-row { display: flex; justify-content: space-between; align-items: center; padding-top: 6px; margin-top: 0; }
     .predicted-label { font-size: 13px; color: var(--muted); font-weight: 600; text-transform: uppercase; letter-spacing: 0.6px; }
     .predicted-val { font-size: 16px; font-weight: 700; }
 
@@ -1085,7 +1085,7 @@ function renderWeeklyDeficitCard(phase) {
     = computeWeeklyDeficit(allEntries, phase);
 
   const carryoverHtml = carryover !== 0
-    ? `<div class="deficit-row deficit-row--tight deficit-row--carryover">
+    ? `<div class="deficit-row deficit-row--tight deficit-row--carryover deficit-row--no-border">
         <span class="deficit-label">Carryover from last week</span>
         <span class="deficit-val" style="color:${carryover > 0 ? 'var(--green)' : 'var(--red)'}">${carryover > 0 ? '+' : ''}${carryover.toLocaleString()} kcal</span>
        </div>`
@@ -2320,6 +2320,10 @@ function renderWeightChart(weights, phase) {
     { x: 0,         y: phase.target_kg },
     { x: totalDays, y: phase.target_kg },
   ];
+  const liveTargetPoints = [
+    { x: 0,         y: 79 },
+    { x: totalDays, y: 79 },
+  ];
 
   weightChart = new Chart(ctx, {
     type: 'line',
@@ -2367,6 +2371,15 @@ function renderWeightChart(weights, phase) {
           label: 'Target',
           data: targetPoints,
           borderColor: 'rgba(148,163,184,0.3)',
+          borderWidth: 1,
+          borderDash: [3, 3],
+          pointRadius: 0,
+          fill: false,
+        },
+        {
+          label: 'Live Target',
+          data: liveTargetPoints,
+          borderColor: 'rgba(74,222,128,0.35)',
           borderWidth: 1,
           borderDash: [3, 3],
           pointRadius: 0,
