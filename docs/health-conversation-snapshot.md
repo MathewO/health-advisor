@@ -384,3 +384,16 @@ These are often **gitignored**; duplicate critical dates here and in `profile` w
 - Serve from the **repository root** on port **8765** (e.g. run task **Preview: static server (repo root, port 8765)**), then open **`http://localhost:8765/docs/index.html`** — so `/logs/` resolves and **Cursor Browser** can load data without a GitHub token (same as empty Settings). Optional: `?local=1` forces local files even if a token is set.
 - If the **Simple Browser** shows an old build: new **`docs/sw.js` CACHE_VERSION`**, or tap the **SW version** on the lock screen, or **Unregister** the service worker.
 - Does not affect the **health plan**; only how you view the app locally.
+- **On localhost the service worker is auto-unregistered** by code in `docs/index.html` (search `__isLocalhost`). Every reload always serves fresh files. Production (github.io) keeps full SW + caching.
+
+### Lessons learned (14 May 2026) — diagnose the server first
+
+Spent an hour theorising about service worker caching when the real cause was a **dead local Python `http.server`** accepting connections but returning empty replies. The browser symptom (stale content on reload) looks **identical** to a SW caching issue but is not.
+
+**Mandatory diagnostic order when "changes don't appear locally":**
+
+1. `curl -sS -o /dev/null -w "HTTP: %{http_code}, size: %{size_download} bytes\n" "http://localhost:8765/docs/index.html"` — HTTP 000 or empty reply means the server is dead. Kill (`lsof -ti :8765 | xargs -r kill -9`) and restart.
+2. `curl -sS "http://localhost:8765/docs/index.html" | grep <token-just-added>` — confirms the server is serving what's on disk.
+3. **Only after** steps 1–2 succeed, consider SW / cache theories.
+
+This rule is also encoded in `.cursor/rules/health-context.mdc` under "PWA debugging — diagnostic order" so it triggers automatically in every future session.
