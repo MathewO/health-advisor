@@ -2,7 +2,7 @@
 
 > **For AI agents:** Read this file before making any changes to `docs/index.html`, `docs/sw.js`, or any other PWA file. It is the single source of truth for the app's current feature set, architecture, dev setup, and known decisions.
 >
-> **Last updated:** 2026-05-14
+> **Last updated:** 2026-05-14 (afternoon)
 
 ---
 
@@ -51,11 +51,19 @@ Then open `http://localhost:8765/docs/index.html` in the Cursor Simple Browser (
 ### Dashboard Tab
 
 **Phase card (weight chart)**
-- Shows daily weight dots, 7-day rolling average trend line (green), projection (dashed green), plan line (grey dashed)
-- Target line at `phase.target_kg` (grey dashed) — currently 82 kg (original goal, kept as historical record)
-- **Live target line at 79 kg** (green dashed, added 14 May 2026) — Phase 2 insurance target
-- Y-axis: `suggestedMin: 78`, `suggestedMax: phase.start_kg + 0.5` (changed from hardcoded `min: 80` on 14 May — was clipping the 79 kg line)
-- Shows current weight, trend projection, progress bar, kg lost / kg to go
+- Shows daily weight dots, 3-point centred smoothed trend line (green solid), projection (dashed green), plan line (grey dashed)
+- Target line at `phase.target_kg` (grey dashed, 2px) — 82 kg original goal, kept as historical record
+- **Live target line** (green dashed, 2px) — dynamic, tracks `trend.projectedAtTarget` (the predicted end weight), matches the "Trending to X kg" text above
+- Y-axis: `suggestedMin: 78`, `suggestedMax: phase.start_kg + 0.5`
+- Shows current weight, trend projection text, progress bar, kg lost / kg to go
+- All three reference lines (Plan, Target, Live Target) at `borderWidth: 2`
+
+**Trending projection algorithm (as of 14 May 2026):**
+- **Days 1–7:** falls back to planned deficit rate (not enough clean data; first week has glycogen/water flush noise)
+- **Days 8+:** 10-day sliding window linear regression on the **smoothed** weigh-in values (3-point centred moving average). Skips the first 7 days. Requires ≥5 data points in window.
+- **Rate cap: 0.7 kg/week** — deliberately conservative. The user should always beat the projection, never feel they've underachieved. Do NOT raise this cap without discussing with Mathew.
+- **Falls back** to planned deficit rate if window has <5 points.
+- Regression uses smoothed (not raw) values to prevent single-day spikes (illness, bank holidays, Imodium rebounds) from distorting the projected rate.
 
 **Weekly deficit card (burndown chart)**
 - "Target this week" row (top) — `weekly_deficit_target` from `dashboard.json`
@@ -84,8 +92,13 @@ Then open `http://localhost:8765/docs/index.html` in the Cursor Simple Browser (
 
 | Date | Change | File(s) |
 |------|--------|---------|
-| 14 May 2026 | Added 79 kg live target line to weight chart (green dashed) | `index.html` |
-| 14 May 2026 | Fixed Y-axis: `min: 80` → `suggestedMin: 78` so 79 kg line is visible | `index.html` |
+| 14 May 2026 | **Coolvetica Heavy Compressed** font applied to "MyBody" (300%) and "FAT LOSS" phase label (42px) | `index.html`, `docs/fonts/` |
+| 14 May 2026 | **10-day sliding window linear regression** for trending projection — replaces fixed planned-deficit rate. Uses smoothed values, skips first 7 days, requires 5+ data points, capped at **0.7 kg/week** (deliberately conservative — user should always beat projection). Falls back to planned rate when insufficient data. | `index.html` |
+| 14 May 2026 | **Live target line** made dynamic — tracks `trend.projectedAtTarget` instead of hardcoded 79 kg. Matches "Trending to X kg" text. | `index.html` |
+| 14 May 2026 | Plan, Target, and Live Target lines all set to `borderWidth: 2` for consistency | `index.html` |
+| 14 May 2026 | Section label top margin halved: `24px → 12px` (tightens gap between MyBody and CURRENT PHASE) | `index.html` |
+| 14 May 2026 | Live target line (predicted end weight) changed from hardcoded 79 to dynamic; `borderWidth` 1→2, slightly more opaque | `index.html` |
+| 14 May 2026 | Fixed Y-axis: `min: 80` → `suggestedMin: 78` so predicted end weight line is always visible | `index.html` |
 | 14 May 2026 | Removed `border-top` from `.predicted-deficit-row`; tightened spacing | `index.html` |
 | 14 May 2026 | Removed `border-top` above "Target this week" (weeklyDeficitCard separator) | `index.html` |
 | 14 May 2026 | Removed bottom border from "Carryover from last week" row | `index.html` |
