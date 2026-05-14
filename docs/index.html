@@ -994,23 +994,25 @@ function computeTrendProjection(weights, phase) {
   const MIN_POINTS   = 5;
   const SKIP_DAYS    = 7;
 
-  const windowPoints = sortedActuals.filter(p => {
-    const dayNum = dateToNum(p.date) - startNum;
-    return dayNum > SKIP_DAYS && dayNum >= (lastPoint.x - WINDOW_DAYS);
-  });
+  // Use the already-smoothed rollingAvg values (not raw actuals) for the
+  // regression — this dampens single-day spikes (bank holidays, illness,
+  // Imodium rebounds) so they don't distort the projected rate.
+  const windowPoints = rollingAvg.filter(p =>
+    p.x > SKIP_DAYS && p.x >= (lastPoint.x - WINDOW_DAYS)
+  );
 
   if (windowPoints.length >= MIN_POINTS) {
     // Least-squares linear regression: slope = Σ(xi-x̄)(yi-ȳ) / Σ(xi-x̄)²
-    const xs = windowPoints.map(p => dateToNum(p.date) - startNum);
-    const ys = windowPoints.map(p => p.kg);
+    const xs = windowPoints.map(p => p.x);
+    const ys = windowPoints.map(p => p.y);
     const meanX = xs.reduce((s, v) => s + v, 0) / xs.length;
     const meanY = ys.reduce((s, v) => s + v, 0) / ys.length;
     const num = xs.reduce((s, v, i) => s + (v - meanX) * (ys[i] - meanY), 0);
     const den = xs.reduce((s, v) => s + (v - meanX) ** 2, 0);
     if (den > 0) {
       const slope = num / den; // kg per day (negative = losing weight)
-      // Cap: don't project weight gain; don't project faster than 1.5 kg/week
-      actualRateKgPerDay = Math.min(0, Math.max(slope, -1.5 / 7));
+      // Cap: don't project weight gain; don't project faster than 1.0 kg/week
+      actualRateKgPerDay = Math.min(0, Math.max(slope, -1.0 / 7));
     }
   }
 
