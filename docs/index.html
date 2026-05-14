@@ -18,9 +18,9 @@
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
     @font-face {
-      font-family: 'BebasNeue';
-      src: url('fonts/BebasNeue-Regular.woff2') format('woff2'),
-           url('fonts/BebasNeue-Regular.woff')  format('woff');
+      font-family: 'Rasbora';
+      src: url('fonts/JHCRasbora-Extrabold.woff2') format('woff2'),
+           url('fonts/JHCRasbora-Extrabold.woff')  format('woff');
       font-weight: normal;
       font-style: normal;
       font-display: swap;
@@ -431,7 +431,7 @@
     <div id="tab-dashboard" class="tab-pane active">
       <div class="dash-header">
         <div style="display:flex;align-items:center;gap:8px">
-          <h2 style="font-size:150%;cursor:pointer;-webkit-tap-highlight-color:transparent;font-family:'BebasNeue',sans-serif;letter-spacing:1.5px" onclick="location.href=location.pathname+'?v='+Date.now()">MyBody</h2>
+          <h2 style="font-size:150%;cursor:pointer;-webkit-tap-highlight-color:transparent;font-family:'Rasbora',sans-serif;letter-spacing:1px" onclick="location.href=location.pathname+'?v='+Date.now()">MyBody</h2>
           <button onclick="switchTab('settings')" style="background:none;border:none;cursor:pointer;font-size:13px;color:var(--muted);padding:4px;-webkit-tap-highlight-color:transparent;" title="Settings">⚙️</button>
         </div>
         <div class="dash-header-btns">
@@ -1042,7 +1042,7 @@ function renderPhaseCard(phase, weights) {
   card.innerHTML = `
     <div style="position:relative">
       <div style="position:absolute;left:0;right:0;top:-6px;text-align:center;pointer-events:none">
-        <span style="font-size:21px;font-family:'BebasNeue',sans-serif;color:var(--green);text-transform:uppercase;letter-spacing:1.5px">${escHtml(phaseLabel)}</span>
+        <span style="font-size:21px;font-family:'Rasbora',sans-serif;color:var(--green);text-transform:uppercase;letter-spacing:1px">${escHtml(phaseLabel)}</span>
       </div>
       <div style="display:flex;justify-content:space-between;align-items:flex-start">
         <div style="min-width:0">

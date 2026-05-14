@@ -1,5 +1,5 @@
 // Bump on every dashboard change so old caches are evicted on next load.
-const CACHE_VERSION = 'mybody-2026-05-14c';
+const CACHE_VERSION = 'mybody-2026-05-14d';
 
 const APP_SHELL = [
   './',
@@ -9,8 +9,8 @@ const APP_SHELL = [
   './icon-512.png',
   './apple-touch-icon.png',
   'https://cdn.jsdelivr.net/npm/chart.js@4.4.2/dist/chart.umd.min.js',
-  './fonts/BebasNeue-Regular.woff2',
-  './fonts/BebasNeue-Regular.woff'
+  './fonts/JHCRasbora-Extrabold.woff2',
+  './fonts/JHCRasbora-Extrabold.woff'
 ];
 
 self.addEventListener('install', e => {
