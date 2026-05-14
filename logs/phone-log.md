@@ -187,7 +187,7 @@ All entries: `YYYY-MM-DD | type | value | [optional note]`
 2026-05-13 | cheat | Caesar Salad, ~497 kcal | replaces: Chicken Wrap (376 kcal)
 2026-05-13 | cheat | Single shake, ~105 kcal
 2026-05-13 | cheat | Gousto, ~585 kcal | replaces: Gousto Meal (640 kcal)
-2026-05-14 | weight | 81.4
+2026-05-14 | weight | 80.9
 2026-05-14 | workout | Walking | 13 min | 61 kcal
 2026-05-14 | run | 20 min |  km | 198 kcal
 2026-05-14 | workout | Walking | 14 min | 79 kcal
