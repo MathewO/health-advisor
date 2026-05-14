@@ -191,3 +191,4 @@ All entries: `YYYY-MM-DD | type | value | [optional note]`
 2026-05-14 | workout | Walking | 13 min | 61 kcal
 2026-05-14 | run | 20 min |  km | 198 kcal
 2026-05-14 | workout | Walking | 14 min | 79 kcal
+2026-05-14 | cheat | Chilli + 50g Fage, ~377 kcal | replaces: Chicken Wrap (376 kcal)
