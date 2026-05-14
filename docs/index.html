@@ -936,8 +936,16 @@ async function loadDashboard() {
 // Past = 3-point centered moving average over each weigh-in (the
 // reading itself + the one before + the one after). This smooths
 // single-day water-weight spikes without lagging behind the trend
-// the way a trailing average does. Future = linear projection from
-// the last smoothed point at the planned meal-plan deficit slope.
+// the way a trailing average does.
+//
+// Future = linear projection from the last smoothed point using
+// a 10-day sliding window linear regression over actual weigh-ins.
+// This reflects the genuine recent rate of loss rather than the
+// planned deficit rate, and naturally adapts if the rate slows.
+//
+// Early phase fallback: if the phase is ≤7 days old, or if there
+// are fewer than 5 weigh-ins in the regression window after
+// skipping week 1 noise, fall back to the planned deficit rate.
 function computeTrendProjection(weights, phase) {
   const startNum  = dateToNum(phase.start_date);
   const targetNum = dateToNum(phase.target_date);
@@ -976,7 +984,38 @@ function computeTrendProjection(weights, phase) {
   }
 
   const lastPoint = rollingAvg[rollingAvg.length - 1];
-  const projectedAtTarget = +(lastPoint.y - plannedKgPerDay * (totalDays - lastPoint.x)).toFixed(2);
+
+  // ── 10-day sliding window linear regression ──────────────────
+  // Use actual weigh-ins (not smoothed) within the last 10 days.
+  // Skip the first 7 days to exclude water/glycogen flush noise.
+  // Require at least 5 data points; fall back to planned rate otherwise.
+  let actualRateKgPerDay = null;
+  const WINDOW_DAYS  = 10;
+  const MIN_POINTS   = 5;
+  const SKIP_DAYS    = 7;
+
+  const windowPoints = sortedActuals.filter(p => {
+    const dayNum = dateToNum(p.date) - startNum;
+    return dayNum > SKIP_DAYS && dayNum >= (lastPoint.x - WINDOW_DAYS);
+  });
+
+  if (windowPoints.length >= MIN_POINTS) {
+    // Least-squares linear regression: slope = Σ(xi-x̄)(yi-ȳ) / Σ(xi-x̄)²
+    const xs = windowPoints.map(p => dateToNum(p.date) - startNum);
+    const ys = windowPoints.map(p => p.kg);
+    const meanX = xs.reduce((s, v) => s + v, 0) / xs.length;
+    const meanY = ys.reduce((s, v) => s + v, 0) / ys.length;
+    const num = xs.reduce((s, v, i) => s + (v - meanX) * (ys[i] - meanY), 0);
+    const den = xs.reduce((s, v) => s + (v - meanX) ** 2, 0);
+    if (den > 0) {
+      const slope = num / den; // kg per day (negative = losing weight)
+      // Cap: don't project weight gain; don't project faster than 1.5 kg/week
+      actualRateKgPerDay = Math.min(0, Math.max(slope, -1.5 / 7));
+    }
+  }
+
+  const projectionRate = actualRateKgPerDay !== null ? actualRateKgPerDay : -plannedKgPerDay;
+  const projectedAtTarget = +(lastPoint.y + projectionRate * (totalDays - lastPoint.x)).toFixed(2);
   const projection = [
     { x: lastPoint.x,  y: lastPoint.y },
     { x: totalDays,    y: projectedAtTarget },
@@ -2330,8 +2369,8 @@ function renderWeightChart(weights, phase) {
     { x: totalDays, y: phase.target_kg },
   ];
   const liveTargetPoints = [
-    { x: 0,         y: 79 },
-    { x: totalDays, y: 79 },
+    { x: 0,         y: trend.projectedAtTarget },
+    { x: totalDays, y: trend.projectedAtTarget },
   ];
 
   weightChart = new Chart(ctx, {
@@ -2388,9 +2427,9 @@ function renderWeightChart(weights, phase) {
         {
           label: 'Live Target',
           data: liveTargetPoints,
-          borderColor: 'rgba(74,222,128,0.35)',
-          borderWidth: 1,
-          borderDash: [3, 3],
+          borderColor: 'rgba(74,222,128,0.4)',
+          borderWidth: 2,
+          borderDash: [4, 4],
           pointRadius: 0,
           fill: false,
         },
