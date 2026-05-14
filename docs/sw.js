@@ -1,5 +1,5 @@
 // Bump on every dashboard change so old caches are evicted on next load.
-const CACHE_VERSION = 'mybody-2026-05-14a';
+const CACHE_VERSION = 'mybody-2026-05-14b';
 
 const APP_SHELL = [
   './',
@@ -39,6 +39,12 @@ self.addEventListener('message', e => {
 self.addEventListener('fetch', e => {
   if (e.request.method !== 'GET') return;
   const url = new URL(e.request.url);
+
+  // On localhost: always go straight to the network — no caching, no stale content.
+  if (url.hostname === 'localhost' || url.hostname === '127.0.0.1') {
+    e.respondWith(fetch(e.request));
+    return;
+  }
 
   // GitHub API: never cache. Always network with offline fallback.
   if (url.hostname === 'api.github.com') {
