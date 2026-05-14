@@ -1011,8 +1011,9 @@ function computeTrendProjection(weights, phase) {
     const den = xs.reduce((s, v) => s + (v - meanX) ** 2, 0);
     if (den > 0) {
       const slope = num / den; // kg per day (negative = losing weight)
-      // Cap: don't project weight gain; don't project faster than 1.0 kg/week
-      actualRateKgPerDay = Math.min(0, Math.max(slope, -1.0 / 7));
+      // Cap: don't project weight gain; don't project faster than 0.7 kg/week.
+      // Conservative by design — the user should always beat the projection.
+      actualRateKgPerDay = Math.min(0, Math.max(slope, -0.7 / 7));
     }
   }
 
