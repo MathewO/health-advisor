@@ -2,7 +2,7 @@
 
 > **Purpose:** Recovery of key decisions and dates from planning chats if **chat history is unavailable**.  
 > **Not used by the PWA** — for humans and AI sessions only.  
-> **Last updated:** 2026-05-12
+> **Last updated:** 2026-05-14
 
 ---
 
@@ -91,6 +91,56 @@ From `data/export.xml` (analysed Apr 2026) vs `profile/historical-weights.csv`:
 **Steps insurance policy (Layer 2 stall lever):** Current avg steps: 8,073/day. If rate slows in the next 2 weeks, the first lever is **bumping steps to 10,000/day** before cutting calories further. This maintains calorie burn without spiking hunger or triggering deeper metabolic adaptation.
 
 **Diet break protocol (Phase 2 / Layer 3 tool):** When deep in Layer 3 (~15–20% BF), if cortisol-driven water retention and severe hunger appear, a 5–14 day break at +500 kcal (mainly carbs) brings cortisol down and resets hunger. Not the same as the maintenance month — this is a short tactical tool for mid-phase if needed in Phase 2.
+
+---
+
+## Session notes — 14 May 2026
+
+### Planned social drinking night — Saturday 30 May
+- Drinks with friends planned. Strategy agreed for minimising cut damage:
+  1. Eat a high-protein meal (40g+ protein) before going out
+  2. Choose spirits + slimline mixer first; Guinness if wanting a pint
+  3. Front-load deficit Mon–Fri 25–29 May (clean eating + runs/stairs)
+  4. Sunday 31 May: return to plan immediately, no compensation restriction
+  5. Expect scale 0.5–1.0 kg higher Sun/Mon — not fat, resolves in 48 hrs
+
+### Alcohol and water retention — mechanism (14 May 2026)
+- Spirits cause less water retention than beer primarily because of **carb content**, not because alcohol is processed differently
+- Beer = ADH rebound *plus* glycogen-water loading (10–20g carbs/pint × ~3g water per g glycogen)
+- Spirits + slimline mixer = ADH rebound only (0g carbs)
+- Guinness is the lowest-carb pint option (~10g/pint); dry white wine is similarly efficient (~1–2g carbs/125ml)
+- ADH suppression (dehydration → rebound water retention) is driven by alcohol quantity and affects all drinks equally
+
+### Drinks ranked by glycogen storage impact (lowest → highest carbs)
+
+**Tier 1 — ~0g carbs (no glycogen effect)**
+- Spirit neat (gin, vodka, whisky, rum, tequila)
+- Spirit + soda water
+- Spirit + slimline/diet tonic (~65 kcal)
+
+**Tier 2 — ~1–4g carbs per drink**
+- Brut Nature / Extra Brut champagne or prosecco
+- Dry white wine (Sauvignon Blanc, Pinot Grigio, Chablis) — ~120 kcal/175ml
+- Dry red wine — ~160 kcal/175ml
+- Dry rosé
+
+**Tier 3 — ~8–15g carbs per drink**
+- G&T with regular tonic (~120 kcal)
+- Guinness — ~10g/pint (~155–210 kcal depending on size)
+- Standard lager (Heineken, Peroni) — ~10–12g/pint
+- Negroni — ~12–15g (~185 kcal)
+
+**Tier 4 — ~12–25g carbs per drink**
+- Aperol Spritz — ~15–20g
+- Pale ale — ~12–16g/pint
+- IPA — ~15–20g/pint (~270 kcal/pint)
+- Mojito — ~25–30g
+
+**Tier 5 — avoid on a cut (~20–50g+ per drink)**
+- DIPA / strong ales — ~20–30g/pint
+- Cider — ~20–25g/pint
+- Alcopops (WKD, Smirnoff Ice) — ~30–40g/bottle
+- Piña colada, Long Island Iced Tea — ~35–50g
 
 ---
 
