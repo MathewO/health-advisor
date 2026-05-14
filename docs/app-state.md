@@ -87,6 +87,7 @@ Then open `http://localhost:8765/docs/index.html` in the Cursor Simple Browser (
 | 14 May 2026 | Added 79 kg live target line to weight chart (green dashed) | `index.html` |
 | 14 May 2026 | Fixed Y-axis: `min: 80` → `suggestedMin: 78` so 79 kg line is visible | `index.html` |
 | 14 May 2026 | Removed `border-top` from `.predicted-deficit-row`; tightened spacing | `index.html` |
+| 14 May 2026 | Removed `border-top` above "Target this week" (weeklyDeficitCard separator) | `index.html` |
 | 14 May 2026 | Removed bottom border from "Carryover from last week" row | `index.html` |
 | 14 May 2026 | Auto-unregister SW on localhost (`__isLocalhost` block) | `index.html` |
 | 14 May 2026 | SW fetch handler: bypass all caching on localhost | `sw.js` |
