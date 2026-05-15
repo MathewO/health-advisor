@@ -195,3 +195,4 @@ All entries: `YYYY-MM-DD | type | value | [optional note]`
 2026-05-14 | cheat | Sausage Roll, ~250 kcal
 2026-05-14 | cheat | Extra Gousto Cals, ~45 kcal
 2026-05-15 | weight | 81.3
+2026-05-15 | waist | 102
