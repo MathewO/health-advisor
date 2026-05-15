@@ -194,3 +194,4 @@ All entries: `YYYY-MM-DD | type | value | [optional note]`
 2026-05-14 | cheat | Chilli + 50g Fage, ~377 kcal | replaces: Chicken Wrap (376 kcal)
 2026-05-14 | cheat | Sausage Roll, ~250 kcal
 2026-05-14 | cheat | Extra Gousto Cals, ~45 kcal
+2026-05-15 | weight | 81.3
