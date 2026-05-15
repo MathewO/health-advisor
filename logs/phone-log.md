@@ -198,3 +198,4 @@ All entries: `YYYY-MM-DD | type | value | [optional note]`
 2026-05-15 | waist | 102
 2026-05-15 | cheat | Cafe ZaZa, ~750 kcal | replaces: Gousto Meal (640 kcal)
 2026-05-15 | cheat | Protein Oats, ~236 kcal | replaces: Chicken Wrap (376 kcal)
+2026-05-15 | cheat | Skipped desert | replaces: Milk Chocolate (100 kcal)
