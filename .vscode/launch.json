@@ -1,0 +1,12 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "type": "editor-browser",
+      "request": "launch",
+      "name": "Preview: Health Advisor",
+      "url": "http://localhost:8765/docs/index.html",
+      "preLaunchTask": "Preview: static server (repo root, port 8765)"
+    }
+  ]
+}

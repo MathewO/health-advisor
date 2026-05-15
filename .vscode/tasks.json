@@ -1,0 +1,61 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "Preview: static server (repo root, port 8765)",
+      "type": "shell",
+      "command": "python3 -m http.server 8765",
+      "options": {
+        "cwd": "${workspaceFolder}",
+        "env": { "PYTHONUNBUFFERED": "1" }
+      },
+      "isBackground": true,
+      "problemMatcher": {
+        "owner": "health-advisor-preview",
+        "pattern": { "regexp": "^$" },
+        "background": {
+          "activeOnStart": true,
+          "beginsPattern": ".",
+          "endsPattern": "Serving HTTP on"
+        }
+      },
+      "presentation": {
+        "reveal": "silent",
+        "panel": "shared",
+        "focus": false
+      }
+    },
+    {
+      "label": "Open preview: Cursor Simple Browser",
+      "type": "shell",
+      "command": "echo ${input:openHealthAdvisorSimpleBrowser}",
+      "problemMatcher": [],
+      "presentation": {
+        "reveal": "silent",
+        "panel": "shared",
+        "focus": true
+      }
+    },
+    {
+      "label": "Preview: open in Cursor Simple Browser",
+      "dependsOrder": "sequence",
+      "dependsOn": [
+        "Preview: static server (repo root, port 8765)",
+        "Open preview: Cursor Simple Browser"
+      ],
+      "problemMatcher": [],
+      "group": {
+        "kind": "build",
+        "isDefault": true
+      }
+    }
+  ],
+  "inputs": [
+    {
+      "id": "openHealthAdvisorSimpleBrowser",
+      "type": "command",
+      "command": "workbench.action.browser.open",
+      "args": ["http://localhost:8765/docs/index.html"]
+    }
+  ]
+}
