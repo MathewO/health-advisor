@@ -1,7 +1,7 @@
 {
   "_note": "Live derived metrics — updated each agent session. This is the source of truth for data-derived estimates. Do not use dashboard.json for TDEE or rate-of-loss; use this file. When any value changes, update it here in the same session.",
 
-  "last_updated": "2026-05-12",
+  "last_updated": "2026-05-16",
 
   "tdee": {
     "estimate_kcal_per_day": 2075,
@@ -23,10 +23,10 @@
     "live_target_kg": 80.0,
     "live_target_note": "Revised 10 May 2026 — original 82 kg target hit 28 days early. 80 kg is the Phase 2 insurance target.",
     "live_target_date": "2026-06-06",
-    "latest_weight_kg": 81.6,
-    "latest_weight_date": "2026-05-12",
-    "seven_day_avg_weight_kg": 82.2,
-    "seven_day_avg_date": "2026-05-12",
+    "latest_weight_kg": 80.3,
+    "latest_weight_date": "2026-05-16",
+    "seven_day_avg_weight_kg": 81.3,
+    "seven_day_avg_date": "2026-05-16",
     "loss_rate_kg_per_week_gross": 0.83,
     "loss_rate_note": "Gross rate includes early water/glycogen flush. True fat loss rate estimated ~0.5 kg/wk after adjusting ~1.2 kg water from the first 2 weeks.",
     "waist_cm": 102,
