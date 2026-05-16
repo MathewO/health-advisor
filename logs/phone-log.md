@@ -205,3 +205,4 @@ All entries: `YYYY-MM-DD | type | value | [optional note]`
 2026-05-16 | cheat | Brunch, ~535 kcal | replaces: Weekend Brunch (648 kcal)
 2026-05-16 | drinks | 59 | AF Beer
 2026-05-16 | cheat | Meats & Cheeses, ~1238 kcal | replaces: Gousto Meal (640 kcal)
+2026-05-16 | drinks | 330 | Half Bottle of Wine
