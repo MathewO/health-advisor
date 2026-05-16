@@ -203,3 +203,4 @@ All entries: `YYYY-MM-DD | type | value | [optional note]`
 2026-05-15 | drinks | 190 | Pint of 4% Pale Ale
 2026-05-16 | cheat | Clear shake, ~88 kcal | replaces: Single Shake (116 kcal)
 2026-05-16 | cheat | Brunch, ~535 kcal | replaces: Weekend Brunch (648 kcal)
+2026-05-16 | drinks | 59 | AF Beer
