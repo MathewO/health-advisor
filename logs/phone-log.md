@@ -201,3 +201,4 @@ All entries: `YYYY-MM-DD | type | value | [optional note]`
 2026-05-15 | cheat | Skipped desert | replaces: Milk Chocolate (100 kcal)
 2026-05-16 | weight | 80.3
 2026-05-15 | drinks | 190 | Pint of 4% Pale Ale
+2026-05-16 | cheat | Clear shake, ~88 kcal | replaces: Single Shake (116 kcal)
