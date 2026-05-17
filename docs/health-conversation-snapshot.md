@@ -320,38 +320,39 @@ From `data/export.xml` (analysed Apr 2026) vs `profile/historical-weights.csv`:
 
 ---
 
-## Apple Health metrics (12 May 2026 export — current)
+## Apple Health metrics (17 May 2026 export — current)
 
 | Metric | 30-day avg | 90-day avg | Trend | Notes |
 |---|---|---|---|---|
-| Total sleep | 7.6 hrs | 7.3 hrs | Stable | ↑ +0.2 hrs vs May 5 export |
-| REM sleep | 2.3 hrs | 2.1 hrs | Stable | ↑ +0.2 hrs — good quality signal |
-| Core sleep | 4.3 hrs | 3.7 hrs | Stable | ↑ +0.3 hrs |
-| Deep sleep | 0.6 hrs | 0.5 hrs | Stable | AW known to undercount deep |
-| Respiratory rate | 16.2 br/min | 16.5 br/min | Stable | Normal (12–20) |
+| Total sleep | 7.6 hrs | 7.4 hrs | Stable | Unchanged from May 12 |
+| REM sleep | 2.3 hrs | 2.1 hrs | Stable | Unchanged |
+| Core sleep | 4.3 hrs | 3.9 hrs | Stable | Unchanged |
+| Deep sleep | 0.6 hrs | 0.6 hrs | Stable | AW known to undercount deep |
+| Respiratory rate | 16.0 br/min | 16.5 br/min | Stable | Normal (12–20) |
 | SpO2 | 96.8% | 96.7% | Stable | Normal; no apnea concern |
 | Wrist temp (sleep) | 36.0 °C | 36.1 °C | Stable | Normal |
-| Resting HR | 55.0 bpm | 59.8 bpm | ↓ **−4.8 bpm** | ↓ −1.3 bpm vs May 5 — continued improvement |
-| HRV (SDNN) | 54.5 ms | 51.6 ms | ↑ up 2.9 | ↑ +0.9 ms vs May 5 — continued improvement |
-| Steps/day | 8,073 | 6,708 | ↑ +1,365 | Sustained elevated activity |
-| Active kcal/day | 758 | 570 | ↑ +189 | ↑ +41 vs May 5 |
-| Exercise min/day | 57.9 | 31.5 | ↑ +26.4 | ↑ +8.1 min vs May 5 |
-| VO2 Max | **36.6** mL/kg/min | — | ↑ **+1.15 from May 5** | Now 36.6 (was 35.45). +3.71 since Apr export. Target: 40+ by Sep 2026. |
+| Resting HR | **54.4 bpm** | 59.8 bpm | ↓ **−5.4 bpm vs 90d** | ↓ −0.6 bpm vs May 12 — continued improvement |
+| HRV (SDNN) | 54.5 ms | 51.9 ms | ↑ up 2.6 | Holding — no regression |
+| Steps/day | **8,799** | 6,847 | ↑ +1,952 vs 90d | ↑ +726/day vs May 12 — approaching 9k |
+| Active kcal/day | **830.6** | 576.9 | ↑ +253.7 vs 90d | ↑ +72.6 vs May 12 |
+| Exercise min/day | **66.2** | 32.3 | ↑ +33.9 vs 90d | ↑ +8.3 min vs May 12 |
+| VO2 Max | **36.73** mL/kg/min | — | ↑ **+0.13 from May 12** | Now 36.73 (was 36.6). +3.84 since Apr export. Target: 40+ by Sep 2026. |
 
 > Source: `profile/health-metrics.md` (auto-generated from Apple Health export). Refresh this table when a new export is run.
 
-### VO2 Max — working figures (12 May 2026)
+### VO2 Max — working figures (17 May 2026)
 
 | Figure | Value | Notes |
 |---|---|---|
 | VO2 max at Apr export | 32.89 mL/kg/min | Baseline, ~85.8 kg |
 | VO2 max at May 5 export | 35.45 mL/kg/min | ~82–83 kg range |
-| VO2 max at May 12 export | **36.6 mL/kg/min** | 81.9 kg |
-| Total improvement since Apr | **+3.71 mL/kg/min** | |
+| VO2 max at May 12 export | 36.6 mL/kg/min | 81.9 kg |
+| VO2 max at May 17 export | **36.73 mL/kg/min** | ~80.7 kg |
+| Total improvement since Apr | **+3.84 mL/kg/min** | |
 | Absolute VO2 at baseline | **2,822 mL/min** | 85.8 kg × 32.89 — use this to project forward |
-| Passive uplift from weight loss (85.8 → 81.9 kg) | ~1.3 mL/kg/min | 3.9 kg × ~0.33 mL/kg/min per kg (estimate; range 0.25–0.40) |
-| Passive uplift as % of total gain | **~35%** | 1.3 ÷ 3.71 |
-| Fitness-driven gain (residual) | **~2.4 mL/kg/min** | Total − passive — genuine aerobic adaptation |
+| Passive uplift from weight loss (85.8 → 80.7 kg) | ~1.68 mL/kg/min | 5.1 kg × ~0.33 mL/kg/min per kg (estimate; range 0.25–0.40) |
+| Passive uplift as % of total gain | **~44%** | 1.68 ÷ 3.84 |
+| Fitness-driven gain (residual) | **~2.16 mL/kg/min** | Total − passive — genuine aerobic adaptation |
 | Projected VO2 max at 78 kg (passive only) | **~36.2 mL/kg/min** | 2,822 ÷ 78 — fitness gains add on top |
 | Projected VO2 max at 78 kg (passive + continued fitness) | **~39–41 mL/kg/min** | Assumes ~2–3 mL/kg/min further fitness gain by Sep 2026 |
 
