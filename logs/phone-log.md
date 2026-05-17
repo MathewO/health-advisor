@@ -213,3 +213,4 @@ All entries: `YYYY-MM-DD | type | value | [optional note]`
 2026-05-17 | cheat | Orange Juice, ~72 kcal | replaces: Single Shake (116 kcal)
 2026-05-17 | workout | Walking | 58 min | 275 kcal
 2026-05-17 | cheat | Pizza + Tiramisu, ~1300 kcal | replaces: Gousto Meal (640 kcal)
+2026-05-17 | cheat | Clear Shake, ~88 kcal | replaces: Milk Chocolate (100 kcal)
