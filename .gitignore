@@ -18,6 +18,7 @@ venv/
 # Apple Health raw export (large binary — re-export from iPhone as needed)
 data/export.zip
 data/export.xml
+data/apple_health_export/
 
 # Editor
 .cursor/
