@@ -94,7 +94,38 @@ From `data/export.xml` (analysed Apr 2026) vs `profile/historical-weights.csv`:
 
 ---
 
-## Session notes — 18 May 2026
+## 25 May 2026 — TDEE Back-Calculation Protocol (mandatory)
+
+> **For the agent running the 25 May check-in:** follow this exact methodology. Do not substitute the old water-correction or workout-subtraction approach.
+
+### Rationale (agreed 18 May 2026)
+- All logged workouts (runs, stairs, cycling, walks) are deliberate phase activity and net against cheats/drinks each week. Unlogged activity (gym sessions, dog walks, routine NEAT) is already baked into the baseline TDEE.
+- Tracked weekly deficits confirm workouts ≈ offset cheats/drinks: cumulative carryover across 5 weeks ≈ 0 kcal. This means net actual intake = meal plan base = 1,435 kcal/day.
+- Week 1 (Apr 13–19) is excluded to avoid the glycogen/water flush, which inflates apparent fat loss rate.
+
+### Input values
+| Input | Value | Source |
+|---|---|---|
+| Start weight | **84.1 kg** | Apr 20 morning (phone-log.md) |
+| End weight | **May 25 7-day average** | Compute from phone-log.md on the day |
+| Days | **35** | Apr 20 → May 25 |
+| Average intake | **1,435 kcal/day** | Derived: 3,500 kcal/wk tracked deficit ÷ 7 = 500/day → 1,935 − 500 = 1,435 |
+
+### Formula
+```
+actual_daily_deficit = (84.1 − may25_7d_avg) × 7,700 ÷ 35
+TDEE = actual_daily_deficit + 1,435
+```
+
+### What to do with the result
+- Update `logs/current-estimates.json`: `tdee.estimate_kcal_per_day`, `tdee.range`, `tdee.derivation`, remove `pending_validation` tag
+- Update `docs/health-conversation-snapshot.md` Estimated maintenance section
+- Cross-check: if TDEE > 2,050, revise Phase 2 maintenance planning calories upward accordingly
+- Note the result alongside today's TDEE calculation for comparison
+
+---
+
+
 
 ### Phase 2 revised projections
 - Phase 1 on track to end at **~78-79 kg** (vs original 82 kg target — significantly ahead)
