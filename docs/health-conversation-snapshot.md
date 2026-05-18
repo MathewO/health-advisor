@@ -94,6 +94,34 @@ From `data/export.xml` (analysed Apr 2026) vs `profile/historical-weights.csv`:
 
 ---
 
+## Session notes — 18 May 2026
+
+### Phase 2 revised projections
+- Phase 1 on track to end at **~78-79 kg** (vs original 82 kg target — significantly ahead)
+- Maintenance rebound will bring scale to **~80-81 kg** (glycogen + water, not fat)
+- **Phase 2 revised realistic range: 75-77 kg / 19-21% BF at Bali (12 Sep)**
+  - Conservative (0.5 kg/wk × 9.6 wks from 81 kg): ~76 kg / ~20% BF
+  - Optimistic (0.7 kg/wk × 9.6 wks from 81 kg): ~74 kg / ~18% BF
+  - Sweet spot target: **75-77 kg** — gets to Layer 2→3 boundary without grinding through stubborn-fat territory right before a holiday
+- Original Bali target of 77-78 kg is now comfortably beatable. Update Phase 2 planning accordingly when setting up the next phase.
+
+### Post-Bali lean bulk — intent recorded
+- Decided in principle: **lean bulk starting ~Oct 2026**
+- Parameters: ~250-400 kcal/day surplus above TDEE, 180-200g protein/day, increase training volume progressively
+- **Gating condition: July testosterone retest.** If T still low-normal (≤13 nmol/l) despite deficit resolved and infection cleared, address hormonal issue first before committing to a bulk. Mid-range T (15+ nmol/l) = green light.
+- DEXA on 6 Jun gives lean mass baseline for tracking actual muscle gain during the bulk.
+- Realistic gain rate at age 39, experienced trainee: ~0.25-0.5 kg lean mass per month in a dedicated lean bulk.
+
+### Blood pressure — first elevated settled reading (17 May 2026)
+- Readings: 136/79, 131/74, 133/72, 135/64
+- Settled estimate (readings 3-4): **~133-134 / 70-72 mmHg** (diastolic 64 on reading 4 likely cuff artefact)
+- **First time settled systolic has crossed 130** (previously ~128/71 on 5 May)
+- Likely contributors: big exercise day (92 min ride + 58 min walk), residual sodium from Saturday charcuterie, Saturday wine (half bottle)
+- Still below UK NICE home hypertension threshold (≥135/85). Monitoring rule: flag if settled readings exceed 130 systolic on **more than one occasion**. This is occasion #1.
+- Full readings logged in `profile/profile.md` (gitignored). **Recheck in 1-2 months.**
+
+---
+
 ## Session notes — 14 May 2026
 
 ### Planned social drinking night — Saturday 30 May
