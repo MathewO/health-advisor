@@ -92,7 +92,8 @@ Then open `http://localhost:8765/docs/index.html` in the Cursor Simple Browser (
 
 | Date | Change | File(s) |
 |------|--------|---------|
-| 18 May 2026 | **Cumulative carryover** — carryover now chains correctly across all weeks from phase start instead of only looking back 1 week. Fixes bug where a prior-week surplus was used to show last week as "green" but then discarded instead of propagating forward. | `index.html` |
+| 18 May 2026 | **Carryover reverted to simple 1-week lookback** — cumulative approach replaced with previous-week-only. Bad weeks reset at the boundary; weight data captures the real impact. | `index.html` |
+| 18 May 2026 | **Cumulative carryover** (short-lived) — reverted same day in favour of 1-week lookback. | `index.html` |
 | 14 May 2026 | **10-day sliding window linear regression** for trending projection — replaces fixed planned-deficit rate. Uses smoothed values, skips first 7 days, requires 5+ data points, capped at **0.7 kg/week** (deliberately conservative — user should always beat projection). Falls back to planned rate when insufficient data. | `index.html` |
 | 14 May 2026 | **Live target line** made dynamic — tracks `trend.projectedAtTarget` instead of hardcoded 79 kg. Matches "Trending to X kg" text. | `index.html` |
 | 14 May 2026 | Plan, Target, and Live Target lines all set to `borderWidth: 2` for consistency | `index.html` |
