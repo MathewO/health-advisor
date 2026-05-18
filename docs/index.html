@@ -1463,34 +1463,46 @@ function computeWeeklyDeficit(allEntries, phase) {
   weekStartDate.setDate(now.getDate() - daysFromMon);
   weekStartDate.setHours(0, 0, 0, 0);
 
-  // Previous Mon–Sun dates
+  // Previous Mon–Sun
   const prevWeekEndDate   = new Date(weekStartDate);
   prevWeekEndDate.setDate(prevWeekEndDate.getDate() - 1);
   const prevWeekStartDate = new Date(prevWeekEndDate);
   prevWeekStartDate.setDate(prevWeekStartDate.getDate() - 6);
 
+  // Week before previous (for 2-level carryover chaining)
+  const ppwEndDate   = new Date(prevWeekStartDate);
+  ppwEndDate.setDate(ppwEndDate.getDate() - 1);
+  const ppwStartDate = new Date(ppwEndDate);
+  ppwStartDate.setDate(ppwEndDate.getDate() - 6);
+
   const weekStartStr = localDateStr(weekStartDate);
   const weekEndStr   = localDateStr(now);
   const pwsStr       = localDateStr(prevWeekStartDate);
   const pweStr       = localDateStr(prevWeekEndDate);
+  const ppwsStr      = localDateStr(ppwStartDate);
+  const ppweStr      = localDateStr(ppwEndDate);
 
   // Days elapsed this week: day 1 = Monday
   const daysElapsed = Math.min(7, Math.floor((now - weekStartDate) / 86400000) + 1);
 
   const isOutlierType = e => ['run','stair','workout','drinks','beers','cheat'].includes(e.type);
 
-  const prevOutliers = allEntries.filter(e => e.date >= pwsStr && e.date <= pweStr && isOutlierType(e));
+  const ppwOutliers  = allEntries.filter(e => e.date >= ppwsStr && e.date <= ppweStr && isOutlierType(e));
+  const prevOutliers = allEntries.filter(e => e.date >= pwsStr  && e.date <= pweStr  && isOutlierType(e));
   const weekOutliers = allEntries.filter(e => e.date >= weekStartStr && e.date <= weekEndStr && isOutlierType(e))
                                  .sort((a, b) => a.date.localeCompare(b.date));
 
-  // Carryover: previous week's standalone result vs target (one-week lookback only).
-  // Deficits do NOT compound across weeks — a bad week resets at the boundary so it
-  // doesn't penalise future weeks (e.g. illness). Weight data captures the real impact.
+  // 2-level chained carryover: prev-prev week's result feeds into prev week's result,
+  // which feeds into this week's carryover. At most 2 weeks of history carries forward —
+  // a bad week is forgotten after 2 weeks so illness or mistakes don't haunt indefinitely.
   const phaseStartStr = phase.start_date || weekStartStr;
-  const prevWeekInPhase = pweStr >= phaseStartStr;
-  const prevWeekAdj = prevOutliers.reduce((s, e) => s + (e.outlierKcal || 0), 0);
-  const prevDeficit = fullWeekBase + prevWeekAdj;
-  const carryover   = prevWeekInPhase ? (prevDeficit - target) : 0;
+  const ppwInPhase   = ppweStr >= phaseStartStr;
+  const prevInPhase  = pweStr  >= phaseStartStr;
+  const ppwAdj       = ppwOutliers.reduce((s, e)  => s + (e.outlierKcal || 0), 0);
+  const ppwCarryover = ppwInPhase ? (fullWeekBase + ppwAdj - target) : 0;
+  const prevWeekAdj  = prevOutliers.reduce((s, e) => s + (e.outlierKcal || 0), 0);
+  const prevDeficit  = fullWeekBase + ppwCarryover + prevWeekAdj;
+  const carryover    = prevInPhase ? (prevDeficit - target) : 0;
 
   const thisWeekAdj = weekOutliers.reduce((s, e) => s + (e.outlierKcal || 0), 0);
   // Predicted = full week meal-plan base + carryover from last week + outliers logged so far
