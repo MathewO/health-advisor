@@ -56,6 +56,7 @@ From `data/export.xml` (analysed Apr 2026) vs `profile/historical-weights.csv`:
 - **Philosophy:** maintenance figure excludes cardio by design — runs show up as bonus deficit kcal in the app burndown.
 - **All `workout` entries:** all logged workout types (cycling, walking, MTB, etc.) are treated as **additive to deficit** (same as `run` and `stair`). Routine dog walks are NOT logged and are already baked into maintenance NEAT.
 - **E-bike correction (`cycling_kcal_factor`):** for `Cycling`, `Mountain Biking`, and `E-Bike` workout types, the app applies `cycling_kcal_factor` from `dashboard.json` (currently **0.65**) to the raw Apple Watch kcal before using it in deficit calculations and charts. The raw kcal is preserved in the log; the corrected value is shown in the app log view as ~~raw~~ → corrected. Chat calculations must apply the same factor.
+- **Indoor Cycling (spin class) — full kcal, no correction factor.** The 0.65 factor does NOT apply to `Indoor Cycling` entries. A spin class is pure human effort; the factor only exists to correct for e-bike motor assist.
 - **Cheat net-delta logic (mirrors app):** `outlierKcal = -(cheat_kcal - replaced_kcal)`. Parse `~NNN kcal` from the cheat description; parse replaced meal kcal from `replaces: X (NNN kcal)` if present (0 if absent). A cheat cheaper than its replaced meal adds to the deficit; a cheat with no replaces tag is fully additional calories.
 
 ---
