@@ -2841,17 +2841,17 @@ async function submitDrinksForm() {
 
 // ─── Manual Workout Form ──────────────────────────────────────
 const WORKOUT_TYPE_MAP = {
-  run:      { logType: 'run',    label: 'Running',        hasDist: true  },
-  runindoor:{ logType: 'run',    label: 'Indoor Run',     hasDist: true  },
-  stair:    { logType: 'stair',  label: 'Stair Climbing', hasDist: false },
-  walk:     { logType: 'workout',label: 'Walking',        hasDist: false },
-  cycling:  { logType: 'workout',label: 'Cycling',        hasDist: false },
-  mtb:      { logType: 'workout',label: 'Mountain Biking',hasDist: false },
-  ebike:    { logType: 'workout',label: 'E-Bike',         hasDist: false },
-  hiit:     { logType: 'workout',label: 'HIIT',           hasDist: false },
-  swim:     { logType: 'workout',label: 'Swimming',       hasDist: false },
-  row:      { logType: 'workout',label: 'Rowing',         hasDist: false },
-  other:    { logType: 'workout',label: null,             hasDist: false },
+  run:         { logType: 'run',    label: 'Running',         hasDist: true  },
+  runindoor:   { logType: 'run',    label: 'Indoor Run',      hasDist: true  },
+  stair:       { logType: 'stair',  label: 'Stair Climbing',  hasDist: false },
+  walk:        { logType: 'workout',label: 'Walking',         hasDist: false },
+  cycling:     { logType: 'workout',label: 'Cycling',         hasDist: false },
+  indoorcycle: { logType: 'workout',label: 'Indoor Cycling',  hasDist: false },
+  ebike:       { logType: 'workout',label: 'E-Bike',          hasDist: false },
+  hiit:        { logType: 'workout',label: 'HIIT',            hasDist: false },
+  swim:        { logType: 'workout',label: 'Swimming',        hasDist: false },
+  row:         { logType: 'workout',label: 'Rowing',          hasDist: false },
+  other:       { logType: 'workout',label: null,              hasDist: false },
 };
 
 function openWorkoutForm() {
