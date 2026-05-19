@@ -57,6 +57,7 @@ WORKOUT_TYPES = {
     "HKWorkoutActivityTypeStairClimbing":                "Stair Climbing",
     "HKWorkoutActivityTypeWalking":                      "Walk",
     "HKWorkoutActivityTypeCycling":                      "Cycling",
+    "HKWorkoutActivityTypeIndoorCycling":                "Indoor Cycling",
     "HKWorkoutActivityTypeHighIntensityIntervalTraining": "HIIT",
     "HKWorkoutActivityTypeFunctionalStrengthTraining":   "Strength",
 }
