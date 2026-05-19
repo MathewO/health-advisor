@@ -218,3 +218,4 @@ All entries: `YYYY-MM-DD | type | value | [optional note]`
 2026-05-18 | cheat | Salami, ~80 kcal
 2026-05-18 | cheat | Gousto, ~525 kcal | replaces: Gousto Meal (640 kcal)
 2026-05-19 | weight | 81.6
+2026-05-19 | workout | Walking | 11 min | 55 kcal
