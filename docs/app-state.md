@@ -92,6 +92,7 @@ Then open `http://localhost:8765/docs/index.html` in the Cursor Simple Browser (
 
 | Date | Change | File(s) |
 |------|--------|---------|
+| 19 May 2026 | **Manual Workout form** — "Extra Activity" button replaced with "Log Workout" (🏃). Dropdown of workout types (Running, Indoor Run, Stair Climbing, Walking, Cycling, Mountain Biking, E-Bike, HIIT, Swimming, Rowing, Other). Fields: duration, distance (running only), active calories, avg HR (optional), date. Writes correct log format: `run`, `stair`, or `workout` entries — all processed for deficit. Use this when the iOS Shortcut fails to auto-log. | `index.html`, `sw.js` |
 | 18 May 2026 | **2-level chained carryover** — prev-prev week's result feeds into prev week, which feeds into current week. Bad weeks forgotten after 2 weeks; surpluses and deficits both propagate for up to 2 weeks. | `index.html` |
 | 18 May 2026 | **Cumulative carryover** (short-lived) — reverted same day in favour of 1-week lookback. | `index.html` |
 | 14 May 2026 | **10-day sliding window linear regression** for trending projection — replaces fixed planned-deficit rate. Uses smoothed values, skips first 7 days, requires 5+ data points, capped at **0.7 kg/week** (deliberately conservative — user should always beat projection). Falls back to planned rate when insufficient data. | `index.html` |

@@ -472,9 +472,9 @@
           <div class="log-icon">🍺</div>
           <div class="log-label">Drinks</div>
         </button>
-        <button class="log-card" onclick="openForm('activity')">
-          <div class="log-icon">🏌️</div>
-          <div class="log-label">Extra Activity</div>
+        <button class="log-card" onclick="openWorkoutForm()">
+          <div class="log-icon">🏃</div>
+          <div class="log-label">Log Workout</div>
         </button>
         <button class="log-card" onclick="openForm('waist')">
           <div class="log-icon">📏</div>
@@ -2827,6 +2827,131 @@ async function submitDrinksForm() {
     await ghAppend(LOG_PATH, line);
     if (logText !== null) logText += '\n' + line;
 
+    status.className = 'status-msg success';
+    status.textContent = '✓ Saved successfully';
+    btn.textContent = 'Saved ✓';
+    setTimeout(closeForm, 1200);
+  } catch(e) {
+    status.className = 'status-msg error';
+    status.textContent = '✗ ' + e.message;
+    btn.disabled = false;
+    btn.textContent = 'Save Entry';
+  }
+}
+
+// ─── Manual Workout Form ──────────────────────────────────────
+const WORKOUT_TYPE_MAP = {
+  run:      { logType: 'run',    label: 'Running',        hasDist: true  },
+  runindoor:{ logType: 'run',    label: 'Indoor Run',     hasDist: true  },
+  stair:    { logType: 'stair',  label: 'Stair Climbing', hasDist: false },
+  walk:     { logType: 'workout',label: 'Walking',        hasDist: false },
+  cycling:  { logType: 'workout',label: 'Cycling',        hasDist: false },
+  mtb:      { logType: 'workout',label: 'Mountain Biking',hasDist: false },
+  ebike:    { logType: 'workout',label: 'E-Bike',         hasDist: false },
+  hiit:     { logType: 'workout',label: 'HIIT',           hasDist: false },
+  swim:     { logType: 'workout',label: 'Swimming',       hasDist: false },
+  row:      { logType: 'workout',label: 'Rowing',         hasDist: false },
+  other:    { logType: 'workout',label: null,             hasDist: false },
+};
+
+function openWorkoutForm() {
+  currentFormType = '__workout__';
+  document.getElementById('formTitle').textContent = '🏃 Log Workout';
+
+  const optionsHtml = Object.entries(WORKOUT_TYPE_MAP).map(([k, v]) =>
+    `<option value="${k}">${v.label || 'Other (custom)'}</option>`
+  ).join('');
+
+  const html = `
+    <div class="field">
+      <label>Workout type</label>
+      <select id="ff_wType" onchange="onWorkoutTypeChange()">${optionsHtml}</select>
+    </div>
+    <div class="field" id="wCustomField" style="display:none">
+      <label>Workout name</label>
+      <input id="ff_wCustomName" type="text" placeholder="e.g. Yoga, CrossFit" />
+    </div>
+    <div class="field" id="wDistField">
+      <label>Distance (km) <span class="optional-label">optional</span></label>
+      <input id="ff_wDist" type="number" placeholder="e.g. 2.32" step="0.01" inputmode="decimal" />
+    </div>
+    <div class="field">
+      <label>Duration (minutes)</label>
+      <input id="ff_wDur" type="number" placeholder="e.g. 20" min="1" inputmode="numeric" />
+    </div>
+    <div class="field">
+      <label>Active Calories (kcal)</label>
+      <input id="ff_wKcal" type="number" placeholder="e.g. 201" min="1" inputmode="numeric" />
+    </div>
+    <div class="field">
+      <label>Avg Heart Rate (bpm) <span class="optional-label">optional</span></label>
+      <input id="ff_wBpm" type="number" placeholder="e.g. 153" min="50" inputmode="numeric" />
+    </div>
+    <div class="field">
+      <label>Date</label>
+      <input id="ff_wDate" type="date" value="${todayStr()}" />
+    </div>
+    <button class="save-btn" id="saveBtn" onclick="submitWorkoutForm()">Save Entry</button>
+    <div class="status-msg" id="formStatus"></div>`;
+
+  document.getElementById('formBody').innerHTML = html;
+  showScreen('screen-form');
+  setTimeout(() => {
+    const first = document.querySelector('#formBody input:not([type=date])');
+    if (first) first.focus();
+  }, 100);
+}
+
+function onWorkoutTypeChange() {
+  const key  = document.getElementById('ff_wType').value;
+  const cfg  = WORKOUT_TYPE_MAP[key] || {};
+  document.getElementById('wDistField').style.display   = cfg.hasDist  ? '' : 'none';
+  document.getElementById('wCustomField').style.display = (key === 'other') ? '' : 'none';
+}
+
+async function submitWorkoutForm() {
+  const btn    = document.getElementById('saveBtn');
+  const status = document.getElementById('formStatus');
+
+  const key   = document.getElementById('ff_wType').value;
+  const cfg   = WORKOUT_TYPE_MAP[key] || {};
+  const dur   = parseInt(document.getElementById('ff_wDur').value)  || 0;
+  const kcal  = parseInt(document.getElementById('ff_wKcal').value) || 0;
+  const bpm   = parseInt(document.getElementById('ff_wBpm').value)  || 0;
+  const dist  = cfg.hasDist ? (parseFloat(document.getElementById('ff_wDist').value) || 0) : 0;
+  const date  = document.getElementById('ff_wDate').value || todayStr();
+
+  if (!dur)  { status.className = 'status-msg error'; status.textContent = '✗ Enter duration in minutes'; return; }
+  if (!kcal) { status.className = 'status-msg error'; status.textContent = '✗ Enter active calories'; return; }
+  if (key === 'other' && !(document.getElementById('ff_wCustomName').value || '').trim()) {
+    status.className = 'status-msg error'; status.textContent = '✗ Enter a workout name'; return;
+  }
+
+  let line;
+  const bpmPart = bpm ? ` | ${bpm} bpm` : '';
+
+  if (cfg.logType === 'run') {
+    const distStr = dist > 0 ? dist.toFixed(2) : '';
+    line = `${date} | run | ${dur} min | ${distStr} km | ${kcal} kcal${bpmPart}`;
+  } else if (cfg.logType === 'stair') {
+    line = `${date} | stair | ${dur} min | ${kcal} kcal${bpmPart}`;
+  } else {
+    const workoutName = key === 'other'
+      ? (document.getElementById('ff_wCustomName').value || '').trim()
+      : cfg.label;
+    line = `${date} | workout | ${workoutName} | ${dur} min | ${kcal} kcal`;
+  }
+
+  btn.disabled = true;
+  btn.textContent = 'Saving…';
+  status.className = 'status-msg';
+  status.textContent = '';
+
+  try {
+    const { user, repo, token } = ghConfig();
+    if (!user || !token) throw new Error('GitHub not configured — go to Settings first');
+    await ghAppend(LOG_PATH, line);
+    if (logText !== null) logText += '\n' + line;
     status.className = 'status-msg success';
     status.textContent = '✓ Saved successfully';
     btn.textContent = 'Saved ✓';
