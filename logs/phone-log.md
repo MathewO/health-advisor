@@ -226,3 +226,4 @@ All entries: `YYYY-MM-DD | type | value | [optional note]`
 2026-05-20 | workout | Walking | 12 min | 59 kcal
 2026-05-20 | workout | Walking | 12 min | 65 kcal
 2026-05-20 | cheat | Wrap, extra chicken, ~425 kcal | replaces: Chicken Wrap (376 kcal)
+2026-05-20 | cheat | Gousto, ~592 kcal | replaces: Gousto Meal (640 kcal)
