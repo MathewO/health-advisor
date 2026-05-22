@@ -348,6 +348,7 @@ TDEE = actual_daily_deficit + 1,435
 | 9 May 2026 | Deadlift retest | **140 kg — clean pull, felt good** | ✅ Scenario A confirmed — May 6 failure was MTB fatigue, not strength decline. No calorie adjustment needed. |
 | 9 May 2026 | DB Chest Press | **35 kg × 5–6 reps — near all-time best** | ✅ Upper body strength at personal best levels during a deficit — strong muscle retention signal |
 | 13 May 2026 | Squat 1RM | **100 kg with knee sleeves (first time using them)** | ✅ Matched pre-phase max — knee sleeves felt good; will use going forward |
+| 21 May 2026 | Squat 1RM | **100 kg** | ✅ Third consecutive match of pre-phase max — strength fully preserved at 80.7 kg / week 5 of cut |
 
 **Decision rule:** ~~Planned retest to confirm~~ **Resolved 9 May — Scenario A confirmed across all movements. No calorie adjustment needed.**
 
