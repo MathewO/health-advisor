@@ -234,3 +234,4 @@ All entries: `YYYY-MM-DD | type | value | [optional note]`
 2026-05-21 | workout | Indoor Cycling | 43 min | 340 kcal
 2026-05-21 | cheat | Zaap Thai, ~1200 kcal | replaces: Gousto Meal (640 kcal)
 2026-05-21 | cheat | Skipped pudding | replaces: Milk Chocolate (100 kcal)
+2026-05-22 | weight | 80.7
