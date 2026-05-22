@@ -237,3 +237,4 @@ All entries: `YYYY-MM-DD | type | value | [optional note]`
 2026-05-22 | weight | 80.4
 2026-05-22 | waist | 101
 2026-05-22 | cheat | Wrap, extra chicken, ~450 kcal | replaces: Chicken Wrap (376 kcal)
+2026-05-22 | cheat | Caesar Salad, ~497 kcal | replaces: Gousto Meal (640 kcal)
