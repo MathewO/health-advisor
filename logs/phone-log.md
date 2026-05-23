@@ -241,3 +241,4 @@ All entries: `YYYY-MM-DD | type | value | [optional note]`
 2026-05-23 | cheat | Banana, ~100 kcal | replaces: Single Shake (116 kcal)
 2026-05-23 | weight | 80.8
 2026-05-23 | workout | Walking | 14 min | 59 kcal
+2026-05-23 | workout | Walking | 9 min | 40 kcal
