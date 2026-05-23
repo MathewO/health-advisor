@@ -245,3 +245,4 @@ All entries: `YYYY-MM-DD | type | value | [optional note]`
 2026-05-23 | cheat | Clear shake, ~70 kcal
 2026-05-23 | cheat | Brunch, ~618 kcal | replaces: Weekend Brunch (648 kcal)
 2026-05-23 | drinks | 158 | 330ml Hazy Jane
+2026-05-23 | cheat | BBQ, ~856 kcal | replaces: Gousto Meal (640 kcal)
