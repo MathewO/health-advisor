@@ -240,3 +240,4 @@ All entries: `YYYY-MM-DD | type | value | [optional note]`
 2026-05-22 | cheat | Caesar Salad, ~497 kcal | replaces: Gousto Meal (640 kcal)
 2026-05-23 | cheat | Banana, ~100 kcal | replaces: Single Shake (116 kcal)
 2026-05-23 | weight | 80.8
+2026-05-23 | workout | Walking | 14 min | 59 kcal
