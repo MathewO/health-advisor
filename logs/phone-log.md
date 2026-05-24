@@ -247,3 +247,4 @@ All entries: `YYYY-MM-DD | type | value | [optional note]`
 2026-05-23 | drinks | 158 | 330ml Hazy Jane
 2026-05-23 | cheat | BBQ, ~856 kcal | replaces: Gousto Meal (640 kcal)
 2026-05-23 | drinks | 56 | AF Beer
+2026-05-24 | weight | 80.5
