@@ -253,3 +253,4 @@ All entries: `YYYY-MM-DD | type | value | [optional note]`
 2026-05-24 | cheat | Brunch, ~600 kcal | replaces: Weekend Brunch (648 kcal)
 2026-05-24 | drinks | 158 | 330ml Hazy Jane
 2026-05-24 | cheat | Nespresso, ~30 kcal
+2026-05-24 | cheat | Oyster fest, ~461 kcal | replaces: Gousto Meal (640 kcal)
