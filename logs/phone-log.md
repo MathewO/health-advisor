@@ -251,3 +251,4 @@ All entries: `YYYY-MM-DD | type | value | [optional note]`
 2026-05-24 | workout | Cycling | 106 min | 1110 kcal
 2026-05-24 | cheat | Clear shake, ~88 kcal | replaces: Single Shake (116 kcal)
 2026-05-24 | cheat | Brunch, ~600 kcal | replaces: Weekend Brunch (648 kcal)
+2026-05-24 | drinks | 158 | 330ml Hazy Jane
