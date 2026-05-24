@@ -254,3 +254,4 @@ All entries: `YYYY-MM-DD | type | value | [optional note]`
 2026-05-24 | drinks | 158 | 330ml Hazy Jane
 2026-05-24 | cheat | Nespresso, ~30 kcal
 2026-05-24 | cheat | Oyster fest, ~461 kcal | replaces: Gousto Meal (640 kcal)
+2026-05-24 | drinks | 800 | Pint of 4% Pale Ale, Small fizz, Campari spritz, Damm lemon, Orange wine, Negroni
