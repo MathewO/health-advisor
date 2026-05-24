@@ -249,3 +249,4 @@ All entries: `YYYY-MM-DD | type | value | [optional note]`
 2026-05-23 | drinks | 56 | AF Beer
 2026-05-24 | weight | 80.5
 2026-05-24 | workout | Cycling | 106 min | 1110 kcal
+2026-05-24 | cheat | Clear shake, ~88 kcal | replaces: Single Shake (116 kcal)
