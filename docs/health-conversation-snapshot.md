@@ -163,6 +163,7 @@ TDEE = actual_daily_deficit + 1,435
 - Calculation: 84.1 kg (Apr 20) → 80.6 kg (7d avg May 25), 35 days → 770 kcal/day deficit + 1,435 avg intake = 2,205 kcal/day
 - **Phase 2 maintenance planning target revised from 2,100 → 2,200 kcal/day**
 - **Metabolic phenotype:** spendthrift supported. TDEE above formula baseline (1,850–2,000), rate sustained at 35 days with no crash, RHR/HRV improving throughout. Not confirmed without calorimetry but consistent across all signals.
+- **True average daily deficit: ~765 kcal/day (~5,350 kcal/week).** The app tracked against a 1,935 kcal/day maintenance baseline (the dashboard figure, used as a conservative anchor because the real TDEE wasn't known at phase start). The true TDEE turned out to be ~2,200 kcal/day — 265 kcal/day higher than assumed. This means the actual deficit was ~54% above the planned 500 kcal/day (3,500 kcal/week target). The app's burndown showed ~3,500 kcal/week achieved, which is correct relative to the 1,935 baseline, but the real-world deficit was materially larger. This explains the faster-than-projected rate of loss.
 - **Scale milestone:** 79.8 kg this morning — first reading below 80 kg. Live target of 80 kg is hit with 12 days remaining.
 - **7d avg: 80.6 kg.** Projected end-of-phase (Jun 6): ~79.4 kg 7d avg, scale potentially 78.5–79 kg.
 
