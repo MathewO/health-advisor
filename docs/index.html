@@ -1475,10 +1475,12 @@ function computeWeeklyDeficit(allEntries, phase) {
                                  .sort((a, b) => a.date.localeCompare(b.date));
 
   // Phase-cumulative carryover: sum (weekly_result − target) for every completed
-  // Mon–Sun week from phase start up to (but not including) the current week.
-  // Surpluses bank indefinitely — planned buffers are never silently forgotten.
+  // Mon–Sun week from carryover_start_date (or phase start) up to (but not including)
+  // the current week. Surpluses bank indefinitely — planned buffers never expire.
+  // Set phase.carryover_start_date in dashboard.json to exclude noisy early weeks.
   const phaseStartStr  = phase.start_date || weekStartStr;
-  const phaseStartDate = new Date(phaseStartStr + 'T00:00:00');
+  const carryoverStartStr = phase.carryover_start_date || phaseStartStr;
+  const phaseStartDate = new Date(carryoverStartStr + 'T00:00:00');
   const psDay          = phaseStartDate.getDay();
   const psOffset       = psDay === 0 ? 6 : psDay - 1;
   const firstWeekStart = new Date(phaseStartDate);
@@ -1492,7 +1494,7 @@ function computeWeeklyDeficit(allEntries, phase) {
     const wsStr = localDateStr(wCursor);
     const weStr = localDateStr(wEnd);
     if (wsStr >= weekStartStr) break;
-    if (weStr >= phaseStartStr) {
+    if (weStr >= carryoverStartStr) {
       const wOutliers = allEntries.filter(e => e.date >= wsStr && e.date <= weStr && isOutlierType(e));
       const wAdj = wOutliers.reduce((s, e) => s + (e.outlierKcal || 0), 0);
       cumulativeCarryover += (fullWeekBase + wAdj) - target;
