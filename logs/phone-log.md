@@ -257,3 +257,4 @@ All entries: `YYYY-MM-DD | type | value | [optional note]`
 2026-05-24 | drinks | 800 | Pint of 4% Pale Ale, Small fizz, Campari spritz, Damm lemon, Orange wine, Negroni
 2026-05-25 | weight | 79.8
 2026-05-25 | cheat | Double beef burger, ~650 kcal | replaces: Chicken Wrap (376 kcal)
+2026-05-25 | cheat | BBQ, ~985 kcal | replaces: Gousto Meal (640 kcal)
