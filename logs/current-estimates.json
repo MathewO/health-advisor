@@ -1,20 +1,23 @@
 {
   "_note": "Live derived metrics — updated each agent session. This is the source of truth for data-derived estimates. Do not use dashboard.json for TDEE or rate-of-loss; use this file. When any value changes, update it here in the same session.",
 
-  "last_updated": "2026-05-22",
+  "last_updated": "2026-05-25",
 
   "tdee": {
-    "estimate_kcal_per_day": 2075,
-    "range": "2050-2100",
-    "method": "back-calculated from Phase 1 weight loss (10 May 2026)",
-    "derivation": "~2.0 kg true fat loss (3.2 kg total minus ~1.2 kg water/glycogen) over 27 days = ~570 kcal/day deficit. Avg actual intake ~1500-1550 kcal/day → implied TDEE ~2070-2120.",
+    "estimate_kcal_per_day": 2200,
+    "range": "2175-2225",
+    "method": "back-calculated from Phase 1 weight loss — 6-week check-in (25 May 2026)",
+    "derivation": "84.1 kg (Apr 20 week-2 start) → 80.6 kg (7d avg May 25), 35 days. actual_daily_deficit = (84.1−80.6) × 7700 ÷ 35 = 770 kcal/day. TDEE = 770 + 1,435 avg intake = 2,205. Rounded to 2,200.",
+    "previous_estimate_kcal": 2075,
+    "previous_estimate_note": "10 May estimate (27 days, pending validation). Revised upward by ~125 kcal at 6-week check-in.",
     "algorithm_baseline_kcal": "1850-2000",
     "algorithm_note": "Mifflin-St Jeor / formula. Data-derived estimate supersedes this.",
     "dashboard_maintenance_kcal": 1935,
     "dashboard_note": "Left unchanged as conservative anchor; this file's estimate is used for planning.",
-    "pending_validation": "2026-05-25",
     "cardio_free": true,
-    "cardio_free_note": "Gym + dog walks only. Structured cardio (runs, rides, stairs) is logged separately and treated as additive to the weekly deficit."
+    "cardio_free_note": "Gym + dog walks only. Structured cardio (runs, rides, stairs) is logged separately and treated as additive to the weekly deficit.",
+    "phase2_maintenance_target_kcal": 2200,
+    "phase2_maintenance_note": "Revised from 2,100 to 2,200 following 6-week validation. Use 2,200 kcal/day base for Phase 2 maintenance month planning."
   },
 
   "phase": {
@@ -23,10 +26,10 @@
     "live_target_kg": 80.0,
     "live_target_note": "Revised 10 May 2026 — original 82 kg target hit 28 days early. 80 kg is the Phase 2 insurance target.",
     "live_target_date": "2026-06-06",
-    "latest_weight_kg": 80.4,
-    "latest_weight_date": "2026-05-22",
-    "seven_day_avg_weight_kg": 80.9,
-    "seven_day_avg_date": "2026-05-22",
+    "latest_weight_kg": 79.8,
+    "latest_weight_date": "2026-05-25",
+    "seven_day_avg_weight_kg": 80.6,
+    "seven_day_avg_date": "2026-05-25",
     "loss_rate_kg_per_week_gross": 0.83,
     "loss_rate_note": "Gross rate includes early water/glycogen flush. True fat loss rate estimated ~0.5 kg/wk after adjusting ~1.2 kg water from the first 2 weeks.",
     "waist_cm": 101,

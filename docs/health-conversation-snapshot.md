@@ -66,12 +66,12 @@ From `data/export.xml` (analysed Apr 2026) vs `profile/historical-weights.csv`:
 
 > **This section is the single source of truth for the TDEE estimate.** `experiments/experiments.md` references this; do not maintain a separate figure there. When revising the estimate, update this section first, then sync any references in other files.
 
-- **Data-derived estimate: ~2,050–2,075 kcal/day** (cardio-free — gym + dog walks only, no structured cardio).
-- **How derived (10 May 2026):** ~2.0 kg true fat loss (3.2 kg total minus ~1.2 kg estimated water/glycogen) over 27 days = ~570 kcal/day average deficit. Average actual intake estimated ~1,500–1,550 kcal/day → implied TDEE ~2,070–2,120. Mid-point rounded conservatively to ~2,050–2,075.
-- **Algorithm baseline was ~1,850–2,000** (Mifflin-St Jeor / formula-based). Phase 1 data suggests this was an underestimate.
+- **Data-derived estimate: ~2,200 kcal/day** (cardio-free — gym + dog walks only, no structured cardio). **Validated 25 May 2026.**
+- **How derived (25 May 2026 — 6-week check-in):** 84.1 kg (Apr 20, week-2 start) → 80.6 kg (7d avg May 25), 35 days. actual_daily_deficit = (84.1 − 80.6) × 7,700 ÷ 35 = **770 kcal/day**. TDEE = 770 + 1,435 avg intake = **2,205, rounded to 2,200**.
+- **Previous estimate (10 May): 2,050–2,075.** Revised upward ~125 kcal at 6-week check-in. The earlier estimate was based on 27 days of data; this 35-day figure is more reliable with water noise fully settled.
+- **Algorithm baseline was ~1,850–2,000** (Mifflin-St Jeor / formula-based). Phase 1 data confirms this was an underestimate.
 - `dashboard.json` `maintenance_kcal` left at **1,935** as a conservative anchor and to preserve the original phase record. The data-derived estimate here supersedes it for planning purposes.
-- **Pending final validation at the 25 May 6-week check-in** — more data points and settled water noise will sharpen this number.
-- **Maintenance planning post-Italy** (~7 Jun): target **~2,100 kcal/day** base (rounding up from 2,075 to give a clean working number); add workout kcal on top as logged.
+- **Maintenance planning post-Italy** (~7 Jun): target **~2,200 kcal/day** base (revised from 2,100 following 6-week validation); add workout kcal on top as logged.
 
 ---
 
@@ -152,6 +152,19 @@ TDEE = actual_daily_deficit + 1,435
 - Likely contributors: big exercise day (92 min ride + 58 min walk), residual sodium from Saturday charcuterie, Saturday wine (half bottle)
 - Still below UK NICE home hypertension threshold (≥135/85). Monitoring rule: flag if settled readings exceed 130 systolic on **more than one occasion**. This is occasion #1.
 - Full readings logged in `profile/profile.md` (gitignored). **Recheck in 1-2 months.**
+
+---
+
+## Session notes — 25 May 2026
+
+### 6-week TDEE check-in — validated
+
+- **TDEE revised to ~2,200 kcal/day** (up from 2,050–2,075 at 10 May estimate)
+- Calculation: 84.1 kg (Apr 20) → 80.6 kg (7d avg May 25), 35 days → 770 kcal/day deficit + 1,435 avg intake = 2,205 kcal/day
+- **Phase 2 maintenance planning target revised from 2,100 → 2,200 kcal/day**
+- **Metabolic phenotype:** spendthrift supported. TDEE above formula baseline (1,850–2,000), rate sustained at 35 days with no crash, RHR/HRV improving throughout. Not confirmed without calorimetry but consistent across all signals.
+- **Scale milestone:** 79.8 kg this morning — first reading below 80 kg. Live target of 80 kg is hit with 12 days remaining.
+- **7d avg: 80.6 kg.** Projected end-of-phase (Jun 6): ~79.4 kg 7d avg, scale potentially 78.5–79 kg.
 
 ---
 
