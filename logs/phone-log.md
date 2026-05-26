@@ -262,3 +262,4 @@ All entries: `YYYY-MM-DD | type | value | [optional note]`
 2026-05-26 | workout | Walking | 12 min | 56 kcal
 2026-05-26 | run | 20 min |  km | 195 kcal
 2026-05-26 | workout | Walking | 11 min | 88 kcal
+2026-05-26 | cheat | Barebell, ~190 kcal | replaces: Milk Chocolate (100 kcal)
