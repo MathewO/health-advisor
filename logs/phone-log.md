@@ -259,3 +259,4 @@ All entries: `YYYY-MM-DD | type | value | [optional note]`
 2026-05-25 | cheat | Double beef burger, ~650 kcal | replaces: Chicken Wrap (376 kcal)
 2026-05-25 | cheat | BBQ, ~985 kcal | replaces: Gousto Meal (640 kcal)
 2026-05-26 | weight | 80.3
+2026-05-26 | workout | Walking | 12 min | 56 kcal
