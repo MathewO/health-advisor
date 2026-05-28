@@ -267,3 +267,4 @@ All entries: `YYYY-MM-DD | type | value | [optional note]`
 2026-05-27 | workout | Walking | 13 min | 59 kcal
 2026-05-27 | workout | Walking | 17 min | 73 kcal
 2026-05-28 | weight | 79.8
+2026-05-28 | workout | Walking | 13 min | 58 kcal
