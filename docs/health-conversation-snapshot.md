@@ -2,7 +2,7 @@
 
 > **Purpose:** Recovery of key decisions and dates from planning chats if **chat history is unavailable**.  
 > **Not used by the PWA** — for humans and AI sessions only.  
-> **Last updated:** 2026-05-14
+> **Last updated:** 2026-05-28
 
 ---
 
@@ -17,10 +17,11 @@
 
 - **Phase 1 (active in JSON):** 13 Apr 2026 → **6 Jun 2026**, 85.8 → **82.0 kg** (dashboard `target_date` is 6 Jun).
 - **Italy on 7 Jun** is the **day after** that phase end — success = at or near **82 kg** on departure, not a separate app tile.
-- **Maintenance (planned):** ~7 Jun–5 Jul refeed at ~2,100 kcal (see updated estimate below); expect **~83.5–84 kg** on the scale when fully glycogen-loaded (not "fat regain").
-- **Phase 2 cut:** ~7 Jul–12 Sep toward Bali.
+- **Maintenance (planned):** ~7 Jun–5 Jul refeed at **~2,200 kcal** (revised from 2,100 following 6-week TDEE validation); expect **~80.5–81 kg** on the scale after Italy rebound (lower than earlier estimates — Italy is Jun 7–13, city walking with high steps, so glycogen rebound is ~0.5–1 kg rather than 1.5–2 kg from a sedentary refeed).
+- **Phase 2 cut:** ~7 Jul–12 Sep toward Bali. Expected Phase 2 start weight: **~80–80.5 kg**.
+- **Phase 2 gate check (late June / early July):** blood test (testosterone, LDL, HOMA-IR, fasting glucose) + DEXA scan — both to be done before Phase 2 start. If T ≤13 nmol/l, address hormones before committing to another 10-week cut.
 
-**Maintenance block — training (intent):** **Italy trip** (first ~week of the maintenance window) = deliberate **no resistance training** while away. **Following ~3 weeks** = **maintenance calories** in the same ~7 Jun–5 Jul refeed window as above; **resume lifting** and ease volume/intensity in the first sessions back after travel.
+**Maintenance block — training (intent):** **Italy trip** (Jun 7–13, confirmed city walking — deliberate **no resistance training** while away). **Following ~3 weeks** = **maintenance calories** at 2,200 kcal; **resume lifting** and ease volume/intensity in the first sessions back after travel.
 
 If `profile/profile.md` is missing or empty, this table is the backup for **Italy 7 Jun** and **Bali 12 Sep**.
 
@@ -77,7 +78,7 @@ From `data/export.xml` (analysed Apr 2026) vs `profile/historical-weights.csv`:
 
 ## Body fat % projections and phase structure (12 May 2026)
 
-> Source: Navy formula baseline + DEXA belly fat layer analysis (Ethier / Built With Science, 18k scans). See `research/metabolic/belly-fat-layers-dexa-2026.md`. **DEXA on 6 Jun will replace these estimates with actuals.**
+> Source: Navy formula baseline + DEXA belly fat layer analysis (Ethier / Built With Science, 18k scans). See `research/metabolic/belly-fat-layers-dexa-2026.md`. **DEXA planned for late June (post-Italy, before Phase 2) — will replace these estimates with actuals.**
 
 | Weight | Est. BF% | Layer | Notes |
 |---|---|---|---|
@@ -142,7 +143,7 @@ TDEE = actual_daily_deficit + 1,435
 - Decided in principle: **lean bulk starting ~Oct 2026**
 - Parameters: ~250-400 kcal/day surplus above TDEE, 180-200g protein/day, increase training volume progressively
 - **Gating condition: July testosterone retest.** If T still low-normal (≤13 nmol/l) despite deficit resolved and infection cleared, address hormonal issue first before committing to a bulk. Mid-range T (15+ nmol/l) = green light.
-- DEXA on 6 Jun gives lean mass baseline for tracking actual muscle gain during the bulk.
+- DEXA planned for late June (post-Italy, pre-Phase 2) gives lean mass baseline for tracking actual muscle gain during the bulk. Doing it post-refeed (glycogen fully restored) gives more accurate lean mass reading than post-cut depleted state.
 - Realistic gain rate at age 39, experienced trainee: ~0.25-0.5 kg lean mass per month in a dedicated lean bulk.
 
 ### Blood pressure — first elevated settled reading (17 May 2026)
@@ -374,7 +375,9 @@ TDEE = actual_daily_deficit + 1,435
 |------|---------|
 | **~8–9 May 2026** | **Weekly check.** Pull log, compute 7-day avg weight (2–8 May) vs prior week avg (~83.24 kg for 25 Apr–1 May). Apply scenario framework below. |
 | **~25 May 2026** | **6-week check-in.** (1) TDEE back-calculation: use total weight change + avg intake to tighten estimate. Decide if ~2,100 maintenance stands or needs updating. (2) **Metabolic phenotype assessment:** by 6 weeks, water weight is settled and rate-of-loss signal is clean. If 7-day avg is still dropping at ~0.4–0.7 kg/week on current intake, spendthrift phenotype is supported. If rate has slowed significantly (< 0.3 kg/week) without obvious dietary cause, thrifty adaptation may be occurring — consider increasing activity rather than cutting calories further. See `research/metabolic/thrifty-spendthrift-phenotype-2020.md`. |
-| **6 Jun 2026** | **Phase end.** DEXA scan (DexaStrong, Leeds — baseline post-cut). Start maintenance at ~2,100 kcal + cardio as additive. |
+| **6 Jun 2026** | **Phase end.** Start maintenance at ~2,200 kcal + cardio as additive. |
+| **7–13 Jun 2026** | **Italy.** City walking, no training. Refeed naturally — expect ~0.5–1 kg glycogen rebound (lower than sedentary refeed due to high steps). |
+| **Late Jun / early Jul** | **DEXA scan** (DexaStrong, Leeds) + **blood test** (testosterone, LDL, HOMA-IR, fasting glucose). Both to be done before Phase 2 start. DEXA post-Italy gives better lean mass reading with glycogen fully restored. |
 
 **Weekly check scenario framework (8–9 May and onward):**
 
