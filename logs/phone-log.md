@@ -275,3 +275,4 @@ All entries: `YYYY-MM-DD | type | value | [optional note]`
 2026-05-29 | weight | 79.8
 2026-05-29 | cheat | Salmon + Salad, ~875 kcal | replaces: Gousto Meal (640 kcal)
 2026-05-30 | weight | 79.8
+2026-05-30 | workout | Cycling | 114 min | 1155 kcal
