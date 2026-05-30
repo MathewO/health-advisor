@@ -284,3 +284,4 @@ All entries: `YYYY-MM-DD | type | value | [optional note]`
 2026-05-30 | drinks | 120 | Gin &amp; Tonic
 2026-05-30 | drinks | 282 | Shots x6
 2026-05-30 | cheat | Skipped shake | replaces: Single Shake (116 kcal)
+2026-05-30 | cheat | Ceaser salad, ~600 kcal | replaces: Gousto Meal (640 kcal)
