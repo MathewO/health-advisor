@@ -278,3 +278,4 @@ All entries: `YYYY-MM-DD | type | value | [optional note]`
 2026-05-30 | workout | Cycling | 114 min | 1155 kcal
 2026-05-30 | cheat | Coffee, ~50 kcal
 2026-05-30 | cheat | Brunch, ~608 kcal | replaces: Weekend Brunch (648 kcal)
+2026-05-30 | drinks | 160 | Hugo spritz
