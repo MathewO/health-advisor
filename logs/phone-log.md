@@ -281,3 +281,4 @@ All entries: `YYYY-MM-DD | type | value | [optional note]`
 2026-05-30 | drinks | 160 | Hugo spritz
 2026-05-30 | drinks | 190 | Pint of 4% Pale Ale
 2026-05-30 | drinks | 260 | Damm lemon x2
+2026-05-30 | drinks | 120 | Gin &amp; Tonic
