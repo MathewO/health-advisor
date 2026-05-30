@@ -283,3 +283,4 @@ All entries: `YYYY-MM-DD | type | value | [optional note]`
 2026-05-30 | drinks | 260 | Damm lemon x2
 2026-05-30 | drinks | 120 | Gin &amp; Tonic
 2026-05-30 | drinks | 282 | Shots x6
+2026-05-30 | cheat | Skipped shake | replaces: Single Shake (116 kcal)
