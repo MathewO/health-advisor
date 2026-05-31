@@ -146,13 +146,20 @@ TDEE = actual_daily_deficit + 1,435
 - DEXA planned for late June (post-Italy, pre-Phase 2) gives lean mass baseline for tracking actual muscle gain during the bulk. Doing it post-refeed (glycogen fully restored) gives more accurate lean mass reading than post-cut depleted state.
 - Realistic gain rate at age 39, experienced trainee: ~0.25-0.5 kg lean mass per month in a dedicated lean bulk.
 
-### Blood pressure — first elevated settled reading (17 May 2026)
-- Readings: 136/79, 131/74, 133/72, 135/64
-- Settled estimate (readings 3-4): **~133-134 / 70-72 mmHg** (diastolic 64 on reading 4 likely cuff artefact)
-- **First time settled systolic has crossed 130** (previously ~128/71 on 5 May)
-- Likely contributors: big exercise day (92 min ride + 58 min walk), residual sodium from Saturday charcuterie, Saturday wine (half bottle)
-- Still below UK NICE home hypertension threshold (≥135/85). Monitoring rule: flag if settled readings exceed 130 systolic on **more than one occasion**. This is occasion #1.
-- Full readings logged in `profile/profile.md` (gitignored). **Recheck in 1-2 months.**
+### Blood pressure — monitoring log
+
+| Date | Settled readings | Avg systolic | Context | vs NICE threshold |
+|------|-----------------|--------------|---------|-------------------|
+| 5 May 2026 | ~128/71 | 128 | Baseline check | ✅ Below 135 |
+| 17 May 2026 | 133/72, 135/64 | ~133–134 | Big ride day + charcuterie + wine | ⚠️ Above 130, below 135 — occasion #1 |
+| 31 May 2026 | 129/78, 131/69 | ~130 | Morning after social drinks (stopped 18:30), coffee before measuring | ⚠️ Above 130, below 135 — occasion #2 |
+
+- UK NICE home hypertension threshold: **≥135/85** sustained. Neither reading has crossed this.
+- **Pattern: settled systolic consistently 128–134** — Stage 1 territory (ACC/AHA) but below NICE threshold.
+- Likely contributors: prolonged calorie deficit elevating cortisol; job-related background stress; may also relate to CSC eye fluid finding (cortisol-linked).
+- **Related symptoms (29–31 May):** orthostatic dizziness on quick positional changes; fluid behind one eye (CSC diagnosed by optician, specialist appointment 2 Jun).
+- **Action:** mention full BP pattern + orthostatic dizziness to eye specialist (2 Jun). Full GP review post-maintenance when cortisol load has reduced. Recheck BP mid-June after Italy.
+- Full readings in `profile/profile.md` (gitignored).
 
 ---
 
