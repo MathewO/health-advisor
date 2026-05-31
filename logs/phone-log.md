@@ -289,3 +289,4 @@ All entries: `YYYY-MM-DD | type | value | [optional note]`
 2026-05-31 | weight | 79.5
 2026-05-31 | workout | Walking | 12 min | 56 kcal
 2026-05-31 | workout | Walking | 13 min | 72 kcal
+2026-05-31 | cheat | Brunch, ~621 kcal | replaces: Weekend Brunch (648 kcal)
