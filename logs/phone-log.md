@@ -287,3 +287,4 @@ All entries: `YYYY-MM-DD | type | value | [optional note]`
 2026-05-30 | cheat | Ceaser salad, ~600 kcal | replaces: Gousto Meal (640 kcal)
 2026-05-30 | cheat | Chicken, ~150 kcal | replaces: Milk Chocolate (100 kcal)
 2026-05-31 | weight | 79.5
+2026-05-31 | workout | Walking | 12 min | 56 kcal
