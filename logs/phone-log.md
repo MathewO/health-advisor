@@ -298,3 +298,4 @@ All entries: `YYYY-MM-DD | type | value | [optional note]`
 2026-06-01 | weight | 79.5
 2026-06-01 | workout | Walking | 40 min | 222 kcal
 2026-06-01 | workout | Walking | 51 min | 251 kcal
+2026-06-01 | cheat | Scotch Egg, ~350 kcal
