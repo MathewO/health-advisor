@@ -300,3 +300,4 @@ All entries: `YYYY-MM-DD | type | value | [optional note]`
 2026-06-01 | workout | Walking | 51 min | 251 kcal
 2026-06-01 | cheat | Scotch Egg, ~350 kcal
 2026-06-01 | cheat | Half scotch egg, ~175 kcal
+2026-06-01 | cheat | Pastel de nata, ~150 kcal
