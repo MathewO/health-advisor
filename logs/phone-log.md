@@ -296,3 +296,4 @@ All entries: `YYYY-MM-DD | type | value | [optional note]`
 2026-05-31 | cheat | Caesar Salad + focaccia, ~742 kcal | replaces: Gousto Meal (640 kcal)
 2026-05-31 | cheat | Digestive, ~80 kcal
 2026-06-01 | weight | 79.5
+2026-06-01 | workout | Walking | 40 min | 222 kcal
