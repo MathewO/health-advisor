@@ -158,7 +158,7 @@ TDEE = actual_daily_deficit + 1,435
 - **Pattern: settled systolic consistently 128–134** — Stage 1 territory (ACC/AHA) but below NICE threshold.
 - Likely contributors: prolonged calorie deficit elevating cortisol; job-related background stress; may also relate to CSC eye fluid finding (cortisol-linked).
 - **Related symptoms (29–31 May):** orthostatic dizziness on quick positional changes; fluid behind one eye (CSC diagnosed by optician, specialist appointment 2 Jun).
-- **Action:** mention full BP pattern + orthostatic dizziness to eye specialist (2 Jun). Full GP review post-maintenance when cortisol load has reduced. Recheck BP mid-June after Italy.
+- **Action:** eye specialist appointment **29 Jun 2026** (delayed from Jun 2). By then: 3 weeks into maintenance, post-Italy recovery, cortisol load reduced. Condition may have improved. Full GP review also warranted post-maintenance. Recheck BP mid-June after Italy.
 - Full readings in `profile/profile.md` (gitignored).
 
 ---
@@ -371,6 +371,7 @@ TDEE = actual_daily_deficit + 1,435
 | 9 May 2026 | DB Chest Press | **35 kg × 5–6 reps — near all-time best** | ✅ Upper body strength at personal best levels during a deficit — strong muscle retention signal |
 | 13 May 2026 | Squat 1RM | **100 kg with knee sleeves (first time using them)** | ✅ Matched pre-phase max — knee sleeves felt good; will use going forward |
 | 21 May 2026 | Squat 1RM | **100 kg** | ✅ Third consecutive match of pre-phase max — strength fully preserved at 80.7 kg / week 5 of cut |
+| 31 May 2026 | Deadlift | **140 kg** | ✅ Same load as May 9 retest, now at 79.5 kg — 6 kg lighter body weight. Strong muscle retention signal going into maintenance. |
 
 **Decision rule:** ~~Planned retest to confirm~~ **Resolved 9 May — Scenario A confirmed across all movements. No calorie adjustment needed.**
 
