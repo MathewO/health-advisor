@@ -301,5 +301,5 @@ All entries: `YYYY-MM-DD | type | value | [optional note]`
 2026-06-01 | cheat | Scotch Egg, ~350 kcal
 2026-06-01 | cheat | Half scotch egg, ~175 kcal
 2026-06-01 | cheat | Pastel de nata, ~150 kcal
-2026-06-02 | weight | 80.1
+2026-06-02 | weight | 79.5
 2026-06-02 | workout | Walking | 13 min | 60 kcal
