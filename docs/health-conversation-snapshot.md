@@ -372,6 +372,7 @@ TDEE = actual_daily_deficit + 1,435
 | 13 May 2026 | Squat 1RM | **100 kg with knee sleeves (first time using them)** | ✅ Matched pre-phase max — knee sleeves felt good; will use going forward |
 | 21 May 2026 | Squat 1RM | **100 kg** | ✅ Third consecutive match of pre-phase max — strength fully preserved at 80.7 kg / week 5 of cut |
 | 27 May 2026 | Squat 1RM | **100 kg** | ✅ Fourth consecutive match of pre-phase max — strength fully preserved at 79.9 kg |
+| 2 Jun 2026 | DB Chest Press | **35 kg × 7–8 reps** | ✅ New rep PB — beats May 9 (5–6 reps). Upper body strength improving during the cut at 79.5 kg. |
 | 31 May 2026 | Deadlift | **140 kg** | ✅ Same load as May 9 retest, now at 79.5 kg — 6 kg lighter body weight. Strong muscle retention signal going into maintenance. |
 
 **Decision rule:** ~~Planned retest to confirm~~ **Resolved 9 May — Scenario A confirmed across all movements. No calorie adjustment needed.**
