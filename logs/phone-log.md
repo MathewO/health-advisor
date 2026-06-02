@@ -304,3 +304,6 @@ All entries: `YYYY-MM-DD | type | value | [optional note]`
 2026-06-02 | weight | 79.5
 2026-06-02 | workout | Walking | 13 min | 60 kcal
 2026-06-02 | workout | Walking | 12 min | 83 kcal
+2 Jun 2026 at 08:58
+2 Jun 2026 at 08:40 | workout | Walking
+Running | 0 min | 0 kcal
