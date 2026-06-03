@@ -312,3 +312,4 @@ All entries: `YYYY-MM-DD | type | value | [optional note]`
 Walking | 0 min | 0 kcal
 2026-06-03 | workout | Walking | 13 min | 60 kcal
 2026-06-03 | workout | Walking | 13 min | 63 kcal
+2026-06-03 | cheat | Tea, ~40 kcal
