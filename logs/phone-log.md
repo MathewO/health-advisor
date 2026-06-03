@@ -307,3 +307,6 @@ All entries: `YYYY-MM-DD | type | value | [optional note]`
 2026-06-02 | run | 20 min | 2.33 km | 204 kcal | 154 bpm
 2026-06-02 | cheat | Gousto, ~700 kcal | replaces: Gousto Meal (640 kcal)
 2026-06-03 | weight | 79.4
+3 Jun 2026 at 07:49
+2 Jun 2026 at 08:58 | workout | Walking
+Walking | 0 min | 0 kcal
