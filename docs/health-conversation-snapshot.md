@@ -163,6 +163,48 @@ TDEE = actual_daily_deficit + 1,435
 
 ---
 
+## Session notes — 4 Jun 2026
+
+### Phase 1 end — final metrics
+
+- **Weight:** 79.0 kg this morning / 7d avg **79.4 kg** (29 May–4 Jun)
+- **Waist:** **99 cm** (navel, self-measured, fasted) — down from 108 cm baseline = **−9 cm**
+- **Total loss:** 6.8 kg from phase start (85.8 kg, Apr 13); 4.7 kg from week-2 start (84.1 kg, Apr 20)
+- **Phase 1 verdict:** target was 82 kg / ~102–104 cm waist — delivered 79.0 kg / 99 cm. 3 kg and 5 cm ahead of target. Full strength preserved (squat 100 kg ×4 consecutive matches, deadlift 140 kg, DB press 35 kg × 7–8 reps new PB).
+
+### Phase 1 end photos logged
+
+- New progress set created: `profile/body-comp/progress/2026-06-04_phase1-end-99cm/` (5 poses, all directly comparable to prior sets)
+- Catalogue updated in `profile/body-comp/README.md`
+
+### App recalibrated to data-derived TDEE
+
+Three fields updated in `logs/dashboard.json`:
+
+| Field | Old | New | Reason |
+|-------|-----|-----|--------|
+| `maintenance_kcal` | 1,935 | **2,200** | Data-derived TDEE validated at 6-week check-in (25 May) |
+| `weekly_deficit_target` | 3,500 | **5,300** | Aligns with meal plan base deficit vs 2,200 TDEE (5,302 kcal/wk) |
+| `carryover_start_date` | 2026-04-20 | **2026-04-13** | Full phase carryover from day 1; new carryover ≈ +385 kcal |
+
+- **Carryover sanity check:** +385 kcal vs +273 before the change — close enough for continuity, more accurate
+- **Deficit math cross-check:** app's 6-week cumulative (32,185 kcal) implies 4.2 kg fat + ~1.5 kg glycogen/water = 5.7 kg expected scale drop; actual was 6.0 kg. Gap of ~0.3 kg = within noise. Numbers align.
+- **Burndown Y-axis** extended from 5k max → **7k max** (same 160px chart height, scale compressed). `index.html`.
+
+### TDEE re-check with full 45-day dataset (4 Jun)
+
+- (84.1 − 79.4) × 7,700 ÷ 45 = 804 kcal/day deficit + 1,435 avg intake = **2,239 kcal/day**
+- vs May 25 estimate of 2,205 — nudge of +34 kcal. Within noise. **2,200 remains the planning anchor.**
+- Maintenance target for July: Mathew intends to aim for **~2,150 kcal/day** (slightly conservative, not recorded in dashboard — working number only).
+
+### VO2 max
+
+- Last reading: **37.74 mL/kg/min** (May 26 export, ~79.8 kg). Export 9 days old as of today.
+- **Action before Italy:** run fresh Apple Health export (goal: Jun 5–6) to capture phase-end reading at 79.0 kg.
+- Passive-only projection at 79.0 kg: 2,822 ÷ 79.0 = **35.7 mL/kg/min** — fitness-driven gain component is anything above that.
+
+---
+
 ## Session notes — 25 May 2026
 
 ### 6-week TDEE check-in — validated
