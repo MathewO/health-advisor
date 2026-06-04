@@ -451,23 +451,23 @@ Three fields updated in `logs/dashboard.json`:
 
 ---
 
-## Apple Health metrics (26 May 2026 export — current)
+## Apple Health metrics (4 Jun 2026 export — current)
 
 | Metric | 30-day avg | 90-day avg | Trend | Notes |
 |---|---|---|---|---|
-| Total sleep | 7.7 hrs | 7.4 hrs | Stable | ↑ +0.1 hrs vs May 17 |
-| REM sleep | 2.2 hrs | 2.1 hrs | Stable | Stable |
-| Core sleep | 4.3 hrs | 3.9 hrs | Stable | Unchanged |
+| Total sleep | 7.7 hrs | 7.4 hrs | Stable | Unchanged |
+| REM sleep | 2.3 hrs | 2.1 hrs | Stable | ↑ +0.1 vs May 26 |
+| Core sleep | 4.5 hrs | 4.0 hrs | Stable | ↑ +0.2 vs May 26 |
 | Deep sleep | 0.6 hrs | 0.6 hrs | Stable | AW known to undercount deep |
-| Respiratory rate | 16.1 br/min | 16.4 br/min | Stable | Normal (12–20) |
+| Respiratory rate | 15.9 br/min | 16.4 br/min | Stable | Normal (12–20) |
 | SpO2 | 96.8% | 96.7% | Stable | Normal; no apnea concern |
 | Wrist temp (sleep) | 35.9 °C | 36.1 °C | Stable | Normal |
-| Resting HR | **54.6 bpm** | 58.9 bpm | ↓ **−4.3 bpm vs 90d** | Holding low — essentially flat vs May 17 (54.4) |
-| HRV (SDNN) | **55.9 ms** | 52.4 ms | ↑ up 3.5 | ↑ +1.4 ms vs May 17 — continuing to improve |
-| Steps/day | **8,863** | 7,339 | ↑ +1,524 vs 90d | Holding ~8,800–8,900 range |
-| Active kcal/day | **846.8** | 613.7 | ↑ +233.1 vs 90d | ↑ +16.2 vs May 17 |
-| Exercise min/day | **68.9** | 37.5 | ↑ +31.4 vs 90d | ↑ +2.7 min vs May 17 |
-| VO2 Max | **37.74** mL/kg/min | — | ↑ **+1.01 from May 17** | +4.85 since Apr. Passive (weight) 51% / fitness 49%. Target: 40+ by Sep 2026. |
+| Resting HR | **53.8 bpm** | 58.0 bpm | ↓ **−4.2 bpm vs 90d** | ↓ −0.8 vs May 26 — continuing to fall |
+| HRV (SDNN) | **57.8 ms** | 52.6 ms | ↑ up 5.2 | ↑ +1.9 ms vs May 26 — phase-end best |
+| Steps/day | **9,365** | 7,446 | ↑ +1,919 vs 90d | ↑ +502 vs May 26 |
+| Active kcal/day | **845.8** | 652.2 | ↑ +193.6 vs 90d | Essentially flat vs May 26 |
+| Exercise min/day | **72.5** | 42.2 | ↑ +30.3 vs 90d | ↑ +3.6 min vs May 26 |
+| VO2 Max | **37.98** mL/kg/min | — | ↑ **+0.24 from May 26** | +5.09 since Apr. Passive (weight) 56% / fitness 44%. Target: 40+ by Sep 2026. |
 
 > Source: `profile/health-metrics.md` (auto-generated from Apple Health export). Refresh this table when a new export is run.
 
@@ -479,13 +479,14 @@ Three fields updated in `logs/dashboard.json`:
 | VO2 max at May 5 export | 35.45 mL/kg/min | ~82–83 kg range |
 | VO2 max at May 12 export | 36.6 mL/kg/min | 81.9 kg |
 | VO2 max at May 17 export | 36.73 mL/kg/min | ~80.7 kg |
-| VO2 max at May 26 export | **37.74 mL/kg/min** | ~79.8 kg |
-| Total improvement since Apr | **+4.85 mL/kg/min** | |
+| VO2 max at May 26 export | 37.74 mL/kg/min | ~79.8 kg |
+| VO2 max at Jun 4 export | **37.98 mL/kg/min** | 79.0 kg — **phase-end reading** |
+| Total improvement since Apr | **+5.09 mL/kg/min** | |
 | Absolute VO2 at baseline | **2,822 mL/min** | 85.8 kg × 32.89 — use this to project forward |
-| Passive uplift from weight loss (85.8 → 79.8 kg) | ~2.47 mL/kg/min | 2,822 ÷ 79.8 − 32.89 |
-| Passive uplift as % of total gain | **~51%** | 2.47 ÷ 4.85 |
-| Fitness-driven gain (residual) | **~2.38 mL/kg/min** | Total − passive — genuine aerobic adaptation (now nearly equal to passive) |
-| Projected VO2 max at 78 kg (passive only) | **~36.2 mL/kg/min** | 2,822 ÷ 78 — fitness gains add on top |
+| Passive uplift from weight loss (85.8 → 79.0 kg) | ~2.83 mL/kg/min | 2,822 ÷ 79.0 − 32.89 |
+| Passive uplift as % of total gain | **~56%** | 2.83 ÷ 5.09 |
+| Fitness-driven gain (residual) | **~2.26 mL/kg/min** | Total − passive — genuine aerobic adaptation |
+| Projected VO2 max at 78 kg (passive only) | **~36.2 mL/kg/min** | 2,822 ÷ 78 − 32.89 — fitness gains add on top |
 | Projected VO2 max at 78 kg (passive + continued fitness) | **~39–41 mL/kg/min** | Assumes ~2–3 mL/kg/min further fitness gain by Sep 2026 |
 
 **Rule for future VO2 max projections:** always split the gain into (a) passive weight-loss component (2,822 ÷ new_kg − current reading) and (b) fitness-driven component. Never attribute all improvement to one factor without showing the split.

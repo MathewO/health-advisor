@@ -39,22 +39,22 @@
   },
 
   "vo2_max": {
-    "latest_mL_kg_min": 37.74,
-    "previous_mL_kg_min": 36.73,
-    "previous_date": "2026-05-17",
-    "latest_date": "2026-05-26",
-    "delta": "+1.01",
-    "total_gain_from_april": "+4.85",
-    "passive_component_mL_kg_min": 2.47,
-    "fitness_component_mL_kg_min": 2.38,
-    "passive_pct": 51,
-    "fitness_pct": 49,
-    "note": "Apple Watch estimate. +4.85 total gain since Apr export. Passive (weight loss 85.8→79.8 kg) = 51%, fitness adaptation = 49% — split now nearly even. Target: 40+ by Sep 2026."
+    "latest_mL_kg_min": 37.98,
+    "previous_mL_kg_min": 37.74,
+    "previous_date": "2026-05-26",
+    "latest_date": "2026-06-04",
+    "delta": "+0.24",
+    "total_gain_from_april": "+5.09",
+    "passive_component_mL_kg_min": 2.83,
+    "fitness_component_mL_kg_min": 2.26,
+    "passive_pct": 56,
+    "fitness_pct": 44,
+    "note": "Apple Watch estimate. +5.09 total gain since Apr export (85.8→79.0 kg). Passive (2,822÷79.0−32.89=+2.83) = 56%, fitness = 44%. Phase-end reading. Target: 40+ by Sep 2026."
   },
 
   "health_metrics_export": {
-    "last_export_date": "2026-05-26",
+    "last_export_date": "2026-06-04",
     "stale_after_days": 14,
-    "next_reminder": "2026-06-09"
+    "next_reminder": "2026-06-18"
   }
 }
