@@ -18,10 +18,10 @@ Each row is a 30-day average at the time of the export. Use this to compare acro
 |---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
 | 2026-04-12 | Pre-phase / Randox baseline | 85.8 kg (13 Apr start) | 7.2 hrs | — | — | — | — | — | — | 59.6 bpm | 53.0 ms | 32.89 | 7,292 | 595 kcal |
 | 2026-05-05 | Phase 1 day 22 (82.9 kg 7d avg) | 83.5 kg (daily) | 7.4 hrs | 2.1 hrs | 4.0 hrs | 0.6 hrs | 16.4 br/min | 96.8% | 36.0 °C | 56.3 bpm | 53.6 ms | 35.45 | 8,138 | 717 kcal |
-
-| 2026-05-12 | _add context_ | _add weight_ | 7.6 hrs | 2.3 hrs | 4.3 hrs | 0.6 hrs | 16.2 br/min | 96.8% | 36.0 °C | 55.0 bpm | 54.5 ms | 36.6 | 8072.5 | 758.4 kcal |
-| 2026-05-17 | _add context_ | _add weight_ | 7.6 hrs | 2.3 hrs | 4.3 hrs | 0.6 hrs | 16.0 br/min | 96.8% | 36.0 °C | 54.4 bpm | 54.5 ms | 36.73 | 8799.3 | 830.6 kcal |
-| 2026-05-26 | _add context_ | _add weight_ | 7.7 hrs | 2.2 hrs | 4.3 hrs | 0.6 hrs | 16.1 br/min | 96.8% | 35.9 °C | 54.6 bpm | 55.9 ms | 37.74 | 8862.8 | 846.8 kcal |
+| 2026-05-12 | Phase 1 day 29 | 81.6 kg (daily) | 7.6 hrs | 2.3 hrs | 4.3 hrs | 0.6 hrs | 16.2 br/min | 96.8% | 36.0 °C | 55.0 bpm | 54.5 ms | 36.6 | 8072.5 | 758.4 kcal |
+| 2026-05-17 | Phase 1 day 34 | 80.7 kg (daily) | 7.6 hrs | 2.3 hrs | 4.3 hrs | 0.6 hrs | 16.0 br/min | 96.8% | 36.0 °C | 54.4 bpm | 54.5 ms | 36.73 | 8799.3 | 830.6 kcal |
+| 2026-05-26 | Phase 1 day 43 — 6-week TDEE validation | 79.8 kg (daily) | 7.7 hrs | 2.2 hrs | 4.3 hrs | 0.6 hrs | 16.1 br/min | 96.8% | 35.9 °C | 54.6 bpm | 55.9 ms | 37.74 | 8862.8 | 846.8 kcal |
+| 2026-06-04 | Phase 1 end (99 cm waist) | 79.0 kg (daily) | 7.7 hrs | 2.3 hrs | 4.5 hrs | 0.6 hrs | 15.9 br/min | 96.8% | 35.9 °C | 53.8 bpm | 57.8 ms | 37.98 | 9365.1 | 845.8 kcal |
 ---
 
 ## Notable Deltas (Apr 12 → May 5, 23 days)
