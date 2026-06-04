@@ -5,7 +5,7 @@
     "status": "active",
     "start_date": "2026-04-13",
     "target_date": "2026-06-06",
-    "carryover_start_date": "2026-04-20",
+    "carryover_start_date": "2026-04-13",
     "start_kg": 85.8,
     "target_kg": 82.0,
     "common_lunches": [
@@ -47,7 +47,7 @@
       }
     ],
     "meal_plan": {
-      "maintenance_kcal": 1935,
+      "maintenance_kcal": 2200,
       "protein_target": "130g+ per day",
       "totals": {
         "weekday_kcal": 1398,
@@ -98,7 +98,7 @@
           { "category": "Pudding",        "label": "Milk Chocolate",  "kcal": 100, "protein": 2  }
         ]
       },
-      "weekly_deficit_target": 3500,
+      "weekly_deficit_target": 5300,
       "cycling_kcal_factor": 0.65,
       "drink_kcal": {
         "Pint of Guinness":    210,
