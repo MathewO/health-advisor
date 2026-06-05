@@ -321,3 +321,4 @@ Walking | 0 min | 0 kcal
 2026-06-04 | waist | 99
 2026-06-04 | drinks | 300 | Half Dom P
 2026-06-04 | cheat | Urban pitta, ~750 kcal | replaces: Gousto Meal (640 kcal)
+2026-06-05 | weight | 78.7
