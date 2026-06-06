@@ -323,3 +323,4 @@ Walking | 0 min | 0 kcal
 2026-06-04 | cheat | Urban pitta, ~750 kcal | replaces: Gousto Meal (640 kcal)
 2026-06-05 | weight | 78.7
 2026-06-05 | cheat | Chicken wrap + chicken, ~800 kcal | replaces: Chicken Wrap (376 kcal)
+2026-06-06 | weight | 79.3
