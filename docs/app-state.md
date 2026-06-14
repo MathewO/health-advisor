@@ -125,6 +125,9 @@ Then open `http://localhost:8765/docs/index.html` in the Cursor Simple Browser (
 - `meal_plan.weekday.items[]` and `meal_plan.weekend.items[]` — base meal plan for deficit calculation
 - `meal_plan.common_cheats[]` — quick-select cheat options in log form
 
+**`previous_phases[]` — archiving convention (when closing a phase):**
+Each archived phase entry should include: `meal_plan` (full object from active phase), `supplements` (copy of top-level `dashData.supplements` at close time), `end_date`. These power the Previous Phases card's Meal Plan and Supplements tabs. Without them the tabs show "No data". Always copy both when archiving a phase.
+
 **`phone-log.md` entry types:**
 `weight`, `waist`, `cheat`, `drinks`, `beers` (legacy), `activity`, `run`, `stair`, `workout`
 

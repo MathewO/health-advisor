@@ -619,6 +619,7 @@ const DASH_PATH   = 'logs/dashboard.json';
 /** Log overlay filters: `null` = All; otherwise Set of category keys (OR). */
 let logViewFilterKeys = null;
 let prevPhaseFilters  = new Map(); // idx → Set | null (null = all)
+let prevMealTabs      = new Map(); // idx → 'weekday' | 'weekend' | 'supplements'
 
 const DEFAULT_DRINK_KCAL = {
   'Pint of Guinness':    210,
@@ -2185,6 +2186,12 @@ function loadPrevPhases() {
         <div class="chart-wrap" style="margin:6px 0 10px"><canvas id="prev-weight-chart-${idx}" height="120"></canvas></div>
         ${waistRow}
         ${statsRow}
+        <button class="collapsible-toggle" onclick="toggleCollapsible('meal-plan-${idx}', this)">
+          Meal Plan <span>▸</span>
+        </button>
+        <div class="collapsible-body" id="meal-plan-${idx}">
+          <div id="prev-meal-content-${idx}"></div>
+        </div>
         <button class="collapsible-toggle" onclick="toggleCollapsible('log-${idx}', this)">
           Log Entries (${phaseEntries.length}) <span>▸</span>
         </button>
@@ -2198,9 +2205,10 @@ function loadPrevPhases() {
   prevPhaseCharts.forEach(c => { try { c.destroy(); } catch(e) {} });
   prevPhaseCharts = [];
 
-  // Populate log content and weight charts for each phase
+  // Populate log content, meal plan, and weight charts for each phase
   [...phases].reverse().forEach((p, idx) => {
     renderPrevPhaseLogContent(idx);
+    renderPrevPhaseMealContent(p, idx);
     renderPrevPhaseWeightChart(p, idx);
   });
 }
@@ -2445,6 +2453,75 @@ function prevPhaseFilterClick(idx, key) {
   }
   prevPhaseFilters.set(idx, keys);
   renderPrevPhaseLogContent(idx);
+}
+
+function prevMealTabClick(idx, tab) {
+  prevMealTabs.set(idx, tab);
+  const phases = (dashData && dashData.previous_phases) ? [...dashData.previous_phases].reverse() : [];
+  renderPrevPhaseMealContent(phases[idx], idx);
+}
+
+function renderPrevPhaseMealContent(p, idx) {
+  const container = document.getElementById('prev-meal-content-' + idx);
+  if (!container || !p) return;
+
+  const tab = prevMealTabs.get(idx) || 'weekday';
+  const tabs = [
+    { key: 'weekday',     label: 'Weekday' },
+    { key: 'weekend',     label: 'Weekend' },
+    { key: 'supplements', label: 'Supplements' },
+  ];
+
+  const tabBarHtml = `<div class="log-view-filters-wrap" style="padding:8px 0 8px">
+    ${tabs.map(t => `<button type="button" class="log-filter-pill${tab === t.key ? ' active' : ''}" onclick="prevMealTabClick(${idx}, '${t.key}')">${t.label}</button>`).join('')}
+  </div>`;
+
+  let contentHtml = '';
+
+  if (tab === 'weekday' || tab === 'weekend') {
+    const mp = p.meal_plan;
+    if (!mp) { contentHtml = '<div style="font-size:13px;color:var(--muted);padding:4px 0">No meal plan data.</div>'; }
+    else {
+      const items = (tab === 'weekday' ? mp.weekday && mp.weekday.items : mp.weekend && mp.weekend.items) || [];
+      const totalKcal    = items.reduce((s, i) => s + (i.kcal || 0), 0);
+      const totalProtein = items.reduce((s, i) => s + (i.protein || 0), 0);
+      const rows = items.map(i => `
+        <div style="display:flex;justify-content:space-between;align-items:center;padding:5px 0;border-bottom:1px solid var(--border);font-size:13px">
+          <div>
+            <div style="font-weight:600">${escHtml(i.label)}</div>
+            <div style="font-size:11px;color:var(--muted)">${escHtml(i.category)}</div>
+          </div>
+          <div style="text-align:right;flex-shrink:0">
+            <span style="color:var(--green);font-weight:600">${i.kcal} kcal</span>
+            <span style="color:var(--muted);font-size:12px;margin-left:8px">${i.protein}g protein</span>
+          </div>
+        </div>`).join('');
+      const metaHtml = `
+        <div style="display:flex;justify-content:space-between;padding:6px 0;font-size:13px;font-weight:700;border-top:1px solid var(--border)">
+          <span>Total</span>
+          <span><span style="color:var(--green)">${totalKcal} kcal</span> <span style="color:var(--muted);font-size:12px">${totalProtein}g protein</span></span>
+        </div>
+        <div style="font-size:12px;color:var(--muted);padding:4px 0">
+          Maintenance: ${mp.maintenance_kcal ? mp.maintenance_kcal.toLocaleString() + ' kcal/day' : '—'} · Target deficit: ${mp.weekly_deficit_target ? mp.weekly_deficit_target.toLocaleString() + ' kcal/wk' : '—'} · Protein: ${mp.protein_target || '—'}
+        </div>`;
+      contentHtml = rows + metaHtml;
+    }
+  } else {
+    const supps = p.supplements || [];
+    if (!supps.length) { contentHtml = '<div style="font-size:13px;color:var(--muted);padding:4px 0">No supplements recorded for this phase.</div>'; }
+    else {
+      contentHtml = supps.map(s => `
+        <div style="padding:6px 0;border-bottom:1px solid var(--border)">
+          <div style="display:flex;justify-content:space-between;align-items:baseline">
+            <span style="font-size:13px;font-weight:600">${escHtml(s.name)}</span>
+            <span style="font-size:12px;color:var(--green)">${escHtml(s.dose)}</span>
+          </div>
+          <div style="font-size:12px;color:var(--muted)">${escHtml(s.timing)}</div>
+        </div>`).join('');
+    }
+  }
+
+  container.innerHTML = tabBarHtml + '<div style="padding:0 0 4px">' + contentHtml + '</div>';
 }
 
 function toggleCollapsible(id, btn) {

@@ -285,7 +285,14 @@
           "Glass of white wine": 120
         }
       },
-      "end_date": "2026-06-07"
+      "end_date": "2026-06-07",
+      "supplements": [
+        { "name": "Creatine Monohydrate", "dose": "3g", "timing": "Morning, in coffee", "reason": "Muscle strength, performance, recovery; emerging cognitive and longevity benefits", "evidence": "Strong" },
+        { "name": "Vitamin D3 + K2 (MK-7)", "dose": "4,000 IU + 100 mcg", "timing": "Morning, with food", "reason": "Confirmed insufficiency (43 nmol/l); insulin sensitivity, testosterone, immunity", "evidence": "Strong" },
+        { "name": "Magnesium Glycinate", "dose": "400 mg", "timing": "30–60 min before bed", "reason": "Sleep quality, muscle recovery, insulin sensitivity, stress resilience", "evidence": "Moderate-Strong" },
+        { "name": "Omega-3 (EPA+DHA)", "dose": "3g EPA+DHA", "timing": "With dinner", "reason": "Lipid profile (high LDL/ApoB, low HDL); anti-inflammatory; longevity", "evidence": "Strong" },
+        { "name": "Ashwagandha (KSM-66)", "dose": "600 mg", "timing": "Morning, with food", "reason": "Testosterone support (low-normal at 11 nmol/l); cortisol reduction during deficit", "evidence": "Moderate" }
+      ]
     }
   ],
   "recommendations": [
