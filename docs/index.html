@@ -2167,23 +2167,24 @@ function loadPrevPhases() {
          </div>`
       : '';
 
+    const avgDeficitPerDay = avgDeficitPerWeek ? Math.round(avgDeficitPerWeek / 7) : null;
     const statsRow = (weeks || avgLossPerWeek || avgDeficitPerWeek)
       ? `<div style="display:flex;gap:16px;margin-bottom:10px;flex-wrap:wrap">
            ${weeks ? `<div><div style="font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:0.5px">Duration</div><div style="font-size:14px;font-weight:600">${weeks} wks</div></div>` : ''}
            ${avgLossPerWeek ? `<div><div style="font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:0.5px">Avg loss/wk</div><div style="font-size:14px;font-weight:600">${avgLossPerWeek} kg</div></div>` : ''}
            ${avgDeficitPerWeek ? `<div><div style="font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:0.5px">Avg deficit/wk</div><div style="font-size:14px;font-weight:600">${avgDeficitPerWeek.toLocaleString()} kcal</div></div>` : ''}
+           ${avgDeficitPerDay ? `<div><div style="font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:0.5px">Avg deficit/day</div><div style="font-size:14px;font-weight:600">${avgDeficitPerDay.toLocaleString()} kcal</div></div>` : ''}
          </div>`
       : '';
 
     return `
       <div class="prev-phase-card">
-        <span class="badge badge-muted">Completed</span>
         <div class="prev-phase-name">${escHtml(p.name)}</div>
         <div class="prev-phase-meta">${formatDate(p.start_date)} → ${formatDate(phaseEnd)} · Goal: ${p.target_kg} kg</div>
         ${weightRow}
+        <div class="chart-wrap" style="margin:6px 0 10px"><canvas id="prev-weight-chart-${idx}" height="120"></canvas></div>
         ${waistRow}
         ${statsRow}
-        <div class="chart-wrap" style="margin-bottom:10px"><canvas id="prev-weight-chart-${idx}" height="120"></canvas></div>
         <button class="collapsible-toggle" onclick="toggleCollapsible('log-${idx}', this)">
           Log Entries (${phaseEntries.length}) <span>▸</span>
         </button>
