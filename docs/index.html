@@ -888,6 +888,7 @@ async function ghWriteLog(newText, message) {
 // ─── Global state ─────────────────────────────────────────────
 let weightChart   = null;
 let burndownChart = null;
+let prevPhaseCharts = []; // one Chart instance per previous phase index
 /** Outside-dismiss listener for #burndownTip (removed when tip closes or another opens). */
 let burndownTipOutsideHandler = null;
 let dashData    = null;
@@ -2182,6 +2183,7 @@ function loadPrevPhases() {
         ${weightRow}
         ${waistRow}
         ${statsRow}
+        <div class="chart-wrap" style="margin-bottom:10px"><canvas id="prev-weight-chart-${idx}" height="120"></canvas></div>
         <button class="collapsible-toggle" onclick="toggleCollapsible('log-${idx}', this)">
           Log Entries (${phaseEntries.length}) <span>▸</span>
         </button>
@@ -2191,8 +2193,147 @@ function loadPrevPhases() {
       </div>`;
   }).join('');
 
-  // Populate log content for each phase now that the DOM is built
-  [...phases].reverse().forEach((_, idx) => renderPrevPhaseLogContent(idx));
+  // Destroy old prev-phase charts before re-render
+  prevPhaseCharts.forEach(c => { try { c.destroy(); } catch(e) {} });
+  prevPhaseCharts = [];
+
+  // Populate log content and weight charts for each phase
+  [...phases].reverse().forEach((p, idx) => {
+    renderPrevPhaseLogContent(idx);
+    renderPrevPhaseWeightChart(p, idx);
+  });
+}
+
+function renderPrevPhaseWeightChart(p, idx) {
+  const canvas = document.getElementById('prev-weight-chart-' + idx);
+  if (!canvas) return;
+
+  const weights = logText ? parseWeightLog(logText, p) : [];
+  if (weights.length < 2) { canvas.style.display = 'none'; return; }
+
+  const startStr  = weights[0].date;
+  const startNum  = dateToNum(startStr);
+  const phaseEnd  = p.end_date || p.target_date;
+  const totalDays = dateToNum(phaseEnd) - startNum;
+
+  const dayToDate = offset => {
+    const d = new Date(startStr + 'T00:00:00');
+    d.setDate(d.getDate() + offset);
+    return localDateStr(d);
+  };
+
+  const trend = computeTrendProjection(weights, p);
+
+  const actualPoints = weights
+    .slice()
+    .sort((a, b) => a.date.localeCompare(b.date))
+    .map(pt => ({ x: dateToNum(pt.date) - startNum, y: pt.kg }));
+
+  const planPoints = [
+    { x: 0,         y: +p.start_kg.toFixed(2) },
+    { x: totalDays, y: +(p.start_kg - trend.plannedKgPerDay * totalDays).toFixed(2) },
+  ];
+
+  const targetPoints = [
+    { x: 0,         y: p.target_kg },
+    { x: totalDays, y: p.target_kg },
+  ];
+
+  const minY = Math.min(...actualPoints.map(pt => pt.y), p.target_kg) - 0.5;
+
+  const chart = new Chart(canvas.getContext('2d'), {
+    type: 'line',
+    data: {
+      datasets: [
+        {
+          label: 'Weight',
+          data: actualPoints,
+          showLine: false,
+          pointRadius: 1.5,
+          pointHoverRadius: 2.5,
+          pointBackgroundColor: 'rgba(161,161,170,1)',
+          pointBorderColor: 'rgba(161,161,170,1)',
+        },
+        {
+          label: 'Plan',
+          data: planPoints,
+          borderColor: 'rgba(100,116,139,0.5)',
+          borderWidth: 2,
+          borderDash: [3, 5],
+          pointRadius: 0,
+          tension: 0,
+          fill: false,
+        },
+        {
+          label: 'Trend',
+          data: trend.rollingAvg,
+          borderColor: 'rgba(74,222,128,0.8)',
+          borderWidth: 2.5,
+          pointRadius: 0,
+          tension: 0.3,
+          fill: false,
+        },
+        {
+          label: 'Target',
+          data: targetPoints,
+          borderColor: 'rgba(148,163,184,0.3)',
+          borderWidth: 2,
+          borderDash: [3, 3],
+          pointRadius: 0,
+          fill: false,
+        },
+      ],
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      animation: { duration: 400 },
+      plugins: {
+        legend: { display: false },
+        tooltip: {
+          callbacks: {
+            title: items => items.length ? dayToDate(Math.round(items[0].parsed.x)) : '',
+            label: ctx => ctx.dataset.label + ': ' + (ctx.parsed.y ? ctx.parsed.y.toFixed(1) + ' kg' : ''),
+          },
+        },
+      },
+      scales: {
+        x: {
+          type: 'linear',
+          min: 0,
+          max: totalDays,
+          afterBuildTicks: axis => {
+            const start = new Date(startStr + 'T00:00:00');
+            const dow = start.getDay();
+            let firstSun = (7 - dow) % 7;
+            if (firstSun === 0) firstSun = 7;
+            const ticks = [];
+            for (let d = firstSun; d <= totalDays; d += 7) ticks.push({ value: d });
+            axis.ticks = ticks;
+          },
+          ticks: {
+            color: '#64748b',
+            font: { size: 10 },
+            callback: v => dayToDate(Math.round(v)).slice(5),
+          },
+          grid: { color: 'rgba(255,255,255,0.05)' },
+        },
+        y: {
+          suggestedMin: minY,
+          suggestedMax: p.start_kg + 0.5,
+          grid: { color: 'rgba(255,255,255,0.05)' },
+          ticks: {
+            color: '#64748b',
+            font: { size: 10 },
+            stepSize: 1,
+            callback: v => Number.isInteger(v) ? v + ' kg' : null,
+          },
+        },
+      },
+    },
+  });
+
+  prevPhaseCharts[idx] = chart;
 }
 
 function renderPrevPhaseLogContent(idx) {
