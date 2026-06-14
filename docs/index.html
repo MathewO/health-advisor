@@ -2432,8 +2432,15 @@ function parseAllLogEntries(text) {
       // Apply e-bike correction factor to cycling workout types.
       // Raw Apple Watch kcal is preserved in entry.kcal; corrected value drives deficit calc.
       const eBikeTypes   = ['Cycling', 'Mountain Biking', 'E-Bike'];
-      const cyclingFactor = (dashData && dashData.phase && dashData.phase.meal_plan &&
-                             dashData.phase.meal_plan.cycling_kcal_factor) || null;
+      const _activeF = dashData && dashData.phase && dashData.phase.meal_plan &&
+                       dashData.phase.meal_plan.cycling_kcal_factor;
+      const _prevF = (() => {
+        const prevs = dashData && dashData.previous_phases;
+        if (!prevs) return null;
+        const match = prevs.find(p => entry.date >= p.start_date && entry.date <= (p.end_date || p.target_date));
+        return match && match.meal_plan && match.meal_plan.cycling_kcal_factor;
+      })();
+      const cyclingFactor = _activeF || _prevF || null;
       if (cyclingFactor && eBikeTypes.includes(entry.workoutType) && entry.kcal) {
         entry.kcalFactor    = cyclingFactor;
         entry.correctedKcal = Math.round(entry.kcal * cyclingFactor);
