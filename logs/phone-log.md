@@ -324,3 +324,4 @@ Walking | 0 min | 0 kcal
 2026-06-05 | weight | 78.7
 2026-06-05 | cheat | Chicken wrap + chicken, ~800 kcal | replaces: Chicken Wrap (376 kcal)
 2026-06-06 | weight | 79.3
+2026-06-14 | weight | 81.0
