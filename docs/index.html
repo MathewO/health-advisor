@@ -618,6 +618,7 @@ const DASH_PATH   = 'logs/dashboard.json';
 
 /** Log overlay filters: `null` = All; otherwise Set of category keys (OR). */
 let logViewFilterKeys = null;
+let prevPhaseFilters  = new Map(); // idx → Set | null (null = all)
 
 const DEFAULT_DRINK_KCAL = {
   'Pint of Guinness':    210,
@@ -2151,32 +2152,6 @@ function loadPrevPhases() {
       avgDeficitPerWeek = wkCount > 0 ? Math.round(totalDef / wkCount) : null;
     }
 
-    // Group entries by day (entries are already newest-date-first, newest-lineIndex-first)
-    const dayMap = new Map();
-    for (const e of phaseEntries) {
-      if (!dayMap.has(e.date)) dayMap.set(e.date, []);
-      dayMap.get(e.date).push(e);
-    }
-    // dayMap keys are in newest-first order (insertion order preserved)
-    const logHtml = dayMap.size
-      ? [...dayMap.entries()].map(([date, dayEntries]) => {
-          const rowsHtml = dayEntries.map(e => {
-            const vt = e.type === 'weight' ? e.value + ' kg'
-              : e.type === 'waist' ? e.value + ' cm'
-              : e.value;
-            const nt = e.note ? ` <span style="color:var(--muted);font-style:italic">"${escHtml(e.note)}"</span>` : '';
-            return `<div style="padding:5px 0;border-bottom:1px solid var(--border);font-size:13px">
-              <span style="font-weight:600;margin-right:6px">${escHtml(e.type)}</span>
-              <span>${escHtml(vt)}${nt}</span>
-            </div>`;
-          }).join('');
-          return `<div style="margin-bottom:2px">
-            <div style="padding:4px 0 3px;font-size:12px;font-weight:700;color:var(--green);border-bottom:2px solid var(--green);margin-bottom:2px;letter-spacing:0.3px">${date}</div>
-            ${rowsHtml}
-          </div>`;
-        }).join('')
-      : '<div style="font-size:13px;color:var(--muted)">No entries found for this phase.</div>';
-
     const weightRow = endKg !== null
       ? `<div style="display:flex;align-items:baseline;gap:8px;margin-bottom:4px">
            <div class="prev-phase-result">${p.start_kg} <span style="font-size:14px;font-weight:400;color:var(--muted)">→</span> ${endKg.toFixed(1)}<span> kg</span></div>
@@ -2211,10 +2186,97 @@ function loadPrevPhases() {
           Log Entries (${phaseEntries.length}) <span>▸</span>
         </button>
         <div class="collapsible-body" id="log-${idx}">
-          <div style="padding:8px 0">${logHtml}</div>
+          <div id="prev-log-content-${idx}"></div>
         </div>
       </div>`;
   }).join('');
+
+  // Populate log content for each phase now that the DOM is built
+  [...phases].reverse().forEach((_, idx) => renderPrevPhaseLogContent(idx));
+}
+
+function renderPrevPhaseLogContent(idx) {
+  const container = document.getElementById('prev-log-content-' + idx);
+  if (!container) return;
+
+  const phases = (dashData && dashData.previous_phases) ? [...dashData.previous_phases].reverse() : [];
+  const p = phases[idx];
+  if (!p) return;
+
+  const phaseEnd = p.end_date || p.target_date;
+  const allLog = logText || '';
+  const phaseEntries = allLog
+    ? parseAllLogEntries(allLog).filter(e => e.date >= p.start_date && e.date <= phaseEnd)
+    : [];
+
+  const filterKeys = prevPhaseFilters.get(idx) ?? null;
+  const allMode = filterKeys === null;
+
+  const filterDefs = [
+    { key: 'all', label: 'All' },
+    { key: 'weight', label: 'Weight' },
+    { key: 'activity', label: 'Activity' },
+    { key: 'food', label: 'Food' },
+    { key: 'drinks', label: 'Drinks' },
+    { key: 'measurements', label: 'Measurements' },
+  ];
+  const filterBarHtml = `<div class="log-view-filters-wrap" style="padding:8px 0 4px">
+    ${filterDefs.map(({ key, label }) => {
+      const active = key === 'all' ? allMode : (!allMode && filterKeys && filterKeys.has(key));
+      return `<button type="button" class="log-filter-pill${active ? ' active' : ''}" onclick="prevPhaseFilterClick(${idx}, '${key}')">${label}</button>`;
+    }).join('')}
+  </div>`;
+
+  const filtered = phaseEntries.filter(e => {
+    if (filterKeys === null) return true;
+    const cat = logEntryCategory(e);
+    return cat !== null && filterKeys.has(cat);
+  });
+
+  const dayMap = new Map();
+  for (const e of filtered) {
+    if (!dayMap.has(e.date)) dayMap.set(e.date, []);
+    dayMap.get(e.date).push(e);
+  }
+
+  const logEntriesHtml = dayMap.size
+    ? [...dayMap.entries()].map(([date, dayEntries]) => {
+        const rowsHtml = dayEntries.map(e => {
+          const vt = e.type === 'weight' ? e.value + ' kg'
+            : e.type === 'waist' ? e.value + ' cm'
+            : e.value;
+          const nt = e.note ? ` <span style="color:var(--muted);font-style:italic">"${escHtml(e.note)}"</span>` : '';
+          return `<div style="padding:5px 0;border-bottom:1px solid var(--border);font-size:13px">
+            <span style="font-weight:600;margin-right:6px">${escHtml(e.type)}</span>
+            <span>${escHtml(vt)}${nt}</span>
+          </div>`;
+        }).join('');
+        return `<div style="margin-bottom:2px">
+          <div style="padding:4px 0 3px;font-size:12px;font-weight:700;color:var(--green);border-bottom:2px solid var(--green);margin-bottom:2px;letter-spacing:0.3px">${date}</div>
+          ${rowsHtml}
+        </div>`;
+      }).join('')
+    : '<div style="font-size:13px;color:var(--muted);padding:8px 0">No entries match this filter.</div>';
+
+  container.innerHTML = filterBarHtml + '<div style="padding:4px 0">' + logEntriesHtml + '</div>';
+}
+
+function prevPhaseFilterClick(idx, key) {
+  let keys = prevPhaseFilters.get(idx) ?? null;
+  if (key === 'all') {
+    keys = null;
+  } else {
+    if (keys === null) {
+      keys = new Set([key]);
+    } else if (keys.has(key)) {
+      keys.delete(key);
+      if (keys.size === 0) keys = null;
+    } else {
+      keys.add(key);
+    }
+  }
+  prevPhaseFilters.set(idx, keys);
+  renderPrevPhaseLogContent(idx);
 }
 
 function toggleCollapsible(id, btn) {
