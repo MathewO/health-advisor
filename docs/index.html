@@ -1583,7 +1583,9 @@ function loadLogView() {
     return;
   }
 
+  const phaseStart = dashData && dashData.phase && dashData.phase.start_date;
   const filtered = entries.filter(e => {
+    if (phaseStart && e.date < phaseStart) return false;
     if (logViewFilterKeys === null) return true;
     const cat = logEntryCategory(e);
     return cat !== null && logViewFilterKeys.has(cat);
