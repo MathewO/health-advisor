@@ -918,7 +918,7 @@ async function loadDashboard() {
     logText = ghDecode(logFile.content);
 
     if (phase) {
-      const weights = parseWeightLog(logText, phase);
+      const weights = phase.status === 'active' ? parseWeightLog(logText, phase) : [];
       renderPhaseCard(phase, weights);
       renderWeeklyDeficitCard(phase);
     } else {
