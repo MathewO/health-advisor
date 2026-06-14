@@ -2936,6 +2936,11 @@ function renderMaintenanceWeightChart(phase) {
   }
   pts.sort((a, b) => a.date.localeCompare(b.date));
 
+  // Prepend phase start_kg as anchor point if no reading exists on start_date
+  if (phase.start_kg && !pts.some(p => p.date === phase.start_date)) {
+    pts.unshift({ date: phase.start_date, kg: phase.start_kg });
+  }
+
   if (!pts.length) { canvas.style.display = 'none'; return; }
 
   const startStr = phase.start_date;
