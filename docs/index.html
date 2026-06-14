@@ -1131,6 +1131,8 @@ function renderWeeklyDeficitCard(phase) {
   // Destroy old chart BEFORE touching innerHTML — avoids detached-canvas errors
   if (burndownChart) { try { burndownChart.destroy(); } catch(e) {} burndownChart = null; }
 
+  if (!card) return; // maintenance card doesn't include weeklyDeficitCard in its DOM
+
   if (!logText || phase.status !== 'active') {
     card.innerHTML = '<div style="font-size:13px;color:var(--muted)">No active phase.</div>';
     return;
