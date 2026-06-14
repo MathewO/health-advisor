@@ -1066,7 +1066,7 @@ function renderPhaseCard(phase, weights) {
 
     const latestMaint = maintWeights.length ? maintWeights[maintWeights.length - 1] : null;
     const delta = (latestMaint && phase.start_kg) ? +(latestMaint.kg - phase.start_kg).toFixed(1) : null;
-    const deltaColor = delta === null ? '' : delta <= 0 ? 'var(--green)' : delta <= 1.0 ? 'var(--amber)' : 'var(--red)';
+    const deltaColor = 'var(--muted)';
     const deltaText = delta === null ? '' : (delta > 0 ? '+' : '') + delta + ' kg vs phase start';
 
     card.className = 'card';
