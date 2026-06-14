@@ -2208,12 +2208,12 @@ function renderPrevPhaseWeightChart(p, idx) {
   const canvas = document.getElementById('prev-weight-chart-' + idx);
   if (!canvas) return;
 
-  const weights = logText ? parseWeightLog(logText, p) : [];
+  const phaseEnd  = p.end_date || p.target_date;
+  const weights = logText ? parseWeightLog(logText, p).filter(pt => pt.date <= phaseEnd) : [];
   if (weights.length < 2) { canvas.style.display = 'none'; return; }
 
   const startStr  = weights[0].date;
   const startNum  = dateToNum(startStr);
-  const phaseEnd  = p.end_date || p.target_date;
   const totalDays = dateToNum(phaseEnd) - startNum;
 
   const dayToDate = offset => {
