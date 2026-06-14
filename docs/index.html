@@ -2239,15 +2239,41 @@ function renderPrevPhaseLogContent(idx) {
     dayMap.get(e.date).push(e);
   }
 
+  const prevLogWorkoutLabels = {
+    'Running': 'Run', 'Indoor Run': 'Treadmill Run', 'Cycling': 'Cycling',
+    'Mountain Biking': 'MTB', 'E-Bike': 'E-Bike', 'Indoor Cycling': 'Indoor Cycling',
+    'Stair Climbing': 'Stair Climbing', 'Walking': 'Walk', 'Walk': 'Walk',
+    'HIIT': 'HIIT', 'Hiking': 'Hiking', 'Swimming': 'Swimming',
+    'Strength Training': 'Strength', 'Rowing': 'Rowing',
+  };
+
   const logEntriesHtml = dayMap.size
     ? [...dayMap.entries()].map(([date, dayEntries]) => {
         const rowsHtml = dayEntries.map(e => {
-          const vt = e.type === 'weight' ? e.value + ' kg'
-            : e.type === 'waist' ? e.value + ' cm'
-            : e.value;
+          let label = e.type;
+          let vt;
+          if (e.type === 'weight') {
+            vt = e.value + ' kg';
+          } else if (e.type === 'waist') {
+            vt = e.value + ' cm';
+          } else if (e.type === 'run') {
+            label = 'Run';
+            vt = (e.duration ? e.duration + ' min' : e.value) + (e.kcal ? ' · ' + e.kcal + ' kcal' : '');
+          } else if (e.type === 'stair') {
+            label = 'Stair Climbing';
+            vt = (e.duration ? e.duration + ' min' : e.value) + (e.kcal ? ' · ' + e.kcal + ' kcal' : '');
+          } else if (e.type === 'workout') {
+            label = (e.workoutType && prevLogWorkoutLabels[e.workoutType]) || e.workoutType || 'Workout';
+            const kcalStr = e.kcal ? ' · ' + (e.correctedKcal || e.kcal) + ' kcal' : '';
+            vt = (e.duration ? e.duration + ' min' : e.value) + kcalStr;
+          } else if (e.type === 'drinks') {
+            vt = (e.breakdown || e.value) + (e.kcal ? ' · ' + e.kcal + ' kcal' : '');
+          } else {
+            vt = e.value;
+          }
           const nt = e.note ? ` <span style="color:var(--muted);font-style:italic">"${escHtml(e.note)}"</span>` : '';
           return `<div style="padding:5px 0;border-bottom:1px solid var(--border);font-size:13px">
-            <span style="font-weight:600;margin-right:6px">${escHtml(e.type)}</span>
+            <span style="font-weight:600;margin-right:6px">${escHtml(label)}</span>
             <span>${escHtml(vt)}${nt}</span>
           </div>`;
         }).join('');
