@@ -2104,14 +2104,52 @@ function loadPrevPhases() {
   const allLog = logText || '';
 
   body.innerHTML = [...phases].reverse().map((p, idx) => {
+    const phaseEnd = p.end_date || p.target_date;
     const phaseEntries = allLog
-      ? parseAllLogEntries(allLog).filter(e => e.date >= p.start_date && e.date <= (p.end_date || p.target_date))
+      ? parseAllLogEntries(allLog).filter(e => e.date >= p.start_date && e.date <= phaseEnd)
       : [];
 
-    const wts    = phaseEntries.filter(e => e.type === 'weight');
-    const endKg  = wts.length ? wts[wts.length - 1].kg : null;
-    const loss   = endKg ? +(p.start_kg - endKg).toFixed(1) : null;
-    const lossText = loss !== null ? (loss > 0 ? `−${loss} kg` : `+${Math.abs(loss)} kg`) : '—';
+    // Weight — parseAllLogEntries returns newest-first, so [0] = most recent
+    const wts   = phaseEntries.filter(e => e.type === 'weight');
+    const endKg = wts.length ? wts[0].kg : null;
+    const loss  = endKg !== null ? +(p.start_kg - endKg).toFixed(1) : null;
+
+    // Waist — [0] = most recent, [last] = oldest (baseline)
+    const waists       = phaseEntries.filter(e => e.type === 'waist');
+    const endWaist     = waists.length ? +waists[0].cm : null;
+    const startWaist   = waists.length ? +waists[waists.length - 1].cm : null;
+    const waistDelta   = (startWaist !== null && endWaist !== null) ? +(startWaist - endWaist).toFixed(1) : null;
+
+    // Duration
+    const days  = (p.start_date && phaseEnd)
+      ? Math.round((new Date(phaseEnd + 'T00:00:00') - new Date(p.start_date + 'T00:00:00')) / 86400000)
+      : null;
+    const weeks = days ? +(days / 7).toFixed(1) : null;
+    const avgLossPerWeek = (loss !== null && weeks) ? +(loss / weeks).toFixed(2) : null;
+
+    // Avg deficit per week — iterate Mon-Sun weeks across the phase
+    let avgDeficitPerWeek = null;
+    if (p.meal_plan && p.start_date && phaseEnd) {
+      const { fullWeekBase } = computeMealPlanWeekDeficit(p);
+      const isOutlierType = e => ['run','stair','workout','drinks','beers','cheat'].includes(e.type);
+      const startD = new Date(p.start_date + 'T00:00:00');
+      const dow = startD.getDay();
+      let wCursor = new Date(startD);
+      wCursor.setDate(startD.getDate() - (dow === 0 ? 6 : dow - 1));
+      let totalDef = 0, wkCount = 0;
+      while (true) {
+        const wEnd = new Date(wCursor);
+        wEnd.setDate(wCursor.getDate() + 6);
+        const wsStr = localDateStr(wCursor);
+        const weStr = localDateStr(wEnd);
+        if (wsStr > phaseEnd) break;
+        const wOut = phaseEntries.filter(e => e.date >= wsStr && e.date <= weStr && isOutlierType(e));
+        totalDef += fullWeekBase + wOut.reduce((s, e) => s + (e.outlierKcal || 0), 0);
+        wkCount++;
+        wCursor.setDate(wCursor.getDate() + 7);
+      }
+      avgDeficitPerWeek = wkCount > 0 ? Math.round(totalDef / wkCount) : null;
+    }
 
     const logHtml = phaseEntries.length
       ? phaseEntries.map(e => {
@@ -2127,15 +2165,36 @@ function loadPrevPhases() {
         }).join('')
       : '<div style="font-size:13px;color:var(--muted)">No entries found for this phase.</div>';
 
+    const weightRow = endKg !== null
+      ? `<div style="display:flex;align-items:baseline;gap:8px;margin-bottom:4px">
+           <div class="prev-phase-result">${p.start_kg} <span style="font-size:14px;font-weight:400;color:var(--muted)">→</span> ${endKg.toFixed(1)}<span> kg</span></div>
+           <div style="font-size:15px;color:${loss > 0 ? 'var(--green)' : 'var(--red)'}">${loss > 0 ? '−' : '+'}${Math.abs(loss)} kg</div>
+         </div>`
+      : '';
+
+    const waistRow = (startWaist !== null && endWaist !== null)
+      ? `<div style="display:flex;align-items:baseline;gap:8px;margin-bottom:8px">
+           <div style="font-size:15px;font-weight:600">${startWaist} <span style="font-size:13px;font-weight:400;color:var(--muted)">→</span> ${endWaist}<span style="font-size:13px;font-weight:400;color:var(--muted)"> cm</span></div>
+           <div style="font-size:13px;color:${waistDelta > 0 ? 'var(--green)' : 'var(--red)'}">−${Math.abs(waistDelta)} cm waist</div>
+         </div>`
+      : '';
+
+    const statsRow = (weeks || avgLossPerWeek || avgDeficitPerWeek)
+      ? `<div style="display:flex;gap:16px;margin-bottom:10px;flex-wrap:wrap">
+           ${weeks ? `<div><div style="font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:0.5px">Duration</div><div style="font-size:14px;font-weight:600">${weeks} wks</div></div>` : ''}
+           ${avgLossPerWeek ? `<div><div style="font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:0.5px">Avg loss/wk</div><div style="font-size:14px;font-weight:600">${avgLossPerWeek} kg</div></div>` : ''}
+           ${avgDeficitPerWeek ? `<div><div style="font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:0.5px">Avg deficit/wk</div><div style="font-size:14px;font-weight:600">${avgDeficitPerWeek.toLocaleString()} kcal</div></div>` : ''}
+         </div>`
+      : '';
+
     return `
       <div class="prev-phase-card">
         <span class="badge badge-muted">Completed</span>
         <div class="prev-phase-name">${escHtml(p.name)}</div>
-        <div class="prev-phase-meta">${formatDate(p.start_date)} → ${formatDate(p.end_date || p.target_date)} · Goal: ${p.target_kg} kg</div>
-        <div style="display:flex;align-items:baseline;gap:8px;margin-bottom:4px">
-          <div class="prev-phase-result">${endKg ? endKg.toFixed(1) : '—'}<span> kg final</span></div>
-          <div style="font-size:15px;color:${loss > 0 ? 'var(--green)' : 'var(--red)'}">${lossText}</div>
-        </div>
+        <div class="prev-phase-meta">${formatDate(p.start_date)} → ${formatDate(phaseEnd)} · Goal: ${p.target_kg} kg</div>
+        ${weightRow}
+        ${waistRow}
+        ${statsRow}
         <button class="collapsible-toggle" onclick="toggleCollapsible('log-${idx}', this)">
           Log Entries (${phaseEntries.length}) <span>▸</span>
         </button>
