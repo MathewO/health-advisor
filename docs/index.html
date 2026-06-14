@@ -1072,7 +1072,7 @@ function renderPhaseCard(phase, weights) {
     card.className = 'card';
     card.innerHTML = `
       <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:6px">
-        <span class="badge badge-muted">MAINTENANCE</span>
+        <span class="badge badge-green">MAINTENANCE</span>
         ${latestMaint ? `<div style="text-align:right"><div style="font-size:26px;font-weight:700;line-height:1">${latestMaint.kg.toFixed(1)}<span style="font-size:14px;font-weight:400;color:var(--muted)"> kg</span></div>${delta !== null ? `<div style="font-size:12px;color:${deltaColor}">${deltaText}</div>` : ''}</div>` : '<div style="font-size:13px;color:var(--muted)">No weigh-ins yet</div>'}
       </div>
       <div class="chart-wrap" id="maintChartWrap" style="margin:4px 0 10px"><canvas id="maintWeightChart" height="120"></canvas></div>
