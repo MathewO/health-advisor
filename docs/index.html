@@ -2151,16 +2151,28 @@ function loadPrevPhases() {
       avgDeficitPerWeek = wkCount > 0 ? Math.round(totalDef / wkCount) : null;
     }
 
-    const logHtml = phaseEntries.length
-      ? phaseEntries.map(e => {
-          const vt = e.type === 'weight' ? e.value + ' kg'
-            : e.type === 'waist' ? e.value + ' cm'
-            : e.value;
-          const nt = e.note ? ` — "${escHtml(e.note)}"` : '';
-          return `<div style="padding:6px 0;border-bottom:1px solid var(--border);font-size:13px">
-            <span style="color:var(--muted)">${e.date}</span>
-            <span style="margin:0 6px;font-weight:600">${escHtml(e.type)}</span>
-            <span>${escHtml(vt)}${nt}</span>
+    // Group entries by day (entries are already newest-date-first, newest-lineIndex-first)
+    const dayMap = new Map();
+    for (const e of phaseEntries) {
+      if (!dayMap.has(e.date)) dayMap.set(e.date, []);
+      dayMap.get(e.date).push(e);
+    }
+    // dayMap keys are in newest-first order (insertion order preserved)
+    const logHtml = dayMap.size
+      ? [...dayMap.entries()].map(([date, dayEntries]) => {
+          const rowsHtml = dayEntries.map(e => {
+            const vt = e.type === 'weight' ? e.value + ' kg'
+              : e.type === 'waist' ? e.value + ' cm'
+              : e.value;
+            const nt = e.note ? ` <span style="color:var(--muted);font-style:italic">"${escHtml(e.note)}"</span>` : '';
+            return `<div style="padding:5px 0;border-bottom:1px solid var(--border);font-size:13px">
+              <span style="font-weight:600;margin-right:6px">${escHtml(e.type)}</span>
+              <span>${escHtml(vt)}${nt}</span>
+            </div>`;
+          }).join('');
+          return `<div style="margin-bottom:2px">
+            <div style="padding:4px 0 3px;font-size:12px;font-weight:700;color:var(--green);border-bottom:2px solid var(--green);margin-bottom:2px;letter-spacing:0.3px">${date}</div>
+            ${rowsHtml}
           </div>`;
         }).join('')
       : '<div style="font-size:13px;color:var(--muted)">No entries found for this phase.</div>';
