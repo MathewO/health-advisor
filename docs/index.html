@@ -924,6 +924,7 @@ async function loadDashboard() {
       const weights = phase.status === 'active' ? parseWeightLog(logText, phase) : [];
       renderPhaseCard(phase, weights);
       renderWeeklyDeficitCard(phase);
+      if (phase.status === 'maintenance') renderMaintenanceWeightChart(phase);
     } else {
       renderMaintenanceCard();
     }
@@ -1048,16 +1049,35 @@ function renderPhaseCard(phase, weights) {
   const card = document.getElementById('goalCard');
 
   if (phase.status === 'maintenance') {
+    // Parse weights logged since maintenance start for display + chart
+    const maintWeights = logText
+      ? (() => {
+          const pts = [];
+          for (const line of logText.split('\n')) {
+            const parts = line.split('|').map(s => s.trim());
+            if (parts.length >= 3 && parts[1] === 'weight' && /^\d{4}-\d{2}-\d{2}$/.test(parts[0])) {
+              const kg = parseFloat(parts[2]);
+              if (!isNaN(kg) && parts[0] >= phase.start_date) pts.push({ date: parts[0], kg });
+            }
+          }
+          return pts.sort((a, b) => a.date.localeCompare(b.date));
+        })()
+      : [];
+
+    const latestMaint = maintWeights.length ? maintWeights[maintWeights.length - 1] : null;
+    const delta = (latestMaint && phase.start_kg) ? +(latestMaint.kg - phase.start_kg).toFixed(1) : null;
+    const deltaColor = delta === null ? '' : delta <= 0 ? 'var(--green)' : delta <= 1.0 ? 'var(--amber)' : 'var(--red)';
+    const deltaText = delta === null ? '' : (delta > 0 ? '+' : '') + delta + ' kg vs phase start';
+
     card.className = 'card';
     card.innerHTML = `
-      <div style="display:flex;align-items:center;gap:10px;margin-bottom:8px">
-        <span class="badge badge-muted">Maintenance</span>
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:6px">
+        <span class="badge badge-muted">MAINTENANCE</span>
+        ${latestMaint ? `<div style="text-align:right"><div style="font-size:26px;font-weight:700;line-height:1">${latestMaint.kg.toFixed(1)}<span style="font-size:14px;font-weight:400;color:var(--muted)"> kg</span></div>${delta !== null ? `<div style="font-size:12px;color:${deltaColor}">${deltaText}</div>` : ''}</div>` : '<div style="font-size:13px;color:var(--muted)">No weigh-ins yet</div>'}
       </div>
-      <div class="card-title" style="font-size:17px">Maintenance Mode</div>
-      <div class="card-detail" style="margin-top:6px">No active fat loss phase. Weigh in regularly to track your baseline.</div>
+      <div class="chart-wrap" id="maintChartWrap" style="margin:4px 0 10px"><canvas id="maintWeightChart" height="120"></canvas></div>
       <div class="phase-actions">
         <button class="pill-btn" onclick="openOverlay('screen-log-view')">Show Log</button>
-        <button class="pill-btn" onclick="openOverlay('screen-meal-plan')">Meal Plan</button>
       </div>`;
     return;
   }
@@ -2889,6 +2909,125 @@ function renderWeightChart(weights, phase) {
             stepSize: 1,
             callback: v => Number.isInteger(v) ? v + ' kg' : null,
           },
+        },
+      },
+    },
+  });
+}
+
+// ─── Maintenance Weight Chart ─────────────────────────────────
+let maintWeightChart = null;
+
+function renderMaintenanceWeightChart(phase) {
+  const canvas = document.getElementById('maintWeightChart');
+  if (!canvas) return;
+  if (maintWeightChart) { try { maintWeightChart.destroy(); } catch(e) {} maintWeightChart = null; }
+
+  if (!logText) return;
+
+  // Collect weights since maintenance start
+  const pts = [];
+  for (const line of logText.split('\n')) {
+    const parts = line.split('|').map(s => s.trim());
+    if (parts.length >= 3 && parts[1] === 'weight' && /^\d{4}-\d{2}-\d{2}$/.test(parts[0])) {
+      const kg = parseFloat(parts[2]);
+      if (!isNaN(kg) && parts[0] >= phase.start_date) pts.push({ date: parts[0], kg });
+    }
+  }
+  pts.sort((a, b) => a.date.localeCompare(b.date));
+
+  if (!pts.length) { canvas.style.display = 'none'; return; }
+
+  const startStr = phase.start_date;
+  const startNum = dateToNum(startStr);
+  const todayNum = dateToNum(localDateStr(new Date()));
+  const totalDays = Math.max(todayNum - startNum + 7, 28); // at least 28-day window
+
+  const dayToDate = offset => {
+    const d = new Date(startStr + 'T00:00:00');
+    d.setDate(d.getDate() + offset);
+    return localDateStr(d);
+  };
+
+  const actualPoints = pts.map(p => ({ x: dateToNum(p.date) - startNum, y: p.kg }));
+
+  // 3-point centred rolling avg for trend (requires ≥3 points)
+  const trendPoints = [];
+  if (pts.length >= 3) {
+    for (let i = 0; i < pts.length; i++) {
+      const prev = pts[i - 1] ? pts[i - 1].kg : pts[i].kg;
+      const next = pts[i + 1] ? pts[i + 1].kg : pts[i].kg;
+      trendPoints.push({ x: dateToNum(pts[i].date) - startNum, y: +((prev + pts[i].kg + next) / 3).toFixed(2) });
+    }
+  }
+
+  const allKg = pts.map(p => p.kg);
+  const minKg = Math.min(...allKg, phase.start_kg || allKg[0]) - 0.5;
+  const maxKg = Math.max(...allKg, phase.start_kg || allKg[0]) + 0.5;
+
+  const gridColor = 'rgba(255,255,255,0.05)';
+
+  const datasets = [
+    {
+      label: 'Weight',
+      data: actualPoints,
+      showLine: false,
+      pointRadius: 2,
+      pointHoverRadius: 3,
+      pointBackgroundColor: 'rgba(161,161,170,1)',
+      pointBorderColor: 'rgba(161,161,170,1)',
+    },
+  ];
+  if (trendPoints.length) {
+    datasets.push({
+      label: 'Trend',
+      data: trendPoints,
+      borderColor: 'rgba(74,222,128,0.8)',
+      borderWidth: 2.5,
+      pointRadius: 0,
+      tension: 0.3,
+      fill: false,
+    });
+  }
+
+  maintWeightChart = new Chart(canvas.getContext('2d'), {
+    type: 'line',
+    data: { datasets },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      animation: { duration: 400 },
+      plugins: {
+        legend: { display: false },
+        tooltip: {
+          callbacks: {
+            title: items => items.length ? dayToDate(Math.round(items[0].parsed.x)) : '',
+            label: ctx => ctx.dataset.label + ': ' + (ctx.parsed.y ? ctx.parsed.y.toFixed(1) + ' kg' : ''),
+          },
+        },
+      },
+      scales: {
+        x: {
+          type: 'linear',
+          min: 0,
+          max: totalDays,
+          afterBuildTicks: axis => {
+            const start = new Date(startStr + 'T00:00:00');
+            const dow = start.getDay();
+            let firstSun = (7 - dow) % 7;
+            if (firstSun === 0) firstSun = 7;
+            const ticks = [];
+            for (let d = firstSun; d <= totalDays; d += 7) ticks.push({ value: d });
+            axis.ticks = ticks;
+          },
+          ticks: { color: '#64748b', font: { size: 10 }, callback: v => dayToDate(Math.round(v)).slice(5) },
+          grid: { color: gridColor },
+        },
+        y: {
+          suggestedMin: minKg,
+          suggestedMax: maxKg,
+          grid: { color: gridColor },
+          ticks: { color: '#64748b', font: { size: 10 }, stepSize: 1, callback: v => Number.isInteger(v) ? v + ' kg' : null },
         },
       },
     },
