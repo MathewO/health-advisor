@@ -2505,17 +2505,25 @@ function renderPrevPhaseMealContent(p, idx) {
       const items = (tab === 'weekday' ? mp.weekday && mp.weekday.items : mp.weekend && mp.weekend.items) || [];
       const totalKcal    = items.reduce((s, i) => s + (i.kcal || 0), 0);
       const totalProtein = items.reduce((s, i) => s + (i.protein || 0), 0);
-      const rows = items.map(i => `
-        <div style="display:flex;justify-content:space-between;align-items:center;padding:5px 0;border-bottom:1px solid var(--border);font-size:13px">
+      // Stash items globally so onclick can reference them by index
+      const globalKey = `_prevMealItems_${idx}_${tab}`;
+      window[globalKey] = items;
+      const rows = items.map((i, itemIdx) => {
+        const hasDetail = i.ingredients && i.ingredients.length > 0;
+        const infoBtn = hasDetail ? `<span class="meal-detail-info" style="cursor:pointer" onclick="event.stopPropagation();showMealPopup(window['${globalKey}'][${itemIdx}])">i</span>` : '';
+        const rowClick = hasDetail ? `onclick="showMealPopup(window['${globalKey}'][${itemIdx}])"` : '';
+        return `
+        <div style="display:flex;justify-content:space-between;align-items:center;padding:5px 0;border-bottom:1px solid var(--border);font-size:13px;${hasDetail ? 'cursor:pointer' : ''}" ${rowClick}>
           <div>
-            <div style="font-weight:600">${escHtml(i.label)}</div>
+            <div style="font-weight:600">${escHtml(i.label)}${infoBtn}</div>
             <div style="font-size:11px;color:var(--muted)">${escHtml(i.category)}</div>
           </div>
           <div style="text-align:right;flex-shrink:0">
             <span style="color:var(--green);font-weight:600">${i.kcal} kcal</span>
             <span style="color:var(--muted);font-size:12px;margin-left:8px">${i.protein}g protein</span>
           </div>
-        </div>`).join('');
+        </div>`;
+      }).join('');
       const metaHtml = `
         <div style="display:flex;justify-content:space-between;padding:6px 0;font-size:13px;font-weight:700;border-top:1px solid var(--border)">
           <span>Total</span>
