@@ -2964,19 +2964,18 @@ function renderMaintenanceWeightChart(phase) {
 
   const actualPoints = pts.map(p => ({ x: dateToNum(p.date) - startNum, y: p.kg }));
 
-  // Rolling avg over real recorded weights only (skip synthetic anchor).
-  // First and last points anchor exactly on their dot; interior points use 3-point centred avg.
-  const realPts = pts.filter(p => p.date > phase.start_date);
+  // Rolling avg over all points. First and last anchor exactly on their dot;
+  // interior points use 3-point centred avg for smoothing.
   const trendPoints = [];
-  if (realPts.length >= 2) {
-    for (let i = 0; i < realPts.length; i++) {
+  if (pts.length >= 2) {
+    for (let i = 0; i < pts.length; i++) {
       let y;
-      if (i === 0 || i === realPts.length - 1) {
-        y = realPts[i].kg;
+      if (i === 0 || i === pts.length - 1) {
+        y = pts[i].kg;
       } else {
-        y = (realPts[i - 1].kg + realPts[i].kg + realPts[i + 1].kg) / 3;
+        y = (pts[i - 1].kg + pts[i].kg + pts[i + 1].kg) / 3;
       }
-      trendPoints.push({ x: dateToNum(realPts[i].date) - startNum, y: +y.toFixed(2) });
+      trendPoints.push({ x: dateToNum(pts[i].date) - startNum, y: +y.toFixed(2) });
     }
   }
 
