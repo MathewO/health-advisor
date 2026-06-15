@@ -2967,7 +2967,7 @@ function renderMaintenanceWeightChart(phase) {
   // 3-point centred rolling avg — only over real recorded weights (skip synthetic anchor)
   const realPts = pts.filter(p => p.date > phase.start_date);
   const trendPoints = [];
-  if (realPts.length >= 3) {
+  if (realPts.length >= 2) {
     for (let i = 0; i < realPts.length; i++) {
       const prev = realPts[i - 1] ? realPts[i - 1].kg : realPts[i].kg;
       const next = realPts[i + 1] ? realPts[i + 1].kg : realPts[i].kg;
