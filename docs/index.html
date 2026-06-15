@@ -3704,7 +3704,14 @@ function removeFromMeal(idx) {
 }
 
 function adjustQty(idx, delta) {
-  mealBuilderItems[idx].qty = Math.max(1, mealBuilderItems[idx].qty + delta);
+  const raw = +(mealBuilderItems[idx].qty + delta).toFixed(2);
+  mealBuilderItems[idx].qty = Math.max(0.5, raw);
+  renderMealBuilderSelected();
+}
+
+function setQty(idx, val) {
+  const v = isNaN(val) || val <= 0 ? 0.5 : +val.toFixed(2);
+  mealBuilderItems[idx].qty = v;
   renderMealBuilderSelected();
 }
 
@@ -3717,18 +3724,23 @@ function renderMealBuilderSelected() {
     el.innerHTML = '<div style="font-size:13px;color:var(--muted);padding:4px 0">No ingredients added yet.</div>';
     totalEl.textContent = '0 kcal · 0g protein';
   } else {
-    el.innerHTML = mealBuilderItems.map((item, idx) => `
+    el.innerHTML = mealBuilderItems.map((item, idx) => {
+      const lineKcal = Math.round(item.component.kcal * item.qty);
+      return `
       <div style="display:flex;align-items:center;gap:8px;padding:6px 0;border-bottom:1px solid var(--border);font-size:13px">
         <span style="flex:1">${escHtml(item.component.name)}</span>
-        <span style="color:var(--muted);font-size:12px">${item.component.kcal * item.qty} kcal</span>
-        <button type="button" onclick="adjustQty(${idx},-1)" style="background:var(--surface2);border:1px solid var(--border);border-radius:5px;width:24px;height:24px;cursor:pointer;color:var(--text);font-size:14px">−</button>
-        <span style="min-width:18px;text-align:center">${item.qty}</span>
-        <button type="button" onclick="adjustQty(${idx},1)"  style="background:var(--surface2);border:1px solid var(--border);border-radius:5px;width:24px;height:24px;cursor:pointer;color:var(--text);font-size:14px">+</button>
+        <span style="color:var(--muted);font-size:12px;white-space:nowrap">${lineKcal} kcal</span>
+        <button type="button" onclick="adjustQty(${idx},-0.5)" style="background:var(--surface2);border:1px solid var(--border);border-radius:5px;width:24px;height:24px;cursor:pointer;color:var(--text);font-size:14px">−</button>
+        <input type="number" step="0.5" min="0.5" value="${item.qty}" inputmode="decimal"
+          onchange="setQty(${idx}, parseFloat(this.value))"
+          style="width:38px;text-align:center;background:var(--surface2);border:1px solid var(--border);border-radius:5px;padding:3px 2px;color:var(--text);font-size:13px">
+        <button type="button" onclick="adjustQty(${idx},0.5)"  style="background:var(--surface2);border:1px solid var(--border);border-radius:5px;width:24px;height:24px;cursor:pointer;color:var(--text);font-size:14px">+</button>
         <button type="button" onclick="removeFromMeal(${idx})" style="background:none;border:none;color:var(--muted);font-size:16px;cursor:pointer;padding:0 2px">×</button>
-      </div>`).join('');
+      </div>`;
+    }).join('');
 
-    const totalKcal    = mealBuilderItems.reduce((s, i) => s + i.component.kcal * i.qty, 0);
-    const totalProtein = mealBuilderItems.reduce((s, i) => s + (i.component.protein || 0) * i.qty, 0);
+    const totalKcal    = Math.round(mealBuilderItems.reduce((s, i) => s + i.component.kcal * i.qty, 0));
+    const totalProtein = Math.round(mealBuilderItems.reduce((s, i) => s + (i.component.protein || 0) * i.qty, 0));
     totalEl.textContent = `${totalKcal} kcal · ${totalProtein}g protein`;
 
     // Auto-populate the shared kcal and description fields
