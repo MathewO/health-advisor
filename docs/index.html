@@ -2191,10 +2191,10 @@ function loadPrevPhases() {
     const avgDeficitPerDay = avgDeficitPerWeek ? Math.round(avgDeficitPerWeek / 7) : null;
     const statsRow = (weeks || avgLossPerWeek || avgDeficitPerWeek)
       ? `<div style="display:flex;gap:16px;margin-bottom:10px;flex-wrap:wrap">
-           ${weeks ? `<div><div style="font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:0.5px">Duration</div><div style="font-size:14px;font-weight:600">${weeks} wks</div></div>` : ''}
-           ${avgLossPerWeek ? `<div><div style="font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:0.5px">Avg loss/wk</div><div style="font-size:14px;font-weight:600">${avgLossPerWeek} kg</div></div>` : ''}
-           ${avgDeficitPerWeek ? `<div><div style="font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:0.5px">Avg deficit/wk</div><div style="font-size:14px;font-weight:600">${avgDeficitPerWeek.toLocaleString()} kcal</div></div>` : ''}
-           ${avgDeficitPerDay ? `<div><div style="font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:0.5px">Avg deficit/day</div><div style="font-size:14px;font-weight:600">${avgDeficitPerDay.toLocaleString()} kcal</div></div>` : ''}
+           ${weeks ? `<div><div style="font-size:9px;color:var(--muted);text-transform:uppercase;letter-spacing:0.5px">Duration</div><div style="font-size:11px;font-weight:600">${weeks} wks</div></div>` : ''}
+           ${avgLossPerWeek ? `<div><div style="font-size:9px;color:var(--muted);text-transform:uppercase;letter-spacing:0.5px">Avg loss/wk</div><div style="font-size:11px;font-weight:600">${avgLossPerWeek} kg</div></div>` : ''}
+           ${avgDeficitPerWeek ? `<div><div style="font-size:9px;color:var(--muted);text-transform:uppercase;letter-spacing:0.5px">Avg deficit/wk</div><div style="font-size:11px;font-weight:600">${avgDeficitPerWeek.toLocaleString()} kcal</div></div>` : ''}
+           ${avgDeficitPerDay ? `<div><div style="font-size:9px;color:var(--muted);text-transform:uppercase;letter-spacing:0.5px">Avg deficit/day</div><div style="font-size:11px;font-weight:600">${avgDeficitPerDay.toLocaleString()} kcal</div></div>` : ''}
          </div>`
       : '';
 
@@ -2964,13 +2964,14 @@ function renderMaintenanceWeightChart(phase) {
 
   const actualPoints = pts.map(p => ({ x: dateToNum(p.date) - startNum, y: p.kg }));
 
-  // 3-point centred rolling avg for trend (requires ≥3 points)
+  // 3-point centred rolling avg — only over real recorded weights (skip synthetic anchor)
+  const realPts = pts.filter(p => p.date > phase.start_date);
   const trendPoints = [];
-  if (pts.length >= 3) {
-    for (let i = 0; i < pts.length; i++) {
-      const prev = pts[i - 1] ? pts[i - 1].kg : pts[i].kg;
-      const next = pts[i + 1] ? pts[i + 1].kg : pts[i].kg;
-      trendPoints.push({ x: dateToNum(pts[i].date) - startNum, y: +((prev + pts[i].kg + next) / 3).toFixed(2) });
+  if (realPts.length >= 3) {
+    for (let i = 0; i < realPts.length; i++) {
+      const prev = realPts[i - 1] ? realPts[i - 1].kg : realPts[i].kg;
+      const next = realPts[i + 1] ? realPts[i + 1].kg : realPts[i].kg;
+      trendPoints.push({ x: dateToNum(realPts[i].date) - startNum, y: +((prev + realPts[i].kg + next) / 3).toFixed(2) });
     }
   }
 
