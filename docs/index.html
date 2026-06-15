@@ -3521,8 +3521,13 @@ async function submitWorkoutForm() {
 
 // ─── Cheat Meal Form ──────────────────────────────────────────
 function getMealOptions() {
-  if (!dashData || !dashData.phase || !dashData.phase.meal_plan) return [];
-  const mp = dashData.phase.meal_plan;
+  if (!dashData) return [];
+  // Use active phase meal plan, or fall back to the most recent previous phase's meal plan
+  const mp = (dashData.phase && dashData.phase.meal_plan)
+    || (dashData.previous_phases && dashData.previous_phases.length
+        && dashData.previous_phases[dashData.previous_phases.length - 1].meal_plan)
+    || null;
+  if (!mp) return [];
   const seen = new Set();
   const options = [];
   for (const tab of ['weekday', 'weekend']) {
