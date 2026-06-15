@@ -1,0 +1,14 @@
+[
+  { "name": "Egg white (50ml)", "kcal": 13, "protein": 3 },
+  { "name": "Whole egg", "kcal": 77, "protein": 6 },
+  { "name": "Hash brown (Sainsbury's)", "kcal": 61, "protein": 1 },
+  { "name": "Heck chicken sausage", "kcal": 34, "protein": 6 },
+  { "name": "Avocado (½)", "kcal": 120, "protein": 2 },
+  { "name": "Baked beans (½ tin ~205g)", "kcal": 175, "protein": 9 },
+  { "name": "Fage 0% Greek yoghurt (100g)", "kcal": 57, "protein": 10 },
+  { "name": "Chicken breast (100g raw)", "kcal": 110, "protein": 23 },
+  { "name": "Sainsbury's protein wrap", "kcal": 170, "protein": 10 },
+  { "name": "Whey shake (1 scoop)", "kcal": 116, "protein": 21 },
+  { "name": "Oatly oat milk (100ml)", "kcal": 45, "protein": 1 },
+  { "name": "Dark chocolate (20g, 70%)", "kcal": 114, "protein": 2 }
+]

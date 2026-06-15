@@ -613,13 +613,17 @@
 
 // ─── Config ───────────────────────────────────────────────────
 const CORRECT_PIN = '2050';
-const LOG_PATH    = 'logs/phone-log.md';
-const DASH_PATH   = 'logs/dashboard.json';
+const LOG_PATH        = 'logs/phone-log.md';
+const DASH_PATH       = 'logs/dashboard.json';
+const COMPONENTS_PATH = 'logs/components.json';
 
 /** Log overlay filters: `null` = All; otherwise Set of category keys (OR). */
 let logViewFilterKeys = null;
 let prevPhaseFilters  = new Map(); // idx → Set | null (null = all)
 let prevMealTabs      = new Map(); // idx → 'weekday' | 'weekend' | 'supplements'
+let componentsData    = [];        // ingredient library from components.json
+let componentsSha     = null;      // sha for ghPut
+let mealBuilderItems  = [];        // [{ component, qty }] — current build session
 
 const DEFAULT_DRINK_KCAL = {
   'Pint of Guinness':    210,
@@ -917,7 +921,13 @@ async function loadDashboard() {
     renderRecommendations(dashData.recommendations || []);
     renderPlanned(dashData.planned || []);
 
-    const logFile = await ghGet(LOG_PATH);
+    const [logFile] = await Promise.all([
+      ghGet(LOG_PATH),
+      ghGet(COMPONENTS_PATH).then(cf => {
+        componentsSha = cf.sha;
+        componentsData = JSON.parse(ghDecode(cf.content));
+      }).catch(() => { componentsData = []; componentsSha = null; })
+    ]);
     logText = ghDecode(logFile.content);
 
     if (phase) {
@@ -3545,43 +3555,66 @@ function openCheatForm() {
       + commonCheats.map((c, i) => `<option value="${i}">${escHtml(c.name)} (${c.kcal} kcal)</option>`).join('')
     : '';
 
+  mealBuilderItems = []; // reset builder state
+
   const html = `
-    ${commonCheats.length ? `
-    <div class="field">
-      <label>Quick select <span class="optional-label">optional — fills details below</span></label>
-      <select id="ff_cheatPreset" onchange="applyCheatPreset()">${quickOptHtml}</select>
-    </div>` : ''}
-
-    <div class="field">
-      <label>What did you eat? <span class="optional-label">or "Skipped"</span></label>
-      <textarea id="ff_cheatDetail" placeholder="e.g. Pizza and garlic bread, Skipped lunch, Burger"></textarea>
+    <div style="display:flex;gap:8px;margin-bottom:16px">
+      <button type="button" id="cheatModeManual" class="log-filter-pill active" onclick="setCheatMode('manual')" style="flex:1;text-align:center">Manual</button>
+      <button type="button" id="cheatModeBuild"  class="log-filter-pill"        onclick="setCheatMode('build')"  style="flex:1;text-align:center">Build 🍳</button>
     </div>
 
-    <div class="field">
-      <label>Calories <span class="optional-label">optional — rough guess</span></label>
-      <input id="ff_cheatKcal" type="number" placeholder="e.g. 900" inputmode="numeric" oninput="updateCheatImpact()" />
+    <!-- MANUAL MODE -->
+    <div id="cheatManualSection">
+      ${commonCheats.length ? `
+      <div class="field">
+        <label>Quick select <span class="optional-label">optional — fills details below</span></label>
+        <select id="ff_cheatPreset" onchange="applyCheatPreset()">${quickOptHtml}</select>
+      </div>` : ''}
+      <div class="field">
+        <label>What did you eat? <span class="optional-label">or "Skipped"</span></label>
+        <textarea id="ff_cheatDetail" placeholder="e.g. Pizza and garlic bread, Skipped lunch, Burger"></textarea>
+      </div>
+      <div class="field">
+        <label>Calories <span class="optional-label">optional — rough guess</span></label>
+        <input id="ff_cheatKcal" type="number" placeholder="e.g. 900" inputmode="numeric" oninput="updateCheatImpact()" />
+      </div>
     </div>
 
+    <!-- BUILD MODE -->
+    <div id="cheatBuildSection" style="display:none">
+      <input type="text" id="mbSearch" placeholder="Search ingredients…" oninput="renderMealBuilderLibrary()"
+        style="width:100%;box-sizing:border-box;background:var(--surface2);border:1px solid var(--border);border-radius:8px;padding:8px 10px;color:var(--text);font-size:14px;margin-bottom:10px">
+      <div id="mbLibrary" style="max-height:200px;overflow-y:auto;border:1px solid var(--border);border-radius:8px;margin-bottom:10px"></div>
+      <button type="button" onclick="toggleAddIngredientForm()" style="background:none;border:none;color:var(--green);font-size:13px;cursor:pointer;padding:0;margin-bottom:10px">+ Add new ingredient</button>
+      <div id="mbNewForm" style="display:none;background:var(--surface2);border-radius:8px;padding:10px;margin-bottom:10px">
+        <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:flex-end">
+          <div style="flex:2;min-width:120px"><label style="font-size:12px;color:var(--muted)">Name</label><input id="mbNewName" type="text" placeholder="e.g. Avocado (½)" style="width:100%;box-sizing:border-box;background:var(--surface);border:1px solid var(--border);border-radius:6px;padding:6px 8px;color:var(--text);font-size:13px"></div>
+          <div style="flex:1;min-width:60px"><label style="font-size:12px;color:var(--muted)">kcal</label><input id="mbNewKcal" type="number" inputmode="numeric" placeholder="0" style="width:100%;box-sizing:border-box;background:var(--surface);border:1px solid var(--border);border-radius:6px;padding:6px 8px;color:var(--text);font-size:13px"></div>
+          <div style="flex:1;min-width:60px"><label style="font-size:12px;color:var(--muted)">protein (g)</label><input id="mbNewProtein" type="number" inputmode="numeric" placeholder="0" style="width:100%;box-sizing:border-box;background:var(--surface);border:1px solid var(--border);border-radius:6px;padding:6px 8px;color:var(--text);font-size:13px"></div>
+          <button type="button" onclick="saveNewComponent()" style="background:var(--green);color:#000;border:none;border-radius:6px;padding:7px 14px;font-size:13px;font-weight:600;cursor:pointer;white-space:nowrap">Save & Add</button>
+        </div>
+      </div>
+      <div id="mbSelected" style="margin-bottom:10px"></div>
+      <div id="mbTotal" style="font-size:15px;font-weight:700;padding:8px 0;border-top:1px solid var(--border);margin-bottom:10px;color:var(--green)">0 kcal · 0g protein</div>
+    </div>
+
+    <!-- SHARED FIELDS -->
     <div class="field">
       <label>Replaces a planned meal? <span class="optional-label">optional</span></label>
       <select id="ff_cheatReplaces" onchange="updateCheatImpact()">${mealOptHtml}</select>
     </div>
-
     <div class="net-impact-box" id="cheatImpactBox" style="display:none">
       <span class="net-impact-label">Net calorie impact</span>
       <span class="net-impact-val" id="cheatImpactVal"></span>
     </div>
-
     <div class="field">
       <label>Date</label>
       <input id="ff_cheatDate" type="date" value="${todayStr()}" />
     </div>
-
     <div class="field">
       <label>Note <span class="optional-label">optional</span></label>
       <textarea id="ff_cheatNote" placeholder="e.g. Birthday dinner, work event"></textarea>
     </div>
-
     <button class="save-btn" id="saveBtn" onclick="submitCheatForm()">Save Entry</button>
     <div class="status-msg" id="formStatus"></div>`;
 
@@ -3594,6 +3627,8 @@ function openCheatForm() {
   // Store common cheats on preset select for handler
   const presetEl = document.getElementById('ff_cheatPreset');
   if (presetEl) presetEl._commonCheats = commonCheats;
+
+  renderMealBuilderLibrary();
 
   setTimeout(() => {
     const first = document.getElementById('ff_cheatDetail');
@@ -3620,6 +3655,125 @@ function applyCheatPreset() {
     }
   }
   updateCheatImpact();
+}
+
+// ─── Meal Builder ─────────────────────────────────────────────
+
+function setCheatMode(mode) {
+  const isManual = mode === 'manual';
+  document.getElementById('cheatManualSection').style.display = isManual ? '' : 'none';
+  document.getElementById('cheatBuildSection').style.display  = isManual ? 'none' : '';
+  document.getElementById('cheatModeManual').classList.toggle('active', isManual);
+  document.getElementById('cheatModeBuild').classList.toggle('active', !isManual);
+  if (!isManual) renderMealBuilderLibrary();
+}
+
+function renderMealBuilderLibrary() {
+  const el = document.getElementById('mbLibrary');
+  if (!el) return;
+  const q = (document.getElementById('mbSearch')?.value || '').toLowerCase();
+  const items = componentsData.filter(c => !q || c.name.toLowerCase().includes(q));
+  if (!items.length) {
+    el.innerHTML = '<div style="padding:10px;font-size:13px;color:var(--muted)">No ingredients match.</div>';
+    return;
+  }
+  el.innerHTML = items.map((c, i) => {
+    const globalIdx = componentsData.indexOf(c);
+    return `<div style="display:flex;align-items:center;justify-content:space-between;padding:8px 10px;border-bottom:1px solid var(--border);font-size:13px">
+      <span>${escHtml(c.name)}</span>
+      <div style="display:flex;align-items:center;gap:10px;flex-shrink:0">
+        <span style="color:var(--muted)">${c.kcal} kcal</span>
+        <button type="button" onclick="addToMeal(${globalIdx})" style="background:var(--green);color:#000;border:none;border-radius:6px;width:26px;height:26px;font-size:16px;line-height:1;cursor:pointer;font-weight:700">+</button>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+function addToMeal(globalIdx) {
+  const comp = componentsData[globalIdx];
+  if (!comp) return;
+  const existing = mealBuilderItems.find(i => i.component === comp);
+  if (existing) { existing.qty++; }
+  else { mealBuilderItems.push({ component: comp, qty: 1 }); }
+  renderMealBuilderSelected();
+}
+
+function removeFromMeal(idx) {
+  mealBuilderItems.splice(idx, 1);
+  renderMealBuilderSelected();
+}
+
+function adjustQty(idx, delta) {
+  mealBuilderItems[idx].qty = Math.max(1, mealBuilderItems[idx].qty + delta);
+  renderMealBuilderSelected();
+}
+
+function renderMealBuilderSelected() {
+  const el = document.getElementById('mbSelected');
+  const totalEl = document.getElementById('mbTotal');
+  if (!el || !totalEl) return;
+
+  if (!mealBuilderItems.length) {
+    el.innerHTML = '<div style="font-size:13px;color:var(--muted);padding:4px 0">No ingredients added yet.</div>';
+    totalEl.textContent = '0 kcal · 0g protein';
+  } else {
+    el.innerHTML = mealBuilderItems.map((item, idx) => `
+      <div style="display:flex;align-items:center;gap:8px;padding:6px 0;border-bottom:1px solid var(--border);font-size:13px">
+        <span style="flex:1">${escHtml(item.component.name)}</span>
+        <span style="color:var(--muted);font-size:12px">${item.component.kcal * item.qty} kcal</span>
+        <button type="button" onclick="adjustQty(${idx},-1)" style="background:var(--surface2);border:1px solid var(--border);border-radius:5px;width:24px;height:24px;cursor:pointer;color:var(--text);font-size:14px">−</button>
+        <span style="min-width:18px;text-align:center">${item.qty}</span>
+        <button type="button" onclick="adjustQty(${idx},1)"  style="background:var(--surface2);border:1px solid var(--border);border-radius:5px;width:24px;height:24px;cursor:pointer;color:var(--text);font-size:14px">+</button>
+        <button type="button" onclick="removeFromMeal(${idx})" style="background:none;border:none;color:var(--muted);font-size:16px;cursor:pointer;padding:0 2px">×</button>
+      </div>`).join('');
+
+    const totalKcal    = mealBuilderItems.reduce((s, i) => s + i.component.kcal * i.qty, 0);
+    const totalProtein = mealBuilderItems.reduce((s, i) => s + (i.component.protein || 0) * i.qty, 0);
+    totalEl.textContent = `${totalKcal} kcal · ${totalProtein}g protein`;
+
+    // Auto-populate the shared kcal and description fields
+    const detailParts = mealBuilderItems.map(i => i.qty > 1 ? `${escHtml(i.component.name)} ×${i.qty}` : escHtml(i.component.name));
+    const detailEl = document.getElementById('ff_cheatDetail');
+    const kcalEl   = document.getElementById('ff_cheatKcal');
+    if (detailEl) detailEl.value = detailParts.join(', ');
+    if (kcalEl)   { kcalEl.value = totalKcal; updateCheatImpact(); }
+  }
+}
+
+function toggleAddIngredientForm() {
+  const f = document.getElementById('mbNewForm');
+  if (f) f.style.display = f.style.display === 'none' ? '' : 'none';
+}
+
+async function saveNewComponent() {
+  const name    = (document.getElementById('mbNewName')?.value || '').trim();
+  const kcal    = parseInt(document.getElementById('mbNewKcal')?.value) || 0;
+  const protein = parseInt(document.getElementById('mbNewProtein')?.value) || 0;
+  if (!name) return;
+
+  const newComp = { name, kcal, protein };
+  componentsData.push(newComp);
+
+  const statusEl = document.getElementById('formStatus');
+  try {
+    const content = JSON.stringify(componentsData, null, 2);
+    const res = await ghPut(COMPONENTS_PATH, content, componentsSha, 'components: add ' + name);
+    componentsSha = res.content?.sha || componentsSha;
+    if (statusEl) { statusEl.textContent = '✓ Ingredient saved'; statusEl.style.color = 'var(--green)'; }
+  } catch(e) {
+    componentsData.pop();
+    if (statusEl) { statusEl.textContent = 'Could not save ingredient — check connection'; statusEl.style.color = 'var(--red)'; }
+    return;
+  }
+
+  // Add it to the current meal and refresh
+  mealBuilderItems.push({ component: newComp, qty: 1 });
+  document.getElementById('mbNewName').value    = '';
+  document.getElementById('mbNewKcal').value    = '';
+  document.getElementById('mbNewProtein').value = '';
+  document.getElementById('mbNewForm').style.display = 'none';
+  renderMealBuilderLibrary();
+  renderMealBuilderSelected();
 }
 
 function updateCheatImpact() {
