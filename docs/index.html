@@ -2486,6 +2486,22 @@ function prevPhaseFilterClick(idx, key) {
   renderPrevPhaseLogContent(idx);
 }
 
+function initMealBuilderRosterToggle() {
+  const cb = document.getElementById('mbSaveToRoster');
+  if (!cb) return;
+  cb.addEventListener('change', function() {
+    const wrap = document.getElementById('mbRosterNameWrap');
+    if (!wrap) return;
+    wrap.style.display = this.checked ? '' : 'none';
+    if (this.checked) {
+      const nameEl = document.getElementById('mbRosterName');
+      if (nameEl && !nameEl.value && mealBuilderItems.length) {
+        nameEl.value = mealBuilderItems.map(i => i.component.name).join(', ');
+      }
+    }
+  });
+}
+
 function prevMealTabClick(idx, tab) {
   prevMealTabs.set(idx, tab);
   const phases = (dashData && dashData.previous_phases) ? [...dashData.previous_phases].reverse() : [];
@@ -3602,6 +3618,14 @@ function openCheatForm() {
       </div>
       <div id="mbSelected" style="margin-bottom:10px"></div>
       <div id="mbTotal" style="font-size:15px;font-weight:700;padding:8px 0;border-top:1px solid var(--border);margin-bottom:10px;color:var(--green)">0 kcal · 0g protein</div>
+      <div style="display:flex;align-items:center;gap:10px;padding:8px 0;border-top:1px solid var(--border);margin-bottom:4px">
+        <label style="font-size:13px;color:var(--muted);flex:1">Save to quick-select roster</label>
+        <input type="checkbox" id="mbSaveToRoster" style="width:18px;height:18px;cursor:pointer">
+      </div>
+      <div id="mbRosterNameWrap" style="display:none;margin-bottom:8px">
+        <input type="text" id="mbRosterName" placeholder="Give this meal a name…"
+          style="width:100%;box-sizing:border-box;background:var(--surface2);border:1px solid var(--border);border-radius:8px;padding:8px 10px;color:var(--text);font-size:13px">
+      </div>
     </div>
 
     <!-- SHARED FIELDS -->
@@ -3618,8 +3642,8 @@ function openCheatForm() {
       <input id="ff_cheatDate" type="date" value="${todayStr()}" />
     </div>
     <div class="field">
-      <label>Note <span class="optional-label">optional</span></label>
-      <textarea id="ff_cheatNote" placeholder="e.g. Birthday dinner, work event"></textarea>
+      <label>Ingredients / Note <span class="optional-label">optional</span></label>
+      <textarea id="ff_cheatNote" placeholder="e.g. Ingredients, birthday dinner, work event"></textarea>
     </div>
     <button class="save-btn" id="saveBtn" onclick="submitCheatForm()">Save Entry</button>
     <div class="status-msg" id="formStatus"></div>`;
@@ -3635,6 +3659,7 @@ function openCheatForm() {
   if (presetEl) presetEl._commonCheats = commonCheats;
 
   renderMealBuilderLibrary();
+  initMealBuilderRosterToggle();
 
   setTimeout(() => {
     const first = document.getElementById('ff_cheatDetail');
@@ -3656,8 +3681,13 @@ function applyCheatPreset() {
     const cheats = presetEl._commonCheats || [];
     const preset = cheats[parseInt(idx)];
     if (preset) {
-      detailEl.value = preset.description || preset.name;
+      detailEl.value = preset.name;
       kcalEl.value   = preset.kcal;
+      // Populate note with ingredient description so it's preserved but not in the main label
+      const noteEl = document.getElementById('ff_cheatNote');
+      if (noteEl && preset.description && preset.description !== preset.name) {
+        noteEl.value = preset.description;
+      }
     }
   }
   updateCheatImpact();
@@ -3871,6 +3901,25 @@ async function submitCheatForm() {
     if (!user || !token) throw new Error('GitHub not configured — go to Settings first');
     await ghAppend(LOG_PATH, line);
     if (logText !== null) logText += '\n' + line;
+
+    // Save to quick-select roster if requested (Build mode)
+    const rosterCb   = document.getElementById('mbSaveToRoster');
+    const rosterName = (document.getElementById('mbRosterName')?.value || '').trim();
+    if (rosterCb && rosterCb.checked && rosterName && mealBuilderItems.length) {
+      const totalKcal    = Math.round(mealBuilderItems.reduce((s, i) => s + i.component.kcal * i.qty, 0));
+      const totalProtein = Math.round(mealBuilderItems.reduce((s, i) => s + (i.component.protein || 0) * i.qty, 0));
+      const description  = mealBuilderItems.map(i => i.qty !== 1 ? `${i.component.name} ×${i.qty}` : i.component.name).join(', ');
+      const newCheat     = { name: rosterName, description, kcal: totalKcal, protein: totalProtein };
+      // Re-fetch dashboard for latest sha before writing
+      const freshDash   = await ghGet(DASH_PATH);
+      dashSha           = freshDash.sha;
+      const freshData   = JSON.parse(ghDecode(freshDash.content));
+      if (!freshData.phase.common_cheats) freshData.phase.common_cheats = [];
+      freshData.phase.common_cheats.push(newCheat);
+      await ghPut(DASH_PATH, JSON.stringify(freshData, null, 2), dashSha, 'cheat roster: add ' + rosterName);
+      dashData = freshData;
+    }
+
     status.className = 'status-msg success';
     status.textContent = '✓ Saved successfully';
     btn.textContent = 'Saved ✓';
