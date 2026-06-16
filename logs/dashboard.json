@@ -40,88 +40,68 @@
       },
       "weekday": {
         "items": [
-          {
-            "category": "Morning Coffee",
-            "label": "Coffee + Oatly",
-            "kcal": 50,
-            "protein": 1
+          { "category": "Morning Coffee", "label": "Coffee + Oatly", "kcal": 50, "protein": 1,
+            "ingredients": [
+              { "name": "Coffee (black)", "kcal": 5, "protein": 0 },
+              { "name": "Oatly oat milk (50ml)", "kcal": 45, "protein": 1 }
+            ]
           },
-          {
-            "category": "Breakfast",
-            "label": "Double Shake",
-            "kcal": 232,
-            "protein": 42
+          { "category": "Breakfast", "label": "Double Shake", "kcal": 232, "protein": 42,
+            "ingredients": [
+              { "name": "Impact Whey × 2 scoops", "kcal": 232, "protein": 42 },
+              { "name": "Water", "kcal": 0, "protein": 0 }
+            ]
           },
-          {
-            "category": "Lunch",
-            "label": "Chicken Wrap + side",
-            "kcal": 500,
-            "protein": 52
+          { "category": "Lunch", "label": "Chicken Wrap + side", "kcal": 500, "protein": 52,
+            "ingredients": [
+              { "name": "Sainsbury's protein wrap (61g)", "kcal": 170, "protein": 10 },
+              { "name": "Chicken breast (160g raw, air fryer)", "kcal": 176, "protein": 37 },
+              { "name": "Fage 0% Greek yoghurt (2 tsp)", "kcal": 20, "protein": 4 },
+              { "name": "Salad leaves & spring onion", "kcal": 10, "protein": 1 },
+              { "name": "Side — ½ avocado or 50g rice", "kcal": 124, "protein": 2 }
+            ]
           },
-          {
-            "category": "Afternoon snack",
-            "label": "Kiwi",
-            "kcal": 42,
-            "protein": 1
+          { "category": "Afternoon snack", "label": "Kiwi", "kcal": 42, "protein": 1 },
+          { "category": "Afternoon shake", "label": "Single Shake", "kcal": 116, "protein": 21,
+            "ingredients": [
+              { "name": "Impact Whey × 1 scoop", "kcal": 116, "protein": 21 },
+              { "name": "Water", "kcal": 0, "protein": 0 }
+            ]
           },
-          {
-            "category": "Afternoon shake",
-            "label": "Single Shake",
-            "kcal": 116,
-            "protein": 21
-          },
-          {
-            "category": "Dinner",
-            "label": "Gousto Meal",
-            "kcal": 640,
-            "protein": 41
-          },
-          {
-            "category": "Evening",
-            "label": "Dark Chocolate",
-            "kcal": 200,
-            "protein": 4
-          }
+          { "category": "Dinner",  "label": "Gousto Meal",    "kcal": 640, "protein": 41 },
+          { "category": "Evening", "label": "Dark Chocolate", "kcal": 200, "protein": 4  }
         ]
       },
       "weekend": {
         "items": [
-          {
-            "category": "Morning Coffee",
-            "label": "Coffee + Oatly",
-            "kcal": 50,
-            "protein": 1
+          { "category": "Morning Coffee", "label": "Coffee + Oatly", "kcal": 50, "protein": 1,
+            "ingredients": [
+              { "name": "Coffee (black)", "kcal": 5, "protein": 0 },
+              { "name": "Oatly oat milk (50ml)", "kcal": 45, "protein": 1 }
+            ]
           },
-          {
-            "category": "Breakfast",
-            "label": "Single Shake",
-            "kcal": 116,
-            "protein": 21
+          { "category": "Breakfast", "label": "Single Shake", "kcal": 116, "protein": 21,
+            "ingredients": [
+              { "name": "Impact Whey × 1 scoop", "kcal": 116, "protein": 21 },
+              { "name": "Water", "kcal": 0, "protein": 0 }
+            ]
           },
-          {
-            "category": "Brunch",
-            "label": "Weekend Brunch",
-            "kcal": 648,
-            "protein": 41
+          { "category": "Brunch", "label": "Weekend Brunch", "kcal": 648, "protein": 41,
+            "ingredients": [
+              { "name": "Sainsbury's hash browns × 3 (air fryer)", "kcal": 183, "protein": 3 },
+              { "name": "Branston baked beans (½ tin ~205g)",       "kcal": 175, "protein": 9 },
+              { "name": "Eggs × 2, fried with small oil",           "kcal": 188, "protein": 13 },
+              { "name": "Heck Chicken Italia sausages × 3",         "kcal": 102, "protein": 17 }
+            ]
           },
-          {
-            "category": "Afternoon shake",
-            "label": "Double Shake",
-            "kcal": 232,
-            "protein": 42
+          { "category": "Afternoon shake", "label": "Double Shake", "kcal": 232, "protein": 42,
+            "ingredients": [
+              { "name": "Impact Whey × 2 scoops", "kcal": 232, "protein": 42 },
+              { "name": "Water", "kcal": 0, "protein": 0 }
+            ]
           },
-          {
-            "category": "Dinner",
-            "label": "Gousto Meal",
-            "kcal": 640,
-            "protein": 41
-          },
-          {
-            "category": "Evening",
-            "label": "Dark Chocolate",
-            "kcal": 200,
-            "protein": 4
-          }
+          { "category": "Dinner",  "label": "Gousto Meal",    "kcal": 640, "protein": 41 },
+          { "category": "Evening", "label": "Dark Chocolate", "kcal": 200, "protein": 4  }
         ]
       },
       "cycling_kcal_factor": 0.65,
