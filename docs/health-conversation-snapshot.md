@@ -163,6 +163,39 @@ TDEE = actual_daily_deficit + 1,435
 
 ---
 
+## Session notes — 16 Jun 2026 (afternoon)
+
+### Phase 2 — pre-planned
+
+| Field | Value |
+|-------|-------|
+| **Start date** | **Mon 6 Jul 2026** |
+| **End date** | **Sun 30 Aug 2026** (8 complete Mon–Sun weeks) |
+| **Duration** | 8 weeks (56 days) |
+| **Expected start weight** | ~80–81 kg (maintenance rebound from ~79.3 kg depleted) |
+| **Target end weight** | **~75–77 kg** by 30 Aug |
+| **Bali** | 12 Sep 2026 — 13 days post-cut for glycogen rebound and recovery |
+| **Extension option** | Up to 1 extra week (end 6 Sep max) if on track and feeling good |
+
+**Meal plan:** Same as Phase 1 (worked extremely well — 0.83 kg/wk, no strength loss)
+- Weekday: 1,398 kcal · 137g protein (coffee, double shake, chicken wrap, Gousto, pudding)
+- Weekend: 1,554 kcal
+- `maintenance_kcal`: 2,200 · `weekly_deficit_target`: 5,300 · `cycling_kcal_factor`: 0.65
+
+**Cardio:** Runs (1–2×/wk) + MTB rides as available. **No stair climbing sessions planned.** Phase 1 proved runs + MTB are sufficient — structured vigorous cardio is the lever, not the specific modality. Stair climbing removed from Phase 2 planning.
+
+**Gate conditions (must be met before starting Phase 2):**
+- Blood test (early Jul): T ≥15 nmol/l, LH within range (1.8–8.6). If not recovered, address hormones before committing to another 10-week cut.
+- DEXA scan (late Jun / early Jul): lean mass baseline before Phase 2
+
+**What to do on 6 Jul (Phase 2 setup session):**
+1. Log morning weight — this becomes `start_kg`
+2. Archive maintenance phase to `previous_phases` (copy `meal_plan` + `supplements` into the entry)
+3. Set up new active phase in `dashboard.json` with Phase 1 meal plan, start_kg, dates
+4. Start logging normally — same app, same patterns as Phase 1
+
+---
+
 ## Session notes — 16 Jun 2026
 
 ### Maintenance month — plan confirmed and live
