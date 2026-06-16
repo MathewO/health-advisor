@@ -3,6 +3,11 @@
     "status": "maintenance",
     "start_date": "2026-06-07",
     "start_kg": 79.3,
+    "common_cheats": [
+      { "name": "Caesar Salad",           "description": "Caesar Salad",           "kcal": 497, "protein": 30 },
+      { "name": "Tuna Power Bowl",         "description": "Tuna Power Bowl",         "kcal": 508, "protein": 41 },
+      { "name": "Turkey Meatball Spaghetti", "description": "Turkey Meatball Spaghetti (187.5g 2% turkey mince + 40g spaghetti + 125g passata)", "kcal": 400, "protein": 49 }
+    ],
     "meal_plan": {
       "maintenance_kcal": 2150,
       "protein_target": "160g+ per day",
