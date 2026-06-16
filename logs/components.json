@@ -63,5 +63,10 @@
     "name": "Tomatoes",
     "kcal": 50,
     "protein": 0
+  },
+  {
+    "name": "LF Cheddar Slice",
+    "kcal": 50,
+    "protein": 4
   }
 ]
