@@ -2,7 +2,44 @@
   "phase": {
     "status": "maintenance",
     "start_date": "2026-06-07",
-    "start_kg": 79.3
+    "start_kg": 79.3,
+    "meal_plan": {
+      "maintenance_kcal": 2150,
+      "protein_target": "160g+ per day",
+      "totals": {
+        "weekday_kcal": 1780,
+        "weekend_kcal": 1886,
+        "avg_daily_kcal": 1810,
+        "_note": "Weeks 2–4 ramp plan. Add oats (~175 kcal) for weeks 3–4 to reach 2,150 kcal/day."
+      },
+      "weekday": {
+        "items": [
+          { "category": "Morning Coffee",  "label": "Coffee + Oatly",        "kcal": 50,  "protein": 1  },
+          { "category": "Breakfast",       "label": "Double Shake",          "kcal": 232, "protein": 42 },
+          { "category": "Lunch",           "label": "Chicken Wrap + side",   "kcal": 500, "protein": 52 },
+          { "category": "Afternoon snack", "label": "Kiwi",                  "kcal": 42,  "protein": 1  },
+          { "category": "Afternoon shake", "label": "Single Shake",          "kcal": 116, "protein": 21 },
+          { "category": "Dinner",          "label": "Gousto Meal",           "kcal": 640, "protein": 41 },
+          { "category": "Evening",         "label": "Dark Chocolate",        "kcal": 200, "protein": 4  }
+        ]
+      },
+      "weekend": {
+        "items": [
+          { "category": "Morning Coffee",  "label": "Coffee + Oatly",        "kcal": 50,  "protein": 1  },
+          { "category": "Breakfast",       "label": "Single Shake",          "kcal": 116, "protein": 21 },
+          { "category": "Brunch",          "label": "Weekend Brunch",        "kcal": 648, "protein": 41 },
+          { "category": "Afternoon shake", "label": "Double Shake",          "kcal": 232, "protein": 42 },
+          { "category": "Dinner",          "label": "Gousto Meal",           "kcal": 640, "protein": 41 },
+          { "category": "Evening",         "label": "Dark Chocolate",        "kcal": 200, "protein": 4  }
+        ]
+      },
+      "cycling_kcal_factor": 0.65,
+      "drink_kcal": {
+        "Pint of Guinness": 210, "440ml Guinness": 155, "Pint of 4% Pale Ale": 190,
+        "Pint of IPA": 270, "330ml Hazy Jane": 158, "Negroni": 185,
+        "Gin & Tonic": 120, "Slimline G&T": 65, "Glass of red wine": 160, "Glass of white wine": 120
+      }
+    }
   },
   "supplements": [
     {
