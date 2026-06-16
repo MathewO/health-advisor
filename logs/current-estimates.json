@@ -53,8 +53,8 @@
   },
 
   "health_metrics_export": {
-    "last_export_date": "2026-06-04",
+    "last_export_date": "2026-06-16",
     "stale_after_days": 14,
-    "next_reminder": "2026-06-18"
+    "next_reminder": "2026-06-30"
   }
 }
