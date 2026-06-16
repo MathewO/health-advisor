@@ -4,9 +4,30 @@
     "start_date": "2026-06-07",
     "start_kg": 79.3,
     "common_cheats": [
-      { "name": "Caesar Salad",           "description": "Caesar Salad",           "kcal": 497, "protein": 30 },
-      { "name": "Tuna Power Bowl",         "description": "Tuna Power Bowl",         "kcal": 508, "protein": 41 },
-      { "name": "Turkey Meatball Spaghetti", "description": "Turkey Meatball Spaghetti (187.5g 2% turkey mince + 40g spaghetti + 125g passata)", "kcal": 400, "protein": 49 }
+      {
+        "name": "Caesar Salad",
+        "description": "Caesar Salad",
+        "kcal": 497,
+        "protein": 30
+      },
+      {
+        "name": "Tuna Power Bowl",
+        "description": "Tuna Power Bowl",
+        "kcal": 508,
+        "protein": 41
+      },
+      {
+        "name": "Turkey Meatball Spaghetti",
+        "description": "Turkey Meatball Spaghetti (187.5g 2% turkey mince + 40g spaghetti + 125g passata)",
+        "kcal": 400,
+        "protein": 49
+      },
+      {
+        "name": "Single burger",
+        "description": "Large white roll, LF Cheddar Slice ×2, Beef Mince 5% (100g) ×1.25",
+        "kcal": 515,
+        "protein": 54
+      }
     ],
     "meal_plan": {
       "maintenance_kcal": 2150,
@@ -19,30 +40,102 @@
       },
       "weekday": {
         "items": [
-          { "category": "Morning Coffee",  "label": "Coffee + Oatly",        "kcal": 50,  "protein": 1  },
-          { "category": "Breakfast",       "label": "Double Shake",          "kcal": 232, "protein": 42 },
-          { "category": "Lunch",           "label": "Chicken Wrap + side",   "kcal": 500, "protein": 52 },
-          { "category": "Afternoon snack", "label": "Kiwi",                  "kcal": 42,  "protein": 1  },
-          { "category": "Afternoon shake", "label": "Single Shake",          "kcal": 116, "protein": 21 },
-          { "category": "Dinner",          "label": "Gousto Meal",           "kcal": 640, "protein": 41 },
-          { "category": "Evening",         "label": "Dark Chocolate",        "kcal": 200, "protein": 4  }
+          {
+            "category": "Morning Coffee",
+            "label": "Coffee + Oatly",
+            "kcal": 50,
+            "protein": 1
+          },
+          {
+            "category": "Breakfast",
+            "label": "Double Shake",
+            "kcal": 232,
+            "protein": 42
+          },
+          {
+            "category": "Lunch",
+            "label": "Chicken Wrap + side",
+            "kcal": 500,
+            "protein": 52
+          },
+          {
+            "category": "Afternoon snack",
+            "label": "Kiwi",
+            "kcal": 42,
+            "protein": 1
+          },
+          {
+            "category": "Afternoon shake",
+            "label": "Single Shake",
+            "kcal": 116,
+            "protein": 21
+          },
+          {
+            "category": "Dinner",
+            "label": "Gousto Meal",
+            "kcal": 640,
+            "protein": 41
+          },
+          {
+            "category": "Evening",
+            "label": "Dark Chocolate",
+            "kcal": 200,
+            "protein": 4
+          }
         ]
       },
       "weekend": {
         "items": [
-          { "category": "Morning Coffee",  "label": "Coffee + Oatly",        "kcal": 50,  "protein": 1  },
-          { "category": "Breakfast",       "label": "Single Shake",          "kcal": 116, "protein": 21 },
-          { "category": "Brunch",          "label": "Weekend Brunch",        "kcal": 648, "protein": 41 },
-          { "category": "Afternoon shake", "label": "Double Shake",          "kcal": 232, "protein": 42 },
-          { "category": "Dinner",          "label": "Gousto Meal",           "kcal": 640, "protein": 41 },
-          { "category": "Evening",         "label": "Dark Chocolate",        "kcal": 200, "protein": 4  }
+          {
+            "category": "Morning Coffee",
+            "label": "Coffee + Oatly",
+            "kcal": 50,
+            "protein": 1
+          },
+          {
+            "category": "Breakfast",
+            "label": "Single Shake",
+            "kcal": 116,
+            "protein": 21
+          },
+          {
+            "category": "Brunch",
+            "label": "Weekend Brunch",
+            "kcal": 648,
+            "protein": 41
+          },
+          {
+            "category": "Afternoon shake",
+            "label": "Double Shake",
+            "kcal": 232,
+            "protein": 42
+          },
+          {
+            "category": "Dinner",
+            "label": "Gousto Meal",
+            "kcal": 640,
+            "protein": 41
+          },
+          {
+            "category": "Evening",
+            "label": "Dark Chocolate",
+            "kcal": 200,
+            "protein": 4
+          }
         ]
       },
       "cycling_kcal_factor": 0.65,
       "drink_kcal": {
-        "Pint of Guinness": 210, "440ml Guinness": 155, "Pint of 4% Pale Ale": 190,
-        "Pint of IPA": 270, "330ml Hazy Jane": 158, "Negroni": 185,
-        "Gin & Tonic": 120, "Slimline G&T": 65, "Glass of red wine": 160, "Glass of white wine": 120
+        "Pint of Guinness": 210,
+        "440ml Guinness": 155,
+        "Pint of 4% Pale Ale": 190,
+        "Pint of IPA": 270,
+        "330ml Hazy Jane": 158,
+        "Negroni": 185,
+        "Gin & Tonic": 120,
+        "Slimline G&T": 65,
+        "Glass of red wine": 160,
+        "Glass of white wine": 120
       }
     }
   },
@@ -330,11 +423,41 @@
       },
       "end_date": "2026-06-07",
       "supplements": [
-        { "name": "Creatine Monohydrate", "dose": "3g", "timing": "Morning, in coffee", "reason": "Muscle strength, performance, recovery; emerging cognitive and longevity benefits", "evidence": "Strong" },
-        { "name": "Vitamin D3 + K2 (MK-7)", "dose": "4,000 IU + 100 mcg", "timing": "Morning, with food", "reason": "Confirmed insufficiency (43 nmol/l); insulin sensitivity, testosterone, immunity", "evidence": "Strong" },
-        { "name": "Magnesium Glycinate", "dose": "400 mg", "timing": "30–60 min before bed", "reason": "Sleep quality, muscle recovery, insulin sensitivity, stress resilience", "evidence": "Moderate-Strong" },
-        { "name": "Omega-3 (EPA+DHA)", "dose": "3g EPA+DHA", "timing": "With dinner", "reason": "Lipid profile (high LDL/ApoB, low HDL); anti-inflammatory; longevity", "evidence": "Strong" },
-        { "name": "Ashwagandha (KSM-66)", "dose": "600 mg", "timing": "Morning, with food", "reason": "Testosterone support (low-normal at 11 nmol/l); cortisol reduction during deficit", "evidence": "Moderate" }
+        {
+          "name": "Creatine Monohydrate",
+          "dose": "3g",
+          "timing": "Morning, in coffee",
+          "reason": "Muscle strength, performance, recovery; emerging cognitive and longevity benefits",
+          "evidence": "Strong"
+        },
+        {
+          "name": "Vitamin D3 + K2 (MK-7)",
+          "dose": "4,000 IU + 100 mcg",
+          "timing": "Morning, with food",
+          "reason": "Confirmed insufficiency (43 nmol/l); insulin sensitivity, testosterone, immunity",
+          "evidence": "Strong"
+        },
+        {
+          "name": "Magnesium Glycinate",
+          "dose": "400 mg",
+          "timing": "30–60 min before bed",
+          "reason": "Sleep quality, muscle recovery, insulin sensitivity, stress resilience",
+          "evidence": "Moderate-Strong"
+        },
+        {
+          "name": "Omega-3 (EPA+DHA)",
+          "dose": "3g EPA+DHA",
+          "timing": "With dinner",
+          "reason": "Lipid profile (high LDL/ApoB, low HDL); anti-inflammatory; longevity",
+          "evidence": "Strong"
+        },
+        {
+          "name": "Ashwagandha (KSM-66)",
+          "dose": "600 mg",
+          "timing": "Morning, with food",
+          "reason": "Testosterone support (low-normal at 11 nmol/l); cortisol reduction during deficit",
+          "evidence": "Moderate"
+        }
       ]
     }
   ],
