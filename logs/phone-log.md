@@ -328,3 +328,4 @@ Walking | 0 min | 0 kcal
 2026-06-14 | waist | 100
 2026-06-15 | weight | 79.9
 2026-06-16 | weight | 79.7
+2026-06-16 | cheat | Large white roll, LF Cheddar Slice ×2, Beef Mince 5% (100g) ×1.25, ~515 kcal
