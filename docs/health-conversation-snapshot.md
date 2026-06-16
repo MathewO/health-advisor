@@ -163,6 +163,33 @@ TDEE = actual_daily_deficit + 1,435
 
 ---
 
+## Session notes — 16 Jun 2026
+
+### Maintenance month — plan confirmed and live
+
+**Phase 1 final closeout:**
+- Phase-end weight: 79.3 kg (6 Jun). Low: 78.7 kg (5 Jun). Waist: 99 cm (4 Jun).
+- Italy 7–13 Jun: natural refeeding, city walking. Scale rebound: 79.3 → 81.0 (14 Jun) → 79.9 (15 Jun) → 79.7 (16 Jun). Waist on return: 100 cm (14 Jun) — essentially unchanged, confirming rebound is glycogen/water only.
+
+**Maintenance meal plan (confirmed, live in `dashboard.json`):**
+
+| Week | Daily kcal target | Notes |
+|------|------------------|-------|
+| Week 2 (14–20 Jun) | ~1,810 avg | Structured plan: weekday 1,780 / weekend 1,886. Sat ~5 beers (~1,200 kcal) → week avg ~1,980 kcal. |
+| Weeks 3–4 (21 Jun – 5 Jul) | ~2,150 | Add oats (~175 kcal/day) to weekday plan to bridge gap. |
+
+- **Food tracking intent:** not logging food unless waist exceeds 102 cm on 2 consecutive weekly readings
+- **Waist monitoring:** weekly, same protocol (navel, relaxed, fasted morning). Alert at 102 cm.
+- **7d avg ceiling:** 84.0 kg — unchanged
+- **Protein:** 160g+/day (weekday ~162g, weekend ~150g)
+
+**Pending actions before Phase 2:**
+- Book DEXA scan (DexaStrong, Leeds) — late June / early July, after glycogen fully restored
+- Book blood panel (T, LH, LDL, HOMA-IR) — early July, after 2–3 weeks at full maintenance
+- Eye specialist appointment: 29 Jun (CSC)
+
+---
+
 ## Session notes — 4 Jun 2026
 
 ### Phase 1 end — final metrics
