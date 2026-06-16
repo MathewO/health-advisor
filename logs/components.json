@@ -68,5 +68,10 @@
     "name": "LF Cheddar Slice",
     "kcal": 50,
     "protein": 4
+  },
+  {
+    "name": "Large white roll",
+    "kcal": 205,
+    "protein": 7
   }
 ]
