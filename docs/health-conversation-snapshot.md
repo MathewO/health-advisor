@@ -163,6 +163,18 @@ TDEE = actual_daily_deficit + 1,435
 
 ---
 
+## Session notes — 17 Jun 2026
+
+### Mild illness — maintenance week 2
+
+- Symptoms from ~16–17 Jun: slight sore throat, throat mucus, sinus ache (eased by 17 Jun). No fever, not properly sick.
+- First run back today (20 min, 222 kcal) felt harder than normal; HR noticeably elevated. Expected effect of mild illness — not a fitness regression.
+- **Training guidance:** neck-check rule applies. Above-neck symptoms = light exercise fine; below-neck or fever = rest. Don't push hard cardio while fighting this.
+- **July blood test watch:** if this is a strep recurrence (active strep was confirmed at April draw — ASO 406.7 — and independently suppresses LH/testosterone), the July retest should be rescheduled if symptoms persist or worsen. A sick result would be as unreliable as the April reading. Monitor: if sore throat worsens significantly, get a rapid strep test.
+- **Weight/HRV context:** mild inflammation can cause slight scale uptick and HRV dip over next 1–2 days. Ignore day-to-day numbers until symptoms clear.
+
+---
+
 ## Session notes — 16 Jun 2026 (afternoon)
 
 ### Phase 2 — pre-planned
