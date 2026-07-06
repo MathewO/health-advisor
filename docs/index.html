@@ -2252,7 +2252,7 @@ function renderPrevPhaseWeightChart(p, idx) {
   const weights = logText ? parseWeightLog(logText, p).filter(pt => pt.date <= phaseEnd) : [];
   if (weights.length < 2) { canvas.style.display = 'none'; return; }
 
-  const startStr  = weights[0].date;
+  const startStr  = p.start_date;
   const startNum  = dateToNum(startStr);
   const totalDays = dateToNum(phaseEnd) - startNum;
 
@@ -2627,17 +2627,21 @@ async function endPhase() {
 
 // ─── Parse helpers ────────────────────────────────────────────
 function parseWeightLog(text, phase) {
+  const phaseStart = phase && phase.start_date;
   const points = [];
   for (const line of text.split('\n')) {
     const parts = line.split('|').map(s => s.trim());
-    if (parts.length >= 3 && parts[1] === 'weight') {
+    if (parts.length >= 3 && parts[1] === 'weight' && /^\d{4}-\d{2}-\d{2}$/.test(parts[0])) {
+      if (phaseStart && parts[0] < phaseStart) continue;
       const kg = parseFloat(parts[2]);
       if (!isNaN(kg)) points.push({ date: parts[0], kg });
     }
   }
-  const hasStartEntry = points.some(p => p.date === phase.start_date);
-  if (!hasStartEntry) {
-    points.unshift({ date: phase.start_date, kg: phase.start_kg });
+  if (phaseStart && phase.start_kg != null) {
+    const hasStartEntry = points.some(p => p.date === phaseStart);
+    if (!hasStartEntry) {
+      points.unshift({ date: phaseStart, kg: phase.start_kg });
+    }
   }
   points.sort((a, b) => a.date.localeCompare(b.date));
   return points;
@@ -2794,7 +2798,7 @@ function renderWeightChart(weights, phase) {
   const ctx = document.getElementById('weightChart').getContext('2d');
   if (weightChart) weightChart.destroy();
 
-  const startStr  = weights[0].date;
+  const startStr  = phase.start_date;
   const startNum  = dateToNum(startStr);
   const targetNum = dateToNum(phase.target_date);
   const totalDays = targetNum - startNum;
@@ -2919,7 +2923,7 @@ function renderWeightChart(weights, phase) {
           max: totalDays,
           afterBuildTicks: (axis) => {
             // Vertical gridlines / labels at the end of each Mon–Sun cycle
-            const start = new Date(weights[0].date + 'T00:00:00');
+            const start = new Date(startStr + 'T00:00:00');
             const dow = start.getDay(); // 0 = Sun, 1 = Mon, ...
             let firstSun = (7 - dow) % 7;
             if (firstSun === 0) firstSun = 7;
@@ -2936,7 +2940,7 @@ function renderWeightChart(weights, phase) {
         },
         y: {
           suggestedMin: 78,
-          suggestedMax: phase.start_kg + 0.5,
+          suggestedMax: Math.max(81, phase.start_kg + 0.5),
           grid: { color: 'rgba(255,255,255,0.05)' },
           ticks: {
             color: '#64748b',
