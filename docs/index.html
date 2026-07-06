@@ -1847,11 +1847,21 @@ function renderMealPlanMeta(mp, tab) {
     return;
   }
 
-  const t = mp.totals || {};
+  // Target intake = maintenance − (weekly deficit target ÷ 7), rounded
+  const intakeTarget = (mp.maintenance_kcal && mp.weekly_deficit_target)
+    ? Math.round(mp.maintenance_kcal - mp.weekly_deficit_target / 7)
+    : ((mp.totals || {}).avg_daily_kcal || null);
+
+  // Live avg deficit = maintenance − actual avg from meal plan items
+  const wdKcal = ((mp.weekday  && mp.weekday.items)  || []).reduce((s, i) => s + (i.kcal || 0), 0);
+  const weKcal = ((mp.weekend  && mp.weekend.items)  || []).reduce((s, i) => s + (i.kcal || 0), 0);
+  const liveAvgKcal = (mp.weekday || mp.weekend) ? Math.round((wdKcal * 5 + weKcal * 2) / 7) : null;
+  const liveDeficit = (liveAvgKcal !== null && mp.maintenance_kcal) ? mp.maintenance_kcal - liveAvgKcal : null;
+
   const pills = [
-    t.avg_daily_kcal    ? { label: 'Target',      value: '~' + t.avg_daily_kcal + ' kcal/day',   color: 'var(--text)' }   : null,
-    mp.maintenance_kcal ? { label: 'Maintenance',  value: mp.maintenance_kcal + ' kcal',           color: 'var(--muted)' } : null,
-    t.avg_daily_deficit ? { label: 'Deficit',      value: '~' + t.avg_daily_deficit + ' kcal/day', color: 'var(--green)' } : null
+    intakeTarget        ? { label: 'Target',      value: '~' + intakeTarget + ' kcal/day',  color: 'var(--text)' }   : null,
+    mp.maintenance_kcal ? { label: 'Maintenance',  value: mp.maintenance_kcal + ' kcal',      color: 'var(--muted)' } : null,
+    liveDeficit !== null ? { label: 'Deficit',     value: '~' + liveDeficit + ' kcal/day',   color: 'var(--green)' } : null
   ].filter(Boolean);
   metaEl.innerHTML = pills.map(p => `
     <div style="background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:5px 10px;font-size:12px">

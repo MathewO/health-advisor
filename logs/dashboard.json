@@ -88,7 +88,7 @@
         "weekday_kcal": 1398,
         "weekend_kcal": 1554,
         "avg_daily_kcal": 1443,
-        "avg_daily_deficit": 492,
+        "avg_daily_deficit": 757,
         "_note": "avg = (weekday\u00d75 + weekend\u00d72) / 7 \u2014 update these whenever meal items change"
       },
       "weekday": {
@@ -227,7 +227,7 @@
           }
         ]
       },
-      "weekly_deficit_target": 5300,
+      "weekly_deficit_target": 5250,
       "cycling_kcal_factor": 0.65,
       "drink_kcal": {
         "Pint of Guinness": 210,
