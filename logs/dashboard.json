@@ -1,8 +1,66 @@
 {
   "phase": {
-    "status": "maintenance",
-    "start_date": "2026-06-07",
-    "start_kg": 79.3,
+    "id": "fat-loss-2026-q3",
+    "name": "Fat Loss \u2014 Bali",
+    "status": "active",
+    "start_date": "2026-07-06",
+    "target_date": "2026-08-30",
+    "carryover_start_date": "2026-07-06",
+    "start_kg": 80.4,
+    "target_kg": 76,
+    "common_lunches": [
+      {
+        "name": "Beef & Bean Chilli Bowl",
+        "description": "Batch lunch (makes 4). 500g 5% beef mince + 1 tin kidney beans + 1 tin black beans + chopped tomatoes + onion/garlic/spices. Topped with Fage 0% Greek yoghurt.",
+        "kcal": 426,
+        "protein": 54,
+        "ingredients": [
+          {
+            "name": "5% beef mince (raw)",
+            "amount": "125g",
+            "kcal": 210,
+            "protein": 39
+          },
+          {
+            "name": "Kidney beans, drained (\u00bc tin)",
+            "amount": "~65g",
+            "kcal": 63,
+            "protein": 4
+          },
+          {
+            "name": "Black beans, drained (\u00bc tin)",
+            "amount": "~65g",
+            "kcal": 62,
+            "protein": 4
+          },
+          {
+            "name": "Chopped tomatoes",
+            "amount": "150g",
+            "kcal": 27,
+            "protein": 1
+          },
+          {
+            "name": "Onion + garlic",
+            "amount": "70g",
+            "kcal": 30,
+            "protein": 1
+          },
+          {
+            "name": "Fage 0% Greek yoghurt (topping)",
+            "amount": "50g",
+            "kcal": 29,
+            "protein": 5
+          },
+          {
+            "name": "Spices (cumin, smoked paprika, chilli, oregano)",
+            "amount": "to taste",
+            "kcal": 5,
+            "protein": 0
+          }
+        ],
+        "batch_note": "500g mince + 1 tin kidney beans + 1 tin black beans = exactly 4 portions. Brown mince, add onion/garlic, spices, tomatoes, beans. Simmer 15 min. Portion into 4 containers. Top with Fage when serving."
+      }
+    ],
     "common_cheats": [
       {
         "name": "Caesar Salad",
@@ -18,92 +76,158 @@
       },
       {
         "name": "Turkey Meatball Spaghetti",
-        "description": "Turkey Meatball Spaghetti (187.5g 2% turkey mince + 40g spaghetti + 125g passata)",
+        "description": "Turkey Meatball Spaghetti (187.5g 2% turkey mince + 40g spaghetti + 125g passata + onion, herbs, chilli)",
         "kcal": 400,
         "protein": 49
-      },
-      {
-        "name": "Single burger",
-        "description": "Large white roll, LF Cheddar Slice ×2, Beef Mince 5% (100g) ×1.25",
-        "kcal": 515,
-        "protein": 54
       }
     ],
     "meal_plan": {
-      "maintenance_kcal": 2150,
-      "protein_target": "160g+ per day",
+      "maintenance_kcal": 2200,
+      "protein_target": "130g+ per day",
       "totals": {
-        "weekday_kcal": 1780,
-        "weekend_kcal": 1886,
-        "avg_daily_kcal": 1810,
-        "_note": "Weeks 2–4 ramp plan. Add oats (~175 kcal) for weeks 3–4 to reach 2,150 kcal/day."
+        "weekday_kcal": 1398,
+        "weekend_kcal": 1554,
+        "avg_daily_kcal": 1443,
+        "avg_daily_deficit": 492,
+        "_note": "avg = (weekday\u00d75 + weekend\u00d72) / 7 \u2014 update these whenever meal items change"
       },
       "weekday": {
         "items": [
-          { "category": "Morning Coffee", "label": "Coffee + Oatly", "kcal": 50, "protein": 1,
+          {
+            "category": "Morning Coffee",
+            "label": "Coffee + Oatly",
+            "kcal": 50,
+            "protein": 1
+          },
+          {
+            "category": "Breakfast",
+            "label": "Double Shake",
+            "kcal": 232,
+            "protein": 42,
             "ingredients": [
-              { "name": "Coffee (black)", "kcal": 5, "protein": 0 },
-              { "name": "Oatly oat milk (50ml)", "kcal": 45, "protein": 1 }
+              {
+                "name": "Impact Whey \u00d7 2 scoops",
+                "kcal": 232,
+                "protein": 42
+              },
+              {
+                "name": "Water",
+                "kcal": 0,
+                "protein": 0
+              }
             ]
           },
-          { "category": "Breakfast", "label": "Double Shake", "kcal": 232, "protein": 42,
+          {
+            "category": "Lunch",
+            "label": "Chicken Wrap",
+            "kcal": 376,
+            "protein": 51,
             "ingredients": [
-              { "name": "Impact Whey × 2 scoops", "kcal": 232, "protein": 42 },
-              { "name": "Water", "kcal": 0, "protein": 0 }
+              {
+                "name": "Sainsbury's protein wrap (61g)",
+                "kcal": 170,
+                "protein": 10
+              },
+              {
+                "name": "Chicken breast (160g raw, air fryer)",
+                "kcal": 176,
+                "protein": 37
+              },
+              {
+                "name": "Fage 0% Greek yoghurt (2 big tsp)",
+                "kcal": 20,
+                "protein": 4
+              },
+              {
+                "name": "Salad leaves & spring onion",
+                "kcal": 10,
+                "protein": 1
+              }
             ]
           },
-          { "category": "Lunch", "label": "Chicken Wrap + side", "kcal": 500, "protein": 52,
-            "ingredients": [
-              { "name": "Sainsbury's protein wrap (61g)", "kcal": 170, "protein": 10 },
-              { "name": "Chicken breast (160g raw, air fryer)", "kcal": 176, "protein": 37 },
-              { "name": "Fage 0% Greek yoghurt (2 tsp)", "kcal": 20, "protein": 4 },
-              { "name": "Salad leaves & spring onion", "kcal": 10, "protein": 1 },
-              { "name": "Side — ½ avocado or 50g rice", "kcal": 124, "protein": 2 }
-            ]
+          {
+            "category": "Dinner",
+            "label": "Gousto Meal",
+            "kcal": 640,
+            "protein": 41
           },
-          { "category": "Afternoon snack", "label": "Kiwi", "kcal": 42, "protein": 1 },
-          { "category": "Afternoon shake", "label": "Single Shake", "kcal": 116, "protein": 21,
-            "ingredients": [
-              { "name": "Impact Whey × 1 scoop", "kcal": 116, "protein": 21 },
-              { "name": "Water", "kcal": 0, "protein": 0 }
-            ]
-          },
-          { "category": "Dinner",  "label": "Gousto Meal",    "kcal": 640, "protein": 41 },
-          { "category": "Evening", "label": "Dark Chocolate", "kcal": 200, "protein": 4  }
+          {
+            "category": "Pudding",
+            "label": "Milk Chocolate",
+            "kcal": 100,
+            "protein": 2
+          }
         ]
       },
       "weekend": {
         "items": [
-          { "category": "Morning Coffee", "label": "Coffee + Oatly", "kcal": 50, "protein": 1,
+          {
+            "category": "Morning Coffee",
+            "label": "Coffee + Oatly",
+            "kcal": 50,
+            "protein": 1
+          },
+          {
+            "category": "Breakfast",
+            "label": "Single Shake",
+            "kcal": 116,
+            "protein": 21,
             "ingredients": [
-              { "name": "Coffee (black)", "kcal": 5, "protein": 0 },
-              { "name": "Oatly oat milk (50ml)", "kcal": 45, "protein": 1 }
+              {
+                "name": "Impact Whey \u00d7 1 scoop",
+                "kcal": 116,
+                "protein": 21
+              },
+              {
+                "name": "Water",
+                "kcal": 0,
+                "protein": 0
+              }
             ]
           },
-          { "category": "Breakfast", "label": "Single Shake", "kcal": 116, "protein": 21,
+          {
+            "category": "Brunch",
+            "label": "Weekend Brunch",
+            "kcal": 648,
+            "protein": 41,
             "ingredients": [
-              { "name": "Impact Whey × 1 scoop", "kcal": 116, "protein": 21 },
-              { "name": "Water", "kcal": 0, "protein": 0 }
+              {
+                "name": "Sainsbury's hash browns \u00d7 3 (air fryer)",
+                "kcal": 183,
+                "protein": 3
+              },
+              {
+                "name": "Branston baked beans (1/2 tin ~205g)",
+                "kcal": 175,
+                "protein": 9
+              },
+              {
+                "name": "Eggs \u00d7 2, fried with small oil",
+                "kcal": 188,
+                "protein": 13
+              },
+              {
+                "name": "Heck Chicken Italia sausages \u00d7 3 (air fryer)",
+                "kcal": 102,
+                "protein": 17
+              }
             ]
           },
-          { "category": "Brunch", "label": "Weekend Brunch", "kcal": 648, "protein": 41,
-            "ingredients": [
-              { "name": "Sainsbury's hash browns × 3 (air fryer)", "kcal": 183, "protein": 3 },
-              { "name": "Branston baked beans (½ tin ~205g)",       "kcal": 175, "protein": 9 },
-              { "name": "Eggs × 2, fried with small oil",           "kcal": 188, "protein": 13 },
-              { "name": "Heck Chicken Italia sausages × 3",         "kcal": 102, "protein": 17 }
-            ]
+          {
+            "category": "Dinner",
+            "label": "Gousto Meal",
+            "kcal": 640,
+            "protein": 41
           },
-          { "category": "Afternoon shake", "label": "Double Shake", "kcal": 232, "protein": 42,
-            "ingredients": [
-              { "name": "Impact Whey × 2 scoops", "kcal": 232, "protein": 42 },
-              { "name": "Water", "kcal": 0, "protein": 0 }
-            ]
-          },
-          { "category": "Dinner",  "label": "Gousto Meal",    "kcal": 640, "protein": 41 },
-          { "category": "Evening", "label": "Dark Chocolate", "kcal": 200, "protein": 4  }
+          {
+            "category": "Pudding",
+            "label": "Milk Chocolate",
+            "kcal": 100,
+            "protein": 2
+          }
         ]
       },
+      "weekly_deficit_target": 5300,
       "cycling_kcal_factor": 0.65,
       "drink_kcal": {
         "Pint of Guinness": 210,
@@ -137,7 +261,7 @@
     {
       "name": "Magnesium Glycinate",
       "dose": "400 mg",
-      "timing": "30–60 min before bed",
+      "timing": "30\u201360 min before bed",
       "reason": "Sleep quality, muscle recovery, insulin sensitivity (HOMA-IR 2.23), stress resilience",
       "evidence": "Moderate-Strong"
     },
@@ -181,13 +305,13 @@
               "protein": 39
             },
             {
-              "name": "Kidney beans, drained (¼ tin)",
+              "name": "Kidney beans, drained (\u00bc tin)",
               "amount": "~65g",
               "kcal": 63,
               "protein": 4
             },
             {
-              "name": "Black beans, drained (¼ tin)",
+              "name": "Black beans, drained (\u00bc tin)",
               "amount": "~65g",
               "kcal": 62,
               "protein": 4
@@ -248,7 +372,7 @@
           "weekend_kcal": 1554,
           "avg_daily_kcal": 1443,
           "avg_daily_deficit": 492,
-          "_note": "avg = (weekday×5 + weekend×2) / 7 — update these whenever meal items change"
+          "_note": "avg = (weekday\u00d75 + weekend\u00d72) / 7 \u2014 update these whenever meal items change"
         },
         "weekday": {
           "items": [
@@ -265,7 +389,7 @@
               "protein": 42,
               "ingredients": [
                 {
-                  "name": "Impact Whey × 2 scoops",
+                  "name": "Impact Whey \u00d7 2 scoops",
                   "kcal": 232,
                   "protein": 42
                 },
@@ -333,7 +457,7 @@
               "protein": 21,
               "ingredients": [
                 {
-                  "name": "Impact Whey × 1 scoop",
+                  "name": "Impact Whey \u00d7 1 scoop",
                   "kcal": 116,
                   "protein": 21
                 },
@@ -351,7 +475,7 @@
               "protein": 41,
               "ingredients": [
                 {
-                  "name": "Sainsbury's hash browns × 3 (air fryer)",
+                  "name": "Sainsbury's hash browns \u00d7 3 (air fryer)",
                   "kcal": 183,
                   "protein": 3
                 },
@@ -361,12 +485,12 @@
                   "protein": 9
                 },
                 {
-                  "name": "Eggs × 2, fried with small oil",
+                  "name": "Eggs \u00d7 2, fried with small oil",
                   "kcal": 188,
                   "protein": 13
                 },
                 {
-                  "name": "Heck Chicken Italia sausages × 3 (air fryer)",
+                  "name": "Heck Chicken Italia sausages \u00d7 3 (air fryer)",
                   "kcal": 102,
                   "protein": 17
                 }
@@ -420,7 +544,7 @@
         {
           "name": "Magnesium Glycinate",
           "dose": "400 mg",
-          "timing": "30–60 min before bed",
+          "timing": "30\u201360 min before bed",
           "reason": "Sleep quality, muscle recovery, insulin sensitivity, stress resilience",
           "evidence": "Moderate-Strong"
         },
@@ -439,6 +563,308 @@
           "evidence": "Moderate"
         }
       ]
+    },
+    {
+      "id": "maintenance-2026-q2",
+      "name": "Maintenance",
+      "status": "completed",
+      "start_date": "2026-06-07",
+      "end_date": "2026-07-06",
+      "start_kg": 79.3,
+      "target_kg": 79.3,
+      "common_cheats": [
+        {
+          "name": "Caesar Salad",
+          "description": "Caesar Salad",
+          "kcal": 497,
+          "protein": 30
+        },
+        {
+          "name": "Tuna Power Bowl",
+          "description": "Tuna Power Bowl",
+          "kcal": 508,
+          "protein": 41
+        },
+        {
+          "name": "Turkey Meatball Spaghetti",
+          "description": "Turkey Meatball Spaghetti (187.5g 2% turkey mince + 40g spaghetti + 125g passata)",
+          "kcal": 400,
+          "protein": 49
+        },
+        {
+          "name": "Single burger",
+          "description": "Large white roll, LF Cheddar Slice \u00d72, Beef Mince 5% (100g) \u00d71.25",
+          "kcal": 515,
+          "protein": 54
+        }
+      ],
+      "meal_plan": {
+        "maintenance_kcal": 2150,
+        "protein_target": "160g+ per day",
+        "totals": {
+          "weekday_kcal": 1780,
+          "weekend_kcal": 1886,
+          "avg_daily_kcal": 1810,
+          "_note": "Weeks 2\u20134 ramp plan. Add oats (~175 kcal) for weeks 3\u20134 to reach 2,150 kcal/day."
+        },
+        "weekday": {
+          "items": [
+            {
+              "category": "Morning Coffee",
+              "label": "Coffee + Oatly",
+              "kcal": 50,
+              "protein": 1,
+              "ingredients": [
+                {
+                  "name": "Coffee (black)",
+                  "kcal": 5,
+                  "protein": 0
+                },
+                {
+                  "name": "Oatly oat milk (50ml)",
+                  "kcal": 45,
+                  "protein": 1
+                }
+              ]
+            },
+            {
+              "category": "Breakfast",
+              "label": "Double Shake",
+              "kcal": 232,
+              "protein": 42,
+              "ingredients": [
+                {
+                  "name": "Impact Whey \u00d7 2 scoops",
+                  "kcal": 232,
+                  "protein": 42
+                },
+                {
+                  "name": "Water",
+                  "kcal": 0,
+                  "protein": 0
+                }
+              ]
+            },
+            {
+              "category": "Lunch",
+              "label": "Chicken Wrap + side",
+              "kcal": 500,
+              "protein": 52,
+              "ingredients": [
+                {
+                  "name": "Sainsbury's protein wrap (61g)",
+                  "kcal": 170,
+                  "protein": 10
+                },
+                {
+                  "name": "Chicken breast (160g raw, air fryer)",
+                  "kcal": 176,
+                  "protein": 37
+                },
+                {
+                  "name": "Fage 0% Greek yoghurt (2 tsp)",
+                  "kcal": 20,
+                  "protein": 4
+                },
+                {
+                  "name": "Salad leaves & spring onion",
+                  "kcal": 10,
+                  "protein": 1
+                },
+                {
+                  "name": "Side \u2014 \u00bd avocado or 50g rice",
+                  "kcal": 124,
+                  "protein": 2
+                }
+              ]
+            },
+            {
+              "category": "Afternoon snack",
+              "label": "Kiwi",
+              "kcal": 42,
+              "protein": 1
+            },
+            {
+              "category": "Afternoon shake",
+              "label": "Single Shake",
+              "kcal": 116,
+              "protein": 21,
+              "ingredients": [
+                {
+                  "name": "Impact Whey \u00d7 1 scoop",
+                  "kcal": 116,
+                  "protein": 21
+                },
+                {
+                  "name": "Water",
+                  "kcal": 0,
+                  "protein": 0
+                }
+              ]
+            },
+            {
+              "category": "Dinner",
+              "label": "Gousto Meal",
+              "kcal": 640,
+              "protein": 41
+            },
+            {
+              "category": "Evening",
+              "label": "Dark Chocolate",
+              "kcal": 200,
+              "protein": 4
+            }
+          ]
+        },
+        "weekend": {
+          "items": [
+            {
+              "category": "Morning Coffee",
+              "label": "Coffee + Oatly",
+              "kcal": 50,
+              "protein": 1,
+              "ingredients": [
+                {
+                  "name": "Coffee (black)",
+                  "kcal": 5,
+                  "protein": 0
+                },
+                {
+                  "name": "Oatly oat milk (50ml)",
+                  "kcal": 45,
+                  "protein": 1
+                }
+              ]
+            },
+            {
+              "category": "Breakfast",
+              "label": "Single Shake",
+              "kcal": 116,
+              "protein": 21,
+              "ingredients": [
+                {
+                  "name": "Impact Whey \u00d7 1 scoop",
+                  "kcal": 116,
+                  "protein": 21
+                },
+                {
+                  "name": "Water",
+                  "kcal": 0,
+                  "protein": 0
+                }
+              ]
+            },
+            {
+              "category": "Brunch",
+              "label": "Weekend Brunch",
+              "kcal": 648,
+              "protein": 41,
+              "ingredients": [
+                {
+                  "name": "Sainsbury's hash browns \u00d7 3 (air fryer)",
+                  "kcal": 183,
+                  "protein": 3
+                },
+                {
+                  "name": "Branston baked beans (\u00bd tin ~205g)",
+                  "kcal": 175,
+                  "protein": 9
+                },
+                {
+                  "name": "Eggs \u00d7 2, fried with small oil",
+                  "kcal": 188,
+                  "protein": 13
+                },
+                {
+                  "name": "Heck Chicken Italia sausages \u00d7 3",
+                  "kcal": 102,
+                  "protein": 17
+                }
+              ]
+            },
+            {
+              "category": "Afternoon shake",
+              "label": "Double Shake",
+              "kcal": 232,
+              "protein": 42,
+              "ingredients": [
+                {
+                  "name": "Impact Whey \u00d7 2 scoops",
+                  "kcal": 232,
+                  "protein": 42
+                },
+                {
+                  "name": "Water",
+                  "kcal": 0,
+                  "protein": 0
+                }
+              ]
+            },
+            {
+              "category": "Dinner",
+              "label": "Gousto Meal",
+              "kcal": 640,
+              "protein": 41
+            },
+            {
+              "category": "Evening",
+              "label": "Dark Chocolate",
+              "kcal": 200,
+              "protein": 4
+            }
+          ]
+        },
+        "cycling_kcal_factor": 0.65,
+        "drink_kcal": {
+          "Pint of Guinness": 210,
+          "440ml Guinness": 155,
+          "Pint of 4% Pale Ale": 190,
+          "Pint of IPA": 270,
+          "330ml Hazy Jane": 158,
+          "Negroni": 185,
+          "Gin & Tonic": 120,
+          "Slimline G&T": 65,
+          "Glass of red wine": 160,
+          "Glass of white wine": 120
+        }
+      },
+      "supplements": [
+        {
+          "name": "Creatine Monohydrate",
+          "dose": "3g",
+          "timing": "Morning, in coffee",
+          "reason": "Muscle strength, performance, recovery; emerging cognitive and longevity benefits",
+          "evidence": "Strong"
+        },
+        {
+          "name": "Vitamin D3 + K2 (MK-7)",
+          "dose": "4,000 IU + 100 mcg",
+          "timing": "Morning, with food",
+          "reason": "Baseline 43 nmol/l (insufficiency); also supports insulin sensitivity, testosterone, immunity, cardiovascular health",
+          "evidence": "Strong"
+        },
+        {
+          "name": "Magnesium Glycinate",
+          "dose": "400 mg",
+          "timing": "30\u201360 min before bed",
+          "reason": "Sleep quality, muscle recovery, insulin sensitivity (HOMA-IR 2.23), stress resilience",
+          "evidence": "Moderate-Strong"
+        },
+        {
+          "name": "Omega-3 (EPA+DHA)",
+          "dose": "3g EPA+DHA",
+          "timing": "With dinner (fat improves absorption)",
+          "reason": "Targets high LDL/ApoB and low HDL; anti-inflammatory; longevity",
+          "evidence": "Strong"
+        },
+        {
+          "name": "Ashwagandha (KSM-66)",
+          "dose": "600 mg",
+          "timing": "Morning, with food",
+          "reason": "Testosterone support (low-normal at 11 nmol/l, low LH); cortisol reduction during deficit",
+          "evidence": "Moderate"
+        }
+      ]
     }
   ],
   "recommendations": [
@@ -451,12 +877,12 @@
   "planned": [
     {
       "title": "Fibre & Micronutrient Boost",
-      "detail": "1 tbsp chia seeds in morning shake + 1 kiwi at ~3–4pm on weekdays. +~100 kcal/day, +~6g fibre/day. Adds vitamin C, calcium, magnesium, and prebiotic soluble fibre."
+      "detail": "1 tbsp chia seeds in morning shake + 1 kiwi at ~3\u20134pm on weekdays. +~100 kcal/day, +~6g fibre/day. Adds vitamin C, calcium, magnesium, and prebiotic soluble fibre."
     },
     {
       "title": "DEXA Scan",
-      "detail": "Baseline body composition — fat %, lean mass, visceral fat, bone density, BMR. Nearest dedicated clinic: DexaStrong in Leeds (~45 min via M1 from Archer Lane). Ideal timing: once current fat loss phase ends, to get a clean post-cut baseline."
+      "detail": "Baseline body composition \u2014 fat %, lean mass, visceral fat, bone density, BMR. Nearest dedicated clinic: DexaStrong in Leeds (~45 min via M1 from Archer Lane). Ideal timing: once current fat loss phase ends, to get a clean post-cut baseline."
     }
   ],
-  "last_updated": "2026-06-07"
+  "last_updated": "2026-07-06"
 }

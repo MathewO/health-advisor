@@ -2,7 +2,17 @@
 
 > **Purpose:** Recovery of key decisions and dates from planning chats if **chat history is unavailable**.  
 > **Not used by the PWA** — for humans and AI sessions only.  
-> **Last updated:** 2026-05-28
+> **Last updated:** 2026-07-06
+
+---
+
+## Session notes — 6 Jul 2026
+
+### Phase 2 (Bali cut) — live in app
+
+- **Maintenance archived:** 7 Jun – **6 Jul 2026**, 79.3 → **80.4 kg** (end weight = 6 Jul morning reading). Full `meal_plan` + `supplements` copied to `previous_phases[]`.
+- **Phase 2 active:** `fat-loss-2026-q3` · **Fat Loss — Bali** · start **6 Jul / 80.4 kg** · target **76 kg by 30 Aug 2026** · Phase 1 meal plan (1,398 weekday / 1,554 weekend / 2,200 maintenance / 5,300 weekly deficit).
+- **5 Jul 81.0 kg spike:** Imodium Fri/Sat → GI retention; 6 Jul back to 80.4 — used 6 Jul as official end/start anchor, not 81.0.
 
 ---
 

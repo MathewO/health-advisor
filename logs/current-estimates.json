@@ -1,7 +1,7 @@
 {
   "_note": "Live derived metrics — updated each agent session. This is the source of truth for data-derived estimates. Do not use dashboard.json for TDEE or rate-of-loss; use this file. When any value changes, update it here in the same session.",
 
-  "last_updated": "2026-06-16",
+  "last_updated": "2026-07-06",
 
   "tdee": {
     "estimate_kcal_per_day": 2200,
@@ -21,17 +21,18 @@
   },
 
   "phase": {
-    "id": "fat-loss-2026-q2",
-    "original_target_kg": 82.0,
-    "live_target_kg": 80.0,
-    "live_target_note": "Revised 10 May 2026 — original 82 kg target hit 28 days early. 80 kg is the Phase 2 insurance target.",
-    "live_target_date": "2026-06-06",
-    "latest_weight_kg": 79.4,
-    "latest_weight_date": "2026-06-19",
-    "seven_day_avg_weight_kg": 80.0,
-    "seven_day_avg_date": "2026-06-19",
-    "loss_rate_kg_per_week_gross": 0.83,
-    "loss_rate_note": "Phase 1 gross rate. Now in maintenance — tracking weight stability, not loss rate.",
+    "id": "fat-loss-2026-q3",
+    "name": "Fat Loss — Bali",
+    "original_target_kg": 76.0,
+    "live_target_kg": 76.0,
+    "live_target_note": "Midpoint of 75–77 kg Bali range. 8 weeks from 80.4 kg at ~0.55 kg/wk.",
+    "live_target_date": "2026-08-30",
+    "latest_weight_kg": 80.4,
+    "latest_weight_date": "2026-07-06",
+    "seven_day_avg_weight_kg": 80.2,
+    "seven_day_avg_date": "2026-07-06",
+    "loss_rate_kg_per_week_gross": null,
+    "loss_rate_note": "Phase 2 just started — rate TBD after 2+ weeks of data.",
     "waist_cm": 100,
     "waist_date": "2026-06-14",
     "waist_baseline_cm": 108,
