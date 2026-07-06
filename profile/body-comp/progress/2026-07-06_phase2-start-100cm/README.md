@@ -33,11 +33,11 @@
 
 | Canonical file | Original |
 |----------------|----------|
-| `01-front-relaxed.png` | `IMG_6458-4835bb71-bc6f-4769-94d8-95c3460c630b.png` |
-| `02-side-left-dragon-tattoo.png` | `IMG_6467-47ae7e2d-fffc-470a-9358-f3a12a41d671.png` |
-| `03-side-right-mushroom-tattoo.png` | `IMG_6487-1a8634c4-8af6-42e7-8a8e-fbe7178f5706.png` |
-| `04-side-relaxed-you-are-enough.png` | `IMG_6499-ce4b2b20-35c9-42cb-aa1e-9c23adf26614.png` |
-| `05-side-arms-raised-forward.png` | `IMG_6479-5805ed78-edd2-4c8e-b12f-5a7ed6bf1e69.png` |
+| `01-front-relaxed.png` | `IMG_6458-35e5547b-96bc-445c-98ab-8c5ec6cbc31c.png` |
+| `02-side-left-dragon-tattoo.png` | `IMG_6467-d5cbfaa8-aada-44aa-b08c-f420fd14b247.png` |
+| `03-side-right-mushroom-tattoo.png` | `IMG_6487-f7151b60-f085-4b26-9819-f8c78da718c2.png` |
+| `04-side-relaxed-you-are-enough.png` | `IMG_6499-344ee8fe-af62-41fd-b2a2-034335a3984c.png` |
+| `05-side-arms-raised-forward.png` | `IMG_6479-3f42630e-b1d3-4c47-b47f-928ab8b0cb83.png` |
 
 ## Rex assessment (6 Jul 2026)
 
