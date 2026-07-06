@@ -360,3 +360,4 @@ Walking | 0 min | 0 kcal
 2026-07-03 | weight | 80.3
 2026-07-04 | weight | 80.4
 2026-07-05 | weight | 81.0
+2026-07-06 | weight | 80.4
