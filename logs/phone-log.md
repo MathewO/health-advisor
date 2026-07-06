@@ -363,3 +363,4 @@ Walking | 0 min | 0 kcal
 2026-07-06 | weight | 80.4
 2026-07-06 | waist | 100
 2026-07-06 | workout | Cycling | 91 min | 1055 kcal
+2026-07-06 | cheat | Gousto, ~453 kcal | replaces: Gousto Meal (640 kcal)
