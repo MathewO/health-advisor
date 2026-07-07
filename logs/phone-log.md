@@ -365,3 +365,4 @@ Walking | 0 min | 0 kcal
 2026-07-06 | workout | Cycling | 91 min | 1055 kcal
 2026-07-06 | cheat | Gousto, ~453 kcal | replaces: Gousto Meal (640 kcal)
 2026-07-06 | cheat | Creami, ~170 kcal | replaces: Milk Chocolate (100 kcal)
+2026-07-07 | weight | 80.0
