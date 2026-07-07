@@ -368,3 +368,4 @@ Walking | 0 min | 0 kcal
 2026-07-07 | weight | 80.0
 2026-07-07 | workout | Walking | 13 min | 57 kcal
 2026-07-07 | workout | Walking | 21 min | 51 kcal
+2026-07-07 | workout | Walking | 6 min | 27 kcal
