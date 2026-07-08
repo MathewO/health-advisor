@@ -373,3 +373,4 @@ Walking | 0 min | 0 kcal
 2026-07-07 | cheat | Clear shake, ~98 kcal
 2026-07-08 | weight | 79.4
 2026-07-08 | workout | Walking | 13 min | 55 kcal
+2026-07-08 | workout | Walking | 13 min | 62 kcal
