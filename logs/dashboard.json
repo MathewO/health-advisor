@@ -85,10 +85,10 @@
       "maintenance_kcal": 2200,
       "protein_target": "130g+ per day",
       "totals": {
-        "weekday_kcal": 1398,
-        "weekend_kcal": 1554,
-        "avg_daily_kcal": 1443,
-        "avg_daily_deficit": 757,
+        "weekday_kcal": 1423,
+        "weekend_kcal": 1541,
+        "avg_daily_kcal": 1457,
+        "avg_daily_deficit": 743,
         "_note": "avg = (weekday\u00d75 + weekend\u00d72) / 7 \u2014 update these whenever meal items change"
       },
       "weekday": {
@@ -153,9 +153,9 @@
           },
           {
             "category": "Pudding",
-            "label": "Milk Chocolate",
-            "kcal": 100,
-            "protein": 2
+            "label": "Creami",
+            "kcal": 125,
+            "protein": 20
           }
         ]
       },
@@ -188,7 +188,7 @@
           {
             "category": "Brunch",
             "label": "Weekend Brunch",
-            "kcal": 648,
+            "kcal": 610,
             "protein": 41,
             "ingredients": [
               {
@@ -202,9 +202,9 @@
                 "protein": 9
               },
               {
-                "name": "Eggs \u00d7 2, fried with small oil",
-                "kcal": 188,
-                "protein": 13
+                "name": "Scrambled eggs (1.5 eggs, 50ml egg white)",
+                "kcal": 150,
+                "protein": 12
               },
               {
                 "name": "Heck Chicken Italia sausages \u00d7 3 (air fryer)",
@@ -221,9 +221,9 @@
           },
           {
             "category": "Pudding",
-            "label": "Milk Chocolate",
-            "kcal": 100,
-            "protein": 2
+            "label": "Creami",
+            "kcal": 125,
+            "protein": 20
           }
         ]
       },
@@ -884,5 +884,5 @@
       "detail": "Baseline body composition \u2014 fat %, lean mass, visceral fat, bone density, BMR. Nearest dedicated clinic: DexaStrong in Leeds (~45 min via M1 from Archer Lane). Ideal timing: once current fat loss phase ends, to get a clean post-cut baseline."
     }
   ],
-  "last_updated": "2026-07-06"
+  "last_updated": "2026-07-09"
 }
