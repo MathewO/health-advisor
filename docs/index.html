@@ -2505,8 +2505,9 @@ function initMealBuilderRosterToggle() {
     wrap.style.display = this.checked ? '' : 'none';
     if (this.checked) {
       const nameEl = document.getElementById('mbRosterName');
-      if (nameEl && !nameEl.value && mealBuilderItems.length) {
-        nameEl.value = mealBuilderItems.map(i => i.component.name).join(', ');
+      if (nameEl && !nameEl.value) {
+        const mealName = (document.getElementById('mbMealName')?.value || '').trim();
+        nameEl.value = mealName || mealBuilderItems.map(i => i.component.name).join(', ');
       }
     }
   });
@@ -3618,6 +3619,8 @@ function openCheatForm() {
 
     <!-- BUILD MODE -->
     <div id="cheatBuildSection" style="display:none">
+      <input type="text" id="mbMealName" placeholder="Meal name (e.g. Chicken burger)…" oninput="renderMealBuilderSelected()"
+        style="width:100%;box-sizing:border-box;background:var(--surface2);border:1px solid var(--border);border-radius:8px;padding:8px 10px;color:var(--text);font-size:16px;margin-bottom:10px">
       <input type="text" id="mbSearch" placeholder="Search ingredients…" oninput="renderMealBuilderLibrary()"
         style="width:100%;box-sizing:border-box;background:var(--surface2);border:1px solid var(--border);border-radius:8px;padding:8px 10px;color:var(--text);font-size:16px;margin-bottom:10px">
       <div id="mbLibrary" style="max-height:200px;overflow-y:auto;border:1px solid var(--border);border-radius:8px;margin-bottom:10px"></div>
@@ -3715,7 +3718,12 @@ function setCheatMode(mode) {
   document.getElementById('cheatBuildSection').style.display  = isManual ? 'none' : '';
   document.getElementById('cheatModeManual').classList.toggle('active', isManual);
   document.getElementById('cheatModeBuild').classList.toggle('active', !isManual);
-  if (!isManual) renderMealBuilderLibrary();
+  if (isManual) {
+    const nameEl = document.getElementById('mbMealName');
+    if (nameEl) nameEl.value = '';
+  } else {
+    renderMealBuilderLibrary();
+  }
 }
 
 function renderMealBuilderLibrary() {
@@ -3794,10 +3802,13 @@ function renderMealBuilderSelected() {
     totalEl.textContent = `${totalKcal} kcal · ${totalProtein}g protein`;
 
     // Auto-populate the shared kcal and description fields
-    const detailParts = mealBuilderItems.map(i => i.qty > 1 ? `${escHtml(i.component.name)} ×${i.qty}` : escHtml(i.component.name));
+    const ingredientList = mealBuilderItems.map(i => i.qty !== 1 ? `${escHtml(i.component.name)} ×${i.qty}` : escHtml(i.component.name)).join(', ');
+    const mealName = (document.getElementById('mbMealName')?.value || '').trim();
     const detailEl = document.getElementById('ff_cheatDetail');
+    const noteEl   = document.getElementById('ff_cheatNote');
     const kcalEl   = document.getElementById('ff_cheatKcal');
-    if (detailEl) detailEl.value = detailParts.join(', ');
+    if (detailEl) detailEl.value = mealName || ingredientList;
+    if (noteEl && mealName) noteEl.value = ingredientList;
     if (kcalEl)   { kcalEl.value = totalKcal; updateCheatImpact(); }
   }
 }
