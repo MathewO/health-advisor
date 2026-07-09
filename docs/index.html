@@ -2497,20 +2497,7 @@ function prevPhaseFilterClick(idx, key) {
 }
 
 function initMealBuilderRosterToggle() {
-  const cb = document.getElementById('mbSaveToRoster');
-  if (!cb) return;
-  cb.addEventListener('change', function() {
-    const wrap = document.getElementById('mbRosterNameWrap');
-    if (!wrap) return;
-    wrap.style.display = this.checked ? '' : 'none';
-    if (this.checked) {
-      const nameEl = document.getElementById('mbRosterName');
-      if (nameEl && !nameEl.value) {
-        const mealName = (document.getElementById('mbMealName')?.value || '').trim();
-        nameEl.value = mealName || mealBuilderItems.map(i => i.component.name).join(', ');
-      }
-    }
-  });
+  // mbMealName is the single name field for both logging and roster saving — no extra UI needed.
 }
 
 function prevMealTabClick(idx, tab) {
@@ -3639,10 +3626,6 @@ function openCheatForm() {
         <label style="font-size:13px;color:var(--muted);flex:1">Save to quick-select roster</label>
         <input type="checkbox" id="mbSaveToRoster" style="width:18px;height:18px;cursor:pointer">
       </div>
-      <div id="mbRosterNameWrap" style="display:none;margin-bottom:8px">
-        <input type="text" id="mbRosterName" placeholder="Give this meal a name…"
-          style="width:100%;box-sizing:border-box;background:var(--surface2);border:1px solid var(--border);border-radius:8px;padding:8px 10px;color:var(--text);font-size:13px">
-      </div>
     </div>
 
     <!-- SHARED FIELDS -->
@@ -3929,7 +3912,7 @@ async function submitCheatForm() {
 
     // Save to quick-select roster if requested (Build mode)
     const rosterCb   = document.getElementById('mbSaveToRoster');
-    const rosterName = (document.getElementById('mbRosterName')?.value || '').trim();
+    const rosterName = (document.getElementById('mbMealName')?.value || '').trim();
     if (rosterCb && rosterCb.checked && rosterName && mealBuilderItems.length) {
       const totalKcal    = Math.round(mealBuilderItems.reduce((s, i) => s + i.component.kcal * i.qty, 0));
       const totalProtein = Math.round(mealBuilderItems.reduce((s, i) => s + (i.component.protein || 0) * i.qty, 0));
