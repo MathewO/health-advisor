@@ -379,3 +379,4 @@ Walking | 0 min | 0 kcal
 2026-07-09 | workout | Walking | 13 min | 64 kcal
 2026-07-09 | workout | Walking | 74 min | 280 kcal
 2026-07-09 | cheat | Chipotle 5g ×2, Fage 0% Greek yoghurt (100g), Chicken breast (100g raw) ×1.65, Large white roll, LF Cheddar Slice ×2, ~547 kcal | replaces: Chicken Wrap (376 kcal) | Chicken burger
+2026-07-09 | cheat | Clear shake, ~84 kcal
