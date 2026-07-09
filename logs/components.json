@@ -78,5 +78,10 @@
     "name": "Beef Mince 5% (100g)",
     "kcal": 168,
     "protein": 31
+  },
+  {
+    "name": "Chipotle 5g",
+    "kcal": 16,
+    "protein": 0
   }
 ]
