@@ -381,3 +381,4 @@ Walking | 0 min | 0 kcal
 2026-07-09 | cheat | Chicken burger, ~547 kcal | replaces: Chicken Wrap (376 kcal) | Chipotle 5g ×2, Fage 0% Greek yoghurt (100g), Chicken breast (100g raw) ×1.65, Large white roll, LF Cheddar Slice ×2
 2026-07-09 | cheat | Clear shake, ~84 kcal
 2026-07-09 | cheat | Chilli, ~747 kcal | replaces: Gousto Meal (640 kcal)
+2026-07-09 | cheat | Protein brownie, ~291 kcal | replaces: Creami (125 kcal)
