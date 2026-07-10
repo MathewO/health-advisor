@@ -385,3 +385,4 @@ Walking | 0 min | 0 kcal
 2026-07-10 | weight | 79.3
 2026-07-10 | workout | Walking | 22 min | 67 kcal
 2026-07-10 | workout | Walking | 18 min | 76 kcal
+2026-07-10 | cheat | Sausage & Slaw, ~900 kcal | replaces: Chicken Wrap (376 kcal)
