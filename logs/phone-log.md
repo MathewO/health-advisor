@@ -389,3 +389,4 @@ Walking | 0 min | 0 kcal
 2026-07-10 | cheat | Skipped shake | replaces: Double Shake (232 kcal)
 2026-07-11 | drinks | 632 | 330ml Hazy Jane x4
 2026-07-11 | workout | Walking | 129 min | 289 kcal
+2026-07-12 | cheat | Chocolate, ~230 kcal
