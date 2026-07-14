@@ -864,16 +864,46 @@ async function ghPut(path, content, sha, message) {
   return r.json();
 }
 
+// ─── Append queue ─────────────────────────────────────────────
+// Serialises all ghAppend calls so rapid multi-submit never produces
+// merged lines. Callers await normally; the queue ensures each write
+// reads the latest SHA before writing.
+let _appendQueue   = [];
+let _appendRunning = false;
+
+function _drainAppendQueue() {
+  if (_appendRunning) return;
+  (async function() {
+    _appendRunning = true;
+    while (_appendQueue.length > 0) {
+      const { path, newLine, resolve, reject } = _appendQueue[0];
+      try {
+        if (useLocalRepoFiles()) {
+          throw new Error('Read-only local preview — add a GitHub token in Settings to save.');
+        }
+        const file    = await ghGet(path);
+        const current = ghDecode(file.content);
+        if (path === LOG_PATH && !current.includes('## Log')) {
+          throw new Error('Safety check failed — decoded content missing header. File may be corrupted.');
+        }
+        const updated = current + newLine + '\n';
+        const label   = (newLine.split('|')[1] || '').trim() || 'entry';
+        await ghPut(path, updated, file.sha, 'log: ' + label + ' entry');
+        resolve();
+      } catch(e) {
+        reject(e);
+      }
+      _appendQueue.shift();
+    }
+    _appendRunning = false;
+  })();
+}
+
 async function ghAppend(path, newLine) {
-  const file = await ghGet(path);
-  const current = ghDecode(file.content);
-  if (path === LOG_PATH && !current.includes('## Log')) {
-    throw new Error('Safety check failed — decoded content missing header. File may be corrupted.');
-  }
-  const updated = current + newLine + '\n';
-  const parts = newLine.split('|');
-  const label = parts[1] ? parts[1].trim() : 'entry';
-  await ghPut(path, updated, file.sha, 'log: ' + label + ' entry');
+  return new Promise((resolve, reject) => {
+    _appendQueue.push({ path, newLine, resolve, reject });
+    _drainAppendQueue();
+  });
 }
 
 async function ghWriteLog(newText, message) {
