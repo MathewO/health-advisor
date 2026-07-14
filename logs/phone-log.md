@@ -394,8 +394,8 @@ Walking | 0 min | 0 kcal
 2026-07-14 | weight | 79.3
 
 2026-07-13 |drinks | 474 | 330ml Hazy Jane x32026-07-13 | drinks | 495 | Negroni, Noa
-2026-07-13 | cheat | Chicken + Greek Salad, ~550 kcal | replaces: Chicken Wrap (376 kcal)
 2026-07-13 | cheat | Skipped shake | replaces: Double Shake (232 kcal)
 2026-07-13 | cheat | Urban pitta, ~750 kcal | replaces: Gousto Meal (640 kcal)
 2026-07-13 | cheat | Skipped pudding | replaces: Creami (125 kcal)
+
 2026-07-14 | drinks | 969 | Negroni, Noa, 330ml Hazy Jane x3
