@@ -398,3 +398,4 @@ Walking | 0 min | 0 kcal
 2026-07-13 | cheat | Skipped shake | replaces: Double Shake (232 kcal)
 2026-07-13 | cheat | Urban pitta, ~750 kcal | replaces: Gousto Meal (640 kcal)
 2026-07-13 | cheat | Skipped pudding | replaces: Creami (125 kcal)
+2026-07-14 | drinks | 969 | Negroni, Noa, 330ml Hazy Jane x3
