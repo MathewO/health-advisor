@@ -395,3 +395,4 @@ Walking | 0 min | 0 kcal
 
 2026-07-13 |drinks | 474 | 330ml Hazy Jane x32026-07-13 | drinks | 495 | Negroni, Noa
 2026-07-13 | cheat | Chicken + Greek Salad, ~550 kcal | replaces: Chicken Wrap (376 kcal)
+2026-07-13 | cheat | Skipped shake | replaces: Double Shake (232 kcal)
