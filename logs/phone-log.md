@@ -397,3 +397,4 @@ Walking | 0 min | 0 kcal
 2026-07-13 | cheat | Chicken + Greek Salad, ~550 kcal | replaces: Chicken Wrap (376 kcal)
 2026-07-13 | cheat | Skipped shake | replaces: Double Shake (232 kcal)
 2026-07-13 | cheat | Urban pitta, ~750 kcal | replaces: Gousto Meal (640 kcal)
+2026-07-13 | cheat | Skipped pudding | replaces: Creami (125 kcal)
