@@ -392,4 +392,5 @@ Walking | 0 min | 0 kcal
 2026-07-12 | cheat | Chocolate, ~230 kcal
 2026-07-13 | weight | 79.8
 2026-07-14 | weight | 79.3
-2026-07-14 | drinks | 474 | 330ml Hazy Jane x3
+
+2026-07-13 |drinks | 474 | 330ml Hazy Jane x3
