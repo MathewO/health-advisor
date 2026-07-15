@@ -401,3 +401,4 @@ Walking | 0 min | 0 kcal
 2026-07-13 | cheat | Chicken salad, ~500 kcal | replaces: Chicken Wrap (376 kcal)
 2026-07-14 | cheat | Gousto, ~517 kcal | replaces: Gousto Meal (640 kcal)
 2026-07-15 | weight | 78.7
+2026-07-15 | workout | Walking | 25 min | 127 kcal
