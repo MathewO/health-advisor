@@ -1,12 +1,8 @@
 # Phone Log
 
-> Append-only log written by the Health Logger PWA.
-> Do not edit manually — entries are added by the app from your iPhone.
-> Claude reads this at the start of each session to process new entries.
 
 ## Format
 
-All entries: `YYYY-MM-DD | type | value | [optional note]`
 
 | Type | Format | Example |
 |---|---|---|
@@ -19,12 +15,7 @@ All entries: `YYYY-MM-DD | type | value | [optional note]`
 | `run` | `DATE \| run \| DURATION min \| DIST km \| KCAL kcal \| BPM bpm` | `2026-04-19 \| run \| 15.0 min \| 2.32 km \| 176 kcal \| 162 bpm` |
 | `stair` | `DATE \| stair \| DURATION min \| KCAL kcal \| BPM bpm` | `2026-04-19 \| stair \| 25.0 min \| 230 kcal \| 145 bpm` |
 
-`run` and `stair` entries are auto-logged by the iOS Shortcut after each Apple Watch workout.
 
-**Outlier effect on weekly deficit:**
-- `run` / `stair` — adds to deficit (positive)
-- `drinks` / `beers` — reduces deficit (negative)
-- `cheat` — reduces deficit if `~NNN kcal extra` is included in the description
 
 ## Log
 
@@ -307,9 +298,6 @@ All entries: `YYYY-MM-DD | type | value | [optional note]`
 2026-06-02 | run | 20 min | 2.33 km | 204 kcal | 154 bpm
 2026-06-02 | cheat | Gousto, ~700 kcal | replaces: Gousto Meal (640 kcal)
 2026-06-03 | weight | 79.4
-3 Jun 2026 at 07:49
-2 Jun 2026 at 08:58 | workout | Walking
-Walking | 0 min | 0 kcal
 2026-06-03 | workout | Walking | 13 min | 60 kcal
 2026-06-03 | workout | Walking | 13 min | 63 kcal
 2026-06-03 | cheat | Tea, ~40 kcal
@@ -401,8 +389,3 @@ Walking | 0 min | 0 kcal
 2026-07-13 | cheat | Chicken salad, ~500 kcal | replaces: Chicken Wrap (376 kcal)
 2026-07-14 | cheat | Gousto, ~517 kcal | replaces: Gousto Meal (640 kcal)
 2026-07-15 | weight | 78.7
-15 Jul 2026 at 09:37
-15 Jul 2026 at 09:08
-15 Jul 2026 at 08:08 | workout | Walking
-Running
-Walking | 0 min | 0 kcal
