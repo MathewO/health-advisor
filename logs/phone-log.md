@@ -400,4 +400,4 @@ Walking | 0 min | 0 kcal
 2026-07-13 | drinks | 969 | Negroni, Noa, 330ml Hazy Jane x3
 2026-07-13 | cheat | Chicken salad, ~500 kcal | replaces: Chicken Wrap (376 kcal)
 2026-07-14 | cheat | Gousto, ~517 kcal | replaces: Gousto Meal (640 kcal)
-2026-07-15 | weight | 79.3
+2026-07-15 | weight | 78.7
