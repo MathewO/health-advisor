@@ -393,3 +393,8 @@
 2026-07-15 | run | 20 min | 2.28 km | 185 kcal | 144 bpm
 2026-07-15 | workout | Walking | 25 min | 127 kcal
 2026-07-16 | weight | 79.0
+16 Jul 2026 at 08:25
+15 Jul 2026 at 09:37
+15 Jul 2026 at 09:08 | workout | Walking
+Walking
+Running | 0 min | 0 kcal
