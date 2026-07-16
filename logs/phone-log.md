@@ -403,3 +403,8 @@ Running | 0 min | 0 kcal
 15 Jul 2026 at 09:08 | workout | Walking
 Walking
 Running | 0 min | 0 kcal
+16 Jul 2026 at 08:25
+15 Jul 2026 at 09:37
+15 Jul 2026 at 09:08 | workout | Walking
+Walking
+Running | 0 min | 0 kcal
