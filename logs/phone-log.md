@@ -397,3 +397,4 @@
 2026-07-16 | workout | Walking | 13 min | 64 kcal
 2026-07-16 | workout | Walking | 14 min | 58 kcal
 2026-07-17 | weight | 78.4
+2026-07-17 | cheat | BBQ, ~850 kcal | replaces: Gousto Meal (640 kcal)
