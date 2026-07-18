@@ -1,7 +1,7 @@
 {
   "_note": "Live derived metrics — updated each agent session. This is the source of truth for data-derived estimates. Do not use dashboard.json for TDEE or rate-of-loss; use this file. When any value changes, update it here in the same session.",
 
-  "last_updated": "2026-07-17",
+  "last_updated": "2026-07-18",
 
   "tdee": {
     "estimate_kcal_per_day": 2200,
@@ -28,9 +28,9 @@
     "live_target_note": "Midpoint of 75–77 kg Bali range. 8 weeks from 80.4 kg at ~0.55 kg/wk.",
     "live_target_date": "2026-08-30",
     "latest_weight_kg": 78.4,
-    "latest_weight_date": "2026-07-17",
-    "seven_day_avg_weight_kg": 79.1,
-    "seven_day_avg_date": "2026-07-17",
+    "latest_weight_date": "2026-07-18",
+    "seven_day_avg_weight_kg": 79.0,
+    "seven_day_avg_date": "2026-07-18",
     "loss_rate_kg_per_week_gross": null,
     "loss_rate_note": "Phase 2 day 8 — glycogen flush likely complete. Rate TBD after week 2 settles.",
     "waist_cm": 100,
