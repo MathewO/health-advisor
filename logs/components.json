@@ -2,86 +2,127 @@
   {
     "name": "Egg white (50ml)",
     "kcal": 24,
-    "protein": 3
+    "protein": 3,
+    "carbs": 0,
+    "fat": 0
   },
   {
     "name": "Whole egg",
     "kcal": 77,
-    "protein": 6
+    "protein": 6,
+    "carbs": 0,
+    "fat": 5
   },
   {
     "name": "Hash brown (Sainsbury's)",
     "kcal": 61,
-    "protein": 1
+    "protein": 1,
+    "carbs": 9,
+    "fat": 2
   },
   {
     "name": "Heck chicken sausage",
     "kcal": 34,
-    "protein": 6
+    "protein": 6,
+    "carbs": 1,
+    "fat": 1
   },
   {
     "name": "Avocado (½)",
     "kcal": 120,
-    "protein": 2
+    "protein": 2,
+    "carbs": 6,
+    "fat": 10
   },
   {
     "name": "Baked beans (½ tin ~205g)",
     "kcal": 175,
-    "protein": 9
+    "protein": 9,
+    "carbs": 29,
+    "fat": 1
   },
   {
     "name": "Fage 0% Greek yoghurt (100g)",
     "kcal": 57,
-    "protein": 10
+    "protein": 10,
+    "carbs": 4,
+    "fat": 0
   },
   {
     "name": "Chicken breast (100g raw)",
     "kcal": 110,
-    "protein": 23
+    "protein": 23,
+    "carbs": 0,
+    "fat": 2
   },
   {
     "name": "Sainsbury's protein wrap",
     "kcal": 170,
-    "protein": 10
+    "protein": 10,
+    "carbs": 26,
+    "fat": 3
   },
   {
     "name": "Butter / Oil",
     "kcal": 50,
-    "protein": 0
+    "protein": 0,
+    "carbs": 0,
+    "fat": 6
   },
   {
     "name": "Lightly Dusted Chicken (Pack)",
     "kcal": 602,
-    "protein": 52
+    "protein": 52,
+    "carbs": 40,
+    "fat": 26
   },
   {
     "name": "Heck Chicken Rasher",
     "kcal": 58,
-    "protein": 11
+    "protein": 11,
+    "carbs": 1,
+    "fat": 1
   },
   {
     "name": "Tomatoes",
     "kcal": 50,
-    "protein": 0
+    "protein": 1,
+    "carbs": 9,
+    "fat": 1
   },
   {
     "name": "LF Cheddar Slice",
     "kcal": 50,
-    "protein": 4
+    "protein": 4,
+    "carbs": 1,
+    "fat": 3
   },
   {
     "name": "Large white roll",
     "kcal": 205,
-    "protein": 7
+    "protein": 7,
+    "carbs": 38,
+    "fat": 2
   },
   {
     "name": "Beef Mince 5% (100g)",
     "kcal": 168,
-    "protein": 31
+    "protein": 31,
+    "carbs": 0,
+    "fat": 5
   },
   {
     "name": "Chipotle 5g",
     "kcal": 16,
-    "protein": 0
+    "protein": 0,
+    "carbs": 1,
+    "fat": 1
+  },
+  {
+    "name": "LF Feta (100g)",
+    "kcal": 196,
+    "protein": 22,
+    "carbs": 1,
+    "fat": 11
   }
 ]

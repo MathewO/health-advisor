@@ -3645,13 +3645,15 @@ function openCheatForm() {
       <div id="mbNewForm" style="display:none;background:var(--surface2);border-radius:8px;padding:10px;margin-bottom:10px">
         <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:flex-end">
           <div style="flex:2;min-width:120px"><label style="font-size:12px;color:var(--muted)">Name</label><input id="mbNewName" type="text" placeholder="e.g. Avocado (½)" style="width:100%;box-sizing:border-box;background:var(--surface);border:1px solid var(--border);border-radius:6px;padding:6px 8px;color:var(--text);font-size:13px"></div>
-          <div style="flex:1;min-width:60px"><label style="font-size:12px;color:var(--muted)">kcal</label><input id="mbNewKcal" type="number" inputmode="numeric" placeholder="0" style="width:100%;box-sizing:border-box;background:var(--surface);border:1px solid var(--border);border-radius:6px;padding:6px 8px;color:var(--text);font-size:13px"></div>
-          <div style="flex:1;min-width:60px"><label style="font-size:12px;color:var(--muted)">protein (g)</label><input id="mbNewProtein" type="number" inputmode="numeric" placeholder="0" style="width:100%;box-sizing:border-box;background:var(--surface);border:1px solid var(--border);border-radius:6px;padding:6px 8px;color:var(--text);font-size:13px"></div>
+          <div style="flex:1;min-width:50px"><label style="font-size:12px;color:var(--muted)">kcal</label><input id="mbNewKcal" type="number" inputmode="numeric" placeholder="0" style="width:100%;box-sizing:border-box;background:var(--surface);border:1px solid var(--border);border-radius:6px;padding:6px 8px;color:var(--text);font-size:13px"></div>
+          <div style="flex:1;min-width:50px"><label style="font-size:12px;color:var(--muted)">protein (g)</label><input id="mbNewProtein" type="number" inputmode="numeric" placeholder="0" style="width:100%;box-sizing:border-box;background:var(--surface);border:1px solid var(--border);border-radius:6px;padding:6px 8px;color:var(--text);font-size:13px"></div>
+          <div style="flex:1;min-width:50px"><label style="font-size:12px;color:var(--muted)">carbs (g)</label><input id="mbNewCarbs" type="number" inputmode="numeric" placeholder="0" style="width:100%;box-sizing:border-box;background:var(--surface);border:1px solid var(--border);border-radius:6px;padding:6px 8px;color:var(--text);font-size:13px"></div>
+          <div style="flex:1;min-width:50px"><label style="font-size:12px;color:var(--muted)">fat (g)</label><input id="mbNewFat" type="number" inputmode="numeric" placeholder="0" style="width:100%;box-sizing:border-box;background:var(--surface);border:1px solid var(--border);border-radius:6px;padding:6px 8px;color:var(--text);font-size:13px"></div>
           <button type="button" onclick="saveNewComponent()" style="background:var(--green);color:#000;border:none;border-radius:6px;padding:7px 14px;font-size:13px;font-weight:600;cursor:pointer;white-space:nowrap">Save & Add</button>
         </div>
       </div>
       <div id="mbSelected" style="margin-bottom:10px"></div>
-      <div id="mbTotal" style="font-size:15px;font-weight:700;padding:8px 0;border-top:1px solid var(--border);margin-bottom:10px;color:var(--green)">0 kcal · 0g protein</div>
+      <div id="mbTotal" style="font-size:14px;font-weight:700;padding:8px 0;border-top:1px solid var(--border);margin-bottom:10px;color:var(--green)">0 kcal · 0g protein · 0g carbs · 0g fat</div>
       <div style="display:flex;align-items:center;gap:10px;padding:8px 0;border-top:1px solid var(--border);margin-bottom:4px">
         <label style="font-size:13px;color:var(--muted);flex:1">Save to quick-select roster</label>
         <input type="checkbox" id="mbSaveToRoster" style="width:18px;height:18px;cursor:pointer">
@@ -3793,7 +3795,7 @@ function renderMealBuilderSelected() {
 
   if (!mealBuilderItems.length) {
     el.innerHTML = '<div style="font-size:13px;color:var(--muted);padding:4px 0">No ingredients added yet.</div>';
-    totalEl.textContent = '0 kcal · 0g protein';
+    totalEl.textContent = '0 kcal · 0g protein · 0g carbs · 0g fat';
   } else {
     el.innerHTML = mealBuilderItems.map((item, idx) => {
       const lineKcal = Math.round(item.component.kcal * item.qty);
@@ -3812,7 +3814,9 @@ function renderMealBuilderSelected() {
 
     const totalKcal    = Math.round(mealBuilderItems.reduce((s, i) => s + i.component.kcal * i.qty, 0));
     const totalProtein = Math.round(mealBuilderItems.reduce((s, i) => s + (i.component.protein || 0) * i.qty, 0));
-    totalEl.textContent = `${totalKcal} kcal · ${totalProtein}g protein`;
+    const totalCarbs   = Math.round(mealBuilderItems.reduce((s, i) => s + (i.component.carbs   || 0) * i.qty, 0));
+    const totalFat     = Math.round(mealBuilderItems.reduce((s, i) => s + (i.component.fat     || 0) * i.qty, 0));
+    totalEl.textContent = `${totalKcal} kcal · ${totalProtein}g protein · ${totalCarbs}g carbs · ${totalFat}g fat`;
 
     // Auto-populate the shared kcal and description fields
     const ingredientList = mealBuilderItems.map(i => i.qty !== 1 ? `${escHtml(i.component.name)} ×${i.qty}` : escHtml(i.component.name)).join(', ');
@@ -3835,9 +3839,11 @@ async function saveNewComponent() {
   const name    = (document.getElementById('mbNewName')?.value || '').trim();
   const kcal    = parseInt(document.getElementById('mbNewKcal')?.value) || 0;
   const protein = parseInt(document.getElementById('mbNewProtein')?.value) || 0;
+  const carbs   = parseInt(document.getElementById('mbNewCarbs')?.value) || 0;
+  const fat     = parseInt(document.getElementById('mbNewFat')?.value) || 0;
   if (!name) return;
 
-  const newComp = { name, kcal, protein };
+  const newComp = { name, kcal, protein, carbs, fat };
   componentsData.push(newComp);
 
   const statusEl = document.getElementById('formStatus');
@@ -3857,6 +3863,8 @@ async function saveNewComponent() {
   document.getElementById('mbNewName').value    = '';
   document.getElementById('mbNewKcal').value    = '';
   document.getElementById('mbNewProtein').value = '';
+  document.getElementById('mbNewCarbs').value   = '';
+  document.getElementById('mbNewFat').value     = '';
   document.getElementById('mbNewForm').style.display = 'none';
   renderMealBuilderLibrary();
   renderMealBuilderSelected();
