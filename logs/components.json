@@ -138,5 +138,12 @@
     "protein": 4.3,
     "carbs": 10.1,
     "fat": 15.1
+  },
+  {
+    "name": "1/4 white onion",
+    "kcal": 15,
+    "protein": 0,
+    "carbs": 3,
+    "fat": 0
   }
 ]
