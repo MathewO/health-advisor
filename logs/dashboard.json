@@ -124,6 +124,24 @@
         "carbs": 63,
         "fat": 14,
         "tag": "dinner"
+      },
+      {
+        "name": "Chicken Fajitas",
+        "description": "125g chicken breast, 2 protein wraps, 50g mixed peppers, \u00bd white onion, 60g Fage 0%, Old El Paso fajita seasoning (\u00bd pack), 30g LF cheddar",
+        "kcal": 702,
+        "protein": 66,
+        "carbs": 72,
+        "fat": 15,
+        "tag": "dinner"
+      },
+      {
+        "name": "Chicken Arrabiatta",
+        "description": "125g chicken breast, 80g pasta, 125g passata, \u00bc white onion, 1 tsp olive oil, \u00bd LF mozzarella (62.5g), chilli, garlic",
+        "kcal": 634,
+        "protein": 54,
+        "carbs": 64,
+        "fat": 16,
+        "tag": "dinner"
       }
     ],
     "meal_plan": {
