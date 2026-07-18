@@ -131,5 +131,12 @@
     "protein": 31.0,
     "carbs": 0,
     "fat": 1.2
+  },
+  {
+    "name": "Half caesar bag",
+    "kcal": 196,
+    "protein": 4.3,
+    "carbs": 10.1,
+    "fat": 15.1
   }
 ]
