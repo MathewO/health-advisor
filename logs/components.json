@@ -9,9 +9,9 @@
   {
     "name": "Whole egg",
     "kcal": 77,
-    "protein": 6,
-    "carbs": 0,
-    "fat": 5
+    "protein": 7.5,
+    "carbs": 0.25,
+    "fat": 5.3
   },
   {
     "name": "Hash brown (Sainsbury's)",
@@ -28,14 +28,14 @@
     "fat": 1
   },
   {
-    "name": "Avocado (½)",
+    "name": "Avocado (\u00bd)",
     "kcal": 120,
     "protein": 2,
     "carbs": 6,
     "fat": 10
   },
   {
-    "name": "Baked beans (½ tin ~205g)",
+    "name": "Baked beans (\u00bd tin ~205g)",
     "kcal": 175,
     "protein": 9,
     "carbs": 29,
