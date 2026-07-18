@@ -124,5 +124,12 @@
     "protein": 22,
     "carbs": 1,
     "fat": 11
+  },
+  {
+    "name": "Turkey mince 2% (100g)",
+    "kcal": 136,
+    "protein": 31.0,
+    "carbs": 0,
+    "fat": 1.2
   }
 ]
