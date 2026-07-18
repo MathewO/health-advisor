@@ -1914,16 +1914,15 @@ function loadSavedMeals() {
         </div>
       </div>
 
-      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px">
-        <span style="font-size:13px;color:var(--muted)">Ingredients</span>
-        <button id="rbMacroToggle" type="button" onclick="toggleRbMacroView()" style="background:none;border:none;color:var(--muted);font-size:12px;cursor:pointer;padding:0">Show macros</button>
-      </div>
       <input type="text" id="rb-search" placeholder="Search ingredients…" oninput="renderRosterBuilderLibrary()"
         style="width:100%;box-sizing:border-box;background:var(--surface2);border:1px solid var(--border);border-radius:8px;padding:8px 10px;color:var(--text);font-size:16px;margin-bottom:10px">
       <div id="rb-library" style="max-height:180px;overflow-y:auto;border:1px solid var(--border);border-radius:8px;margin-bottom:10px"></div>
 
-      <button type="button" onclick="toggleRbNewIngredientForm()"
-        style="background:none;border:none;color:var(--green);font-size:13px;cursor:pointer;padding:0;margin-bottom:10px">+ Add new ingredient</button>
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px">
+        <button type="button" onclick="toggleRbNewIngredientForm()"
+          style="background:none;border:none;color:var(--green);font-size:13px;cursor:pointer;padding:0">+ Add new ingredient</button>
+        <button id="rbMacroToggle" type="button" onclick="toggleRbMacroView()" style="background:none;border:none;color:var(--muted);font-size:12px;cursor:pointer;padding:0">Show macros</button>
+      </div>
       <div id="rb-new-form" style="display:none;background:var(--surface2);border-radius:8px;padding:10px;margin-bottom:10px">
         <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:flex-end">
           <div style="flex:2;min-width:120px"><label style="font-size:12px;color:var(--muted)">Name</label><input id="rbNewName" type="text" placeholder="e.g. Avocado (½)" style="width:100%;box-sizing:border-box;background:var(--surface);border:1px solid var(--border);border-radius:6px;padding:6px 8px;color:var(--text);font-size:13px"></div>
