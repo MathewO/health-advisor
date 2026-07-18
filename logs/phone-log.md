@@ -399,3 +399,4 @@
 2026-07-17 | weight | 78.4
 2026-07-17 | cheat | BBQ, ~850 kcal | replaces: Gousto Meal (640 kcal)
 2026-07-17 | cheat | Dark chocolate, ~113 kcal | replaces: Creami (125 kcal)
+2026-07-18 | weight | 78.4
