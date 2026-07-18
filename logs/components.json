@@ -145,5 +145,19 @@
     "protein": 0,
     "carbs": 3,
     "fat": 0
+  },
+  {
+    "name": "Spaghetti (40g dry)",
+    "kcal": 140,
+    "protein": 5.6,
+    "carbs": 27.6,
+    "fat": 0.6
+  },
+  {
+    "name": "Passata (125g)",
+    "kcal": 39,
+    "protein": 1.9,
+    "carbs": 5.3,
+    "fat": 1.0
   }
 ]
