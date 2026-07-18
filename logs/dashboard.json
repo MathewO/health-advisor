@@ -64,21 +64,30 @@
     "common_cheats": [
       {
         "name": "Caesar Salad",
-        "description": "Caesar Salad",
+        "description": "\u00bd Lightly Dusted Chicken (Pack), Half caesar bag",
         "kcal": 497,
-        "protein": 30
+        "protein": 30.2,
+        "carbs": 33.1,
+        "fat": 26.4,
+        "tag": "dinner"
       },
       {
         "name": "Tuna Power Bowl",
         "description": "Tuna Power Bowl",
         "kcal": 508,
-        "protein": 41
+        "protein": 41,
+        "carbs": 30,
+        "fat": 25,
+        "tag": "lunch"
       },
       {
         "name": "Turkey Meatball Spaghetti",
         "description": "Turkey Meatball Spaghetti (187.5g 2% turkey mince + 40g spaghetti + 125g passata + onion, herbs, chilli)",
         "kcal": 400,
-        "protein": 49
+        "protein": 49,
+        "carbs": 35,
+        "fat": 5,
+        "tag": "lunch"
       }
     ],
     "meal_plan": {
