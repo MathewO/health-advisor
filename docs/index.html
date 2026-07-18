@@ -1989,17 +1989,17 @@ function renderSavedMealsBrowse() {
       m.protein ? `${m.protein}g protein`  : null,
       m.carbs   ? `${m.carbs}g carbs`      : null,
       m.fat     ? `${m.fat}g fat`          : null,
-    ].filter(Boolean).join(' · ');
+    ].filter(Boolean).join(' | ');
     const tag = (m.tag || 'misc');
     const ingredients = m.description && m.description !== m.name
       ? `<div style="font-size:12px;color:var(--muted);margin-top:6px;line-height:1.7">${m.description.split(',').map(s => { const t = s.trim(); return escHtml(t.charAt(0).toUpperCase() + t.slice(1)); }).join('<br>')}</div>` : '';
     return `
     <div class="card" style="margin-bottom:12px">
-      <div style="display:flex;align-items:baseline;justify-content:space-between;gap:8px;margin-bottom:2px">
-        <div style="font-size:16px;font-weight:700">${escHtml(m.name)}</div>
+      <div style="display:flex;align-items:baseline;justify-content:space-between;gap:8px;margin-bottom:4px">
+        <div style="font-size:16px;font-weight:700;color:var(--green)">${escHtml(m.name)}</div>
         <div style="font-size:11px;color:var(--muted);white-space:nowrap;text-transform:capitalize">${tag}</div>
       </div>
-      <div style="font-size:13px;color:var(--muted)">${macros}</div>
+      <div style="font-size:13px;color:var(--text)">${macros}</div>
       ${ingredients}
     </div>`;
   }).join('');
