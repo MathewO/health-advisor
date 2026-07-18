@@ -406,3 +406,4 @@
 2026-07-18 | cheat | Clear shake, ~88 kcal | replaces: Single Shake (116 kcal)
 2026-07-18 | workout | Walking | 32 min | 136 kcal
 2026-07-18 | cheat | BBQ, ~710 kcal | replaces: Gousto Meal (640 kcal)
+2026-07-18 | cheat | Biscuits, ~94 kcal
