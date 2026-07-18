@@ -403,3 +403,4 @@
 2026-07-18 | workout | Walking | 13 min | 55 kcal
 2026-07-18 | workout | Walking | 14 min | 62 kcal
 2026-07-18 | cheat | Egg white (50ml) ×1.5, Whole egg ×1.5, Hash brown (Sainsbury's) ×2, Avocado (½), Tomatoes, Heck chicken sausage ×3, ~546 kcal | replaces: Weekend Brunch (610 kcal)
+2026-07-18 | cheat | Clear shake, ~88 kcal | replaces: Single Shake (116 kcal)
