@@ -484,6 +484,10 @@
           <div class="log-icon">🍔</div>
           <div class="log-label">Off-plan Meal</div>
         </button>
+        <button class="log-card" onclick="openOverlay('screen-saved-meals')">
+          <div class="log-icon">📋</div>
+          <div class="log-label">Saved Meals</div>
+        </button>
       </div>
     </div>
 
@@ -574,6 +578,17 @@
   </div>
   <div class="overlay-body" id="mealPlanBody">
     <div class="empty-state"><div class="empty-icon">🍽️</div>Loading…</div>
+  </div>
+</div>
+
+<!-- ═══════════════ SAVED MEALS OVERLAY ═══════════════ -->
+<div id="screen-saved-meals" class="overlay-screen">
+  <div class="overlay-header">
+    <button class="back-btn" onclick="closeOverlay('screen-saved-meals')">← Back</button>
+    <div class="overlay-title">Saved Meals</div>
+  </div>
+  <div class="overlay-body" id="savedMealsBody">
+    <div class="empty-state"><div class="empty-icon">📋</div>Loading…</div>
   </div>
 </div>
 
@@ -695,6 +710,7 @@ function openOverlay(id) {
   if (id === 'screen-meal-plan')       loadMealPlan();
   if (id === 'screen-prev-phases')     loadPrevPhases();
   if (id === 'screen-weekly-progress') loadWeeklyProgress();
+  if (id === 'screen-saved-meals')     loadSavedMeals();
 }
 
 function closeOverlay(id) {
@@ -1843,6 +1859,38 @@ async function saveLogEdit(btn, encodedOld) {
     btn.textContent = 'Save';
     btn.disabled = false;
   }
+}
+
+// ─── Saved Meals ──────────────────────────────────────────────
+function loadSavedMeals() {
+  const body = document.getElementById('savedMealsBody');
+  if (!body) return;
+  if (!dashData) {
+    body.innerHTML = '<div class="empty-state"><div class="empty-icon">📋</div>Load the dashboard first.</div>';
+    return;
+  }
+
+  const meals = (dashData.phase && dashData.phase.common_cheats) || [];
+  if (!meals.length) {
+    body.innerHTML = '<div class="empty-state"><div class="empty-icon">🍽️</div>No saved meals yet.<br><br>Use the Meal Builder and tick "Save to quick-select roster" to add meals here.</div>';
+    return;
+  }
+
+  body.innerHTML = meals.map(m => {
+    const hasMacros = m.protein || m.carbs || m.fat;
+    const macroLine = hasMacros
+      ? `<div style="font-size:13px;color:var(--muted);margin-top:2px">${m.kcal || 0} kcal${m.protein ? ' · ' + m.protein + 'g protein' : ''}${m.carbs ? ' · ' + m.carbs + 'g carbs' : ''}${m.fat ? ' · ' + m.fat + 'g fat' : ''}</div>`
+      : `<div style="font-size:13px;color:var(--muted);margin-top:2px">${m.kcal || 0} kcal</div>`;
+    const ingredientsLine = m.description && m.description !== m.name
+      ? `<div style="font-size:12px;color:var(--muted);margin-top:6px;line-height:1.5">${escHtml(m.description)}</div>`
+      : '';
+    return `
+    <div class="card" style="margin-bottom:12px">
+      <div style="font-size:16px;font-weight:700;margin-bottom:2px">${escHtml(m.name)}</div>
+      ${macroLine}
+      ${ingredientsLine}
+    </div>`;
+  }).join('');
 }
 
 // ─── Meal Plan ────────────────────────────────────────────────
@@ -3969,8 +4017,10 @@ async function submitCheatForm() {
     if (rosterCb && rosterCb.checked && rosterName && mealBuilderItems.length) {
       const totalKcal    = Math.round(mealBuilderItems.reduce((s, i) => s + i.component.kcal * i.qty, 0));
       const totalProtein = Math.round(mealBuilderItems.reduce((s, i) => s + (i.component.protein || 0) * i.qty, 0));
+      const totalCarbs   = Math.round(mealBuilderItems.reduce((s, i) => s + (i.component.carbs   || 0) * i.qty, 0));
+      const totalFat     = Math.round(mealBuilderItems.reduce((s, i) => s + (i.component.fat     || 0) * i.qty, 0));
       const description  = mealBuilderItems.map(i => i.qty !== 1 ? `${i.component.name} ×${i.qty}` : i.component.name).join(', ');
-      const newCheat     = { name: rosterName, description, kcal: totalKcal, protein: totalProtein };
+      const newCheat     = { name: rosterName, description, kcal: totalKcal, protein: totalProtein, carbs: totalCarbs, fat: totalFat };
       // Re-fetch dashboard for latest sha before writing
       const freshDash   = await ghGet(DASH_PATH);
       dashSha           = freshDash.sha;
