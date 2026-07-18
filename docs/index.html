@@ -640,6 +640,12 @@ let componentsData    = [];        // ingredient library from components.json
 let componentsSha     = null;      // sha for ghPut
 let mealBuilderItems  = [];        // [{ component, qty }] — current build session
 let mbShowMacros      = false;     // toggle: show per-ingredient macros in library
+let mbSelectedTag     = 'misc';    // meal type tag for cheat form roster save
+let rosterBuilderItems = [];       // [{ component, qty }] — saved meals builder
+let rbShowMacros      = false;     // toggle: show macros in roster builder library
+let rbSelectedTag     = 'misc';    // meal type tag for saved meals builder
+let savedMealsFilter  = 'all';     // active filter in saved meals browse tab
+let savedMealsTab     = 'browse';  // active tab in saved meals screen
 
 const DEFAULT_DRINK_KCAL = {
   'Pint of Guinness':    210,
@@ -1865,32 +1871,316 @@ async function saveLogEdit(btn, encodedOld) {
 function loadSavedMeals() {
   const body = document.getElementById('savedMealsBody');
   if (!body) return;
+
+  rosterBuilderItems = [];
+  rbSelectedTag      = 'misc';
+  rbShowMacros       = false;
+
   if (!dashData) {
     body.innerHTML = '<div class="empty-state"><div class="empty-icon">📋</div>Load the dashboard first.</div>';
     return;
   }
 
-  const meals = (dashData.phase && dashData.phase.common_cheats) || [];
-  if (!meals.length) {
-    body.innerHTML = '<div class="empty-state"><div class="empty-icon">🍽️</div>No saved meals yet.<br><br>Use the Meal Builder and tick "Save to quick-select roster" to add meals here.</div>';
+  const FILTERS = ['all','breakfast','lunch','dinner','misc'];
+  const tabBrowseActive = savedMealsTab !== 'add';
+  const tabAddActive    = savedMealsTab === 'add';
+
+  body.innerHTML = `
+    <div style="display:flex;gap:8px;margin-bottom:16px">
+      <button id="smTabBrowse" class="log-filter-pill ${tabBrowseActive ? 'active' : ''}" onclick="switchSavedMealsTab('browse')" style="flex:1;text-align:center">Browse</button>
+      <button id="smTabAdd"    class="log-filter-pill ${tabAddActive   ? 'active' : ''}" onclick="switchSavedMealsTab('add')"    style="flex:1;text-align:center">+ Add New</button>
+    </div>
+
+    <!-- ── Browse tab ── -->
+    <div id="smBrowseSection" ${tabAddActive ? 'style="display:none"' : ''}>
+      <div style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:12px">
+        ${FILTERS.map(f => `<button onclick="setSavedMealsFilter('${f}')" class="log-filter-pill ${savedMealsFilter===f?'active':''}" id="smFilter-${f}" style="font-size:12px;text-transform:capitalize">${f === 'all' ? 'All' : f.charAt(0).toUpperCase()+f.slice(1)}</button>`).join('')}
+      </div>
+      <div id="smMealCards"></div>
+    </div>
+
+    <!-- ── Add New tab ── -->
+    <div id="smAddSection" ${tabBrowseActive ? 'style="display:none"' : ''}>
+      <input type="text" id="rb-name" placeholder="Meal name (required)…" oninput="this.style.borderColor=''"
+        style="width:100%;box-sizing:border-box;background:var(--surface2);border:1px solid var(--border);border-radius:8px;padding:8px 10px;color:var(--text);font-size:16px;margin-bottom:10px">
+
+      <div style="margin-bottom:12px">
+        <div style="font-size:12px;color:var(--muted);margin-bottom:6px">Meal type</div>
+        <div style="display:flex;gap:6px">
+          <button type="button" onclick="setRbTag('breakfast')" id="rbTag-breakfast" class="log-filter-pill" style="flex:1;font-size:12px">Breakfast</button>
+          <button type="button" onclick="setRbTag('lunch')"     id="rbTag-lunch"     class="log-filter-pill" style="flex:1;font-size:12px">Lunch</button>
+          <button type="button" onclick="setRbTag('dinner')"    id="rbTag-dinner"    class="log-filter-pill" style="flex:1;font-size:12px">Dinner</button>
+          <button type="button" onclick="setRbTag('misc')"      id="rbTag-misc"      class="log-filter-pill active" style="flex:1;font-size:12px">Misc</button>
+        </div>
+      </div>
+
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px">
+        <span style="font-size:13px;color:var(--muted)">Ingredients</span>
+        <button id="rbMacroToggle" type="button" onclick="toggleRbMacroView()" style="background:none;border:none;color:var(--muted);font-size:12px;cursor:pointer;padding:0">Show macros</button>
+      </div>
+      <input type="text" id="rb-search" placeholder="Search ingredients…" oninput="renderRosterBuilderLibrary()"
+        style="width:100%;box-sizing:border-box;background:var(--surface2);border:1px solid var(--border);border-radius:8px;padding:8px 10px;color:var(--text);font-size:16px;margin-bottom:10px">
+      <div id="rb-library" style="max-height:180px;overflow-y:auto;border:1px solid var(--border);border-radius:8px;margin-bottom:10px"></div>
+
+      <button type="button" onclick="toggleRbNewIngredientForm()"
+        style="background:none;border:none;color:var(--green);font-size:13px;cursor:pointer;padding:0;margin-bottom:10px">+ Add new ingredient</button>
+      <div id="rb-new-form" style="display:none;background:var(--surface2);border-radius:8px;padding:10px;margin-bottom:10px">
+        <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:flex-end">
+          <div style="flex:2;min-width:120px"><label style="font-size:12px;color:var(--muted)">Name</label><input id="rbNewName" type="text" placeholder="e.g. Avocado (½)" style="width:100%;box-sizing:border-box;background:var(--surface);border:1px solid var(--border);border-radius:6px;padding:6px 8px;color:var(--text);font-size:13px"></div>
+          <div style="flex:1;min-width:45px"><label style="font-size:12px;color:var(--muted)">kcal</label><input id="rbNewKcal" type="number" inputmode="numeric" placeholder="0" style="width:100%;box-sizing:border-box;background:var(--surface);border:1px solid var(--border);border-radius:6px;padding:6px 8px;color:var(--text);font-size:13px"></div>
+          <div style="flex:1;min-width:45px"><label style="font-size:12px;color:var(--muted)">protein</label><input id="rbNewProtein" type="number" inputmode="numeric" placeholder="0" style="width:100%;box-sizing:border-box;background:var(--surface);border:1px solid var(--border);border-radius:6px;padding:6px 8px;color:var(--text);font-size:13px"></div>
+          <div style="flex:1;min-width:45px"><label style="font-size:12px;color:var(--muted)">carbs</label><input id="rbNewCarbs" type="number" inputmode="numeric" placeholder="0" style="width:100%;box-sizing:border-box;background:var(--surface);border:1px solid var(--border);border-radius:6px;padding:6px 8px;color:var(--text);font-size:13px"></div>
+          <div style="flex:1;min-width:45px"><label style="font-size:12px;color:var(--muted)">fat</label><input id="rbNewFat" type="number" inputmode="numeric" placeholder="0" style="width:100%;box-sizing:border-box;background:var(--surface);border:1px solid var(--border);border-radius:6px;padding:6px 8px;color:var(--text);font-size:13px"></div>
+          <button type="button" onclick="saveRbNewComponent()" style="background:var(--green);color:#000;border:none;border-radius:6px;padding:7px 14px;font-size:13px;font-weight:600;cursor:pointer;white-space:nowrap">Save & Add</button>
+        </div>
+      </div>
+
+      <div id="rb-selected" style="margin-bottom:10px">
+        <div style="font-size:13px;color:var(--muted);padding:4px 0">No ingredients added yet.</div>
+      </div>
+      <div id="rb-total" style="font-size:14px;font-weight:700;padding:8px 0;border-top:1px solid var(--border);margin-bottom:14px;color:var(--green)">0 kcal · 0g protein · 0g carbs · 0g fat</div>
+      <button onclick="saveToRosterDirect()"
+        style="width:100%;padding:14px;background:var(--green);color:#000;border:none;border-radius:12px;font-size:16px;font-weight:700;cursor:pointer">Save Meal</button>
+      <div id="rb-status" class="status-msg" style="margin-top:8px"></div>
+    </div>`;
+
+  renderSavedMealsBrowse();
+  if (tabAddActive) renderRosterBuilderLibrary();
+}
+
+function switchSavedMealsTab(tab) {
+  savedMealsTab = tab;
+  document.getElementById('smTabBrowse')?.classList.toggle('active', tab === 'browse');
+  document.getElementById('smTabAdd')?.classList.toggle('active',    tab === 'add');
+  const browseEl = document.getElementById('smBrowseSection');
+  const addEl    = document.getElementById('smAddSection');
+  if (browseEl) browseEl.style.display = tab === 'browse' ? '' : 'none';
+  if (addEl)    addEl.style.display    = tab === 'add'    ? '' : 'none';
+  if (tab === 'add') { rosterBuilderItems = []; rbSelectedTag = 'misc'; renderRosterBuilderLibrary(); }
+}
+
+function setSavedMealsFilter(filter) {
+  savedMealsFilter = filter;
+  ['all','breakfast','lunch','dinner','misc'].forEach(f => {
+    document.getElementById('smFilter-' + f)?.classList.toggle('active', f === filter);
+  });
+  renderSavedMealsBrowse();
+}
+
+function renderSavedMealsBrowse() {
+  const cards = document.getElementById('smMealCards');
+  if (!cards || !dashData) return;
+  const meals = (dashData.phase?.common_cheats) || [];
+  const filtered = savedMealsFilter === 'all'
+    ? meals
+    : meals.filter(m => (m.tag || 'misc') === savedMealsFilter);
+
+  if (!filtered.length) {
+    const emptyMsg = savedMealsFilter === 'all'
+      ? 'No saved meals yet.<br><br>Tap "+ Add New" to build and save a meal.'
+      : 'No ' + savedMealsFilter + ' meals saved yet.';
+    cards.innerHTML = `<div class="empty-state"><div class="empty-icon">🍽️</div>${emptyMsg}</div>`;
     return;
   }
 
-  body.innerHTML = meals.map(m => {
-    const hasMacros = m.protein || m.carbs || m.fat;
-    const macroLine = hasMacros
-      ? `<div style="font-size:13px;color:var(--muted);margin-top:2px">${m.kcal || 0} kcal${m.protein ? ' · ' + m.protein + 'g protein' : ''}${m.carbs ? ' · ' + m.carbs + 'g carbs' : ''}${m.fat ? ' · ' + m.fat + 'g fat' : ''}</div>`
-      : `<div style="font-size:13px;color:var(--muted);margin-top:2px">${m.kcal || 0} kcal</div>`;
-    const ingredientsLine = m.description && m.description !== m.name
-      ? `<div style="font-size:12px;color:var(--muted);margin-top:6px;line-height:1.5">${escHtml(m.description)}</div>`
-      : '';
+  cards.innerHTML = filtered.map(m => {
+    const macros = [
+      m.kcal    ? `${m.kcal} kcal`        : null,
+      m.protein ? `${m.protein}g protein`  : null,
+      m.carbs   ? `${m.carbs}g carbs`      : null,
+      m.fat     ? `${m.fat}g fat`          : null,
+    ].filter(Boolean).join(' · ');
+    const tag = (m.tag || 'misc');
+    const ingredients = m.description && m.description !== m.name
+      ? `<div style="font-size:12px;color:var(--muted);margin-top:6px;line-height:1.5">${escHtml(m.description)}</div>` : '';
     return `
     <div class="card" style="margin-bottom:12px">
-      <div style="font-size:16px;font-weight:700;margin-bottom:2px">${escHtml(m.name)}</div>
-      ${macroLine}
-      ${ingredientsLine}
+      <div style="display:flex;align-items:baseline;justify-content:space-between;gap:8px;margin-bottom:2px">
+        <div style="font-size:16px;font-weight:700">${escHtml(m.name)}</div>
+        <div style="font-size:11px;color:var(--muted);white-space:nowrap;text-transform:capitalize">${tag}</div>
+      </div>
+      <div style="font-size:13px;color:var(--muted)">${macros}</div>
+      ${ingredients}
     </div>`;
   }).join('');
+}
+
+// ─── Roster builder (Saved Meals › Add New) ───────────────────
+function renderRosterBuilderLibrary() {
+  const el = document.getElementById('rb-library');
+  if (!el) return;
+  const q = (document.getElementById('rb-search')?.value || '').toLowerCase();
+  const items = componentsData.filter(c => !q || c.name.toLowerCase().includes(q));
+  if (!items.length) {
+    el.innerHTML = '<div style="padding:10px;font-size:13px;color:var(--muted)">No ingredients match.</div>';
+    return;
+  }
+  el.innerHTML = items.map(c => {
+    const globalIdx = componentsData.indexOf(c);
+    const macroLine = rbShowMacros
+      ? `<div style="font-size:11px;color:var(--muted);margin-top:2px">${c.protein || 0}g protein | ${c.carbs || 0}g carbs | ${c.fat || 0}g fat</div>`
+      : '';
+    return `<div style="display:flex;align-items:center;justify-content:space-between;padding:8px 10px;border-bottom:1px solid var(--border);font-size:13px">
+      <div><div>${escHtml(c.name)}</div>${macroLine}</div>
+      <div style="display:flex;align-items:center;gap:10px;flex-shrink:0">
+        <span style="color:var(--muted)">${c.kcal} kcal</span>
+        <button type="button" onclick="rbAddToMeal(${globalIdx})" style="background:var(--green);color:#000;border:none;border-radius:6px;width:26px;height:26px;font-size:16px;line-height:1;cursor:pointer;font-weight:700">+</button>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+function rbAddToMeal(globalIdx) {
+  const comp = componentsData[globalIdx];
+  if (!comp) return;
+  const existing = rosterBuilderItems.find(i => i.component === comp);
+  if (existing) { existing.qty++; } else { rosterBuilderItems.push({ component: comp, qty: 1 }); }
+  renderRosterBuilderSelected();
+}
+
+function rbRemoveFromMeal(idx) {
+  rosterBuilderItems.splice(idx, 1);
+  renderRosterBuilderSelected();
+}
+
+function rbAdjustQty(idx, delta) {
+  const raw = +(rosterBuilderItems[idx].qty + delta).toFixed(2);
+  rosterBuilderItems[idx].qty = Math.max(0.5, raw);
+  renderRosterBuilderSelected();
+}
+
+function rbSetQty(idx, val) {
+  const v = isNaN(val) || val <= 0 ? 0.5 : +val.toFixed(2);
+  rosterBuilderItems[idx].qty = v;
+  renderRosterBuilderSelected();
+}
+
+function renderRosterBuilderSelected() {
+  const el = document.getElementById('rb-selected');
+  const totalEl = document.getElementById('rb-total');
+  if (!el || !totalEl) return;
+
+  if (!rosterBuilderItems.length) {
+    el.innerHTML = '<div style="font-size:13px;color:var(--muted);padding:4px 0">No ingredients added yet.</div>';
+    totalEl.textContent = '0 kcal · 0g protein · 0g carbs · 0g fat';
+    return;
+  }
+
+  el.innerHTML = rosterBuilderItems.map((item, idx) => {
+    const lineKcal = Math.round(item.component.kcal * item.qty);
+    return `
+    <div style="display:flex;align-items:center;gap:8px;padding:6px 0;border-bottom:1px solid var(--border);font-size:13px">
+      <span style="flex:1">${escHtml(item.component.name)}</span>
+      <span style="color:var(--muted);font-size:12px;white-space:nowrap">${lineKcal} kcal</span>
+      <button type="button" onclick="rbAdjustQty(${idx},-0.5)" style="background:var(--surface2);border:1px solid var(--border);border-radius:5px;width:24px;height:24px;cursor:pointer;color:var(--text);font-size:14px">−</button>
+      <input type="number" step="0.5" min="0.5" value="${item.qty}" inputmode="decimal"
+        onchange="rbSetQty(${idx}, parseFloat(this.value))"
+        style="width:38px;text-align:center;background:var(--surface2);border:1px solid var(--border);border-radius:5px;padding:3px 2px;color:var(--text);font-size:13px">
+      <button type="button" onclick="rbAdjustQty(${idx},0.5)"  style="background:var(--surface2);border:1px solid var(--border);border-radius:5px;width:24px;height:24px;cursor:pointer;color:var(--text);font-size:14px">+</button>
+      <button type="button" onclick="rbRemoveFromMeal(${idx})" style="background:none;border:none;color:var(--muted);font-size:16px;cursor:pointer;padding:0 2px">×</button>
+    </div>`;
+  }).join('');
+
+  const totalKcal    = Math.round(rosterBuilderItems.reduce((s, i) => s + i.component.kcal * i.qty, 0));
+  const totalProtein = Math.round(rosterBuilderItems.reduce((s, i) => s + (i.component.protein || 0) * i.qty, 0));
+  const totalCarbs   = Math.round(rosterBuilderItems.reduce((s, i) => s + (i.component.carbs   || 0) * i.qty, 0));
+  const totalFat     = Math.round(rosterBuilderItems.reduce((s, i) => s + (i.component.fat     || 0) * i.qty, 0));
+  totalEl.textContent = `${totalKcal} kcal · ${totalProtein}g protein · ${totalCarbs}g carbs · ${totalFat}g fat`;
+}
+
+function setRbTag(tag) {
+  rbSelectedTag = tag;
+  ['breakfast','lunch','dinner','misc'].forEach(t => {
+    document.getElementById('rbTag-' + t)?.classList.toggle('active', t === tag);
+  });
+}
+
+function toggleRbMacroView() {
+  rbShowMacros = !rbShowMacros;
+  const btn = document.getElementById('rbMacroToggle');
+  if (btn) btn.style.color = rbShowMacros ? 'var(--green)' : 'var(--muted)';
+  renderRosterBuilderLibrary();
+}
+
+function toggleRbNewIngredientForm() {
+  const f = document.getElementById('rb-new-form');
+  if (f) f.style.display = f.style.display === 'none' ? '' : 'none';
+}
+
+async function saveRbNewComponent() {
+  const name    = (document.getElementById('rbNewName')?.value    || '').trim();
+  const kcal    = parseInt(document.getElementById('rbNewKcal')?.value)    || 0;
+  const protein = parseInt(document.getElementById('rbNewProtein')?.value) || 0;
+  const carbs   = parseInt(document.getElementById('rbNewCarbs')?.value)   || 0;
+  const fat     = parseInt(document.getElementById('rbNewFat')?.value)     || 0;
+  if (!name) return;
+
+  const newComp = { name, kcal, protein, carbs, fat };
+  componentsData.push(newComp);
+
+  const statusEl = document.getElementById('rb-status');
+  try {
+    const content = JSON.stringify(componentsData, null, 2);
+    const res = await ghPut(COMPONENTS_PATH, content, componentsSha, 'components: add ' + name);
+    componentsSha = res.content?.sha || componentsSha;
+  } catch(e) {
+    componentsData.pop();
+    if (statusEl) { statusEl.textContent = 'Could not save ingredient — check connection'; statusEl.style.color = 'var(--red)'; }
+    return;
+  }
+
+  rosterBuilderItems.push({ component: newComp, qty: 1 });
+  ['rbNewName','rbNewKcal','rbNewProtein','rbNewCarbs','rbNewFat'].forEach(id => {
+    const el = document.getElementById(id); if (el) el.value = '';
+  });
+  const f = document.getElementById('rb-new-form');
+  if (f) f.style.display = 'none';
+  renderRosterBuilderLibrary();
+  renderRosterBuilderSelected();
+}
+
+async function saveToRosterDirect() {
+  const nameEl   = document.getElementById('rb-name');
+  const statusEl = document.getElementById('rb-status');
+  const name     = (nameEl?.value || '').trim();
+
+  if (!name) {
+    if (nameEl) { nameEl.style.borderColor = 'var(--red)'; nameEl.focus(); }
+    return;
+  }
+  if (!rosterBuilderItems.length) {
+    if (statusEl) { statusEl.textContent = 'Add at least one ingredient first.'; statusEl.style.color = 'var(--amber)'; }
+    return;
+  }
+
+  if (statusEl) { statusEl.textContent = 'Saving…'; statusEl.style.color = 'var(--muted)'; }
+
+  const totalKcal    = Math.round(rosterBuilderItems.reduce((s, i) => s + i.component.kcal * i.qty, 0));
+  const totalProtein = Math.round(rosterBuilderItems.reduce((s, i) => s + (i.component.protein || 0) * i.qty, 0));
+  const totalCarbs   = Math.round(rosterBuilderItems.reduce((s, i) => s + (i.component.carbs   || 0) * i.qty, 0));
+  const totalFat     = Math.round(rosterBuilderItems.reduce((s, i) => s + (i.component.fat     || 0) * i.qty, 0));
+  const description  = rosterBuilderItems.map(i => i.qty !== 1 ? `${i.component.name} ×${i.qty}` : i.component.name).join(', ');
+  const newCheat     = { name, description, kcal: totalKcal, protein: totalProtein, carbs: totalCarbs, fat: totalFat, tag: rbSelectedTag };
+
+  try {
+    const { user, repo, token } = ghConfig();
+    if (!user || !token) throw new Error('GitHub not configured — go to Settings first');
+    const freshDash = await ghGet(DASH_PATH);
+    dashSha         = freshDash.sha;
+    const freshData = JSON.parse(ghDecode(freshDash.content));
+    if (!freshData.phase.common_cheats) freshData.phase.common_cheats = [];
+    freshData.phase.common_cheats.push(newCheat);
+    await ghPut(DASH_PATH, JSON.stringify(freshData, null, 2), dashSha, 'roster: add ' + name);
+    dashData = freshData;
+
+    if (statusEl) { statusEl.textContent = '✓ Saved'; statusEl.style.color = 'var(--green)'; }
+    rosterBuilderItems = [];
+    rbSelectedTag = 'misc';
+    if (nameEl) nameEl.value = '';
+    setTimeout(() => { switchSavedMealsTab('browse'); renderSavedMealsBrowse(); }, 1000);
+  } catch(e) {
+    if (statusEl) { statusEl.textContent = '✗ ' + e.message; statusEl.style.color = 'var(--red)'; }
+  }
 }
 
 // ─── Meal Plan ────────────────────────────────────────────────
@@ -2576,7 +2866,19 @@ function prevPhaseFilterClick(idx, key) {
 }
 
 function initMealBuilderRosterToggle() {
-  // mbMealName is the single name field for both logging and roster saving — no extra UI needed.
+  const cb = document.getElementById('mbSaveToRoster');
+  if (!cb) return;
+  cb.addEventListener('change', function() {
+    const tagRow = document.getElementById('mbTagRow');
+    if (tagRow) tagRow.style.display = this.checked ? '' : 'none';
+  });
+}
+
+function setMbTag(tag) {
+  mbSelectedTag = tag;
+  ['breakfast','lunch','dinner','misc'].forEach(t => {
+    document.getElementById('mbTag-' + t)?.classList.toggle('active', t === tag);
+  });
 }
 
 function prevMealTabClick(idx, tab) {
@@ -3710,6 +4012,15 @@ function openCheatForm() {
         <label style="font-size:13px;color:var(--muted);flex:1">Save to quick-select roster</label>
         <input type="checkbox" id="mbSaveToRoster" style="width:18px;height:18px;cursor:pointer">
       </div>
+      <div id="mbTagRow" style="display:none;padding-bottom:4px">
+        <div style="font-size:12px;color:var(--muted);margin-bottom:6px">Meal type</div>
+        <div style="display:flex;gap:6px">
+          <button type="button" onclick="setMbTag('breakfast')" id="mbTag-breakfast" class="log-filter-pill" style="flex:1;font-size:12px">Breakfast</button>
+          <button type="button" onclick="setMbTag('lunch')"     id="mbTag-lunch"     class="log-filter-pill" style="flex:1;font-size:12px">Lunch</button>
+          <button type="button" onclick="setMbTag('dinner')"    id="mbTag-dinner"    class="log-filter-pill" style="flex:1;font-size:12px">Dinner</button>
+          <button type="button" onclick="setMbTag('misc')"      id="mbTag-misc"      class="log-filter-pill active" style="flex:1;font-size:12px">Misc</button>
+        </div>
+      </div>
     </div>
 
     <!-- SHARED FIELDS -->
@@ -3789,6 +4100,7 @@ function setCheatMode(mode) {
     const nameEl = document.getElementById('mbMealName');
     if (nameEl) nameEl.value = '';
     mbShowMacros = false;
+    mbSelectedTag = 'misc';
   } else {
     renderMealBuilderLibrary();
   }
@@ -4020,7 +4332,7 @@ async function submitCheatForm() {
       const totalCarbs   = Math.round(mealBuilderItems.reduce((s, i) => s + (i.component.carbs   || 0) * i.qty, 0));
       const totalFat     = Math.round(mealBuilderItems.reduce((s, i) => s + (i.component.fat     || 0) * i.qty, 0));
       const description  = mealBuilderItems.map(i => i.qty !== 1 ? `${i.component.name} ×${i.qty}` : i.component.name).join(', ');
-      const newCheat     = { name: rosterName, description, kcal: totalKcal, protein: totalProtein, carbs: totalCarbs, fat: totalFat };
+      const newCheat     = { name: rosterName, description, kcal: totalKcal, protein: totalProtein, carbs: totalCarbs, fat: totalFat, tag: mbSelectedTag };
       // Re-fetch dashboard for latest sha before writing
       const freshDash   = await ghGet(DASH_PATH);
       dashSha           = freshDash.sha;
