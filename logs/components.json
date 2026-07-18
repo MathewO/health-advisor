@@ -180,5 +180,12 @@
     "protein": 1,
     "carbs": 11.2,
     "fat": 0
+  },
+  {
+    "name": "LF Mozzarella (125g)",
+    "kcal": 201,
+    "protein": 23.6,
+    "carbs": 1.4,
+    "fat": 11.25
   }
 ]
