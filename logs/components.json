@@ -187,5 +187,12 @@
     "protein": 23.6,
     "carbs": 1.4,
     "fat": 11.25
+  },
+  {
+    "name": "Mozzarella (125g)",
+    "kcal": 275,
+    "protein": 21.25,
+    "carbs": 2.5,
+    "fat": 20
   }
 ]
