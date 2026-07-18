@@ -3765,7 +3765,7 @@ function renderMealBuilderLibrary() {
   el.innerHTML = items.map((c, i) => {
     const globalIdx = componentsData.indexOf(c);
     const macroLine = mbShowMacros
-      ? `<div style="font-size:11px;color:var(--muted);margin-top:2px">P ${c.protein || 0}g · C ${c.carbs || 0}g · F ${c.fat || 0}g</div>`
+      ? `<div style="font-size:11px;color:var(--muted);margin-top:2px">${c.protein || 0}g protein | ${c.carbs || 0}g carbs | ${c.fat || 0}g fat</div>`
       : '';
     return `<div style="display:flex;align-items:center;justify-content:space-between;padding:8px 10px;border-bottom:1px solid var(--border);font-size:13px">
       <div>${escHtml(c.name)}${macroLine}</div>
