@@ -88,6 +88,42 @@
         "carbs": 36,
         "fat": 3,
         "tag": "lunch"
+      },
+      {
+        "name": "Turkey Bolognese",
+        "description": "125g 2% turkey mince, 90g spaghetti, 125g passata, 1/4 white onion, 30g LF cheddar, herbs",
+        "kcal": 638,
+        "protein": 62,
+        "carbs": 70,
+        "fat": 10,
+        "tag": "dinner"
+      },
+      {
+        "name": "Beef Bolognese",
+        "description": "125g 5% beef mince, 90g spaghetti, 125g passata, 1/4 white onion, 30g LF cheddar, herbs",
+        "kcal": 678,
+        "protein": 62,
+        "carbs": 70,
+        "fat": 15,
+        "tag": "dinner"
+      },
+      {
+        "name": "Beef Chilli Jacket Potato",
+        "description": "125g 5% beef mince, 250g jacket potato, 1/4 can kidney beans, 125g passata, 1/4 white onion, 30g LF cheddar",
+        "kcal": 621,
+        "protein": 59,
+        "carbs": 61,
+        "fat": 14,
+        "tag": "dinner"
+      },
+      {
+        "name": "Beef Chilli + Rice",
+        "description": "125g 5% beef mince, 60g dry basmati rice, 1/4 can kidney beans, 125g passata, 1/4 white onion, 30g LF cheddar",
+        "kcal": 632,
+        "protein": 59,
+        "carbs": 63,
+        "fat": 14,
+        "tag": "dinner"
       }
     ],
     "meal_plan": {
