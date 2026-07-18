@@ -194,5 +194,12 @@
     "protein": 21.25,
     "carbs": 2.5,
     "fat": 20
+  },
+  {
+    "name": "Pasta (100g dry)",
+    "kcal": 351,
+    "protein": 14,
+    "carbs": 69,
+    "fat": 1.5
   }
 ]
