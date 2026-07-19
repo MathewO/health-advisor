@@ -408,3 +408,4 @@
 2026-07-18 | cheat | BBQ, ~710 kcal | replaces: Gousto Meal (640 kcal)
 2026-07-18 | cheat | Biscuits, ~94 kcal
 2026-07-19 | weight | 77.9
+2026-07-19 | cheat | Oat Pot, ~236 kcal
