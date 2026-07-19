@@ -17,7 +17,7 @@
     "name": "Hash brown (Sainsbury's)",
     "kcal": 62,
     "protein": 0.9,
-    "carbs": 7.0,
+    "carbs": 7,
     "fat": 3.2
   },
   {
@@ -28,14 +28,14 @@
     "fat": 1
   },
   {
-    "name": "Avocado (\u00bd)",
+    "name": "Avocado (½)",
     "kcal": 120,
     "protein": 2,
     "carbs": 6,
     "fat": 10
   },
   {
-    "name": "Baked beans (\u00bd tin ~205g)",
+    "name": "Baked beans (½ tin ~205g)",
     "kcal": 175,
     "protein": 9.4,
     "carbs": 25.6,
@@ -100,8 +100,8 @@
   {
     "name": "Large white bap",
     "kcal": 206,
-    "protein": 7.0,
-    "carbs": 39.0,
+    "protein": 7,
+    "carbs": 39,
     "fat": 2.1
   },
   {
@@ -128,7 +128,7 @@
   {
     "name": "Turkey mince 2% (100g)",
     "kcal": 136,
-    "protein": 31.0,
+    "protein": 31,
     "carbs": 0,
     "fat": 1.2
   },
@@ -158,7 +158,7 @@
     "kcal": 39,
     "protein": 1.9,
     "carbs": 5.3,
-    "fat": 1.0
+    "fat": 1
   },
   {
     "name": "Basmati rice (100g uncooked)",
@@ -168,14 +168,14 @@
     "fat": 0.8
   },
   {
-    "name": "Kidney beans (\u00bc can drained)",
+    "name": "Kidney beans (¼ can drained)",
     "kcal": 63,
     "protein": 4.9,
     "carbs": 7.7,
     "fat": 0.4
   },
   {
-    "name": "Old El Paso fajita seasoning (\u00bd pack)",
+    "name": "Old El Paso fajita seasoning (½ pack)",
     "kcal": 52,
     "protein": 1,
     "carbs": 11.2,
@@ -208,5 +208,12 @@
     "protein": 7.4,
     "carbs": 9,
     "fat": 3.6
+  },
+  {
+    "name": "Halloumi Block",
+    "kcal": 672,
+    "protein": 45,
+    "carbs": 8,
+    "fat": 50
   }
 ]
