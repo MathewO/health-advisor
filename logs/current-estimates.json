@@ -1,7 +1,7 @@
 {
   "_note": "Live derived metrics — updated each agent session. This is the source of truth for data-derived estimates. Do not use dashboard.json for TDEE or rate-of-loss; use this file. When any value changes, update it here in the same session.",
 
-  "last_updated": "2026-07-18",
+  "last_updated": "2026-07-19",
 
   "tdee": {
     "estimate_kcal_per_day": 2200,
@@ -27,12 +27,12 @@
     "live_target_kg": 76.0,
     "live_target_note": "Midpoint of 75–77 kg Bali range. 8 weeks from 80.4 kg at ~0.55 kg/wk.",
     "live_target_date": "2026-08-30",
-    "latest_weight_kg": 78.4,
-    "latest_weight_date": "2026-07-18",
-    "seven_day_avg_weight_kg": 79.0,
-    "seven_day_avg_date": "2026-07-18",
-    "loss_rate_kg_per_week_gross": null,
-    "loss_rate_note": "Phase 2 day 8 — glycogen flush likely complete. Rate TBD after week 2 settles.",
+    "latest_weight_kg": 77.9,
+    "latest_weight_date": "2026-07-19",
+    "seven_day_avg_weight_kg": 78.8,
+    "seven_day_avg_date": "2026-07-19",
+    "loss_rate_kg_per_week_gross": 0.84,
+    "loss_rate_note": "Phase 2 day 13. 7d avg: 80.4→78.8 kg = −1.6 kg in 13 days = ~0.84 kg/wk. Likely still slightly inflated by week-1 glycogen flush; real rate probably 0.6–0.7 kg/wk.",
     "waist_cm": 100,
     "waist_date": "2026-07-06",
     "waist_baseline_cm": 108,
