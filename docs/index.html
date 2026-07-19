@@ -481,7 +481,7 @@
           <div class="log-label">Waist (cm)</div>
         </button>
         <button class="log-card" onclick="openCheatForm()">
-          <div class="log-icon">🍔</div>
+          <div class="log-icon">🌮</div>
           <div class="log-label">Off-plan Meal</div>
         </button>
       </div>
@@ -541,13 +541,13 @@
   <!-- Tab bar -->
   <div class="tab-bar">
     <button class="tab-btn active" id="tbDashboard" onclick="switchTab('dashboard')">
-      <span class="icon">📈</span>MyBody
+      <span class="icon">📉</span>MyBody
     </button>
     <button class="tab-btn" id="tbLog" onclick="switchTab('log')">
       <span class="icon">📝</span>Tracking
     </button>
     <button class="tab-btn" id="tbMeals" onclick="switchTab('meals')">
-      <span class="icon">🍔</span>Meals
+      <span class="icon">🌮</span>Meals
     </button>
   </div>
 
@@ -1300,7 +1300,7 @@ function renderWeeklyBurndownChart(allEntries, weekStartStr, weekdayDeficit, wee
   const yMax = Math.max(target, fullWeekBase, actualData[6]) + 100;
 
   // Event icons + labels per day
-  const baseIcons = { weight: '⚖️', waist: '📏', run: '🏃', stair: '🪜', drinks: '🍺', beers: '🍺', cheat: '🍔', activity: '🏌️' };
+  const baseIcons = { weight: '⚖️', waist: '📏', run: '🏃', stair: '🪜', drinks: '🍺', beers: '🍺', cheat: '🌮', activity: '🏌️' };
   const workoutTypeIcons = {
     'Running': '🏃', 'Cycling': '🚴', 'Mountain Biking': '🚵',
     'Stair Climbing': '🪜', 'HIIT': '💪', 'Hiking': '🥾',
@@ -1696,7 +1696,7 @@ function loadLogView() {
     drinks:   { label: 'Drinks',          badgeClass: 'badge-amber',  icon: '🍺' },
     beers:    { label: 'Drinks',          badgeClass: 'badge-amber',  icon: '🍺' },
     activity: { label: 'Activity',        badgeClass: 'badge-green',  icon: '🏌️' },
-    cheat:    { label: 'Off-plan Meal',   badgeClass: 'badge-green',  icon: '🍔' },
+    cheat:    { label: 'Off-plan Meal',   badgeClass: 'badge-green',  icon: '🌮' },
     run:      { label: 'Run',             badgeClass: 'badge-green',  icon: '🏃' },
     stair:    { label: 'Stair Climbing',  badgeClass: 'badge-green',  icon: '🪜' },
     workout:  { label: 'Workout',         badgeClass: 'badge-green',  icon: '🏅' }
@@ -4037,7 +4037,7 @@ function getMealOptions() {
 
 function openCheatForm() {
   currentFormType = 'cheat';
-  document.getElementById('formTitle').textContent = '🍔 Log Off-plan Meal';
+  document.getElementById('formTitle').textContent = '🌮 Log Off-plan Meal';
 
   const mealOptions = getMealOptions();
   const mealOptHtml = `<option value="">None — additional calories</option>`
