@@ -1,7 +1,7 @@
 {
   "phase": {
     "id": "fat-loss-2026-q3",
-    "name": "Fat Loss \u2014 Bali",
+    "name": "Fat Loss — Bali",
     "status": "active",
     "start_date": "2026-07-06",
     "target_date": "2026-08-30",
@@ -22,13 +22,13 @@
             "protein": 39
           },
           {
-            "name": "Kidney beans, drained (\u00bc tin)",
+            "name": "Kidney beans, drained (¼ tin)",
             "amount": "~65g",
             "kcal": 63,
             "protein": 4
           },
           {
-            "name": "Black beans, drained (\u00bc tin)",
+            "name": "Black beans, drained (¼ tin)",
             "amount": "~65g",
             "kcal": 62,
             "protein": 4
@@ -64,7 +64,7 @@
     "common_cheats": [
       {
         "name": "Caesar Salad",
-        "description": "\u00bd Lightly Dusted Chicken (Pack), Half caesar bag",
+        "description": "½ Lightly Dusted Chicken (Pack), Half caesar bag",
         "kcal": 497,
         "protein": 30.2,
         "carbs": 33.1,
@@ -127,7 +127,7 @@
       },
       {
         "name": "Chicken Fajitas",
-        "description": "125g chicken breast, 2 protein wraps, 50g mixed peppers, \u00bd white onion, 60g Fage 0%, Old El Paso fajita seasoning (\u00bd pack), 30g LF cheddar",
+        "description": "125g chicken breast, 2 protein wraps, 50g mixed peppers, ½ white onion, 60g Fage 0%, Old El Paso fajita seasoning (½ pack), 30g LF cheddar",
         "kcal": 702,
         "protein": 66,
         "carbs": 72,
@@ -136,7 +136,7 @@
       },
       {
         "name": "Chicken Arrabiatta",
-        "description": "125g chicken breast, 80g pasta, 125g passata, \u00bc white onion, 1 tsp olive oil, \u00bd LF mozzarella (62.5g), chilli, garlic",
+        "description": "125g chicken breast, 80g pasta, 125g passata, ¼ white onion, 1 tsp olive oil, ½ LF mozzarella (62.5g), chilli, garlic",
         "kcal": 634,
         "protein": 54,
         "carbs": 64,
@@ -145,12 +145,12 @@
       },
       {
         "name": "Chicken, Rice & Peas",
-        "description": "Basmati rice (100g uncooked) \u00d70.5, Chicken breast (100g raw) \u00d71.6, 1/4 white onion, Old El Paso fajita seasoning (\u00bd pack) \u00d70.5, Fage 0% Greek yoghurt (100g) \u00d70.3",
+        "description": "Basmati rice (100g uncooked) ×0.5, Chicken breast (100g raw) ×1.6, 1/4 white onion, Old El Paso fajita seasoning (½ pack) ×0.5, Fage 0% Greek yoghurt (100g) ×0.3",
         "kcal": 409,
         "protein": 44,
         "carbs": 48,
         "fat": 4,
-        "tag": "dinner"
+        "tag": "lunch"
       }
     ],
     "meal_plan": {
@@ -161,7 +161,7 @@
         "weekend_kcal": 1541,
         "avg_daily_kcal": 1457,
         "avg_daily_deficit": 743,
-        "_note": "avg = (weekday\u00d75 + weekend\u00d72) / 7 \u2014 update these whenever meal items change"
+        "_note": "avg = (weekday×5 + weekend×2) / 7 — update these whenever meal items change"
       },
       "weekday": {
         "items": [
@@ -178,7 +178,7 @@
             "protein": 42,
             "ingredients": [
               {
-                "name": "Impact Whey \u00d7 2 scoops",
+                "name": "Impact Whey × 2 scoops",
                 "kcal": 232,
                 "protein": 42
               },
@@ -246,7 +246,7 @@
             "protein": 21,
             "ingredients": [
               {
-                "name": "Impact Whey \u00d7 1 scoop",
+                "name": "Impact Whey × 1 scoop",
                 "kcal": 116,
                 "protein": 21
               },
@@ -264,7 +264,7 @@
             "protein": 41,
             "ingredients": [
               {
-                "name": "Sainsbury's hash browns \u00d7 3 (air fryer)",
+                "name": "Sainsbury's hash browns × 3 (air fryer)",
                 "kcal": 183,
                 "protein": 3
               },
@@ -279,7 +279,7 @@
                 "protein": 12
               },
               {
-                "name": "Heck Chicken Italia sausages \u00d7 3 (air fryer)",
+                "name": "Heck Chicken Italia sausages × 3 (air fryer)",
                 "kcal": 102,
                 "protein": 17
               }
@@ -333,7 +333,7 @@
     {
       "name": "Magnesium Glycinate",
       "dose": "400 mg",
-      "timing": "30\u201360 min before bed",
+      "timing": "30–60 min before bed",
       "reason": "Sleep quality, muscle recovery, insulin sensitivity (HOMA-IR 2.23), stress resilience",
       "evidence": "Moderate-Strong"
     },
@@ -377,13 +377,13 @@
               "protein": 39
             },
             {
-              "name": "Kidney beans, drained (\u00bc tin)",
+              "name": "Kidney beans, drained (¼ tin)",
               "amount": "~65g",
               "kcal": 63,
               "protein": 4
             },
             {
-              "name": "Black beans, drained (\u00bc tin)",
+              "name": "Black beans, drained (¼ tin)",
               "amount": "~65g",
               "kcal": 62,
               "protein": 4
@@ -444,7 +444,7 @@
           "weekend_kcal": 1554,
           "avg_daily_kcal": 1443,
           "avg_daily_deficit": 492,
-          "_note": "avg = (weekday\u00d75 + weekend\u00d72) / 7 \u2014 update these whenever meal items change"
+          "_note": "avg = (weekday×5 + weekend×2) / 7 — update these whenever meal items change"
         },
         "weekday": {
           "items": [
@@ -461,7 +461,7 @@
               "protein": 42,
               "ingredients": [
                 {
-                  "name": "Impact Whey \u00d7 2 scoops",
+                  "name": "Impact Whey × 2 scoops",
                   "kcal": 232,
                   "protein": 42
                 },
@@ -529,7 +529,7 @@
               "protein": 21,
               "ingredients": [
                 {
-                  "name": "Impact Whey \u00d7 1 scoop",
+                  "name": "Impact Whey × 1 scoop",
                   "kcal": 116,
                   "protein": 21
                 },
@@ -547,7 +547,7 @@
               "protein": 41,
               "ingredients": [
                 {
-                  "name": "Sainsbury's hash browns \u00d7 3 (air fryer)",
+                  "name": "Sainsbury's hash browns × 3 (air fryer)",
                   "kcal": 183,
                   "protein": 3
                 },
@@ -557,12 +557,12 @@
                   "protein": 9
                 },
                 {
-                  "name": "Eggs \u00d7 2, fried with small oil",
+                  "name": "Eggs × 2, fried with small oil",
                   "kcal": 188,
                   "protein": 13
                 },
                 {
-                  "name": "Heck Chicken Italia sausages \u00d7 3 (air fryer)",
+                  "name": "Heck Chicken Italia sausages × 3 (air fryer)",
                   "kcal": 102,
                   "protein": 17
                 }
@@ -616,7 +616,7 @@
         {
           "name": "Magnesium Glycinate",
           "dose": "400 mg",
-          "timing": "30\u201360 min before bed",
+          "timing": "30–60 min before bed",
           "reason": "Sleep quality, muscle recovery, insulin sensitivity, stress resilience",
           "evidence": "Moderate-Strong"
         },
@@ -665,7 +665,7 @@
         },
         {
           "name": "Single burger",
-          "description": "Large white roll, LF Cheddar Slice \u00d72, Beef Mince 5% (100g) \u00d71.25",
+          "description": "Large white roll, LF Cheddar Slice ×2, Beef Mince 5% (100g) ×1.25",
           "kcal": 515,
           "protein": 54
         }
@@ -677,7 +677,7 @@
           "weekday_kcal": 1780,
           "weekend_kcal": 1886,
           "avg_daily_kcal": 1810,
-          "_note": "Weeks 2\u20134 ramp plan. Add oats (~175 kcal) for weeks 3\u20134 to reach 2,150 kcal/day."
+          "_note": "Weeks 2–4 ramp plan. Add oats (~175 kcal) for weeks 3–4 to reach 2,150 kcal/day."
         },
         "weekday": {
           "items": [
@@ -706,7 +706,7 @@
               "protein": 42,
               "ingredients": [
                 {
-                  "name": "Impact Whey \u00d7 2 scoops",
+                  "name": "Impact Whey × 2 scoops",
                   "kcal": 232,
                   "protein": 42
                 },
@@ -744,7 +744,7 @@
                   "protein": 1
                 },
                 {
-                  "name": "Side \u2014 \u00bd avocado or 50g rice",
+                  "name": "Side — ½ avocado or 50g rice",
                   "kcal": 124,
                   "protein": 2
                 }
@@ -763,7 +763,7 @@
               "protein": 21,
               "ingredients": [
                 {
-                  "name": "Impact Whey \u00d7 1 scoop",
+                  "name": "Impact Whey × 1 scoop",
                   "kcal": 116,
                   "protein": 21
                 },
@@ -815,7 +815,7 @@
               "protein": 21,
               "ingredients": [
                 {
-                  "name": "Impact Whey \u00d7 1 scoop",
+                  "name": "Impact Whey × 1 scoop",
                   "kcal": 116,
                   "protein": 21
                 },
@@ -833,22 +833,22 @@
               "protein": 41,
               "ingredients": [
                 {
-                  "name": "Sainsbury's hash browns \u00d7 3 (air fryer)",
+                  "name": "Sainsbury's hash browns × 3 (air fryer)",
                   "kcal": 183,
                   "protein": 3
                 },
                 {
-                  "name": "Branston baked beans (\u00bd tin ~205g)",
+                  "name": "Branston baked beans (½ tin ~205g)",
                   "kcal": 175,
                   "protein": 9
                 },
                 {
-                  "name": "Eggs \u00d7 2, fried with small oil",
+                  "name": "Eggs × 2, fried with small oil",
                   "kcal": 188,
                   "protein": 13
                 },
                 {
-                  "name": "Heck Chicken Italia sausages \u00d7 3",
+                  "name": "Heck Chicken Italia sausages × 3",
                   "kcal": 102,
                   "protein": 17
                 }
@@ -861,7 +861,7 @@
               "protein": 42,
               "ingredients": [
                 {
-                  "name": "Impact Whey \u00d7 2 scoops",
+                  "name": "Impact Whey × 2 scoops",
                   "kcal": 232,
                   "protein": 42
                 },
@@ -918,7 +918,7 @@
         {
           "name": "Magnesium Glycinate",
           "dose": "400 mg",
-          "timing": "30\u201360 min before bed",
+          "timing": "30–60 min before bed",
           "reason": "Sleep quality, muscle recovery, insulin sensitivity (HOMA-IR 2.23), stress resilience",
           "evidence": "Moderate-Strong"
         },
@@ -945,19 +945,19 @@
       "detail": "2x runs/week at current pace (7.2 kph, ~160 bpm). Extend one run from 20 to 30 min over 6-8 weeks. No intervals during the deficit. Re-assess after fat loss phase ends."
     },
     {
-      "title": "Squat & Deadlift \u2014 Phase 2 Protocol",
-      "detail": "Goal: muscle retention, not PRs. No 1RM testing for 8 weeks. Deadlift: 10\u00d760 \u2192 5\u00d780 \u2192 3\u00d75\u00d7100 kg. Squat: 10\u00d750 \u2192 5\u00d760 \u2192 3\u00d75\u00d765\u201370 kg. Target RPE 8 on working sets \u2014 rep 5 should feel like 1\u20132 reps left. Autoregulate each week: if it's grinding, drop 5 kg and add a set. Extend squat warm-up from week 5 onward."
+      "title": "Squat & Deadlift — Phase 2 Protocol",
+      "detail": "Goal: muscle retention, not PRs. No 1RM testing for 8 weeks. Deadlift: 10×60 → 5×80 → 3×5×100 kg. Squat: 10×50 → 5×60 → 3×5×65–70 kg. Target RPE 8 on working sets — rep 5 should feel like 1–2 reps left. Autoregulate each week: if it's grinding, drop 5 kg and add a set. Extend squat warm-up from week 5 onward."
     }
   ],
   "experiments": [],
   "planned": [
     {
       "title": "Fibre & Micronutrient Boost",
-      "detail": "1 tbsp chia seeds in morning shake + 1 kiwi at ~3\u20134pm on weekdays. +~100 kcal/day, +~6g fibre/day. Adds vitamin C, calcium, magnesium, and prebiotic soluble fibre."
+      "detail": "1 tbsp chia seeds in morning shake + 1 kiwi at ~3–4pm on weekdays. +~100 kcal/day, +~6g fibre/day. Adds vitamin C, calcium, magnesium, and prebiotic soluble fibre."
     },
     {
       "title": "DEXA Scan",
-      "detail": "Baseline body composition \u2014 fat %, lean mass, visceral fat, bone density, BMR. Nearest dedicated clinic: DexaStrong in Leeds (~45 min via M1 from Archer Lane). Ideal timing: once current fat loss phase ends, to get a clean post-cut baseline."
+      "detail": "Baseline body composition — fat %, lean mass, visceral fat, bone density, BMR. Nearest dedicated clinic: DexaStrong in Leeds (~45 min via M1 from Archer Lane). Ideal timing: once current fat loss phase ends, to get a clean post-cut baseline."
     }
   ],
   "last_updated": "2026-07-09"
