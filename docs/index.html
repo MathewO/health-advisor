@@ -1322,7 +1322,7 @@ function renderWeeklyBurndownChart(allEntries, weekStartStr, weekdayDeficit, wee
     if (e.type === 'workout')  return `${ic} ${e.workoutType || 'Workout'}${e.duration ? ' · ' + e.duration + ' min' : ''}`;
     if (e.type === 'drinks')   return `${ic} Drinks${e.breakdown ? ' · ' + e.breakdown : ''}`;
     if (e.type === 'beers')    return `${ic} Drinks · ${e.value} pints`;
-    if (e.type === 'cheat')    return `${ic} Food · ${e.value}`;
+    if (e.type === 'cheat')    return `${ic} ${e.value}`;
     if (e.type === 'activity') return `${ic} Activity · ${e.value}`;
     return e.value || e.type;
   }
