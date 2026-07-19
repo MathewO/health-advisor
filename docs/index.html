@@ -4286,6 +4286,23 @@ async function submitCheatForm() {
   const btn        = document.getElementById('saveBtn');
   const status     = document.getElementById('formStatus');
 
+  // In Build mode, meal name is mandatory — prevents ingredient lists showing on the chart
+  const buildSection = document.getElementById('cheatBuildSection');
+  const isBuildMode  = buildSection && buildSection.style.display !== 'none';
+  if (isBuildMode) {
+    const nameEl = document.getElementById('mbMealName');
+    const mealName = (nameEl?.value || '').trim();
+    if (!mealName) {
+      if (nameEl) {
+        nameEl.style.borderColor = 'var(--red)';
+        nameEl.focus();
+        setTimeout(() => { nameEl.style.borderColor = ''; }, 1500);
+      }
+      if (status) { status.className = 'status-msg error'; status.textContent = 'Please enter a meal name first.'; }
+      return;
+    }
+  }
+
   const detail = (detailEl.value || '').trim();
   if (!detail) {
     detailEl.focus();
