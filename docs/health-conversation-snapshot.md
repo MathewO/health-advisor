@@ -2,7 +2,30 @@
 
 > **Purpose:** Recovery of key decisions and dates from planning chats if **chat history is unavailable**.  
 > **Not used by the PWA** — for humans and AI sessions only.  
-> **Last updated:** 2026-07-06
+> **Last updated:** 2026-07-19
+
+---
+
+## Session notes — 19 Jul 2026
+
+### Phase 2 TDEE check-in — run on ~3 Aug 2026 (week 4)
+
+**Why:** The Phase 1 TDEE of 2,200 kcal/day was derived at 84.1 kg. Phase 2 operates at 78–80 kg where TDEE is likely marginally lower. 13 days of Phase 2 data is insufficient to validate — week 1 glycogen flush inflates apparent loss rate.
+
+**When to run:** After week 4 weigh-in (~3 Aug 2026, 4 weeks into Phase 2). Requires at least 3 clean weeks of data past the week-1 glycogen flush.
+
+**Validation signal:**
+- If 7d avg at 4 weeks has dropped > **2.2 kg** from start (80.4 kg → < 78.2 kg): TDEE is at or above 2,200 — estimate holds
+- If 7d avg has dropped < **2.2 kg** (i.e., > 78.2 kg): TDEE may be running lower at this body weight (~2,100–2,150); consider adjusting planning calories or accepting slightly slower rate
+
+**Back-calculation formula (same as Phase 1):**
+```
+actual_daily_deficit = (start_7d_avg_kg - week4_7d_avg_kg) × 7,700 ÷ 28
+TDEE = actual_daily_deficit + avg_daily_intake
+```
+- Start 7d avg: **80.2 kg** (Jul 6–12 approximate)
+- avg_daily_intake = 1,457 kcal (Phase 2 meal plan: weekday 1,423, weekend 1,541 — does NOT include workout kcal, which net against cheats/drinks)
+- If result differs from 2,200 by > 100 kcal, update `tdee.estimate_kcal_per_day` in `logs/current-estimates.json` and revise Phase 2 planning accordingly
 
 ---
 
