@@ -1384,7 +1384,15 @@ function renderWeeklyBurndownChart(allEntries, weekStartStr, weekdayDeficit, wee
           borderColor: '#4ade80',
           segment: { borderColor: segmentColor },
           pointRadius: 3,
-          pointBackgroundColor: '#4ade80',
+          pointBackgroundColor: ctx => {
+            const y = ctx.parsed?.y;
+            const t = targetData[ctx.dataIndex];
+            if (y == null || t == null) return '#4ade80';
+            const diff = y - t;
+            if (diff >= 0)    return '#4ade80';
+            if (diff >= -150) return '#f59e0b';
+            return '#ef4444';
+          },
           pointBorderColor: '#18181b',
           pointBorderWidth: 1.5,
           tension: 0.2,
