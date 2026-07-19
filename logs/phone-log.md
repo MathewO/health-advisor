@@ -402,7 +402,7 @@
 2026-07-18 | weight | 78.4
 2026-07-18 | workout | Walking | 13 min | 55 kcal
 2026-07-18 | workout | Walking | 14 min | 62 kcal
-2026-07-18 | cheat | Egg white (50ml) ×1.5, Whole egg ×1.5, Hash brown (Sainsbury's) ×2, Avocado (½), Tomatoes, Heck chicken sausage ×3, ~546 kcal | replaces: Weekend Brunch (610 kcal)
+2026-07-18 | cheat | Brunch, ~546 kcal | replaces: Weekend Brunch (610 kcal) | Egg white (50ml) ×1.5, Whole egg ×1.5, Hash brown (Sainsbury's) ×2, Avocado (½), Tomatoes, Heck chicken sausage ×3
 2026-07-18 | cheat | Clear shake, ~88 kcal | replaces: Single Shake (116 kcal)
 2026-07-18 | workout | Walking | 32 min | 136 kcal
 2026-07-18 | cheat | BBQ, ~710 kcal | replaces: Gousto Meal (640 kcal)
@@ -410,5 +410,5 @@
 2026-07-19 | weight | 77.9
 2026-07-19 | cheat | Oat Pot, ~236 kcal
 2026-07-19 | workout | Cycling | 91 min | 1054 kcal
-2026-07-19 | cheat | Egg white (50ml) ×1.5, Whole egg ×1.5, Hash brown (Sainsbury's) ×2, Heck chicken sausage ×2, Avocado (½), Tomatoes, Halloumi Block ×0.25, ~682 kcal | replaces: Weekend Brunch (610 kcal)
+2026-07-19 | cheat | Brunch, ~682 kcal | replaces: Weekend Brunch (610 kcal) | Egg white (50ml) ×1.5, Whole egg ×1.5, Hash brown (Sainsbury's) ×2, Heck chicken sausage ×2, Avocado (½), Tomatoes, Halloumi Block ×0.25
 2026-07-19 | cheat | Pop chips, ~184 kcal
