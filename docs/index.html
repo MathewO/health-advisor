@@ -2025,11 +2025,12 @@ function renderSavedMealsBrowse() {
       ? `<div style="font-size:12px;color:var(--muted);margin-top:6px;line-height:1.7">${m.description.split(',').map(s => { const t = s.trim(); return escHtml(t.charAt(0).toUpperCase() + t.slice(1)); }).join('<br>')}</div>` : '';
     return `
     <div class="card" style="margin-bottom:12px">
-      <div style="display:flex;align-items:baseline;justify-content:space-between;gap:8px;margin-bottom:4px">
+        <div style="display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:4px">
         <div style="font-size:16px;font-weight:700;color:var(--green)">${escHtml(m.name)}</div>
-        <div style="display:flex;align-items:center;gap:8px;flex-shrink:0">
-          <div style="font-size:11px;color:var(--muted);text-transform:capitalize">${tag}</div>
-          <button type="button" onclick="editSavedMeal(${origIdx})" style="background:none;border:none;color:var(--muted);font-size:12px;cursor:pointer;padding:0;text-decoration:underline">Edit</button>
+        <div style="display:flex;align-items:center;gap:4px;flex-shrink:0">
+          <div style="font-size:11px;color:var(--muted);text-transform:capitalize;margin-right:4px">${tag}</div>
+          <button type="button" class="log-entry-btn log-entry-btn-edit" onclick="editSavedMeal(${origIdx})" aria-label="Edit meal">✎</button>
+          <button type="button" class="log-entry-btn log-entry-btn-del" onclick="confirmDeleteSavedMeal(${origIdx}, '${escHtml(m.name).replace(/'/g,'\\\'')}')" aria-label="Delete meal">×</button>
         </div>
       </div>
       <div style="font-size:13px;color:var(--text)">${macros}</div>
@@ -2048,6 +2049,26 @@ function cancelEdit() {
   smEditIndex = null;
   savedMealsTab = 'browse';
   loadSavedMeals();
+}
+
+function confirmDeleteSavedMeal(idx, name) {
+  showConfirm('Delete "' + name + '"?', 'This cannot be undone.', () => deleteSavedMeal(idx));
+}
+
+async function deleteSavedMeal(idx) {
+  try {
+    const { user, repo, token } = ghConfig();
+    if (!user || !token) throw new Error('GitHub not configured — go to Settings first');
+    const freshDash = await ghGet(DASH_PATH);
+    dashSha         = freshDash.sha;
+    const freshData = JSON.parse(ghDecode(freshDash.content));
+    if (freshData.phase.common_cheats) freshData.phase.common_cheats.splice(idx, 1);
+    await ghPut(DASH_PATH, JSON.stringify(freshData, null, 2), dashSha, 'roster: delete meal');
+    dashData = freshData;
+    loadSavedMeals();
+  } catch(e) {
+    alert('Could not delete: ' + e.message);
+  }
 }
 
 // ─── Roster builder (Saved Meals › Add New) ───────────────────
