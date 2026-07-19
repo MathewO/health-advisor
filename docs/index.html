@@ -484,10 +484,13 @@
           <div class="log-icon">🍔</div>
           <div class="log-label">Off-plan Meal</div>
         </button>
-        <button class="log-card" onclick="openOverlay('screen-saved-meals')">
-          <div class="log-icon">📋</div>
-          <div class="log-label">Saved Meals</div>
-        </button>
+      </div>
+    </div>
+
+    <!-- MEALS -->
+    <div id="tab-meals" class="tab-pane">
+      <div id="savedMealsBody">
+        <div class="empty-state"><div class="empty-icon">📋</div>Loading…</div>
       </div>
     </div>
 
@@ -540,6 +543,9 @@
     <button class="tab-btn active" id="tbDashboard" onclick="switchTab('dashboard')">
       <span class="icon">🏋️</span>MyBody
     </button>
+    <button class="tab-btn" id="tbMeals" onclick="switchTab('meals')">
+      <span class="icon">🍽️</span>Meals
+    </button>
     <button class="tab-btn" id="tbLog" onclick="switchTab('log')">
       <span class="icon">📝</span>Tracking
     </button>
@@ -578,17 +584,6 @@
   </div>
   <div class="overlay-body" id="mealPlanBody">
     <div class="empty-state"><div class="empty-icon">🍽️</div>Loading…</div>
-  </div>
-</div>
-
-<!-- ═══════════════ SAVED MEALS OVERLAY ═══════════════ -->
-<div id="screen-saved-meals" class="overlay-screen">
-  <div class="overlay-header">
-    <button class="back-btn" onclick="closeOverlay('screen-saved-meals')">← Back</button>
-    <div class="overlay-title">Saved Meals</div>
-  </div>
-  <div class="overlay-body" id="savedMealsBody">
-    <div class="empty-state"><div class="empty-icon">📋</div>Loading…</div>
   </div>
 </div>
 
@@ -646,6 +641,7 @@ let rbShowMacros      = false;     // toggle: show macros in roster builder libr
 let rbSelectedTag     = 'misc';    // meal type tag for saved meals builder
 let savedMealsFilter  = 'all';     // active filter in saved meals browse tab
 let savedMealsTab     = 'browse';  // active tab in saved meals screen
+let smEditIndex       = null;      // null = add new; number = index of meal being edited
 
 const DEFAULT_DRINK_KCAL = {
   'Pint of Guinness':    210,
@@ -716,7 +712,6 @@ function openOverlay(id) {
   if (id === 'screen-meal-plan')       loadMealPlan();
   if (id === 'screen-prev-phases')     loadPrevPhases();
   if (id === 'screen-weekly-progress') loadWeeklyProgress();
-  if (id === 'screen-saved-meals')     loadSavedMeals();
 }
 
 function closeOverlay(id) {
@@ -731,6 +726,7 @@ function switchTab(name) {
   const btn = document.getElementById('tb' + name.charAt(0).toUpperCase() + name.slice(1));
   if (btn) btn.classList.add('active');
   document.querySelector('.tab-content').scrollTop = 0;
+  if (name === 'meals') loadSavedMeals();
 }
 
 // ─── Settings ─────────────────────────────────────────────────
@@ -1884,11 +1880,75 @@ function loadSavedMeals() {
   const FILTERS = ['all','breakfast','lunch','dinner','misc'];
   const tabBrowseActive = savedMealsTab !== 'add';
   const tabAddActive    = savedMealsTab === 'add';
+  const isEditing       = smEditIndex !== null;
+  const editMeal        = isEditing ? ((dashData.phase?.common_cheats) || [])[smEditIndex] : null;
+  const addTabLabel     = isEditing ? '✏️ Edit' : '+ Add New';
+
+  // Edit form (shown when smEditIndex is set)
+  const editFormHtml = isEditing && editMeal ? `
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px">
+      <div style="font-size:14px;font-weight:600">Editing: ${escHtml(editMeal.name)}</div>
+      <button type="button" onclick="cancelEdit()" style="background:none;border:none;color:var(--muted);font-size:13px;cursor:pointer;text-decoration:underline;padding:0">Cancel</button>
+    </div>
+    <input type="text" id="rb-name" value="${escHtml(editMeal.name || '')}" placeholder="Meal name (required)…" oninput="this.style.borderColor=''"
+      style="width:100%;box-sizing:border-box;background:var(--surface2);border:1px solid var(--border);border-radius:8px;padding:8px 10px;color:var(--text);font-size:16px;margin-bottom:10px">
+    <div style="margin-bottom:12px">
+      <div style="font-size:12px;color:var(--muted);margin-bottom:6px">Meal type</div>
+      <div style="display:flex;gap:6px">
+        ${['breakfast','lunch','dinner','misc'].map(t => `<button type="button" onclick="setRbTag('${t}')" id="rbTag-${t}" class="log-filter-pill${(editMeal.tag||'misc')===t?' active':''}" style="flex:1;font-size:12px">${t.charAt(0).toUpperCase()+t.slice(1)}</button>`).join('')}
+      </div>
+    </div>
+    <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px">
+      <div style="flex:1;min-width:60px"><label style="font-size:12px;color:var(--muted)">kcal</label><input id="rb-edit-kcal" type="number" inputmode="numeric" value="${editMeal.kcal||''}" style="width:100%;box-sizing:border-box;background:var(--surface2);border:1px solid var(--border);border-radius:8px;padding:8px 10px;color:var(--text);font-size:14px"></div>
+      <div style="flex:1;min-width:60px"><label style="font-size:12px;color:var(--muted)">protein (g)</label><input id="rb-edit-protein" type="number" inputmode="numeric" value="${editMeal.protein||''}" style="width:100%;box-sizing:border-box;background:var(--surface2);border:1px solid var(--border);border-radius:8px;padding:8px 10px;color:var(--text);font-size:14px"></div>
+      <div style="flex:1;min-width:60px"><label style="font-size:12px;color:var(--muted)">carbs (g)</label><input id="rb-edit-carbs" type="number" inputmode="numeric" value="${editMeal.carbs||''}" style="width:100%;box-sizing:border-box;background:var(--surface2);border:1px solid var(--border);border-radius:8px;padding:8px 10px;color:var(--text);font-size:14px"></div>
+      <div style="flex:1;min-width:60px"><label style="font-size:12px;color:var(--muted)">fat (g)</label><input id="rb-edit-fat" type="number" inputmode="numeric" value="${editMeal.fat||''}" style="width:100%;box-sizing:border-box;background:var(--surface2);border:1px solid var(--border);border-radius:8px;padding:8px 10px;color:var(--text);font-size:14px"></div>
+    </div>
+    <div class="field" style="margin-bottom:14px">
+      <label style="font-size:12px;color:var(--muted)">Ingredients</label>
+      <textarea id="rb-edit-desc" style="width:100%;box-sizing:border-box;background:var(--surface2);border:1px solid var(--border);border-radius:8px;padding:8px 10px;color:var(--text);font-size:13px;min-height:80px;resize:vertical">${escHtml(editMeal.description||'')}</textarea>
+    </div>
+    <button onclick="saveToRosterDirect()" style="width:100%;padding:14px;background:var(--green);color:#000;border:none;border-radius:12px;font-size:16px;font-weight:700;cursor:pointer">Update Meal</button>
+    <div id="rb-status" class="status-msg" style="margin-top:8px"></div>` : `
+    <input type="text" id="rb-name" placeholder="Meal name (required)…" oninput="this.style.borderColor=''"
+      style="width:100%;box-sizing:border-box;background:var(--surface2);border:1px solid var(--border);border-radius:8px;padding:8px 10px;color:var(--text);font-size:16px;margin-bottom:10px">
+    <div style="margin-bottom:12px">
+      <div style="font-size:12px;color:var(--muted);margin-bottom:6px">Meal type</div>
+      <div style="display:flex;gap:6px">
+        <button type="button" onclick="setRbTag('breakfast')" id="rbTag-breakfast" class="log-filter-pill" style="flex:1;font-size:12px">Breakfast</button>
+        <button type="button" onclick="setRbTag('lunch')"     id="rbTag-lunch"     class="log-filter-pill" style="flex:1;font-size:12px">Lunch</button>
+        <button type="button" onclick="setRbTag('dinner')"    id="rbTag-dinner"    class="log-filter-pill" style="flex:1;font-size:12px">Dinner</button>
+        <button type="button" onclick="setRbTag('misc')"      id="rbTag-misc"      class="log-filter-pill active" style="flex:1;font-size:12px">Misc</button>
+      </div>
+    </div>
+    <input type="text" id="rb-search" placeholder="Search ingredients…" oninput="renderRosterBuilderLibrary()"
+      style="width:100%;box-sizing:border-box;background:var(--surface2);border:1px solid var(--border);border-radius:8px;padding:8px 10px;color:var(--text);font-size:16px;margin-bottom:10px">
+    <div id="rb-library" style="max-height:180px;overflow-y:auto;border:1px solid var(--border);border-radius:8px;margin-bottom:10px"></div>
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px">
+      <button type="button" onclick="toggleRbNewIngredientForm()" style="background:none;border:none;color:var(--green);font-size:13px;cursor:pointer;padding:0">+ Add new ingredient</button>
+      <button id="rbMacroToggle" type="button" onclick="toggleRbMacroView()" style="background:none;border:none;color:var(--muted);font-size:12px;cursor:pointer;padding:0">Show macros</button>
+    </div>
+    <div id="rb-new-form" style="display:none;background:var(--surface2);border-radius:8px;padding:10px;margin-bottom:10px">
+      <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:flex-end">
+        <div style="flex:2;min-width:120px"><label style="font-size:12px;color:var(--muted)">Name</label><input id="rbNewName" type="text" placeholder="e.g. Avocado (½)" style="width:100%;box-sizing:border-box;background:var(--surface);border:1px solid var(--border);border-radius:6px;padding:6px 8px;color:var(--text);font-size:13px"></div>
+        <div style="flex:1;min-width:45px"><label style="font-size:12px;color:var(--muted)">kcal</label><input id="rbNewKcal" type="number" inputmode="numeric" placeholder="0" style="width:100%;box-sizing:border-box;background:var(--surface);border:1px solid var(--border);border-radius:6px;padding:6px 8px;color:var(--text);font-size:13px"></div>
+        <div style="flex:1;min-width:45px"><label style="font-size:12px;color:var(--muted)">protein</label><input id="rbNewProtein" type="number" inputmode="numeric" placeholder="0" style="width:100%;box-sizing:border-box;background:var(--surface);border:1px solid var(--border);border-radius:6px;padding:6px 8px;color:var(--text);font-size:13px"></div>
+        <div style="flex:1;min-width:45px"><label style="font-size:12px;color:var(--muted)">carbs</label><input id="rbNewCarbs" type="number" inputmode="numeric" placeholder="0" style="width:100%;box-sizing:border-box;background:var(--surface);border:1px solid var(--border);border-radius:6px;padding:6px 8px;color:var(--text);font-size:13px"></div>
+        <div style="flex:1;min-width:45px"><label style="font-size:12px;color:var(--muted)">fat</label><input id="rbNewFat" type="number" inputmode="numeric" placeholder="0" style="width:100%;box-sizing:border-box;background:var(--surface);border:1px solid var(--border);border-radius:6px;padding:6px 8px;color:var(--text);font-size:13px"></div>
+        <button type="button" onclick="saveRbNewComponent()" style="background:var(--green);color:#000;border:none;border-radius:6px;padding:7px 14px;font-size:13px;font-weight:600;cursor:pointer;white-space:nowrap">Save & Add</button>
+      </div>
+    </div>
+    <div id="rb-selected" style="margin-bottom:10px">
+      <div style="font-size:13px;color:var(--muted);padding:4px 0">No ingredients added yet.</div>
+    </div>
+    <div id="rb-total" style="font-size:14px;font-weight:700;padding:8px 0;border-top:1px solid var(--border);margin-bottom:14px;color:var(--green)">0 kcal · 0g protein · 0g carbs · 0g fat</div>
+    <button onclick="saveToRosterDirect()" style="width:100%;padding:14px;background:var(--green);color:#000;border:none;border-radius:12px;font-size:16px;font-weight:700;cursor:pointer">Save Meal</button>
+    <div id="rb-status" class="status-msg" style="margin-top:8px"></div>`;
 
   body.innerHTML = `
     <div style="display:flex;gap:8px;margin-bottom:16px">
       <button id="smTabBrowse" class="log-filter-pill ${tabBrowseActive ? 'active' : ''}" onclick="switchSavedMealsTab('browse')" style="flex:1;text-align:center">Browse</button>
-      <button id="smTabAdd"    class="log-filter-pill ${tabAddActive   ? 'active' : ''}" onclick="switchSavedMealsTab('add')"    style="flex:1;text-align:center">+ Add New</button>
+      <button id="smTabAdd"    class="log-filter-pill ${tabAddActive   ? 'active' : ''}" onclick="${isEditing?'':'switchSavedMealsTab(\'add\')'}" style="flex:1;text-align:center">${addTabLabel}</button>
     </div>
 
     <!-- ── Browse tab ── -->
@@ -1899,52 +1959,18 @@ function loadSavedMeals() {
       <div id="smMealCards"></div>
     </div>
 
-    <!-- ── Add New tab ── -->
-    <div id="smAddSection" ${tabBrowseActive ? 'style="display:none"' : ''}>
-      <input type="text" id="rb-name" placeholder="Meal name (required)…" oninput="this.style.borderColor=''"
-        style="width:100%;box-sizing:border-box;background:var(--surface2);border:1px solid var(--border);border-radius:8px;padding:8px 10px;color:var(--text);font-size:16px;margin-bottom:10px">
-
-      <div style="margin-bottom:12px">
-        <div style="font-size:12px;color:var(--muted);margin-bottom:6px">Meal type</div>
-        <div style="display:flex;gap:6px">
-          <button type="button" onclick="setRbTag('breakfast')" id="rbTag-breakfast" class="log-filter-pill" style="flex:1;font-size:12px">Breakfast</button>
-          <button type="button" onclick="setRbTag('lunch')"     id="rbTag-lunch"     class="log-filter-pill" style="flex:1;font-size:12px">Lunch</button>
-          <button type="button" onclick="setRbTag('dinner')"    id="rbTag-dinner"    class="log-filter-pill" style="flex:1;font-size:12px">Dinner</button>
-          <button type="button" onclick="setRbTag('misc')"      id="rbTag-misc"      class="log-filter-pill active" style="flex:1;font-size:12px">Misc</button>
-        </div>
-      </div>
-
-      <input type="text" id="rb-search" placeholder="Search ingredients…" oninput="renderRosterBuilderLibrary()"
-        style="width:100%;box-sizing:border-box;background:var(--surface2);border:1px solid var(--border);border-radius:8px;padding:8px 10px;color:var(--text);font-size:16px;margin-bottom:10px">
-      <div id="rb-library" style="max-height:180px;overflow-y:auto;border:1px solid var(--border);border-radius:8px;margin-bottom:10px"></div>
-
-      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px">
-        <button type="button" onclick="toggleRbNewIngredientForm()"
-          style="background:none;border:none;color:var(--green);font-size:13px;cursor:pointer;padding:0">+ Add new ingredient</button>
-        <button id="rbMacroToggle" type="button" onclick="toggleRbMacroView()" style="background:none;border:none;color:var(--muted);font-size:12px;cursor:pointer;padding:0">Show macros</button>
-      </div>
-      <div id="rb-new-form" style="display:none;background:var(--surface2);border-radius:8px;padding:10px;margin-bottom:10px">
-        <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:flex-end">
-          <div style="flex:2;min-width:120px"><label style="font-size:12px;color:var(--muted)">Name</label><input id="rbNewName" type="text" placeholder="e.g. Avocado (½)" style="width:100%;box-sizing:border-box;background:var(--surface);border:1px solid var(--border);border-radius:6px;padding:6px 8px;color:var(--text);font-size:13px"></div>
-          <div style="flex:1;min-width:45px"><label style="font-size:12px;color:var(--muted)">kcal</label><input id="rbNewKcal" type="number" inputmode="numeric" placeholder="0" style="width:100%;box-sizing:border-box;background:var(--surface);border:1px solid var(--border);border-radius:6px;padding:6px 8px;color:var(--text);font-size:13px"></div>
-          <div style="flex:1;min-width:45px"><label style="font-size:12px;color:var(--muted)">protein</label><input id="rbNewProtein" type="number" inputmode="numeric" placeholder="0" style="width:100%;box-sizing:border-box;background:var(--surface);border:1px solid var(--border);border-radius:6px;padding:6px 8px;color:var(--text);font-size:13px"></div>
-          <div style="flex:1;min-width:45px"><label style="font-size:12px;color:var(--muted)">carbs</label><input id="rbNewCarbs" type="number" inputmode="numeric" placeholder="0" style="width:100%;box-sizing:border-box;background:var(--surface);border:1px solid var(--border);border-radius:6px;padding:6px 8px;color:var(--text);font-size:13px"></div>
-          <div style="flex:1;min-width:45px"><label style="font-size:12px;color:var(--muted)">fat</label><input id="rbNewFat" type="number" inputmode="numeric" placeholder="0" style="width:100%;box-sizing:border-box;background:var(--surface);border:1px solid var(--border);border-radius:6px;padding:6px 8px;color:var(--text);font-size:13px"></div>
-          <button type="button" onclick="saveRbNewComponent()" style="background:var(--green);color:#000;border:none;border-radius:6px;padding:7px 14px;font-size:13px;font-weight:600;cursor:pointer;white-space:nowrap">Save & Add</button>
-        </div>
-      </div>
-
-      <div id="rb-selected" style="margin-bottom:10px">
-        <div style="font-size:13px;color:var(--muted);padding:4px 0">No ingredients added yet.</div>
-      </div>
-      <div id="rb-total" style="font-size:14px;font-weight:700;padding:8px 0;border-top:1px solid var(--border);margin-bottom:14px;color:var(--green)">0 kcal · 0g protein · 0g carbs · 0g fat</div>
-      <button onclick="saveToRosterDirect()"
-        style="width:100%;padding:14px;background:var(--green);color:#000;border:none;border-radius:12px;font-size:16px;font-weight:700;cursor:pointer">Save Meal</button>
-      <div id="rb-status" class="status-msg" style="margin-top:8px"></div>
-    </div>`;
+    <!-- ── Add New / Edit tab ── -->
+    <div id="smAddSection" ${tabBrowseActive ? 'style="display:none"' : ''}>${editFormHtml}</div>`;
 
   renderSavedMealsBrowse();
-  if (tabAddActive) renderRosterBuilderLibrary();
+  if (tabAddActive && !isEditing) {
+    rosterBuilderItems = [];
+    rbSelectedTag = 'misc';
+    renderRosterBuilderLibrary();
+  }
+  if (tabAddActive && isEditing) {
+    rbSelectedTag = editMeal?.tag || 'misc';
+  }
 }
 
 function switchSavedMealsTab(tab) {
@@ -1982,7 +2008,12 @@ function renderSavedMealsBrowse() {
     return;
   }
 
-  cards.innerHTML = filtered.map(m => {
+  // Track original indices for edit button
+  const indexedFiltered = meals
+    .map((m, i) => ({ m, origIdx: i }))
+    .filter(({ m }) => savedMealsFilter === 'all' || (m.tag || 'misc') === savedMealsFilter);
+
+  cards.innerHTML = indexedFiltered.map(({ m, origIdx }) => {
     const macros = [
       m.kcal    ? `${m.kcal} kcal`        : null,
       m.protein ? `${m.protein}g protein`  : null,
@@ -1996,12 +2027,27 @@ function renderSavedMealsBrowse() {
     <div class="card" style="margin-bottom:12px">
       <div style="display:flex;align-items:baseline;justify-content:space-between;gap:8px;margin-bottom:4px">
         <div style="font-size:16px;font-weight:700;color:var(--green)">${escHtml(m.name)}</div>
-        <div style="font-size:11px;color:var(--muted);white-space:nowrap;text-transform:capitalize">${tag}</div>
+        <div style="display:flex;align-items:center;gap:8px;flex-shrink:0">
+          <div style="font-size:11px;color:var(--muted);text-transform:capitalize">${tag}</div>
+          <button type="button" onclick="editSavedMeal(${origIdx})" style="background:none;border:none;color:var(--muted);font-size:12px;cursor:pointer;padding:0;text-decoration:underline">Edit</button>
+        </div>
       </div>
       <div style="font-size:13px;color:var(--text)">${macros}</div>
       ${ingredients}
     </div>`;
   }).join('');
+}
+
+function editSavedMeal(idx) {
+  smEditIndex = idx;
+  savedMealsTab = 'add';
+  loadSavedMeals();
+}
+
+function cancelEdit() {
+  smEditIndex = null;
+  savedMealsTab = 'browse';
+  loadSavedMeals();
 }
 
 // ─── Roster builder (Saved Meals › Add New) ───────────────────
@@ -2147,19 +2193,34 @@ async function saveToRosterDirect() {
     if (nameEl) { nameEl.style.borderColor = 'var(--red)'; nameEl.focus(); }
     return;
   }
-  if (!rosterBuilderItems.length) {
-    if (statusEl) { statusEl.textContent = 'Add at least one ingredient first.'; statusEl.style.color = 'var(--amber)'; }
-    return;
+
+  const isEditing = smEditIndex !== null;
+
+  let totalKcal, totalProtein, totalCarbs, totalFat, description;
+
+  if (isEditing) {
+    // In edit mode: read from the edit fields directly
+    totalKcal    = parseFloat(document.getElementById('rb-edit-kcal')?.value)    || 0;
+    totalProtein = parseFloat(document.getElementById('rb-edit-protein')?.value) || 0;
+    totalCarbs   = parseFloat(document.getElementById('rb-edit-carbs')?.value)   || 0;
+    totalFat     = parseFloat(document.getElementById('rb-edit-fat')?.value)     || 0;
+    description  = (document.getElementById('rb-edit-desc')?.value || '').trim();
+  } else {
+    // Add mode: read from builder items
+    if (!rosterBuilderItems.length) {
+      if (statusEl) { statusEl.textContent = 'Add at least one ingredient first.'; statusEl.style.color = 'var(--amber)'; }
+      return;
+    }
+    totalKcal    = Math.round(rosterBuilderItems.reduce((s, i) => s + i.component.kcal * i.qty, 0));
+    totalProtein = Math.round(rosterBuilderItems.reduce((s, i) => s + (i.component.protein || 0) * i.qty, 0));
+    totalCarbs   = Math.round(rosterBuilderItems.reduce((s, i) => s + (i.component.carbs   || 0) * i.qty, 0));
+    totalFat     = Math.round(rosterBuilderItems.reduce((s, i) => s + (i.component.fat     || 0) * i.qty, 0));
+    description  = rosterBuilderItems.map(i => i.qty !== 1 ? `${i.component.name} ×${i.qty}` : i.component.name).join(', ');
   }
 
-  if (statusEl) { statusEl.textContent = 'Saving…'; statusEl.style.color = 'var(--muted)'; }
+  const newCheat = { name, description, kcal: totalKcal, protein: totalProtein, carbs: totalCarbs, fat: totalFat, tag: rbSelectedTag };
 
-  const totalKcal    = Math.round(rosterBuilderItems.reduce((s, i) => s + i.component.kcal * i.qty, 0));
-  const totalProtein = Math.round(rosterBuilderItems.reduce((s, i) => s + (i.component.protein || 0) * i.qty, 0));
-  const totalCarbs   = Math.round(rosterBuilderItems.reduce((s, i) => s + (i.component.carbs   || 0) * i.qty, 0));
-  const totalFat     = Math.round(rosterBuilderItems.reduce((s, i) => s + (i.component.fat     || 0) * i.qty, 0));
-  const description  = rosterBuilderItems.map(i => i.qty !== 1 ? `${i.component.name} ×${i.qty}` : i.component.name).join(', ');
-  const newCheat     = { name, description, kcal: totalKcal, protein: totalProtein, carbs: totalCarbs, fat: totalFat, tag: rbSelectedTag };
+  if (statusEl) { statusEl.textContent = 'Saving…'; statusEl.style.color = 'var(--muted)'; }
 
   try {
     const { user, repo, token } = ghConfig();
@@ -2168,15 +2229,25 @@ async function saveToRosterDirect() {
     dashSha         = freshDash.sha;
     const freshData = JSON.parse(ghDecode(freshDash.content));
     if (!freshData.phase.common_cheats) freshData.phase.common_cheats = [];
-    freshData.phase.common_cheats.push(newCheat);
-    await ghPut(DASH_PATH, JSON.stringify(freshData, null, 2), dashSha, 'roster: add ' + name);
+
+    if (isEditing) {
+      freshData.phase.common_cheats[smEditIndex] = newCheat;
+      await ghPut(DASH_PATH, JSON.stringify(freshData, null, 2), dashSha, 'roster: edit ' + name);
+    } else {
+      freshData.phase.common_cheats.push(newCheat);
+      await ghPut(DASH_PATH, JSON.stringify(freshData, null, 2), dashSha, 'roster: add ' + name);
+    }
     dashData = freshData;
 
-    if (statusEl) { statusEl.textContent = '✓ Saved'; statusEl.style.color = 'var(--green)'; }
+    if (statusEl) { statusEl.textContent = isEditing ? '✓ Updated' : '✓ Saved'; statusEl.style.color = 'var(--green)'; }
     rosterBuilderItems = [];
     rbSelectedTag = 'misc';
-    if (nameEl) nameEl.value = '';
-    setTimeout(() => { switchSavedMealsTab('browse'); renderSavedMealsBrowse(); }, 1000);
+    const editIdx = smEditIndex;
+    smEditIndex = null;
+    setTimeout(() => {
+      savedMealsTab = 'browse';
+      loadSavedMeals();
+    }, 800);
   } catch(e) {
     if (statusEl) { statusEl.textContent = '✗ ' + e.message; statusEl.style.color = 'var(--red)'; }
   }
