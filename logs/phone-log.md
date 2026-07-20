@@ -413,3 +413,4 @@
 2026-07-19 | cheat | Brunch, ~682 kcal | replaces: Weekend Brunch (610 kcal) | Egg white (50ml) ×1.5, Whole egg ×1.5, Hash brown (Sainsbury's) ×2, Heck chicken sausage ×2, Avocado (½), Tomatoes, Halloumi Block ×0.25
 2026-07-19 | cheat | Pop chips, ~184 kcal
 2026-07-19 | cheat | BBQ, ~790 kcal | replaces: Gousto Meal (640 kcal)
+2026-07-20 | weight | 77.8
