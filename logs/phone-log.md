@@ -414,3 +414,4 @@
 2026-07-19 | cheat | Pop chips, ~184 kcal
 2026-07-19 | cheat | BBQ, ~790 kcal | replaces: Gousto Meal (640 kcal)
 2026-07-20 | weight | 77.8
+2026-07-20 | cheat | Gousto, ~457 kcal | replaces: Gousto Meal (640 kcal)
