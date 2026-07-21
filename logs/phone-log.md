@@ -418,3 +418,4 @@
 2026-07-21 | weight | 77.8
 2026-07-21 | workout | Walking | 13 min | 57 kcal
 2026-07-21 | run | 20 min |  km | 208 kcal
+2026-07-21 | cheat | Eggs on toast, ~313 kcal | replaces: Double Shake (232 kcal) | Egg white (50ml) ×2, Whole egg, Protein bread, Butter / Oil
