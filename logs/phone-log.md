@@ -420,3 +420,4 @@
 2026-07-21 | run | 20 min |  km | 208 kcal
 2026-07-21 | workout | Walking | 30 min | 130 kcal
 2026-07-21 | cheat | Eggs on toast, ~313 kcal | replaces: Double Shake (232 kcal) | Egg white (50ml) ×2, Whole egg, Protein bread, Butter / Oil
+2026-07-21 | cheat | Chicken, Rice & Peas, ~409 kcal | replaces: Chicken Wrap (376 kcal) | Basmati rice (100g uncooked) ×0.5, Chicken breast (100g raw) ×1.6, 1/4 white onion, Old El Paso fajita seasoning (½ pack) ×0.5, Fage 0% Greek yoghurt (100g) ×0.3
