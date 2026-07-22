@@ -1,13 +1,11 @@
 {
-  "_note": "Live derived metrics — updated each agent session. This is the source of truth for data-derived estimates. Do not use dashboard.json for TDEE or rate-of-loss; use this file. When any value changes, update it here in the same session.",
-
+  "_note": "Live derived metrics \u2014 updated each agent session. This is the source of truth for data-derived estimates. Do not use dashboard.json for TDEE or rate-of-loss; use this file. When any value changes, update it here in the same session.",
   "last_updated": "2026-07-22",
-
   "tdee": {
     "estimate_kcal_per_day": 2200,
     "range": "2175-2225",
-    "method": "back-calculated from Phase 1 weight loss — 6-week check-in (25 May 2026)",
-    "derivation": "84.1 kg (Apr 20 week-2 start) → 80.6 kg (7d avg May 25), 35 days. actual_daily_deficit = (84.1−80.6) × 7700 ÷ 35 = 770 kcal/day. TDEE = 770 + 1,435 avg intake = 2,205. Rounded to 2,200.",
+    "method": "back-calculated from Phase 1 weight loss \u2014 6-week check-in (25 May 2026)",
+    "derivation": "84.1 kg (Apr 20 week-2 start) \u2192 80.6 kg (7d avg May 25), 35 days. actual_daily_deficit = (84.1\u221280.6) \u00d7 7700 \u00f7 35 = 770 kcal/day. TDEE = 770 + 1,435 avg intake = 2,205. Rounded to 2,200.",
     "previous_estimate_kcal": 2075,
     "previous_estimate_note": "10 May estimate (27 days, pending validation). Revised upward by ~125 kcal at 6-week check-in.",
     "algorithm_baseline_kcal": "1850-2000",
@@ -19,26 +17,24 @@
     "phase2_maintenance_target_kcal": 2200,
     "phase2_maintenance_note": "Revised from 2,100 to 2,200 following 6-week validation. Use 2,200 kcal/day base for Phase 2 maintenance month planning."
   },
-
   "phase": {
     "id": "fat-loss-2026-q3",
-    "name": "Fat Loss — Bali",
+    "name": "Fat Loss \u2014 Bali",
     "original_target_kg": 76.0,
     "live_target_kg": 76.0,
-    "live_target_note": "Midpoint of 75–77 kg Bali range. 8 weeks from 80.4 kg at ~0.55 kg/wk.",
+    "live_target_note": "Midpoint of 75\u201377 kg Bali range. 8 weeks from 80.4 kg at ~0.55 kg/wk.",
     "live_target_date": "2026-08-30",
     "latest_weight_kg": 77.9,
     "latest_weight_date": "2026-07-22",
     "seven_day_avg_weight_kg": 78.2,
     "seven_day_avg_date": "2026-07-22",
     "loss_rate_kg_per_week_gross": 0.96,
-    "loss_rate_note": "Phase 2 day 16. 7d avg: 80.4→78.2 kg = −2.2 kg in 16 days = ~0.96 kg/wk gross. Real fat-loss rate probably 0.65–0.75 kg/wk once glycogen fully settled. Already at TDEE validation threshold ahead of 4-week check-in (Aug 3).",
-    "waist_cm": 100,
-    "waist_date": "2026-07-06",
+    "loss_rate_note": "Phase 2 day 16. 7d avg: 80.4\u219278.2 kg = \u22122.2 kg in 16 days = ~0.96 kg/wk gross. Real fat-loss rate probably 0.65\u20130.75 kg/wk once glycogen fully settled. Already at TDEE validation threshold ahead of 4-week check-in (Aug 3).",
+    "waist_cm": 99,
+    "waist_date": "2026-07-22",
     "waist_baseline_cm": 108,
     "waist_baseline_date": "2026-04-15"
   },
-
   "vo2_max": {
     "latest_mL_kg_min": 37.98,
     "previous_mL_kg_min": 37.74,
@@ -50,9 +46,8 @@
     "fitness_component_mL_kg_min": 2.26,
     "passive_pct": 56,
     "fitness_pct": 44,
-    "note": "Apple Watch estimate. +5.09 total gain since Apr export (85.8→79.0 kg). Passive (2,822÷79.0−32.89=+2.83) = 56%, fitness = 44%. Phase-end reading. Target: 40+ by Sep 2026."
+    "note": "Apple Watch estimate. +5.09 total gain since Apr export (85.8\u219279.0 kg). Passive (2,822\u00f779.0\u221232.89=+2.83) = 56%, fitness = 44%. Phase-end reading. Target: 40+ by Sep 2026."
   },
-
   "health_metrics_export": {
     "last_export_date": "2026-07-15",
     "stale_after_days": 14,

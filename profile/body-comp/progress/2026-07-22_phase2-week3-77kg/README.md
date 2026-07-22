@@ -1,4 +1,4 @@
-# Progress photos — Phase 2 Week 3 / ~77 kg
+# Progress photos — Phase 2 Week 3 / 99 cm waist
 
 **Purpose:** Mid-phase check-in at day 16 of Phase 2 (Bali cut). 2.5 kg below phase start (80.4 kg). Compare against Phase 2 start set (Jul 6) and Phase 1 end (Jun 4) for progression reference.
 
@@ -12,8 +12,10 @@
 | **Phase** | Fat Loss Phase 2 (Bali cut) — Day 16 of 56 |
 | **vs Phase 2 start (Jul 6, 80.4 kg)** | **−2.5 kg** in 16 days |
 | **vs Phase 1 end (Jun 4, 79.0 kg)** | −1.1 kg below Phase 1 depleted low |
-| **Waist** | Not measured at this check-in — last reading 100 cm (6 Jul 2026) |
-| **Est. BF%** | ~23–24% (visual, down from ~24–25% at phase start) |
+| **Waist (navel, self)** | **99 cm** logged **22 Jul 2026** |
+| **vs Phase 2 start waist (100 cm, 6 Jul)** | **−1 cm** in 16 days (fully refed both readings) |
+| **vs Phase 1 end waist (99 cm, 4 Jun depleted)** | **Same waist, 1.1 kg lighter** — confirms real fat loss at waist |
+| **Est. BF% (Navy formula)** | **~26.7%** (99 cm waist, 77.9 kg) — same as Phase 1 end by formula, but at lower body weight confirms fat reduction |
 
 **Note:** Photos taken fully glycogen-refed (not depleted), same conditions as Phase 2 start set for a clean week-3 comparison.
 
