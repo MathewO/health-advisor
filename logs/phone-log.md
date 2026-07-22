@@ -425,3 +425,4 @@
 2026-07-22 | weight | 77.9
 2026-07-22 | workout | Walking | 13 min | 58 kcal
 2026-07-22 | workout | Walking | 12 min | 61 kcal
+2026-07-22 | waist | 99
