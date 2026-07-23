@@ -429,7 +429,7 @@
 2026-07-22 | cheat | Chicken, Rice & Peas, ~409 kcal | replaces: Chicken Wrap (376 kcal) | Basmati rice (100g uncooked) ×0.5, Chicken breast (100g raw) ×1.6, 1/4 white onion, Old El Paso fajita seasoning (½ pack) ×0.5, Fage 0% Greek yoghurt (100g) ×0.3
 2026-07-22 | cheat | Gousto, ~530 kcal | replaces: Gousto Meal (640 kcal)
 2026-07-22 | cheat | Skipped pudding | replaces: Creami (125 kcal)
-2026-07-23 | weight | 78.1
+2026-07-23 | weight | 77.9
 2026-07-23 | workout | Walking | 13 min | 58 kcal
 2026-07-23 | run | 20 min |  km | 202 kcal
 2026-07-23 | workout | Walking | 13 min | 77 kcal
