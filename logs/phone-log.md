@@ -430,3 +430,4 @@
 2026-07-22 | cheat | Gousto, ~530 kcal | replaces: Gousto Meal (640 kcal)
 2026-07-22 | cheat | Skipped pudding | replaces: Creami (125 kcal)
 2026-07-23 | weight | 78.1
+2026-07-23 | workout | Walking | 13 min | 58 kcal
