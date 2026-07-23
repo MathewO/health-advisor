@@ -222,5 +222,12 @@
     "protein": 11.8,
     "carbs": 12.9,
     "fat": 3.7
+  },
+  {
+    "name": "Chickpeas (100g)",
+    "kcal": 95,
+    "protein": 5.4,
+    "carbs": 12,
+    "fat": 1.9
   }
 ]
