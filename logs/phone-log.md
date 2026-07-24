@@ -438,3 +438,4 @@
 2026-07-24 | weight | 77.6
 2026-07-24 | workout | Walking | 9 min | 45 kcal
 2026-07-24 | workout | Walking | 26 min | 83 kcal
+2026-07-24 | cheat | Beef Chilli + Rice, ~690 kcal | replaces: Gousto Meal (640 kcal) | 125g 5% beef mince, 60g dry basmati rice, 100g chickpeas, 125g passata, 1/4 white onion, 30g LF cheddar
