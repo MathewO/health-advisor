@@ -437,3 +437,4 @@
 2026-07-23 | cheat | Chocolate, ~98 kcal | replaces: Creami (125 kcal)
 2026-07-24 | weight | 77.6
 2026-07-24 | workout | Walking | 9 min | 45 kcal
+2026-07-24 | workout | Walking | 26 min | 83 kcal
