@@ -436,3 +436,4 @@
 2026-07-23 | cheat | Beef Chilli Jacket Potato, ~600 kcal | replaces: Gousto Meal (640 kcal) | 125g 5% beef mince, 150g jacket potato, 100g chickpeas, 125g passata, 1/4 white onion, 30g LF cheddar + Fage
 2026-07-23 | cheat | Chocolate, ~98 kcal | replaces: Creami (125 kcal)
 2026-07-24 | weight | 77.6
+2026-07-24 | workout | Walking | 9 min | 45 kcal
