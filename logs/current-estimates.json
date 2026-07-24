@@ -1,6 +1,6 @@
 {
   "_note": "Live derived metrics \u2014 updated each agent session. This is the source of truth for data-derived estimates. Do not use dashboard.json for TDEE or rate-of-loss; use this file. When any value changes, update it here in the same session.",
-  "last_updated": "2026-07-23",
+  "last_updated": "2026-07-24",
   "tdee": {
     "estimate_kcal_per_day": 2200,
     "range": "2175-2225",
@@ -24,10 +24,10 @@
     "live_target_kg": 76.0,
     "live_target_note": "Midpoint of 75\u201377 kg Bali range. 8 weeks from 80.4 kg at ~0.55 kg/wk.",
     "live_target_date": "2026-08-30",
-    "latest_weight_kg": 78.1,
-    "latest_weight_date": "2026-07-23",
-    "seven_day_avg_weight_kg": 78.2,
-    "seven_day_avg_date": "2026-07-23",
+    "latest_weight_kg": 77.6,
+    "latest_weight_date": "2026-07-24",
+    "seven_day_avg_weight_kg": 78.0,
+    "seven_day_avg_date": "2026-07-24",
     "loss_rate_kg_per_week_gross": 0.96,
     "loss_rate_note": "Phase 2 day 16. 7d avg: 80.4\u219278.2 kg = \u22122.2 kg in 16 days = ~0.96 kg/wk gross. Real fat-loss rate probably 0.65\u20130.75 kg/wk once glycogen fully settled. Already at TDEE validation threshold ahead of 4-week check-in (Aug 3).",
     "waist_cm": 99,
