@@ -446,3 +446,4 @@
 2026-07-25 | cheat | Coffee and Juice, ~100 kcal
 2026-07-25 | cheat | Clear shake, ~84 kcal
 2026-07-25 | drinks | 140 | Bottle of beer
+2026-07-25 | drinks | 140 | Bottle of beer
