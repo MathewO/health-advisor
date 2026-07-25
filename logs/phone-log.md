@@ -442,3 +442,4 @@
 2026-07-25 | weight | 77.5
 2026-07-24 | cheat | Skipped pudding | replaces: Creami (125 kcal)
 2026-07-25 | workout | Indoor Cycling | 31 min | 327 kcal
+2026-07-25 | cheat | Brunch, ~548 kcal | replaces: Weekend Brunch (610 kcal) | Egg white (50ml) ×1.5, Whole egg ×1.5, Hash brown (Sainsbury's) ×2, Heck chicken sausage ×3, Avocado (½), Tomatoes
