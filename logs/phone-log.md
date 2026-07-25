@@ -453,3 +453,4 @@
 2026-07-25 | drinks | 190 | Pint of 4% Pale Ale
 2026-07-25 | drinks | 210 | Pint of Guinness
 2026-07-25 | drinks | 100 | Shots x2
+2026-07-25 | drinks | 95 | Pint of 4% Pale Ale x0.5
