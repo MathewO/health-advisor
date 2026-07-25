@@ -445,3 +445,4 @@
 2026-07-25 | cheat | Brunch, ~548 kcal | replaces: Weekend Brunch (610 kcal) | Egg white (50ml) ×1.5, Whole egg ×1.5, Hash brown (Sainsbury's) ×2, Heck chicken sausage ×3, Avocado (½), Tomatoes
 2026-07-25 | cheat | Coffee and Juice, ~100 kcal
 2026-07-25 | cheat | Clear shake, ~84 kcal
+2026-07-25 | drinks | 140 | Bottle of beer
