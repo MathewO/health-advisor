@@ -455,3 +455,4 @@
 2026-07-25 | drinks | 100 | Shots x2
 2026-07-25 | drinks | 95 | Pint of 4% Pale Ale x0.5
 2026-07-25 | cheat | Pizza, ~450 kcal | replaces: Gousto Meal (640 kcal)
+2026-07-25 | cheat | Skipped pudding | replaces: Single Shake (116 kcal)
