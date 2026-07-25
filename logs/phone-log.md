@@ -448,3 +448,4 @@
 2026-07-25 | drinks | 140 | Bottle of beer
 2026-07-25 | drinks | 140 | Bottle of beer
 2026-07-25 | drinks | 140 | Corona
+2026-07-25 | drinks | 190 | Pint of 4% Pale Ale
