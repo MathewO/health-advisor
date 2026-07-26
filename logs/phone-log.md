@@ -459,3 +459,4 @@
 2026-07-26 | weight | 76.9
 2026-07-25 | drinks | 330 | Gin &amp; Tonic, Pint of Guinness
 2026-07-26 | cheat | Brunch, ~514 kcal | replaces: Weekend Brunch (610 kcal) | Egg white (50ml) ×1.5, Whole egg ×1.5, Hash brown (Sainsbury's) ×2, Heck chicken sausage ×2, Avocado (½), Tomatoes
+2026-07-26 | workout | Walking | 100 min | 276 kcal
