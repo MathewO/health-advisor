@@ -457,3 +457,4 @@
 2026-07-25 | cheat | Pizza, ~450 kcal | replaces: Gousto Meal (640 kcal)
 2026-07-25 | cheat | Skipped pudding | replaces: Single Shake (116 kcal)
 2026-07-26 | weight | 76.9
+2026-07-25 | drinks | 330 | Gin &amp; Tonic, Pint of Guinness
