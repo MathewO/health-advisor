@@ -463,3 +463,4 @@
 2026-07-26 | cheat | Cake, ~250 kcal | replaces: Single Shake (116 kcal)
 2026-07-26 | cheat | BBQ, ~795 kcal | replaces: Gousto Meal (640 kcal)
 2026-07-27 | weight | 77.7
+2026-07-27 | cheat | Gousto, ~565 kcal | replaces: Gousto Meal (640 kcal)
