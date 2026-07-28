@@ -466,3 +466,4 @@
 2026-07-27 | cheat | Gousto, ~565 kcal | replaces: Gousto Meal (640 kcal)
 2026-07-27 | cheat | Eton mess, ~175 kcal | replaces: Creami (125 kcal)
 2026-07-28 | weight | 77.9
+2026-07-28 | workout | Cycling | 30 min | 331 kcal
