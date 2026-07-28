@@ -465,3 +465,4 @@
 2026-07-27 | weight | 77.7
 2026-07-27 | cheat | Gousto, ~565 kcal | replaces: Gousto Meal (640 kcal)
 2026-07-27 | cheat | Eton mess, ~175 kcal | replaces: Creami (125 kcal)
+2026-07-28 | weight | 77.9
