@@ -469,3 +469,4 @@
 2026-07-28 | workout | Indoor Cycling | 30 min | 331 kcal
 2026-07-28 | cheat | Gousto, ~775 kcal | replaces: Gousto Meal (640 kcal)
 2026-07-29 | weight | 77.3
+2026-07-29 | workout | Walking | 13 min | 58 kcal
