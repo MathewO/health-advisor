@@ -473,6 +473,6 @@
 2026-07-29 | workout | Walking | 13 min | 76 kcal
 2026-07-29 | waist | 97
 2026-07-29 | cheat | Gousto, ~585 kcal | replaces: Gousto Meal (640 kcal)
-2026-07-30 | weight | 76.8
+2026-07-30 | weight | 77.0
 2026-07-30 | workout | Walking | 14 min | 56 kcal
 2026-07-30 | workout | Walking | 29 min | 128 kcal
