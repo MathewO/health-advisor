@@ -478,3 +478,4 @@
 2026-07-30 | workout | Walking | 29 min | 128 kcal
 2026-07-30 | cheat | Haribo, ~55 kcal
 2026-07-31 | weight | 76.7
+2026-07-31 | cheat | Baked potato + Chicken, ~520 kcal | replaces: Gousto Meal (640 kcal)
