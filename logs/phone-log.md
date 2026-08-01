@@ -481,3 +481,4 @@
 2026-07-31 | cheat | Baked potato + Chicken, ~520 kcal | replaces: Gousto Meal (640 kcal)
 2026-08-01 | weight | 77.0
 2026-08-01 | workout | Walking | 13 min | 55 kcal
+2026-08-01 | workout | Walking | 7 min | 33 kcal
