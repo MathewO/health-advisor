@@ -482,3 +482,4 @@
 2026-08-01 | weight | 76.8
 2026-08-01 | workout | Walking | 13 min | 55 kcal
 2026-08-01 | workout | Walking | 13 min | 70 kcal
+2026-08-01 | cheat | Single shake top up, ~55 kcal
