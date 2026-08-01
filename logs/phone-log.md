@@ -486,3 +486,4 @@
 2026-08-01 | cheat | Brunch, ~548 kcal | replaces: Weekend Brunch (610 kcal) | Egg white (50ml) ×1.5, Whole egg ×1.5, Hash brown (Sainsbury's) ×2, Heck chicken sausage ×3, Avocado (½), Tomatoes
 2026-08-01 | cheat | Protein brownie, ~290 kcal
 2026-08-01 | drinks | 139 | Bottle of beer
+2026-08-01 | cheat | Half protein brownie, ~145 kcal
