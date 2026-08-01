@@ -483,3 +483,4 @@
 2026-08-01 | workout | Walking | 13 min | 55 kcal
 2026-08-01 | workout | Walking | 13 min | 70 kcal
 2026-08-01 | cheat | Single shake top up, ~55 kcal
+2026-08-01 | cheat | Brunch, ~548 kcal | replaces: Weekend Brunch (610 kcal) | Egg white (50ml) ×1.5, Whole egg ×1.5, Hash brown (Sainsbury's) ×2, Heck chicken sausage ×3, Avocado (½), Tomatoes
