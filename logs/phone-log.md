@@ -489,3 +489,4 @@
 2026-08-01 | cheat | Half protein brownie, ~145 kcal
 2026-08-01 | cheat | Chicken + Wedges, ~550 kcal | replaces: Gousto Meal (640 kcal)
 2026-08-02 | weight | 76.2
+2026-08-02 | workout | Cycling | 95 min | 1075 kcal
