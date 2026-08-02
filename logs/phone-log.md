@@ -494,3 +494,4 @@
 2026-08-02 | drinks | 824 | Dam Lemon pint, Pint of IPA, Pint of IPA
 2026-08-02 | workout | Walking | 11 min | 53 kcal
 2026-08-02 | workout | Walking | 30 min | 106 kcal
+2026-08-02 | cheat | Peperami, ~100 kcal
