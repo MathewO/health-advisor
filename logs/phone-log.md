@@ -491,3 +491,4 @@
 2026-08-02 | weight | 76.2
 2026-08-02 | workout | Cycling | 95 min | 1075 kcal
 2026-08-02 | cheat | Brunch, ~687 kcal | replaces: Weekend Brunch (610 kcal) | Egg white (50ml) ×1.5, Whole egg ×1.5, Hash brown (Sainsbury's) ×2, Heck chicken sausage ×2, Avocado (½), Tomatoes, Halloumi block ×0.25
+2026-08-02 | drinks | 824 | Dam Lemon pint, Pint of IPA, Pint of IPA
