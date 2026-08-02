@@ -490,3 +490,4 @@
 2026-08-01 | cheat | Chicken + Wedges, ~550 kcal | replaces: Gousto Meal (640 kcal)
 2026-08-02 | weight | 76.2
 2026-08-02 | workout | Cycling | 95 min | 1075 kcal
+2026-08-02 | cheat | Brunch, ~687 kcal | replaces: Weekend Brunch (610 kcal) | Egg white (50ml) ×1.5, Whole egg ×1.5, Hash brown (Sainsbury's) ×2, Heck chicken sausage ×2, Avocado (½), Tomatoes, Halloumi block ×0.25
