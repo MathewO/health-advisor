@@ -151,6 +151,15 @@
         "carbs": 40,
         "fat": 4,
         "tag": "lunch"
+      },
+      {
+        "name": "Cut Chilli",
+        "description": "62.5g 5% beef mince, 62.5g 2% turkey mince, 40g dry basmati rice, 125g passata, 1/4 white onion, 30g Fage 0%, chilli spices",
+        "kcal": 405,
+        "protein": 47,
+        "carbs": 40,
+        "fat": 5,
+        "tag": "lunch"
       }
     ],
     "meal_plan": {
