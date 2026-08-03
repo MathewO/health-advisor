@@ -496,3 +496,4 @@
 2026-08-02 | workout | Walking | 30 min | 106 kcal
 2026-08-02 | cheat | Peperami, ~100 kcal
 2026-08-02 | cheat | Solero, ~98 kcal | replaces: Creami (125 kcal)
+2026-08-03 | weight | 76.4
