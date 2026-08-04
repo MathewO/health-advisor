@@ -500,7 +500,7 @@
 2026-08-03 | cheat | Cut Chilli, ~405 kcal | replaces: Chicken Wrap (376 kcal) | 62.5g 5% beef mince, 62.5g 2% turkey mince, 40g dry basmati rice, 125g passata, 1/4 white onion, 30g Fage 0%, chilli spices
 2026-08-03 | cheat | Gousto, ~545 kcal | replaces: Gousto Meal (640 kcal)
 2026-08-03 | cheat | Creami, ~165 kcal | replaces: Creami (125 kcal)
-2026-08-04 | weight | 77.0
+2026-08-04 | weight | 76.6
 2026-08-04 | workout | Walking | 13 min | 61 kcal
 2026-08-04 | run | 20 min |  km | 218 kcal
 2026-08-04 | workout | Walking | 14 min | 84 kcal
