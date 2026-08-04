@@ -24,6 +24,7 @@ Each row is a 30-day average at the time of the export. Use this to compare acro
 | 2026-06-04 | Phase 1 end (99 cm waist) | 79.0 kg (daily) | 7.7 hrs | 2.3 hrs | 4.5 hrs | 0.6 hrs | 15.9 br/min | 96.8% | 35.9 °C | 53.8 bpm | 57.8 ms | 37.98 | 9365.1 | 845.8 kcal |
 | 2026-06-16 | Maintenance week 2 (waist 100 cm) | 79.7 kg (daily) | 7.5 hrs | 2.1 hrs | 4.0 hrs | 0.5 hrs | 16.3 br/min | 96.9% | 35.8 °C | 55.2 bpm | 58.9 ms | 37.98 | 9327.2 | 761.2 kcal |
 | 2026-07-15 | Phase 2 Bali cut day 9 (waist 100 cm) | 78.7 kg (daily) / 79.5 kg 7d avg | 6.4 hrs | 1.0 hrs | 2.6 hrs | 0.2 hrs | 16.2 br/min | 97.3% | 35.8 °C | 55.5 bpm | 55.4 ms | 37.98 | 2413.0 ⚠️ | 291.4 kcal ⚠️ |
+| 2026-08-04 | Phase 2 day 29 (97 cm waist) | 76.4 kg (daily) / 76.7 kg 7d avg | 7.3 hrs | 1.7 hrs | 4.0 hrs | 0.5 hrs | 16.0 br/min | 96.7% | 35.6 °C | 54.3 bpm | 54.4 ms | 37.72 | 8597.1 | 735.5 kcal |
 ---
 
 ## Notable Deltas (Apr 12 → May 5, 23 days)

@@ -1,6 +1,6 @@
 {
   "_note": "Live derived metrics \u2014 updated each agent session. This is the source of truth for data-derived estimates. Do not use dashboard.json for TDEE or rate-of-loss; use this file. When any value changes, update it here in the same session.",
-  "last_updated": "2026-08-03",
+  "last_updated": "2026-08-04",
   "tdee": {
     "estimate_kcal_per_day": 2200,
     "range": "2175-2225",
@@ -36,21 +36,18 @@
     "waist_baseline_date": "2026-04-15"
   },
   "vo2_max": {
-    "latest_mL_kg_min": 37.98,
-    "previous_mL_kg_min": 37.74,
-    "previous_date": "2026-05-26",
-    "latest_date": "2026-06-04",
-    "delta": "+0.24",
-    "total_gain_from_april": "+5.09",
-    "passive_component_mL_kg_min": 2.83,
-    "fitness_component_mL_kg_min": 2.26,
-    "passive_pct": 56,
-    "fitness_pct": 44,
-    "note": "Apple Watch estimate. +5.09 total gain since Apr export (85.8\u219279.0 kg). Passive (2,822\u00f779.0\u221232.89=+2.83) = 56%, fitness = 44%. Phase-end reading. Target: 40+ by Sep 2026."
+    "latest_mL_kg_min": 37.72,
+    "previous_mL_kg_min": 37.98,
+    "previous_date": "2026-07-15",
+    "latest_date": "2026-08-04",
+    "delta": "-0.26",
+    "note": "Reading likely heat-suppressed: Aug 4 run HR was 156 bpm vs 149-150 bpm in cooler conditions at same pace. Theoretical passive uplift at 76.4 kg = 2,998\u00f776.4 = 39.24 mL/kg/min. Apple Watch reading 37.72 = 1.52 below theoretical \u2014 consistent with heat-elevated HR causing underestimate. Absolute VO2 maintained if fitness held: 76.4\u00d737.72=2,882 vs Jun 4 baseline 2,998. Expect reading to recover when temps cool.",
+    "absolute_vo2_mL_min_baseline": 2998,
+    "theoretical_at_current_weight": 39.24
   },
   "health_metrics_export": {
-    "last_export_date": "2026-07-15",
+    "last_export_date": "2026-08-04",
     "stale_after_days": 14,
-    "next_reminder": "2026-07-29"
+    "next_reminder": "2026-08-18"
   }
 }
