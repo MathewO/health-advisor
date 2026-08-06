@@ -515,3 +515,4 @@
 2026-08-05 | cheat | Gousto, ~587 kcal | replaces: Gousto Meal (640 kcal)
 2026-08-05 | cheat | Creami, ~160 kcal | replaces: Creami (125 kcal)
 2026-08-06 | weight | 76.5
+2026-08-06 | workout | Walking | 13 min | 57 kcal
