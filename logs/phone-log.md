@@ -517,3 +517,4 @@
 2026-08-06 | weight | 76.3
 2026-08-06 | workout | Walking | 13 min | 57 kcal
 2026-08-06 | workout | Walking | 15 min | 81 kcal
+2026-08-06 | workout | Golf | 135 min | 500 kcal
