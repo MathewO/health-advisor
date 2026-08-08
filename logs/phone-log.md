@@ -527,3 +527,4 @@
 2026-08-07 | cheat | Creami, ~160 kcal | replaces: Creami (125 kcal)
 2026-08-08 | weight | 76.2
 2026-08-08 | cheat | Clear shake, ~84 kcal | replaces: Single Shake (116 kcal)
+2026-08-08 | cheat | Brunch, ~548 kcal | replaces: Weekend Brunch (610 kcal) | Egg white (50ml) ×1.5, Whole egg ×1.5, Hash brown (Sainsbury's) ×2, Heck chicken sausage ×3, Avocado (½), Tomatoes
