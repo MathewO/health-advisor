@@ -525,3 +525,4 @@
 2026-08-07 | workout | Walking | 21 min | 63 kcal
 2026-08-07 | cheat | Zaza, ~150 kcal | Coffee + Cake + Walk
 2026-08-07 | cheat | Creami, ~160 kcal | replaces: Creami (125 kcal)
+2026-08-08 | weight | 76.2
