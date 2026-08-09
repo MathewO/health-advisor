@@ -533,3 +533,4 @@
 2026-08-08 | cheat | North town, ~1100 kcal | replaces: Gousto Meal (640 kcal)
 2026-08-09 | weight | 76.5
 2026-08-09 | workout | Golf | 40 min | 201 kcal
+2026-08-09 | cheat | Brunch, ~648 kcal | replaces: Weekend Brunch (610 kcal) | Egg white (50ml) ×1.5, Whole egg, Hash brown (Sainsbury's) ×2, Heck chicken sausage ×2, Avocado (½), Tomatoes, Halloumi block ×0.25
