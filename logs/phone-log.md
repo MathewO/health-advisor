@@ -531,3 +531,4 @@
 2026-08-08 | cheat | Snack, ~70 kcal
 2026-08-08 | drinks | 240 | Glass of white wine, Glass of white wine
 2026-08-08 | cheat | North town, ~1100 kcal | replaces: Gousto Meal (640 kcal)
+2026-08-09 | weight | 76.5
