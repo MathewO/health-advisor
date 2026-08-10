@@ -537,3 +537,4 @@
 2026-08-09 | workout | Walking | 16 min | 47 kcal
 2026-08-09 | cheat | Babka, ~200 kcal | replaces: Creami (125 kcal)
 2026-08-09 | drinks | 167 | Farmers blonde
+2026-08-10 | cheat | Gousto, ~593 kcal | replaces: Gousto Meal (640 kcal)
