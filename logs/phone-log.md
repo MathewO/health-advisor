@@ -378,6 +378,7 @@
 2026-07-11 | drinks | 632 | 330ml Hazy Jane x4
 2026-07-11 | workout | Walking | 129 min | 289 kcal
 2026-07-12 | cheat | Chocolate, ~230 kcal
+2026-07-12 | cheat | Shake change, ~64 kcal
 2026-07-13 | weight | 79.8
 2026-07-14 | weight | 79.3
 
@@ -413,6 +414,7 @@
 2026-07-19 | cheat | Brunch, ~682 kcal | replaces: Weekend Brunch (610 kcal) | Egg white (50ml) ×1.5, Whole egg ×1.5, Hash brown (Sainsbury's) ×2, Heck chicken sausage ×2, Avocado (½), Tomatoes, Halloumi Block ×0.25
 2026-07-19 | cheat | Pop chips, ~184 kcal
 2026-07-19 | cheat | BBQ, ~790 kcal | replaces: Gousto Meal (640 kcal)
+2026-07-19 | cheat | Shake change, ~64 kcal
 2026-07-20 | weight | 77.8
 2026-07-20 | cheat | Gousto, ~457 kcal | replaces: Gousto Meal (640 kcal)
 2026-07-21 | weight | 77.8
@@ -462,6 +464,7 @@
 2026-07-26 | workout | Walking | 100 min | 276 kcal
 2026-07-26 | cheat | Cake, ~250 kcal | replaces: Single Shake (116 kcal)
 2026-07-26 | cheat | BBQ, ~795 kcal | replaces: Gousto Meal (640 kcal)
+2026-07-26 | cheat | Shake change, ~64 kcal
 2026-07-27 | weight | 77.7
 2026-07-27 | cheat | Gousto, ~565 kcal | replaces: Gousto Meal (640 kcal)
 2026-07-27 | cheat | Eton mess, ~175 kcal | replaces: Creami (125 kcal)
@@ -496,6 +499,7 @@
 2026-08-02 | workout | Walking | 30 min | 106 kcal
 2026-08-02 | cheat | Peperami, ~100 kcal
 2026-08-02 | cheat | Solero, ~98 kcal | replaces: Creami (125 kcal)
+2026-08-02 | cheat | Shake change, ~64 kcal
 2026-08-03 | weight | 76.3
 2026-08-03 | cheat | Cut Chilli, ~405 kcal | replaces: Chicken Wrap (376 kcal) | 62.5g 5% beef mince, 62.5g 2% turkey mince, 40g dry basmati rice, 125g passata, 1/4 white onion, 30g Fage 0%, chilli spices
 2026-08-03 | cheat | Gousto, ~545 kcal | replaces: Gousto Meal (640 kcal)
@@ -537,5 +541,4 @@
 2026-08-09 | workout | Walking | 16 min | 47 kcal
 2026-08-09 | cheat | Babka, ~200 kcal | replaces: Creami (125 kcal)
 2026-08-09 | drinks | 167 | Farmers blonde
-2026-08-10 | cheat | Gousto, ~593 kcal | replaces: Gousto Meal (640 kcal)
-2026-08-10 | cheat | Creami, ~170 kcal | replaces: Creami (125 kcal)
+2026-08-09 | cheat | Shake change, ~64 kcal
