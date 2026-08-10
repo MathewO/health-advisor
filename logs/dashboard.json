@@ -167,9 +167,9 @@
       "protein_target": "130g+ per day",
       "totals": {
         "weekday_kcal": 1423,
-        "weekend_kcal": 1509,
-        "avg_daily_kcal": 1448,
-        "avg_daily_deficit": 752,
+        "weekend_kcal": 1541,
+        "avg_daily_kcal": 1457,
+        "avg_daily_deficit": 743,
         "_note": "avg = (weekday\u00d75 + weekend\u00d72) / 7 \u2014 update these whenever meal items change"
       },
       "weekday": {
@@ -251,12 +251,12 @@
           {
             "category": "Breakfast",
             "label": "Single Shake",
-            "kcal": 84,
+            "kcal": 116,
             "protein": 21,
             "ingredients": [
               {
                 "name": "Impact Whey \u00d7 1 scoop",
-                "kcal": 84,
+                "kcal": 116,
                 "protein": 21
               },
               {
