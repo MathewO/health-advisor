@@ -1053,12 +1053,14 @@ function computeTrendProjection(weights, phase) {
 
   const lastPoint = rollingAvg[rollingAvg.length - 1];
 
-  // ── 10-day sliding window linear regression ──────────────────
-  // Use actual weigh-ins (not smoothed) within the last 10 days.
+  // ── 21-day sliding window linear regression ──────────────────
+  // Use smoothed rolling-avg values within the last 21 days.
+  // 21 days covers 3 full Mon–Sun cycles, averaging out weekend social bounces
+  // that a shorter window would mistake for a genuine stall.
   // Skip the first 7 days to exclude water/glycogen flush noise.
   // Require at least 5 data points; fall back to planned rate otherwise.
   let actualRateKgPerDay = null;
-  const WINDOW_DAYS  = 10;
+  const WINDOW_DAYS  = 21;
   const MIN_POINTS   = 5;
   const SKIP_DAYS    = 7;
 
