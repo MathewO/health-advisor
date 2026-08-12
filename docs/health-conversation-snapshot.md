@@ -2,7 +2,36 @@
 
 > **Purpose:** Recovery of key decisions and dates from planning chats if **chat history is unavailable**.  
 > **Not used by the PWA** — for humans and AI sessions only.  
-> **Last updated:** 2026-07-19
+> **Last updated:** 2026-08-12
+
+---
+
+## Bali Refeed Plan — agreed 12 Aug 2026
+
+**Context:** Phase 2 (Bali cut) ends **30 Aug 2026**. Flight to Bali: **12 Sep 2026**. Recovery window: **Sep 1–11 (11 days)**.
+
+**Guiding principle:** arrive feeling refuelled, energised and recovered — not depleted. A rested, glycogen-full body photographs better than a depleted one anyway.
+
+### Refeed ramp (Sep 1–11)
+
+| Days | Target kcal | Focus |
+|------|------------|-------|
+| **Sep 1–2** | ~1,750 (+300 vs end of cut) | Carbs to ~200g/day. Glycogen starts restoring. Scale jumps 0.5–1 kg (water) — expected. |
+| **Sep 3–5** | ~2,000 | Continuing refeed. Energy noticeably improving. |
+| **Sep 6–8** | ~2,200 (maintenance) | Full maintenance. Strength returning. |
+| **Sep 9–11** | ~2,200 | Steady. Stop tracking if you want. |
+
+**Key rules:**
+- Extra calories mostly into **carbs** (glycogen restoration), not fat
+- Keep protein ≥150g/day throughout
+- Don't restrict weekends — the point is to relax
+- Don't spike to 3,000+ kcal early on — gradual is better than a hard jump
+
+**Scale note:** First 2–3 days will show +1–1.5 kg. That's ~3g water per gram of glycogen refilling — not fat. Stabilises by day 4–5.
+
+**Early exit option:** If the 7d avg hits 74–74.5 kg and energy/mood flags by Aug 20, consider starting the refeed a week early (Aug 22). Still arrives at Bali fully recovered. Decision to make on Aug 20, not now.
+
+**Bali context:** Heat suppresses appetite; lots of walking adds NEAT. Rebound will be modest. No need to track food during Bali — eat intuitively.
 
 ---
 
