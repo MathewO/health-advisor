@@ -14,12 +14,14 @@
 
 ### Refeed ramp (Sep 1–11)
 
-| Days | Target kcal | Focus |
-|------|------------|-------|
-| **Sep 1–2** | ~1,750 (+300 vs end of cut) | Carbs to ~200g/day. Glycogen starts restoring. Scale jumps 0.5–1 kg (water) — expected. |
-| **Sep 3–5** | ~2,000 | Continuing refeed. Energy noticeably improving. |
-| **Sep 6–8** | ~2,200 (maintenance) | Full maintenance. Strength returning. |
-| **Sep 9–11** | ~2,200 | Steady. Stop tracking if you want. |
+**Current cut baseline:** ~1,450 kcal/day · ~135g carbs/day
+
+| Days | Target kcal | Target carbs | How to add carbs | Notes |
+|------|------------|--------------|-----------------|-------|
+| **Sep 1–2** | ~1,750 | **~200g** (+65g vs cut) | +1 portion rice (80g dry = ~62g carbs) or banana + oats each day | Glycogen starts restoring. Scale jumps 0.5–1 kg (water) — expected. |
+| **Sep 3–5** | ~2,000 | **~250g** (+50g more) | Second carb portion (extra rice, bread with meals, jacket potato) | Energy noticeably improving. |
+| **Sep 6–8** | ~2,200 (maintenance) | **~280–300g** | Eat normally — Gousto + carb sides, don't restrict | Full maintenance. Strength returning. |
+| **Sep 9–11** | ~2,200 | **~280–300g** | Same | Steady. Stop tracking if you want. |
 
 **Key rules:**
 - Extra calories mostly into **carbs** (glycogen restoration), not fat
