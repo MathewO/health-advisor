@@ -558,3 +558,4 @@
 2026-08-14 | cheat | Dark chocolate, ~105 kcal | replaces: Creami (125 kcal)
 2026-08-14 | drinks | 165 | 440ml Pale Ale
 2026-08-15 | weight | 75.7
+2026-08-15 | cheat | Urban pitta, ~900 kcal | replaces: Gousto Meal (640 kcal)
