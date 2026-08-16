@@ -563,6 +563,5 @@
 2026-08-16 | cheat | Omelette, ~538 kcal | replaces: Weekend Brunch (610 kcal) | Egg white (50ml) ×2, Whole egg ×3, Heck chicken sausage ×2, Butter / Oil, LF Cheddar Slice (15g) ×3
 2026-08-16 | cheat | Cofforange, ~45 kcal | replaces: Single Clear Shake (84 kcal)
 2026-08-14 | workout | Walking | 20 min | 71 kcal
-2026-08-16 | workout | Paintball | 240 min | 500 kcal
+2026-08-16 | workout | Paintball | 240 min | 576 kcal
 2026-08-16 | drinks | 210 | Pint of Guinness
-2026-08-16 | cheat | Burger, ~350 kcal
