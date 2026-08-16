@@ -565,3 +565,4 @@
 2026-08-14 | workout | Walking | 20 min | 71 kcal
 2026-08-16 | workout | Paintball | 240 min | 576 kcal
 2026-08-16 | drinks | 210 | Pint of Guinness
+2026-08-16 | cheat | Burger, ~350 kcal
