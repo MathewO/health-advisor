@@ -564,3 +564,4 @@
 2026-08-16 | cheat | Cofforange, ~45 kcal | replaces: Single Clear Shake (84 kcal)
 2026-08-14 | workout | Walking | 20 min | 71 kcal
 2026-08-16 | workout | Paintball | 240 min | 500 kcal
+2026-08-16 | drinks | 210 | Pint of Guinness
