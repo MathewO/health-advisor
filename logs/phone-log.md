@@ -559,3 +559,4 @@
 2026-08-14 | drinks | 165 | 440ml Pale Ale
 2026-08-15 | weight | 75.7
 2026-08-15 | cheat | Urban pitta, ~800 kcal | replaces: Gousto Meal (640 kcal)
+2026-08-16 | weight | 76.1
