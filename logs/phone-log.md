@@ -561,3 +561,4 @@
 2026-08-15 | cheat | Urban pitta, ~800 kcal | replaces: Gousto Meal (640 kcal)
 2026-08-16 | weight | 76.1
 2026-08-16 | cheat | Omelette, ~538 kcal | replaces: Weekend Brunch (610 kcal) | Egg white (50ml) ×2, Whole egg ×3, Heck chicken sausage ×2, Butter / Oil, LF Cheddar Slice (15g) ×3
+2026-08-16 | cheat | Cofforange, ~45 kcal | replaces: Single Clear Shake (84 kcal)
