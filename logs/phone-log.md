@@ -569,3 +569,4 @@
 2026-08-16 | cheat | Clear shake, ~84 kcal
 2026-08-16 | cheat | Chicken wrap, ~503 kcal | replaces: Gousto Meal (640 kcal) | Lightly Dusted Chicken (Pack) ×0.5, Sainsbury's protein wrap, Light Mayo (100g) ×0.12
 2026-08-16 | cheat | Fage & Brownie, ~360 kcal | replaces: Creami (125 kcal)
+2026-08-17 | weight | 75.6
