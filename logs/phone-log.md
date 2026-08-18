@@ -573,3 +573,4 @@
 2026-08-18 | weight | 75.7
 2026-08-18 | workout | Walking | 12 min | 56 kcal
 2026-08-18 | run | 20 min |  km | 203 kcal
+2026-08-18 | workout | Walking | 13 min | 84 kcal
