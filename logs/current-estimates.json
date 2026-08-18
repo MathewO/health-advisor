@@ -1,6 +1,6 @@
 {
   "_note": "Live derived metrics \u2014 updated each agent session. This is the source of truth for data-derived estimates. Do not use dashboard.json for TDEE or rate-of-loss; use this file. When any value changes, update it here in the same session.",
-  "last_updated": "2026-08-17",
+  "last_updated": "2026-08-18",
   "tdee": {
     "estimate_kcal_per_day": 2200,
     "range": "2175-2225",
@@ -24,10 +24,10 @@
     "live_target_kg": 75.0,
     "live_target_note": "Updated 5 Aug \u2014 original 76 kg target essentially reached (7d avg 76.6). New target 75 kg by 30 Aug.",
     "live_target_date": "2026-08-30",
-    "latest_weight_kg": 75.6,
-    "latest_weight_date": "2026-08-17",
+    "latest_weight_kg": 75.7,
+    "latest_weight_date": "2026-08-18",
     "seven_day_avg_weight_kg": 75.5,
-    "seven_day_avg_date": "2026-08-17",
+    "seven_day_avg_date": "2026-08-18",
     "loss_rate_kg_per_week_gross": 0.96,
     "loss_rate_note": "Phase 2 day 16. 7d avg: 80.4\u219278.2 kg = \u22122.2 kg in 16 days = ~0.96 kg/wk gross. Real fat-loss rate probably 0.65\u20130.75 kg/wk once glycogen fully settled. Already at TDEE validation threshold ahead of 4-week check-in (Aug 3).",
     "waist_cm": 97,
