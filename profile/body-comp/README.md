@@ -19,6 +19,7 @@ Progress photos live **only on this machine**. Image and video files under this 
 || **`progress/2026-07-06_phase2-start-100cm/`** | **100 cm** | Phase 2 start (Bali cut Day 1), 80.4 kg / 80.2 kg 7d avg, ~27.4% BF — fully refed post-maintenance; +1 cm vs Phase 1 end = glycogen/water only — five poses all directly comparable — see folder **`README.md`** |
 || **`progress/2026-07-22_phase2-week3-77kg/`** | **99 cm** | Phase 2 day 16, 77.9 kg / 78.2 kg 7d avg, ~26.7% BF — −1 cm waist in 16 days (refed→refed); same waist as Phase 1 end but 1.1 kg lighter = real fat loss confirmed — five poses all directly comparable — see folder **`README.md`** |
 || **`progress/2026-08-05_phase2-week5-76kg/`** | **97 cm** | Phase 2 day 30, 76.3 kg / 76.6 kg 7d avg — −4.1 kg / −3 cm vs phase start; −2.7 kg / −2 cm below Phase 1 depleted low; clearest visual change set of Phase 2 — five poses all directly comparable — see folder **`README.md`** |
+|| **`progress/2026-08-19_phase2-week7-96cm/`** | **96 cm** | Phase 2 day 44, 75.6 kg / 75.5 kg 7d avg, ~20–22% BF — −4.8 kg / −4 cm vs phase start; best set of entire project; −9.4 kg / −12 cm from Apr 15 baseline — five poses all directly comparable — see folder **`README.md`** |
 
 Older loose imports (screenshots mixed with unrelated snaps) remain under **`2026-04-12/`**, **`2026-04-13/`**, **`2026-04-15/`** — **not** a clean progress set; prefer **`progress/`** dated folders for comparisons.
 
