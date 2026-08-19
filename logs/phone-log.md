@@ -578,3 +578,4 @@
 2026-08-18 | cheat | Creami, ~150 kcal | replaces: Creami (125 kcal)
 2026-08-19 | weight | 74.9
 2026-08-19 | workout | Walking | 13 min | 57 kcal
+2026-08-19 | workout | Walking | 12 min | 66 kcal
