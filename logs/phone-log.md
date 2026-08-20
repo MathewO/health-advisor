@@ -584,3 +584,4 @@
 2026-08-20 | workout | Walking | 13 min | 58 kcal
 2026-08-20 | run | 20 min |  km | 192 kcal
 2026-08-20 | workout | Walking | 13 min | 79 kcal
+2026-08-20 | cheat | Welsh cake + cereal bad, ~300 kcal | replaces: Creami (125 kcal)
