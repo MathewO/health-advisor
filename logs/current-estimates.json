@@ -1,6 +1,6 @@
 {
   "_note": "Live derived metrics \u2014 updated each agent session. This is the source of truth for data-derived estimates. Do not use dashboard.json for TDEE or rate-of-loss; use this file. When any value changes, update it here in the same session.",
-  "last_updated": "2026-08-19",
+  "last_updated": "2026-08-20",
   "tdee": {
     "estimate_kcal_per_day": 2200,
     "range": "2175-2225",
@@ -24,30 +24,30 @@
     "live_target_kg": 75.0,
     "live_target_note": "Updated 5 Aug \u2014 original 76 kg target essentially reached (7d avg 76.6). New target 75 kg by 30 Aug.",
     "live_target_date": "2026-08-30",
-    "latest_weight_kg": 75.6,
-    "latest_weight_date": "2026-08-19",
+    "latest_weight_kg": 74.7,
+    "latest_weight_date": "2026-08-20",
     "seven_day_avg_weight_kg": 75.5,
-    "seven_day_avg_date": "2026-08-19",
-    "loss_rate_kg_per_week_gross": 0.96,
-    "loss_rate_note": "Phase 2 day 16. 7d avg: 80.4\u219278.2 kg = \u22122.2 kg in 16 days = ~0.96 kg/wk gross. Real fat-loss rate probably 0.65\u20130.75 kg/wk once glycogen fully settled. Already at TDEE validation threshold ahead of 4-week check-in (Aug 3).",
+    "seven_day_avg_date": "2026-08-20",
+    "loss_rate_kg_per_week_gross": 0.76,
+    "loss_rate_note": "Phase 2 day 45. 7d avg: 80.4\u219275.5 kg = \u22124.9 kg in 45 days = 4.9\u00f745\u00d77 = 0.76 kg/wk gross. Scale this morning 74.7 kg (new phase low). Projected ~74.4 kg by 30 Aug at current rate.",
     "waist_cm": 96,
     "waist_date": "2026-08-18",
     "waist_baseline_cm": 108,
     "waist_baseline_date": "2026-04-15"
   },
   "vo2_max": {
-    "latest_mL_kg_min": 37.72,
-    "previous_mL_kg_min": 37.98,
-    "previous_date": "2026-07-15",
-    "latest_date": "2026-08-04",
-    "delta": "-0.26",
-    "note": "Reading likely heat-suppressed: Aug 4 run HR was 156 bpm vs 149-150 bpm in cooler conditions at same pace. Theoretical passive uplift at 76.4 kg = 2,998\u00f776.4 = 39.24 mL/kg/min. Apple Watch reading 37.72 = 1.52 below theoretical \u2014 consistent with heat-elevated HR causing underestimate. Absolute VO2 maintained if fitness held: 76.4\u00d737.72=2,882 vs Jun 4 baseline 2,998. Expect reading to recover when temps cool.",
+    "latest_mL_kg_min": 37.51,
+    "previous_mL_kg_min": 37.72,
+    "previous_date": "2026-08-04",
+    "latest_date": "2026-08-20",
+    "delta": "-0.21",
+    "note": "Watch VO2 last 7 days oscillated 37.48\u201337.94 (latest 37.51). Run HR has recovered: Aug 4 156 bpm \u2192 Aug 18 148 \u2192 Aug 20 146 at the same ~20 min / ~2.3 km pace, so the Aug 4 heat-suppression read is no longer the story. Jun 4 absolute baseline 2,998 mL/min \u00f7 75.5 kg 7d avg = 39.71 theoretical if fitness held. Watch 37.51 is 2.20 below that (75.5\u00d737.51=2,832 absolute). Day-to-day Watch VO2 is noisy; RHR 52.7 and run HR 146 are the cleaner cardio signals.",
     "absolute_vo2_mL_min_baseline": 2998,
-    "theoretical_at_current_weight": 39.24
+    "theoretical_at_current_weight": 39.71
   },
   "health_metrics_export": {
-    "last_export_date": "2026-08-04",
+    "last_export_date": "2026-08-20",
     "stale_after_days": 14,
-    "next_reminder": "2026-08-18"
+    "next_reminder": "2026-09-03"
   }
 }
