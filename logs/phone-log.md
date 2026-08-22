@@ -586,6 +586,6 @@
 2026-08-20 | workout | Walking | 13 min | 79 kcal
 2026-08-20 | cheat | Welsh cake + cereal bad, ~300 kcal | replaces: Creami (125 kcal)
 2026-08-21 | weight | 75.0
-2026-08-22 | drinks | 579 | Pint of Guinness x0.5, 330ml Hazy Jane x3
+2026-08-21 | drinks | 579 | Pint of Guinness x0.5, 330ml Hazy Jane x3
 2026-08-22 | weight | 75.6 | Refeed last night
 2026-08-21 | cheat | Refeed, ~1250 kcal | replaces: Gousto Meal (640 kcal) | Bbq sausage, potatos, bread, slaw
