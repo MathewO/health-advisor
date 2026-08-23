@@ -590,3 +590,4 @@
 2026-08-22 | weight | 75.6 | Refeed last night
 2026-08-21 | cheat | Refeed, ~1250 kcal | replaces: Gousto Meal (640 kcal) | Bbq sausage, potatos, bread, slaw
 2026-08-23 | weight | 76.6
+2026-08-23 | cheat | Reset, ~76 kcal | replaces: Gousto Meal (640 kcal) | Resetting calories after Refeed
