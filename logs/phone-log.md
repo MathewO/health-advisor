@@ -607,3 +607,4 @@
 2026-08-26 | cheat | Gousto, ~570 kcal | replaces: Gousto Meal (640 kcal)
 2026-08-27 | weight | 74.8
 2026-08-27 | waist | 95
+2026-08-27 | cheat | Cut Chilli, ~405 kcal | replaces: Chicken Wrap (376 kcal) | 62.5g 5% beef mince, 62.5g 2% turkey mince, 40g dry basmati rice, 125g passata, 1/4 white onion, 30g Fage 0%, chilli spices
