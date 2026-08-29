@@ -74,13 +74,17 @@ Maintenance was the wrong mode — it's the deliberately untracked one (weigh-in
 
 ### Intake structure agreed — weekends +250/day
 
-| Stage | Weekday | Weekend | 7-day avg |
-|---|---|---|---|
-| **Week 1** (29 Aug – 4 Sep) | 1,893 | 1,893 | **1,893** |
-| **Week 2** (5 – 11 Sep) | 2,129 | 2,379 | **2,200** |
+**Weekends run +250 kcal/day above weekdays in both weeks**, with each week's 7-day average pinned to its target:
 
-- **Week 2:** weekends run +250 kcal/day above weekdays with the average held at 2,200. 5W + 2(W + 250) = 15,400 → 7W = 14,900 → W = 2,129, weekend 2,379. Check: (2,129 × 5 + 2,379 × 2) ÷ 7 = 15,403 ÷ 7 = 2,200.
-- **Week 1:** no weekend uplift — the ramp *is* that week's rhythm, and 29–30 Aug are its first two days, so a +250 weekend would invert it. The stated 1,893 is the ramp's weekly average: (3 × 1,750 + 4 × 2,000) ÷ 7 = 13,250 ÷ 7 = 1,893. Weekly total is identical (13,251 vs 13,250). Note this is **307 kcal/day below maintenance** — a 2,149 kcal weekly deficit — which is intended: the glycogen rebound is driven by carbs going 200g → 300g, not by total energy.
+| Stage | Weekday | Weekend | 7-day avg | Weekly total |
+|---|---|---|---|---|
+| **Week 1** (29 Aug – 4 Sep) | 1,821 | 2,071 | **1,892** (target 1,893) | 13,247 |
+| **Week 2** (5 – 11 Sep) | 2,129 | 2,379 | **2,200** | 15,403 |
+
+- **Week 2:** 5W + 2(W + 250) = 15,400 → 7W = 14,900 → W = 2,129, weekend 2,379. Check: (2,129 × 5 + 2,379 × 2) ÷ 7 = 15,403 ÷ 7 = 2,200.
+- **Week 1:** same structure against the ramp's weekly average of 1,893, which is itself (3 × 1,750 + 4 × 2,000) ÷ 7 = 13,250 ÷ 7. So 5W + 2(W + 250) = 13,250 → 7W = 12,750 → W = 1,821, weekend 2,071.
+- **This supersedes the ramp's original day-by-day steps.** The 1,750 → 2,000 → 2,200 progression is gone; it's now weekday-to-weekday, 1,821 → 2,129, with the weekend uplift on top. Consequence, accepted deliberately: Sat 29 and Sun 30 are the *highest* days of Week 1 at 2,071 rather than its lowest at 1,750 — the weekend rhythm wins over the ramp's shape. Weekly totals are within 3 kcal of the three-step version either way, so nothing is lost on the glycogen side.
+- Week 1 averages **308 kcal/day below maintenance** (2,200 − 13,247 ÷ 7) — a **2,153 kcal weekly deficit**, being 5 × 379 on weekdays plus 2 × 129 at weekends. Intended: the glycogen rebound is driven by carbs going 200g → 300g, not by total energy.
 - **Still outstanding:** what the extra calories are actually *made of*. Week 2 needs +706 kcal/day on weekdays and +870 at weekends over the cut base (1,423 / 1,509). Weekend protein is the weak spot at **124g vs the 150g target** — the weekend shake is a single scoop, not a double; making it a double adds 148 kcal and 21g protein, taking it to 145g.
 
 ### Weekly target now derived from the plan
@@ -105,15 +109,16 @@ Started 3 days early (28/29 Aug rather than 1 Sep), giving 14 days to the 12 Sep
 
 | Days | Meal plan stage | Target kcal | Target carbs | How to add carbs | Notes |
 |------|---|------------|--------------|-----------------|-------|
-| **Aug 29–31** | Week 1 | ~1,750 | **~200g** (+65g vs cut) | +1 portion rice (80g dry = ~62g carbs) or banana + oats each day | Glycogen starts restoring. Scale jumps 0.5–1 kg (water) — expected. |
-| **Sep 1–4** | Week 1 | ~2,000 | **~250g** (+50g more) | Second carb portion (extra rice, bread with meals, jacket potato) | Energy noticeably improving. |
-| **Sep 5–11** | Week 2 | ~2,200 (maintenance) | **~280–300g** | Eat normally — Gousto + carb sides, don't restrict | Full maintenance. Strength returning. Stop tracking if you want. |
+| **Aug 29 – Sep 4** | Week 1 | **1,821 weekday / 2,071 weekend** (avg 1,893) | **~200–250g** (+65–115g vs cut) | One to two portions per day — 50g dry rice or oats plus a banana at breakfast, building to bread or a jacket potato with meals. Weekend days take the larger share. | Glycogen starts restoring. Scale jumps 0.5–1 kg (water) — expected. Energy noticeably improving by the end of the week. |
+| **Sep 5–11** | Week 2 | **2,129 weekday / 2,379 weekend** (avg 2,200) | **~280–300g** | Eat normally — Gousto + carb sides, don't restrict | Full maintenance. Strength returning. |
+
+> **Superseded 29 Aug:** this table previously ran three date steps — Aug 29–31 at ~1,750, Sep 1–4 at ~2,000, Sep 5–11 at ~2,200. Collapsed into the two meal-plan stages so the ramp and the stages can't drift apart, and because the weekend +250 rhythm now applies in both weeks. Weekly totals are within 3 kcal of the old version.
 
 **The app can now hold a separate meal plan per stage** (added 29 Aug 2026) rather than describing the ramp in a prose note:
 
 | Stage | Dates | Weekday | Weekend | Meal items |
 |---|---|---|---|---|
-| **Week 1** (ramp) | 29 Aug – 4 Sep | 1,893 | 1,893 | **TBD — to be agreed** |
+| **Week 1** (ramp) | 29 Aug – 4 Sep | 1,821 | 2,071 | **TBD — to be agreed** |
 | **Week 2** (maintenance) | 5–11 Sep | 2,129 | 2,379 | **TBD — to be agreed** |
 
 > **The numbers are agreed; the food isn't.** Each stage declares its daily intake target numerically, so the weekly energy card is correct — but the item lists are still the Phase 2 cut plan (weekday 1,423 / weekend 1,509) as a placeholder, so **use the ramp table above for what to eat**, not the Meal Plan screen, until the carb additions are agreed. The screen flags the shortfall with an "Items short" pill so it can't be mistaken for the plan. It auto-selects the stage covering today and lets you tap between them. See `docs/app-state.md` → *Meal plan stages* for the data contract.

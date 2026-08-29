@@ -11,25 +11,21 @@
     "start_date_note": "Set to 29 Aug (Sat), not 28 Aug: Friday 28 Aug was the last day of the cut, and its ramen cheat and walks belong to Phase 2, not here. start_kg 74.8 is the cut's close weight (27 Aug reading carried forward through 28 Aug) and so predates start_date by a day \u2014 same handover convention as 6 Jul. This also makes the two meal-plan stages exactly 7 days each: 29 Aug\u20134 Sep and 5\u201311 Sep.",
     "ramp": [
       {
-        "days": "2026-08-29 \u2192 2026-08-31",
-        "target_kcal": 1750,
-        "target_carbs_g": 200,
-        "how": "Add one carb portion per day \u2014 50g dry rice or oats + banana at breakfast."
+        "days": "2026-08-29 \u2192 2026-09-04 (Week 1)",
+        "target_kcal": "1,821 weekday / 2,071 weekend",
+        "target_kcal_avg": 1893,
+        "target_carbs_g": "200-250",
+        "how": "One to two carb portions per day \u2014 50g dry rice or oats plus a banana at breakfast, building to bread or a jacket potato with meals. Weekend days take the larger share."
       },
       {
-        "days": "2026-09-01 \u2192 2026-09-04",
-        "target_kcal": 2000,
-        "target_carbs_g": 250,
-        "how": "Second carb portion \u2014 extra rice, bread with meals, or a jacket potato."
-      },
-      {
-        "days": "2026-09-05 \u2192 2026-09-11",
-        "target_kcal": 2200,
+        "days": "2026-09-05 \u2192 2026-09-11 (Week 2)",
+        "target_kcal": "2,129 weekday / 2,379 weekend",
+        "target_kcal_avg": 2200,
         "target_carbs_g": "280-300",
-        "how": "Full maintenance. Eat normally \u2014 Gousto plus carb sides, no restriction. Stop tracking if you want."
+        "how": "Full maintenance. Eat normally \u2014 Gousto plus carb sides, no restriction."
       }
     ],
-    "ramp_note": "Re-dated from the original Sep 1\u201311 plan in docs/health-conversation-snapshot.md, then aligned on 29 Aug to the two meal_plan stages (Week 1 = 29 Aug\u20134 Sep, Week 2 = 5\u201311 Sep). Friday 28 Aug\u2019s ramen + chocolate (~1,075 kcal, a 1,858 kcal day) was the cut's last meal, not the refeed's first \u2014 it sits in Phase 2.",
+    "ramp_note": "Re-dated from the original Sep 1\u201311 plan in docs/health-conversation-snapshot.md, then collapsed on 29 Aug from three date steps (1,750 \u2192 2,000 \u2192 2,200) into the two meal_plan stages, so the ramp and the stages can no longer disagree. The progression is now weekday-to-weekday, 1,821 \u2192 2,129, with weekends +250 above the weekday figure in both weeks. Weekly totals are unchanged from the three-step version: Week 1 13,247 vs 13,250, Week 2 15,403 vs 15,400. Friday 28 Aug\u2019s ramen + chocolate (~1,075 kcal, a 1,858 kcal day) was the cut's last meal, not the refeed's first \u2014 it sits in Phase 2.",
     "meal_plan": {
       "maintenance_kcal": 2200,
       "protein_target": "150g+ per day",
@@ -193,16 +189,16 @@
           "label": "Week 1",
           "start_date": "2026-08-29",
           "end_date": "2026-09-04",
-          "target_kcal": "1750-2000 ramp",
-          "target_kcal_weekday": 1893,
-          "target_kcal_weekend": 1893,
-          "_note": "Ramp week, 7 days. The ramp steps 1,750 (29\u201331 Aug) \u2192 2,000 (1\u20134 Sep); the daily targets here are the flat weekly average, (3\u00d71,750 + 4\u00d72,000) \u00f7 7 = 1,893, which gives the identical weekly total (13,251 vs 13,250) without pretending the plan is flat. No weekend uplift this week \u2014 the ramp is the week's rhythm, and 29\u201330 Aug are its first two days, so a +250 weekend would invert it. Meal items TBD: add weekday/weekend items once the carb additions are agreed; until then the screen shows the inherited Phase 2 cut items, which are ~470 kcal/day short of this target."
+          "target_kcal": "1,821 weekday / 2,071 weekend",
+          "target_kcal_weekday": 1821,
+          "target_kcal_weekend": 2071,
+          "_note": "Ramp week, 7 days. Weekends run +250 kcal/day above weekdays (agreed 29 Aug, applied to both weeks) with the week's average held at the ramp figure of 1,893: 5W + 2(W+250) = 13,250 \u2192 7W = 12,750 \u2192 W = 1,821, weekend = 2,071. Check: (1,821\u00d75 + 2,071\u00d72) \u00f7 7 = 13,247 \u00f7 7 = 1,892. The 1,893 average comes from the original ramp steps, (3\u00d71,750 + 4\u00d72,000) \u00f7 7. Note this supersedes the ramp's day-by-day steps: with the weekend uplift, Sat 29\u2013Sun 30 are the week's highest days at 2,071 rather than its lowest at 1,750. Deliberate \u2014 Mathew wants the weekend rhythm in both weeks. Meal items TBD: add weekday/weekend items once the carb additions are agreed; until then the screen shows the inherited Phase 2 cut items, ~400 kcal/day short."
         },
         {
           "label": "Week 2",
           "start_date": "2026-09-05",
           "end_date": "2026-09-11",
-          "target_kcal": 2200,
+          "target_kcal": "2,129 weekday / 2,379 weekend",
           "target_kcal_weekday": 2129,
           "target_kcal_weekend": 2379,
           "_note": "Full maintenance, ~280\u2013300g carbs. Weekends run +250 kcal/day above weekdays (agreed 29 Aug), with the 7-day average held at 2,200: 5W + 2(W+250) = 15,400 \u2192 W = 2,129, weekend = 2,379. Check: (2,129\u00d75 + 2,379\u00d72) \u00f7 7 = 2,200. Meal items TBD \u2014 needs +706 kcal/day on weekdays and +870 at weekends over the Phase 2 cut base (1,423 / 1,509). Weekend protein is the weak spot at 124g vs the 150g target."
