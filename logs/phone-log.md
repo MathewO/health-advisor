@@ -616,3 +616,4 @@
 2026-08-28 | cheat | Ramen + chocolate, ~1075 kcal | replaces: Gousto Meal (640 kcal)
 2026-08-29 | weight | 75.5
 2026-08-29 | cheat | PB Toast, ~350 kcal | replaces: Single Clear Shake (84 kcal)
+2026-08-29 | cheat | Brunch, ~560 kcal | replaces: Weekend Brunch (610 kcal) | Egg white (50ml) ×2, Whole egg ×1.5, Hash brown (Sainsbury's) ×2, Heck chicken sausage ×3, Avocado (½), Tomatoes
