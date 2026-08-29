@@ -1014,12 +1014,76 @@ async function loadDashboard() {
 // Early phase fallback: if the phase is ≤7 days old, or if there
 // are fewer than 5 weigh-ins in the regression window after
 // skipping week 1 noise, fall back to the planned deficit rate.
+// ─── Phase direction and tracking mode ────────────────────────
+// `direction`     — 'loss' (default) | 'gain'. Which way the goal weight moves.
+// `tracking_mode` — 'deficit' (default) | 'surplus' | 'balance'. How the weekly
+//                   energy card is framed.
+//
+// 'balance' exists for refeeds: intake sits at maintenance while the scale moves
+// through glycogen and bound water, so weight must NOT be projected from calorie
+// balance — the two are decoupled. 'surplus' is for bulks, where the calorie-to-
+// tissue link does hold and projecting weight from energy balance is valid.
+//
+// Phases with neither field behave exactly as before.
+function phaseDirection(phase) {
+  return (phase && phase.direction === 'gain') ? 'gain' : 'loss';
+}
+
+function phaseMode(phase) {
+  const m = phase && phase.tracking_mode;
+  return (m === 'surplus' || m === 'balance') ? m : 'deficit';
+}
+
+// Signed weekly energy target: positive = deficit, negative = surplus, 0 = hold.
+// `weekly_energy_target` is the current key; `weekly_deficit_target` is honoured
+// for phases authored before tracking modes existed. Note the explicit null
+// checks — a legitimate target of 0 must not fall through to the default.
+function weeklyEnergyTarget(mp) {
+  if (!mp) return 3500;
+  if (mp.weekly_energy_target  != null) return mp.weekly_energy_target;
+  if (mp.weekly_deficit_target != null) return mp.weekly_deficit_target;
+  return 3500;
+}
+
+const MODE_LABELS = {
+  deficit: { target: 'Target this week',         predicted: 'Predicted deficit', pill: 'Deficit' },
+  surplus: { target: 'Surplus target this week', predicted: 'Predicted surplus', pill: 'Surplus' },
+  balance: { target: 'Balance target this week', predicted: 'Predicted balance', pill: 'Balance' }
+};
+
+function modeLabels(mode) {
+  return MODE_LABELS[mode] || MODE_LABELS.deficit;
+}
+
+// How far a weekly/cumulative energy figure sits on the good side of its target.
+// Deficit: more is better. Surplus: more surplus (more negative) is better.
+// Balance: neither — only closeness counts, so distance is always ≤ 0.
+function energyProgress(actual, target, mode) {
+  if (mode === 'surplus') return target - actual;
+  if (mode === 'balance') return -Math.abs(actual - target);
+  return actual - target;
+}
+
+function energyColor(actual, target, mode, tolerance = 150) {
+  const p = energyProgress(actual, target, mode);
+  if (mode === 'balance') {
+    // p is a negative distance from target, so "beating" it is impossible —
+    // landing inside the tolerance band in either direction is on plan.
+    if (p >= -tolerance)     return '#4ade80';
+    if (p >= -tolerance * 2) return '#f59e0b';
+    return '#ef4444';
+  }
+  if (p >= 0)           return '#4ade80';
+  if (p >= -tolerance)  return '#f59e0b';
+  return '#ef4444';
+}
+
 function computeTrendProjection(weights, phase) {
   const startNum  = dateToNum(phase.start_date);
   const targetNum = dateToNum(phase.target_date);
   const totalDays = targetNum - startNum;
 
-  const weeklyTarget    = (phase.meal_plan && phase.meal_plan.weekly_deficit_target) || 3500;
+  const weeklyTarget    = weeklyEnergyTarget(phase.meal_plan);
   const plannedKgPerDay = weeklyTarget / 7700 / 7;
 
   const sortedActuals = (weights || []).slice().sort((a, b) => a.date.localeCompare(b.date));
@@ -1081,15 +1145,25 @@ function computeTrendProjection(weights, phase) {
     const den = xs.reduce((s, v) => s + (v - meanX) ** 2, 0);
     if (den > 0) {
       const slope = num / den; // kg per day (negative = losing weight)
-      // Cap: don't project weight gain; don't project faster than 0.7 kg/week.
+      // Cap at 0.7 kg/week and never project against the phase direction.
       // Conservative by design — the user should always beat the projection.
-      actualRateKgPerDay = Math.min(0, Math.max(slope, -0.7 / 7));
+      const CAP = 0.7 / 7;
+      actualRateKgPerDay = phaseDirection(phase) === 'gain'
+        ? Math.max(0, Math.min(slope,  CAP))
+        : Math.min(0, Math.max(slope, -CAP));
     }
   }
 
-  const projectionRate = actualRateKgPerDay !== null ? actualRateKgPerDay : -plannedKgPerDay;
-  const projectedAtTarget = +(lastPoint.y + projectionRate * (totalDays - lastPoint.x)).toFixed(2);
-  const projection = [
+  // Balance mode never derives weight from calories — see phaseMode(). With no
+  // regression yet there is simply no projection, and callers must handle null.
+  const fallbackRate = phaseMode(phase) === 'balance' ? null : -plannedKgPerDay;
+  const projectionRate = actualRateKgPerDay !== null ? actualRateKgPerDay : fallbackRate;
+
+  const projectedAtTarget = projectionRate === null
+    ? null
+    : +(lastPoint.y + projectionRate * (totalDays - lastPoint.x)).toFixed(2);
+
+  const projection = projectedAtTarget === null ? [] : [
     { x: lastPoint.x,  y: lastPoint.y },
     { x: totalDays,    y: projectedAtTarget },
   ];
@@ -1146,22 +1220,34 @@ function renderPhaseCard(phase, weights) {
 
   card.className = 'card phase-card-active';
 
+  const gaining = phaseDirection(phase) === 'gain';
   const latest = weights[weights.length - 1];
-  const lost   = +(phase.start_kg - latest.kg).toFixed(1);
-  const left   = +(latest.kg - phase.target_kg).toFixed(1);
-  const pct    = Math.min(100, Math.max(0, (lost / (phase.start_kg - phase.target_kg)) * 100));
+  // Signed toward the goal in both directions: moved = progress made,
+  // left = still to go. Denominator is negative for a gain, so pct works as-is.
+  const moved  = +((gaining ? latest.kg - phase.start_kg : phase.start_kg - latest.kg)).toFixed(1);
+  const left   = +((gaining ? phase.target_kg - latest.kg : latest.kg - phase.target_kg)).toFixed(1);
+  const pct    = Math.min(100, Math.max(0, (moved / Math.abs(phase.start_kg - phase.target_kg)) * 100));
+  const movedLabel = gaining ? 'kg gained' : 'kg lost';
 
-  // Project end weight using planned deficit rate, anchored to the
-  // 7-day rolling average of recent weigh-ins (matches chart trend line)
+  // Project end weight anchored to the rolling average of recent weigh-ins
+  // (matches the chart trend line). Null in balance mode until regression engages.
   const trend             = computeTrendProjection(weights, phase);
-  const projectedAtTarget = +trend.projectedAtTarget.toFixed(1);
-  const diff              = +(projectedAtTarget - phase.target_kg).toFixed(1);
+  const projectedAtTarget = trend.projectedAtTarget === null ? null : +trend.projectedAtTarget.toFixed(1);
+  // Signed so that negative always means "short of the goal"
+  const diff = projectedAtTarget === null
+    ? null
+    : +((gaining ? projectedAtTarget - phase.target_kg : phase.target_kg - projectedAtTarget)).toFixed(1);
 
   let trendText, trendColor;
-  if (diff <= 0) {
+  if (projectedAtTarget === null) {
+    const daysIn = dateToNum(localDateStr(new Date())) - dateToNum(phase.start_date);
+    trendText  = 'Goal ' + phase.target_kg + ' kg by ' + formatDate(phase.target_date)
+               + ' · day ' + Math.max(0, daysIn);
+    trendColor = 'var(--muted)';
+  } else if (diff >= 0) {
     trendText  = '✓ Trending to ' + projectedAtTarget + ' kg by ' + formatDate(phase.target_date);
     trendColor = 'var(--green)';
-  } else if (diff <= 1.0) {
+  } else if (diff >= -1.0) {
     trendText  = '⚠ Trending to ' + projectedAtTarget + ' kg by ' + formatDate(phase.target_date);
     trendColor = 'var(--amber)';
   } else {
@@ -1191,7 +1277,7 @@ function renderPhaseCard(phase, weights) {
     </div>
     <div class="goal-bar-wrap"><div class="goal-bar" style="width:${pct.toFixed(0)}%"></div></div>
     <div class="goal-meta">
-      <span>${lost > 0 ? lost : 0} kg lost</span>
+      <span>${moved > 0 ? moved : 0} ${movedLabel}</span>
       <span>${left > 0 ? left : 0} kg to go</span>
     </div>
     <div class="chart-wrap"><canvas id="weightChart" height="120"></canvas></div>
@@ -1234,21 +1320,22 @@ function renderWeeklyDeficitCard(phase) {
        </div>`
     : '';
 
-  const predictedColor = predicted >= target
-    ? 'var(--green)'
-    : predicted >= target * 0.75
-    ? 'var(--amber)'
-    : 'var(--red)';
+  const mode   = phaseMode(phase);
+  const labels = modeLabels(mode);
+
+  // Tolerance scales with the target so a cut keeps its original 25% band, while
+  // balance phases (target at or near 0) fall back to a fixed ~1 day of slack.
+  const predictedColor = energyColor(predicted, target, mode, Math.max(Math.abs(target) * 0.25, 750));
 
   card.innerHTML = `
     <div class="deficit-row${carryover !== 0 ? ' deficit-row--no-border deficit-row--tight' : ''}">
-      <span class="deficit-label">Target this week</span>
+      <span class="deficit-label">${labels.target}</span>
       <span class="deficit-val">${target.toLocaleString()} kcal</span>
     </div>
     ${carryoverHtml}
     <div class="burndown-wrap" id="burndownWrap"><canvas id="weeklyBurndownChart" height="160"></canvas></div>
     <div class="predicted-deficit-row">
-      <span class="predicted-label">Predicted deficit</span>
+      <span class="predicted-label">${labels.predicted}</span>
       <span class="predicted-val" style="color:${predictedColor}">${predicted.toLocaleString()} kcal</span>
     </div>
     <div class="phase-actions">
@@ -1258,12 +1345,12 @@ function renderWeeklyDeficitCard(phase) {
 
   // Defer until after browser has laid out the new canvas
   requestAnimationFrame(() => {
-    try { renderWeeklyBurndownChart(allEntries, weekStartStr, weekdayDeficit, weekendDeficit, daysElapsed, target, fullWeekBase, carryover); }
+    try { renderWeeklyBurndownChart(allEntries, weekStartStr, weekdayDeficit, weekendDeficit, daysElapsed, target, fullWeekBase, carryover, mode); }
     catch(err) { console.error('Burndown chart error:', err); }
   });
 }
 
-function renderWeeklyBurndownChart(allEntries, weekStartStr, weekdayDeficit, weekendDeficit, daysElapsed, target, fullWeekBase, carryover = 0) {
+function renderWeeklyBurndownChart(allEntries, weekStartStr, weekdayDeficit, weekendDeficit, daysElapsed, target, fullWeekBase, carryover = 0, mode = 'deficit') {
   const canvas = document.getElementById('weeklyBurndownChart');
   if (!canvas) return;
 
@@ -1298,8 +1385,19 @@ function renderWeeklyBurndownChart(allEntries, weekStartStr, weekdayDeficit, wee
     return +cumActual.toFixed(0);
   });
 
-  // Y-axis ceiling: whichever is larger — the target or the full week meal-plan base
-  const yMax = Math.max(target, fullWeekBase, actualData[6]) + 100;
+  // Y-axis bounds. A deficit phase stays anchored at zero and rises; surplus and
+  // balance phases go negative, so the axis has to span the data in both
+  // directions and always include the zero line.
+  const yValues = [0, target, fullWeekBase, ...targetData, ...actualData];
+  const dataMin = Math.min(...yValues);
+  const dataMax = Math.max(...yValues);
+  const yPad    = Math.max(500, (dataMax - dataMin) * 0.1);
+  const yMin = mode === 'deficit' ? 0    : Math.floor((dataMin - yPad) / 1000) * 1000;
+  const yMax = mode === 'deficit' ? 7000 : Math.ceil((dataMax + yPad) / 1000) * 1000;
+
+  // Reference line: the long-standing 5k benchmark for cuts, the zero line
+  // (energy balance) for anything else.
+  const refValue = mode === 'deficit' ? 5000 : 0;
 
   // Event icons + labels per day
   const baseIcons = { weight: '⚖️', waist: '📏', run: '🏃', stair: '🪜', drinks: '🍺', beers: '🍺', cheat: '🌮', activity: '🏌️' };
@@ -1343,14 +1441,10 @@ function renderWeeklyBurndownChart(allEntries, weekStartStr, weekdayDeficit, wee
   const gridColor  = 'rgba(82,82,91,0.4)';
   const mutedColor = 'rgba(148,163,184,0.5)';
 
-  // Segment colour: green if on/above plan, orange if ≤150 below, red if >150 below
+  // Segment colour: green when on the good side of plan for this mode, orange
+  // within 150 kcal, red beyond. In balance mode either direction counts as off.
   function segmentColor(ctx) {
-    const y = ctx.p1.parsed.y;
-    const t = targetData[ctx.p1DataIndex];
-    const diff = y - t;
-    if (diff >= 0)    return '#4ade80';
-    if (diff >= -150) return '#f59e0b';
-    return '#ef4444';
+    return energyColor(ctx.p1.parsed.y, targetData[ctx.p1DataIndex], mode);
   }
 
   burndownChart = new Chart(canvas, {
@@ -1360,8 +1454,8 @@ function renderWeeklyBurndownChart(allEntries, weekStartStr, weekdayDeficit, wee
       labels: DAY_LABELS,
       datasets: [
         {
-          label: '5k',
-          data: [5000, 5000, 5000, 5000, 5000, 5000, 5000],
+          label: 'Reference',
+          data: Array(7).fill(refValue),
           borderColor: 'rgba(82,82,91,0.5)',
           borderDash: [3, 5],
           borderWidth: 1,
@@ -1390,10 +1484,7 @@ function renderWeeklyBurndownChart(allEntries, weekStartStr, weekdayDeficit, wee
             const y = ctx.parsed?.y;
             const t = targetData[ctx.dataIndex];
             if (y == null || t == null) return '#4ade80';
-            const diff = y - t;
-            if (diff >= 0)    return '#4ade80';
-            if (diff >= -150) return '#f59e0b';
-            return '#ef4444';
+            return energyColor(y, t, mode);
           },
           pointBorderColor: '#18181b',
           pointBorderWidth: 1.5,
@@ -1415,14 +1506,14 @@ function renderWeeklyBurndownChart(allEntries, weekStartStr, weekdayDeficit, wee
           border: { color: gridColor }
         },
         y: {
-          min: 0,
-          max: 7000,
+          min: yMin,
+          max: yMax,
           grid: { color: gridColor },
           ticks: {
             color: '#94a3b8',
             font: { size: 11 },
             stepSize: 1000,
-            callback: v => v >= 1000 ? (v/1000)+'k' : '0'
+            callback: v => v === 0 ? '0' : (v/1000)+'k'
           },
           border: { color: gridColor }
         }
@@ -1547,7 +1638,7 @@ function computeMealPlanWeekDeficit(phase) {
 }
 
 function computeWeeklyDeficit(allEntries, phase) {
-  const target = (phase.meal_plan && phase.meal_plan.weekly_deficit_target) || 3500;
+  const target = weeklyEnergyTarget(phase.meal_plan);
   const { weekdayDeficit, weekendDeficit, fullWeekBase } = computeMealPlanWeekDeficit(phase);
 
   // Monday of current week — use local date string to avoid UTC offset issues
@@ -2350,21 +2441,28 @@ function renderMealPlanMeta(mp, tab) {
     return;
   }
 
-  // Target intake = maintenance − (weekly deficit target ÷ 7), rounded
-  const intakeTarget = (mp.maintenance_kcal && mp.weekly_deficit_target)
-    ? Math.round(mp.maintenance_kcal - mp.weekly_deficit_target / 7)
+  // Target intake = maintenance − (signed weekly energy target ÷ 7), rounded.
+  // A surplus target is negative, so this correctly lands above maintenance.
+  const intakeTarget = mp.maintenance_kcal
+    ? Math.round(mp.maintenance_kcal - weeklyEnergyTarget(mp) / 7)
     : ((mp.totals || {}).avg_daily_kcal || null);
 
-  // Live avg deficit = maintenance − actual avg from meal plan items
+  // Live avg deficit = maintenance − actual avg from meal plan items.
+  // Negative means the plan sits above maintenance, i.e. a surplus.
   const wdKcal = ((mp.weekday  && mp.weekday.items)  || []).reduce((s, i) => s + (i.kcal || 0), 0);
   const weKcal = ((mp.weekend  && mp.weekend.items)  || []).reduce((s, i) => s + (i.kcal || 0), 0);
   const liveAvgKcal = (mp.weekday || mp.weekend) ? Math.round((wdKcal * 5 + weKcal * 2) / 7) : null;
   const liveDeficit = (liveAvgKcal !== null && mp.maintenance_kcal) ? mp.maintenance_kcal - liveAvgKcal : null;
 
+  const energyPill = liveDeficit === null ? null
+    : liveDeficit < 0
+      ? { label: 'Surplus', value: '~' + Math.abs(liveDeficit) + ' kcal/day', color: 'var(--amber)' }
+      : { label: 'Deficit', value: '~' + liveDeficit + ' kcal/day',           color: 'var(--green)' };
+
   const pills = [
     intakeTarget        ? { label: 'Target',      value: '~' + intakeTarget + ' kcal/day',  color: 'var(--text)' }   : null,
     mp.maintenance_kcal ? { label: 'Maintenance',  value: mp.maintenance_kcal + ' kcal',      color: 'var(--muted)' } : null,
-    liveDeficit !== null ? { label: 'Deficit',     value: '~' + liveDeficit + ' kcal/day',   color: 'var(--green)' } : null
+    energyPill
   ].filter(Boolean);
   metaEl.innerHTML = pills.map(p => `
     <div style="background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:5px 10px;font-size:12px">
@@ -2530,7 +2628,9 @@ function loadWeeklyProgress() {
     return;
   }
 
-  const target = (phase.meal_plan && phase.meal_plan.weekly_deficit_target) || 3500;
+  const target  = weeklyEnergyTarget(phase.meal_plan);
+  const mode    = phaseMode(phase);
+  const gaining = phaseDirection(phase) === 'gain';
 
   body.innerHTML = weeks.map(w => {
     const weightDelta = (w.startWeight && w.endWeight)
@@ -2539,12 +2639,14 @@ function loadWeeklyProgress() {
     const deltaText  = weightDelta !== null
       ? (weightDelta > 0 ? '−' + weightDelta + ' kg' : '+' + Math.abs(weightDelta) + ' kg')
       : '—';
-    const deltaColor = weightDelta === null ? 'var(--muted)' : weightDelta > 0 ? 'var(--green)' : 'var(--red)';
+    // A gaining phase wants the scale up, so the colour test flips
+    const deltaGood  = gaining ? weightDelta < 0 : weightDelta > 0;
+    const deltaColor = weightDelta === null ? 'var(--muted)' : deltaGood ? 'var(--green)' : 'var(--red)';
 
-    const deficitGap  = w.deficit - target;
+    const deficitGap  = energyProgress(w.deficit, target, mode);
     const gapText     = (deficitGap >= 0 ? '+' : '') + deficitGap.toLocaleString() + ' kcal';
     const gapColor    = deficitGap >= 0 ? 'var(--green)' : (deficitGap > -500 ? 'var(--amber)' : 'var(--red)');
-    const deficitColor = w.deficit >= target ? 'var(--green)' : w.deficit >= target * 0.75 ? 'var(--amber)' : 'var(--red)';
+    const deficitColor = energyColor(w.deficit, target, mode, Math.max(Math.abs(target) * 0.25, 750));
 
     const outliersHtml = w.outliers.length
       ? w.outliers.map(e => {
@@ -2608,7 +2710,7 @@ function getCompletedWeeks(allEntries, phase) {
   weekCursor.setDate(phaseStart.getDate() - (psDow === 0 ? 6 : psDow - 1));
   weekCursor.setHours(0, 0, 0, 0);
 
-  const target = (phase.meal_plan && phase.meal_plan.weekly_deficit_target) || 3500;
+  const target = weeklyEnergyTarget(phase.meal_plan);
   const { fullWeekBase } = computeMealPlanWeekDeficit(phase);
 
   while (weekCursor < currentWeekStart) {
@@ -3079,7 +3181,7 @@ function renderPrevPhaseMealContent(p, idx) {
           <span><span style="color:var(--green)">${totalKcal} kcal</span> <span style="color:var(--muted);font-size:12px">${totalProtein}g protein</span></span>
         </div>
         <div style="font-size:12px;color:var(--muted);padding:4px 0">
-          Maintenance: ${mp.maintenance_kcal ? mp.maintenance_kcal.toLocaleString() + ' kcal/day' : '—'} · Target deficit: ${mp.weekly_deficit_target ? mp.weekly_deficit_target.toLocaleString() + ' kcal/wk' : '—'} · Protein: ${mp.protein_target || '—'}
+          Maintenance: ${mp.maintenance_kcal ? mp.maintenance_kcal.toLocaleString() + ' kcal/day' : '—'} · ${weeklyEnergyTarget(mp) < 0 ? 'Target surplus' : 'Target deficit'}: ${Math.abs(weeklyEnergyTarget(mp)).toLocaleString()} kcal/wk · Protein: ${mp.protein_target || '—'}
         </div>`;
       contentHtml = rows + metaHtml;
     }
@@ -3331,13 +3433,20 @@ function renderWeightChart(weights, phase) {
     return localDateStr(d);
   };
 
-  // Trend = 7-day rolling avg over actuals (past) + planned-deficit projection (future)
+  // Trend = 7-day rolling avg over actuals (past) + projection (future).
+  // The projection is null in balance mode until the regression has enough points.
   const trend           = computeTrendProjection(weights, phase);
   const plannedKgPerDay = trend.plannedKgPerDay;
   const projectedEnd    = trend.projectedAtTarget;
-  const trendColor = projectedEnd <= phase.target_kg + 0.3
+  const gaining         = phaseDirection(phase) === 'gain';
+  // Signed margin toward the goal: positive = at or past it
+  const goalMargin = projectedEnd === null ? null
+    : (gaining ? projectedEnd - phase.target_kg : phase.target_kg - projectedEnd);
+  const trendColor = goalMargin === null
+    ? 'rgba(148,163,184,0.8)'
+    : goalMargin >= -0.3
     ? 'rgba(74,222,128,0.8)'
-    : projectedEnd <= phase.target_kg + 1.0
+    : goalMargin >= -1.0
     ? 'rgba(251,191,36,0.8)'
     : 'rgba(248,113,113,0.8)';
 
@@ -3348,7 +3457,10 @@ function renderWeightChart(weights, phase) {
     .map(p => ({ x: dateToNum(p.date) - startNum, y: p.kg }));
 
   // Plan / trend / target as two-point endpoints (linear x-axis spans 0 → totalDays)
-  const planPoints = [
+  // Balance mode has no calorie-derived plan line — energy balance sits at zero
+  // while the scale moves through glycogen, so the line would read as "no change"
+  // and contradict the goal. Suppressed for the same reason as the projection.
+  const planPoints = phaseMode(phase) === 'balance' ? [] : [
     { x: 0,         y: +phase.start_kg.toFixed(2) },
     { x: totalDays, y: +(phase.start_kg - plannedKgPerDay * totalDays).toFixed(2) },
   ];
@@ -3358,10 +3470,20 @@ function renderWeightChart(weights, phase) {
     { x: 0,         y: phase.target_kg },
     { x: totalDays, y: phase.target_kg },
   ];
-  const liveTargetPoints = [
-    { x: 0,         y: trend.projectedAtTarget },
-    { x: totalDays, y: trend.projectedAtTarget },
+  const liveTargetPoints = projectedEnd === null ? [] : [
+    { x: 0,         y: projectedEnd },
+    { x: totalDays, y: projectedEnd },
   ];
+
+  // Y-axis spans the data plus both anchors, rather than assuming a cut's range
+  const kgValues = [
+    phase.start_kg, phase.target_kg,
+    ...actualPoints.map(p => p.y),
+    ...planPoints.map(p => p.y),
+    ...(projectedEnd === null ? [] : [projectedEnd]),
+  ].filter(v => typeof v === 'number' && !isNaN(v));
+  const yMinKg = Math.floor(Math.min(...kgValues) - 0.5);
+  const yMaxKg = Math.ceil(Math.max(...kgValues) + 0.5);
 
   weightChart = new Chart(ctx, {
     type: 'line',
@@ -3461,8 +3583,8 @@ function renderWeightChart(weights, phase) {
           grid: { color: 'rgba(255,255,255,0.05)' },
         },
         y: {
-          suggestedMin: 78,
-          suggestedMax: Math.max(81, phase.start_kg + 0.5),
+          suggestedMin: yMinKg,
+          suggestedMax: yMaxKg,
           grid: { color: 'rgba(255,255,255,0.05)' },
           ticks: {
             color: '#64748b',

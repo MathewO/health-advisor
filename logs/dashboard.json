@@ -2,12 +2,12 @@
   "phase": {
     "id": "refeed-2026-q3",
     "name": "Refeed \u2014 Bali",
-    "status": "maintenance",
+    "status": "active",
     "start_date": "2026-08-28",
     "target_date": "2026-09-11",
     "start_kg": 74.8,
-    "target_kg": 74.8,
-    "_note": "Glycogen and water restoration ahead of Bali (fly 12 Sep). Scale is expected to rise 1.5\u20132 kg to ~76\u201377 kg \u2014 that is ~3g water per gram of glycogen refilling, not fat. Waist is the metric that matters here: 95 cm at phase end (27 Aug). start_kg 74.8 is the Phase 2 end weight, so the card delta reads as rebound from the cut.",
+    "target_kg": 76.5,
+    "_note": "Tracked refeed, not an untracked maintenance block. Goal 76.5 kg by 11 Sep is glycogen and bound water (~3g per gram of glycogen), not tissue \u2014 so tracking_mode is \"balance\": intake is tracked against the ramp target and weight is NEVER projected from calorie balance, because the two are decoupled here. Waist is the real check: 95 cm at Phase 2 close (27 Aug). If waist holds at 95\u201397 cm while the scale rises, the rebound is doing what it should. carryover_start_date is the first full Mon\u2013Sun week (31 Aug) so the part-week from 28 Aug is not scored.",
     "ramp": [
       {
         "days": "2026-08-29 \u2192 2026-08-31",
@@ -202,8 +202,13 @@
           "target_kcal": 2200,
           "_note": "Full maintenance, ~280\u2013300g carbs. Meal plan TBD \u2014 inherits the base plan until the additions are agreed."
         }
-      ]
-    }
+      ],
+      "weekly_energy_target": 0,
+      "weekly_energy_target_note": "Signed: positive = deficit, negative = surplus, 0 = hold at maintenance. A refeed targets energy balance, so 0. Set this negative for a bulk (e.g. -2100 for a ~300 kcal/day surplus)."
+    },
+    "direction": "gain",
+    "tracking_mode": "balance",
+    "carryover_start_date": "2026-08-31"
   },
   "supplements": [
     {

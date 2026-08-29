@@ -45,6 +45,23 @@ TDEE = 736 + 1,450 avg intake = 2,186 kcal/day
 - Result is **14 kcal below** the working 2,200 estimate — comfortably inside noise. **No revision.** The *Estimated maintenance* section below stands unchanged.
 - Caveats: the 1,450 intake figure assumes the phase tracked close to its weekly deficit target throughout (consistent with carryover ≈ 0, but not re-parsed week by week for this check). The 7,700 kcal/kg multiplier is a rule of thumb, plausibly 7,000–9,000 depending on the fat/lean split of the loss; a ±10% swing there moves the result by roughly ±74 kcal/day.
 
+### Refeed is a tracked phase, not maintenance
+
+Maintenance was the wrong mode — it's the deliberately untracked one (weigh-ins only, no goal, no calorie chart), and the plan is to keep tracking through to Bali. The refeed is now a **tracked active phase**:
+
+| Field | Value |
+|---|---|
+| Goal | **76.5 kg by 11 Sep 2026** (from 74.8 kg) |
+| `direction` | `gain` |
+| `tracking_mode` | `balance` |
+| `weekly_energy_target` | **0** — hold at maintenance |
+
+**Why `balance` and not a surplus target:** the +1.7 kg goal is glycogen and bound water, not tissue. Deriving it from calories would imply 1.7 × 7,700 = 13,090 kcal, i.e. a 935 kcal/day surplus, which is nothing like the plan. So in balance mode the app tracks **intake against the ramp target** and deliberately **never projects weight from calorie balance** — the goal line and the trend line would otherwise contradict each other on the same chart. Weight trend still comes from regression on actual weigh-ins once there are enough of them (5+ points past day 7, so from ~4 Sep).
+
+**Reusable for the October bulk:** the same machinery covers it — `direction: 'gain'` with `tracking_mode: 'surplus'` and a negative `weekly_energy_target` (e.g. −2,100 for ~300 kcal/day). In surplus mode the calorie-to-weight projection *is* valid and stays switched on. See `docs/app-state.md` → *Phase direction and tracking modes*.
+
+**Caveat while the meal plans are unagreed:** the weekly energy card derives its baseline from the meal plan, which is still the cut plan at 1,448 kcal/day average. Against 2,200 maintenance that reads as a ~5,270 kcal/week deficit versus a target of 0, so the card will show red until the Week 1 and Week 2 carb additions are filled in. Use the ramp table for intake until then.
+
 ### Refeed ramp re-dated
 
 Started 3 days early (28/29 Aug rather than 1 Sep), giving 14 days to the 12 Sep flight instead of 11. Each early stage was stretched by a day rather than compressing the jump to maintenance. See the re-dated table below — the ramp also lives in `logs/dashboard.json` under `phase.ramp`.

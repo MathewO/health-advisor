@@ -92,6 +92,7 @@ Then open `http://localhost:8765/docs/index.html` in the Cursor Simple Browser (
 
 | Date | Change | File(s) |
 |------|--------|---------|
+| 29 Aug 2026 | **Phase direction + tracking modes** — a phase can now be a tracked *gain* (refeed, bulk) rather than only a cut. `phase.direction` (`loss`\|`gain`) flips the progress labels, the trend-projection clamp, and the weight-change colour; `phase.tracking_mode` (`deficit`\|`surplus`\|`balance`) reframes the weekly energy card. `meal_plan.weekly_energy_target` is signed (positive = deficit, negative = surplus, 0 = hold) and supersedes `weekly_deficit_target`, which is still honoured. Burndown y-axis now spans the data in both directions instead of a fixed 0–7,000, with a zero reference line off deficit mode. Weight-chart y-axis derived from data instead of hardcoded 78–81. Phases without the new fields are unchanged. | `index.html`, `sw.js`, `logs/dashboard.json` |
 | 29 Aug 2026 | **Meal plan stages** — `meal_plan.stages[]` lets one phase hold several dated meal plans (for refeed / maintenance ramps). The Meal Plan screen auto-selects the stage covering today and adds a stage selector row above the Weekday/Weekend/Supplements tabs. Stage fields override the parent plan; omitted fields are inherited, so a stage with no `weekday`/`weekend` uses the top-level items. `getMealOptions()` gathers replaceable meals from every stage. Plans without `stages` are unaffected. **Known limitation:** `computeMealPlanWeekDeficit()` still reads top-level `weekday`/`weekend` only, so a *fat-loss* phase using stages would compute its burndown from the top-level plan. Fine for maintenance phases (deficit card is skipped); needs addressing before staging an active cut. | `index.html`, `sw.js`, `logs/dashboard.json` |
 | 6 Jul 2026 | **Active phase weight chart scoped to current phase** — `parseWeightLog` filters `date >= phase.start_date`; x-axis anchored to `phase.start_date` not first log entry. Y-axis max `Math.max(81, start_kg + 0.5)` for week-1 spike headroom. Previous phase charts use `p.start_date` for axis. | `index.html`, `sw.js` |
 | 4 Jun 2026 | **Burndown Y-axis extended to 7k** — `max: 5000 → 7000`; same 160px chart height, scale compressed vertically to show 6k and 7k gridlines. | `index.html` |
@@ -127,6 +128,22 @@ Then open `http://localhost:8765/docs/index.html` in the Cursor Simple Browser (
 - `meal_plan.weekday.items[]` and `meal_plan.weekend.items[]` — base meal plan for deficit calculation
 - `meal_plan.common_cheats[]` — quick-select cheat options in log form
 - `meal_plan.stages[]` — optional; see *Meal plan stages* below
+- `phase.direction`, `phase.tracking_mode`, `meal_plan.weekly_energy_target` — optional; see *Phase direction and tracking modes* below
+
+**Phase direction and tracking modes (optional — added 29 Aug 2026):**
+
+| Field | Values | Default | Effect |
+|---|---|---|---|
+| `phase.direction` | `loss` \| `gain` | `loss` | Flips progress labels ("kg lost"/"kg gained"), the trend-projection clamp, the goal-margin colour test, and the weekly weight-change colour |
+| `phase.tracking_mode` | `deficit` \| `surplus` \| `balance` | `deficit` | Reframes the weekly energy card: labels, verdict colours, burndown axis and reference line |
+| `meal_plan.weekly_energy_target` | signed integer | falls back to `weekly_deficit_target`, then 3500 | Positive = deficit, negative = surplus, **0 = hold at maintenance** |
+
+- **`deficit`** — a cut. Unchanged behaviour: axis 0–7,000, 5k reference line, green when at or above target.
+- **`surplus`** — a bulk. Target is negative; green when the surplus meets or exceeds it; weight *is* projected from energy balance, which is valid because the calorie-to-tissue link holds.
+- **`balance`** — a refeed. Target is ~0. Weight is **never** projected from calories: refeed gain is glycogen plus ~3g bound water per gram, not tissue, so the two are decoupled. `computeTrendProjection()` returns `projectedAtTarget: null` and an empty `projection`, and the calorie-derived "Plan" line is suppressed. Callers must handle the null. Regression on actual weigh-ins still applies once there are 5+ points past day 7.
+- Because `energyProgress()` can never be positive in balance mode, `energyColor()` treats landing inside the tolerance band (either direction) as on plan rather than requiring an exact hit.
+- `weeklyEnergyTarget()` uses explicit `!= null` checks — a legitimate target of `0` must not fall through to the 3500 default.
+- **Setting up a bulk:** `direction: 'gain'`, `tracking_mode: 'surplus'`, `weekly_energy_target: -2100` (a ~300 kcal/day surplus), and a `target_kg` above `start_kg`.
 
 **Meal plan stages (optional — added 29 Aug 2026):**
 
