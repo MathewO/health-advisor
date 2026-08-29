@@ -92,6 +92,7 @@ Then open `http://localhost:8765/docs/index.html` in the Cursor Simple Browser (
 
 | Date | Change | File(s) |
 |------|--------|---------|
+| 29 Aug 2026 | **Weekly energy maths is stage-aware, per day** — resolves the known limitation in the *Meal plan stages* entry below. New `mealPlanForDate(mp, date)` resolves stages by date (distinct from `resolveMealPlan()`, which follows the tab the user tapped), and `dailyPlannedDelta(mp, date)` returns one day's `maintenance − target intake`. A stage may declare `target_kcal_weekday` / `target_kcal_weekend` numerically, which wins over summing meal items — needed during a ramp, where intake steps up mid-week and no item list describes the day. `computeWeeklyDeficit()` and `getCompletedWeeks()` now build a 7-element `dailyRates` array (null = day predates the phase) instead of a weekday/weekend pair, so a week straddling a stage boundary is costed correctly and the burndown takes the array directly. `meal_plan.weekly_energy_target_from_plan` makes the weekly target the sum of the in-phase days' planned deltas, the only coherent option when stages don't align to Mon–Sun. Meal Plan screen shows the declared target and an "Items short/over" pill when the items disagree with it. | `index.html`, `sw.js`, `logs/dashboard.json` |
 | 29 Aug 2026 | **Weekly energy card clamped to the phase start** — a phase beginning mid-week no longer inherits the previous phase's days. `computeWeeklyDeficit()` returns `phaseStartIdx` / `inPhaseDays` / `partialWeek`, pro-rates both the planned base and the target to the in-phase days, and filters outliers from the phase start rather than Monday. The burndown leaves pre-phase days `null` (no line, no event icons); the card and week-history rows label a part week. Full weeks and phases starting on a Monday are unaffected. | `index.html`, `sw.js` |
 | 29 Aug 2026 | **Balance phases show no projection at all** — `computeTrendProjection()` forces a null rate in `balance` mode even once the regression has 5+ points, so the projection line, live-target line and "Trending to X kg" verdict are all absent. The smoothed rolling average over real weigh-ins is kept (neutral grey), since it's measurement, not forecast. Week-history "vs Target" colour now goes through `energyColor()` so balance mode isn't permanently amber/red. | `index.html`, `sw.js` |
 | 29 Aug 2026 | **Phase direction + tracking modes** — a phase can now be a tracked *gain* (refeed, bulk) rather than only a cut. `phase.direction` (`loss`\|`gain`) flips the progress labels, the trend-projection clamp, and the weight-change colour; `phase.tracking_mode` (`deficit`\|`surplus`\|`balance`) reframes the weekly energy card. `meal_plan.weekly_energy_target` is signed (positive = deficit, negative = surplus, 0 = hold) and supersedes `weekly_deficit_target`, which is still honoured. Burndown y-axis now spans the data in both directions instead of a fixed 0–7,000, with a zero reference line off deficit mode. Weight-chart y-axis derived from data instead of hardcoded 78–81. Phases without the new fields are unchanged. | `index.html`, `sw.js`, `logs/dashboard.json` |
@@ -157,22 +158,27 @@ A phase can hold several dated meal plans, for ramps where intake steps up mid-p
   "protein_target": "150g+ per day",
   "weekday": { "items": [ ... ] },        // the end-state plan
   "weekend": { "items": [ ... ] },
+  "weekly_energy_target_from_plan": true, // target = sum of the days' planned deltas
   "stages": [
-    { "label": "Week 1", "start_date": "2026-08-28", "end_date": "2026-09-04",
-      "target_kcal": "1750-2000",
-      "weekday": { "items": [ ... ] },     // overrides the top-level plan
-      "weekend": { "items": [ ... ] },
-      "totals":  { "weekday_kcal": 1893, "weekend_kcal": 1788, "avg_daily_kcal": 1863 } },
+    { "label": "Week 1", "start_date": "2026-08-29", "end_date": "2026-09-04",
+      "target_kcal": "1750-2000 ramp",     // human-readable only, never parsed
+      "target_kcal_weekday": 1893,         // numeric — used by the energy maths
+      "target_kcal_weekend": 1893,
+      "weekday": { "items": [ ... ] },     // optional; overrides the top-level plan
+      "weekend": { "items": [ ... ] } },
     { "label": "Week 2", "start_date": "2026-09-05", "end_date": "2026-09-11",
-      "target_kcal": 2200 }                // no items → inherits the top-level plan
-    // (illustrative figures — the live refeed stages carry no items yet)
+      "target_kcal_weekday": 2129,
+      "target_kcal_weekend": 2379 }        // no items → inherits the top-level plan
   ]
 }
 ```
 
 - Resolution is `{ ...meal_plan, ...stage }` — a stage overrides only the keys it declares.
-- `resolveMealPlan()` picks the stage whose date range contains today; `activeMealStageIdx` overrides that when the user taps a stage. Dates outside every range fall back to the first or last stage.
-- **Keep the top-level `weekday`/`weekend` populated** with the phase's end-state plan. Other consumers still read it directly: `computeMealPlanWeekDeficit()` (burndown) and the Previous Phases meal plan tabs after archiving. Letting the final stage inherit rather than duplicate keeps the two in step.
+- Two resolvers, and the distinction matters. `resolveMealPlan()` follows the stage the **user tapped** (`activeMealStageIdx`, defaulting to today's) and drives the Meal Plan screen. `mealPlanForDate(mp, date)` resolves by **date** and drives all energy maths, which must never depend on which tab is open. Dates outside every range fall back to the first or last stage.
+- **Intake resolution per day** (`dailyPlannedDelta()`): a numeric `target_kcal_weekday` / `target_kcal_weekend` on the resolved plan wins; otherwise the day's item totals are summed. Declare the numbers during a ramp, where intake steps up mid-week and no item list describes the day — that also decouples the weekly card from meal items that haven't been agreed yet. `target_kcal` is a label (it may be a string or a range) and is **never** used arithmetically.
+- **`weekly_energy_target_from_plan: true`** makes the weekly target the sum of the in-phase days' planned deltas rather than a fixed weekly constant. Use it whenever the stages don't align to Mon–Sun weeks — the refeed's stages run Sat→Fri, so every card week straddles a boundary and a weekly constant can't be split across it. Consequence: base − target = 0 by construction, so the card measures only how far outliers moved you off plan. For a phase whose target is an independent commitment (a cut), leave it off and set `weekly_energy_target`.
+- Weeks are costed per day via a 7-element `dailyRates` array where **null means the day predates the phase**. Both `computeWeeklyDeficit()` and `getCompletedWeeks()` build it with `weekPlannedRates()`, and the burndown consumes it directly, so clamping and stage resolution are handled in one place.
+- **Keep the top-level `weekday`/`weekend` populated** with the phase's end-state plan. `computeMealPlanWeekDeficit()` still reads it directly for the Previous Phases average, as do the Previous Phases meal plan tabs after archiving. Letting the final stage inherit rather than duplicate keeps the two in step.
 
 **`previous_phases[]` — archiving convention (when closing a phase):**
 Each archived phase entry should include: `meal_plan` (full object from active phase), `supplements` (copy of top-level `dashData.supplements` at close time), `end_date`. These power the Previous Phases card's Meal Plan and Supplements tabs. Without them the tabs show "No data". Always copy both when archiving a phase.

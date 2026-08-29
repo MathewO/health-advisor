@@ -30,13 +30,21 @@
   "phase": {
     "id": "refeed-2026-q3",
     "name": "Refeed \u2014 Bali",
-    "status": "maintenance",
-    "start_date": "2026-08-28",
+    "status": "active",
+    "status_note": "Tracked active phase with direction \"gain\" and tracking_mode \"balance\" \u2014 not the untracked maintenance mode. Corrected 29 Aug.",
+    "start_date": "2026-08-29",
+    "start_date_note": "29 Aug (Sat), not 28 Aug \u2014 Friday 28th was the cut's last day and its ramen cheat and walks belong to Phase 2. start_kg 74.8 is the cut's close weight (27 Aug reading carried through the 28th) so it predates start_date by a day, same handover convention as 6 Jul. Makes both meal-plan stages exactly 7 days.",
     "start_kg": 74.8,
     "target_date": "2026-09-11",
     "bali_departure": "2026-09-12",
     "latest_weight_kg": 75.5,
     "latest_weight_date": "2026-08-29",
+    "intake_plan": {
+      "agreed": "2026-08-29",
+      "week1": { "dates": "2026-08-29 \u2192 2026-09-04", "weekday_kcal": 1893, "weekend_kcal": 1893, "avg_kcal": 1893, "derivation": "Ramp weekly average: (3 \u00d7 1,750 + 4 \u00d7 2,000) \u00f7 7 = 13,250 \u00f7 7 = 1,893. No weekend uplift \u2014 the ramp is the week's rhythm and 29\u201330 Aug are its first two days. Sits 307 kcal/day below the 2,200 maintenance figure (a 2,149 kcal weekly deficit), which is intended: the rebound is driven by carbs going 200g \u2192 300g, not by total energy." },
+      "week2": { "dates": "2026-09-05 \u2192 2026-09-11", "weekday_kcal": 2129, "weekend_kcal": 2379, "avg_kcal": 2200, "derivation": "Weekends +250 kcal/day above weekdays with the 7-day average held at 2,200: 5W + 2(W + 250) = 15,400 \u2192 7W = 14,900 \u2192 W = 2,129, weekend 2,379. Check: (2,129 \u00d7 5 + 2,379 \u00d7 2) \u00f7 7 = 2,200." },
+      "outstanding": "What the extra calories are made of. Week 2 needs +706 kcal/day on weekdays and +870 at weekends over the Phase 2 cut base (1,423 / 1,509). Weekend protein is the weak spot at 124g vs the 150g target \u2014 the weekend shake is a single scoop; a double adds 148 kcal and 21g protein, taking it to 145g."
+    },
     "expected_rebound_kg": "1.5-2.0",
     "expected_rebound_note": "Glycogen (~400\u2013500g) plus ~3g bound water per gram, in muscle and liver \u2014 not fat. Expect the scale to settle ~76\u201377 kg by ~4 Sep and hold. Waist is the check: if waist stays at 95\u201396 cm while the scale rises, the rebound is doing exactly what it should.",
     "waist_cm": 95,

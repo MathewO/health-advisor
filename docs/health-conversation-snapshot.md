@@ -56,11 +56,36 @@ Maintenance was the wrong mode — it's the deliberately untracked one (weigh-in
 | `tracking_mode` | `balance` |
 | `weekly_energy_target` | **0** — hold at maintenance |
 
-**Why `balance` and not a surplus target:** the +1.7 kg goal is glycogen and bound water, not tissue. Deriving it from calories would imply 1.7 × 7,700 = 13,090 kcal, i.e. a 935 kcal/day surplus, which is nothing like the plan. So in balance mode the app tracks **intake against the ramp target** and deliberately **never projects weight from calorie balance** — the goal line and the trend line would otherwise contradict each other on the same chart. Weight trend still comes from regression on actual weigh-ins once there are enough of them (5+ points past day 7, so from ~4 Sep).
+**Why `balance` and not a surplus target:** the +1.7 kg goal is glycogen and bound water, not tissue. Deriving it from calories would imply 1.7 × 7,700 = 13,090 kcal, i.e. a 935 kcal/day surplus, which is nothing like the plan. So in balance mode the app tracks **intake against the ramp target** and deliberately **never projects weight from calorie balance** — the goal line and the trend line would otherwise contradict each other on the same chart.
+
+**No projection at all in a balance phase** (revised 29 Aug, superseding an earlier note that regression would kick in around 4 Sep): extrapolating two weeks of glycogen and water rebound produces a confident-looking number that means nothing, so the projection is off for the *whole* phase — no trend line into the future, no live-target line, no "Trending to X kg" verdict. What the chart shows is the weigh-ins, a neutral-grey rolling average of those weigh-ins, and the goal line. Waist is the real check.
 
 **Reusable for the October bulk:** the same machinery covers it — `direction: 'gain'` with `tracking_mode: 'surplus'` and a negative `weekly_energy_target` (e.g. −2,100 for ~300 kcal/day). In surplus mode the calorie-to-weight projection *is* valid and stays switched on. See `docs/app-state.md` → *Phase direction and tracking modes*.
 
-**Caveat while the meal plans are unagreed:** the weekly energy card derives its baseline from the meal plan, which is still the cut plan at 1,448 kcal/day average. Against 2,200 maintenance that reads as a ~5,270 kcal/week deficit versus a target of 0, so the card will show red until the Week 1 and Week 2 carb additions are filled in. Use the ramp table for intake until then.
+**RESOLVED — the card no longer depends on the unagreed meal items.** The original caveat was that the weekly card derived its baseline from the meal plan, still the cut plan at 1,448 kcal/day, which against 2,200 maintenance read as a ~5,270 kcal/week deficit against a target of 0 and rendered red. Fixed by letting a stage declare its daily intake numerically (`target_kcal_weekday` / `target_kcal_weekend`), which the energy maths now uses in preference to summing meal items. The item lists remain the cut's as a placeholder and the Meal Plan screen flags the gap with an "Items short" pill.
+
+### Phase start moved to 29 Aug — Friday belongs to the cut
+
+`phase.start_date` was 28 Aug so that it lined up with `start_kg`. Corrected to **29 Aug**: Friday 28th was the cut's last day, and its ramen cheat (~1,075 kcal, a 1,858 kcal day) and two walks belong to Phase 2. Consequences:
+
+- Both meal-plan stages are now exactly **7 days**: Week 1 = 29 Aug – 4 Sep, Week 2 = 5 – 11 Sep.
+- `start_kg` stays **74.8** (the 27 Aug reading carried through the 28th), so it predates `start_date` by a day — the same handover convention as 6 Jul.
+- The part-week on the card is Sat–Sun (2 days) rather than Fri–Sun (3).
+
+### Intake structure agreed — weekends +250/day
+
+| Stage | Weekday | Weekend | 7-day avg |
+|---|---|---|---|
+| **Week 1** (29 Aug – 4 Sep) | 1,893 | 1,893 | **1,893** |
+| **Week 2** (5 – 11 Sep) | 2,129 | 2,379 | **2,200** |
+
+- **Week 2:** weekends run +250 kcal/day above weekdays with the average held at 2,200. 5W + 2(W + 250) = 15,400 → 7W = 14,900 → W = 2,129, weekend 2,379. Check: (2,129 × 5 + 2,379 × 2) ÷ 7 = 15,403 ÷ 7 = 2,200.
+- **Week 1:** no weekend uplift — the ramp *is* that week's rhythm, and 29–30 Aug are its first two days, so a +250 weekend would invert it. The stated 1,893 is the ramp's weekly average: (3 × 1,750 + 4 × 2,000) ÷ 7 = 13,250 ÷ 7 = 1,893. Weekly total is identical (13,251 vs 13,250). Note this is **307 kcal/day below maintenance** — a 2,149 kcal weekly deficit — which is intended: the glycogen rebound is driven by carbs going 200g → 300g, not by total energy.
+- **Still outstanding:** what the extra calories are actually *made of*. Week 2 needs +706 kcal/day on weekdays and +870 at weekends over the cut base (1,423 / 1,509). Weekend protein is the weak spot at **124g vs the 150g target** — the weekend shake is a single scoop, not a double; making it a double adds 148 kcal and 21g protein, taking it to 145g.
+
+### Weekly target now derived from the plan
+
+The stages run **Sat → Fri** (29 Aug is a Saturday) while the card's weeks run **Mon → Sun**, so every card week straddles a stage boundary and no fixed weekly constant can describe one correctly. `meal_plan.weekly_energy_target_from_plan: true` makes the weekly target the sum of each in-phase day's planned delta instead. Side effect, and the right one for a refeed: base − target = 0 by construction, so the card measures purely how far cheats, drinks and workouts moved you off the plan.
 
 ### Refeed ramp re-dated
 
@@ -86,12 +111,12 @@ Started 3 days early (28/29 Aug rather than 1 Sep), giving 14 days to the 12 Sep
 
 **The app can now hold a separate meal plan per stage** (added 29 Aug 2026) rather than describing the ramp in a prose note:
 
-| Stage | Dates | Target | Meal plan |
-|---|---|---|---|
-| **Week 1** (ramp) | 28 Aug – 4 Sep | ~1,750 → 2,000 kcal | **TBD — to be agreed** |
-| **Week 2** (maintenance) | 5–11 Sep | ~2,200 kcal | **TBD — to be agreed** |
+| Stage | Dates | Weekday | Weekend | Meal items |
+|---|---|---|---|---|
+| **Week 1** (ramp) | 29 Aug – 4 Sep | 1,893 | 1,893 | **TBD — to be agreed** |
+| **Week 2** (maintenance) | 5–11 Sep | 2,129 | 2,379 | **TBD — to be agreed** |
 
-> **Both stages are empty scaffolding for now.** They inherit the Phase 2 cut plan (weekday 1,423 / weekend 1,509 / avg 1,448 kcal), which is *below* the refeed targets — so **use the ramp table above for daily intake**, not the Meal Plan screen, until the carb additions are agreed and filled in. The Meal Plan screen auto-selects the stage covering today and lets you tap between them. See `docs/app-state.md` → *Meal plan stages* for the data contract.
+> **The numbers are agreed; the food isn't.** Each stage declares its daily intake target numerically, so the weekly energy card is correct — but the item lists are still the Phase 2 cut plan (weekday 1,423 / weekend 1,509) as a placeholder, so **use the ramp table above for what to eat**, not the Meal Plan screen, until the carb additions are agreed. The screen flags the shortfall with an "Items short" pill so it can't be mistaken for the plan. It auto-selects the stage covering today and lets you tap between them. See `docs/app-state.md` → *Meal plan stages* for the data contract.
 
 > **Re-dated 29 Aug 2026** (was Sep 1–11, 11 days, from a 30 Aug phase end), then aligned to the two meal-plan stage boundaries. Starting 3 days early stretches the ramp rather than compressing the jump to maintenance. Friday 28 Aug's ramen + chocolate (~1,075 kcal) was effectively the first refeed meal. Mirrored in `logs/dashboard.json` under `phase.ramp` and `phase.meal_plan.stages`.
 >

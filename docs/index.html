@@ -1034,15 +1034,55 @@ function phaseMode(phase) {
   return (m === 'surplus' || m === 'balance') ? m : 'deficit';
 }
 
+// Resolve meal-plan stages for a given date. Distinct from resolveMealPlan(), which
+// follows the stage the user tapped on the Meal Plan screen — energy maths must always
+// use the stage that actually covers the day being calculated.
+function mealPlanForDate(mp, dateStr) {
+  const stages = (mp && mp.stages) || [];
+  if (!stages.length || !dateStr) return mp;
+  return { ...mp, ...stages[mealStageIndexForDate(stages, dateStr)] };
+}
+
 // Signed weekly energy target: positive = deficit, negative = surplus, 0 = hold.
 // `weekly_energy_target` is the current key; `weekly_deficit_target` is honoured
 // for phases authored before tracking modes existed. Note the explicit null
 // checks — a legitimate target of 0 must not fall through to the default.
-function weeklyEnergyTarget(mp) {
-  if (!mp) return 3500;
-  if (mp.weekly_energy_target  != null) return mp.weekly_energy_target;
-  if (mp.weekly_deficit_target != null) return mp.weekly_deficit_target;
+// Pass a date to honour a stage that overrides the target for part of the phase.
+function weeklyEnergyTarget(mp, dateStr) {
+  const plan = dateStr ? mealPlanForDate(mp, dateStr) : mp;
+  if (!plan) return 3500;
+  if (plan.weekly_energy_target  != null) return plan.weekly_energy_target;
+  if (plan.weekly_deficit_target != null) return plan.weekly_deficit_target;
   return 3500;
+}
+
+// Planned energy delta for one day: maintenance − that day's target intake.
+// A stage may declare `target_kcal_weekday` / `target_kcal_weekend` numerically, which
+// wins over summing meal items — necessary during a ramp, where intake steps up mid-week
+// and no single item list describes the day. Falls back to the item totals.
+function dailyPlannedDelta(mp, dateStr) {
+  const plan = mealPlanForDate(mp, dateStr);
+  const maintenance = plan.maintenance_kcal || 1935;
+  const dow = new Date(dateStr + 'T00:00:00').getDay();
+  const isWeekend = dow === 0 || dow === 6;
+  const declared = isWeekend ? plan.target_kcal_weekend : plan.target_kcal_weekday;
+  const intake = typeof declared === 'number'
+    ? declared
+    : totalMealKcal(plan, isWeekend ? 'weekend' : 'weekday');
+  return maintenance - intake;
+}
+
+// Weekly target for a specific set of dates. When the plan sets
+// `weekly_energy_target_from_plan`, the target is the plan itself — the sum of each
+// day's planned delta. That is the only coherent option when the stages don't align to
+// Mon–Sun weeks, since a fixed weekly constant can't be split across a mid-week stage
+// boundary. Otherwise the weekly constant is pro-rated across the days supplied.
+function weeklyEnergyTargetForDates(mp, dates) {
+  if (!dates.length) return 0;
+  if (mp && mp.weekly_energy_target_from_plan) {
+    return Math.round(dates.reduce((s, d) => s + dailyPlannedDelta(mp, d), 0));
+  }
+  return Math.round(dates.reduce((s, d) => s + weeklyEnergyTarget(mp, d) / 7, 0));
 }
 
 const MODE_LABELS = {
@@ -1319,7 +1359,7 @@ function renderWeeklyDeficitCard(phase) {
 
   const allEntries = parseAllLogEntries(logText);
   const { target, carryover, weekOutliers, thisWeekAdj, predicted, weekStartStr, weekEndStr, daysElapsed,
-          weekdayDeficit, weekendDeficit, weekBase, phaseStartIdx, inPhaseDays, partialWeek }
+          dailyRates, weekBase, inPhaseDays, partialWeek }
     = computeWeeklyDeficit(allEntries, phase);
 
   const carryoverHtml = carryover !== 0
@@ -1354,31 +1394,25 @@ function renderWeeklyDeficitCard(phase) {
 
   // Defer until after browser has laid out the new canvas
   requestAnimationFrame(() => {
-    try { renderWeeklyBurndownChart(allEntries, weekStartStr, weekdayDeficit, weekendDeficit, daysElapsed, target, weekBase, carryover, mode, phaseStartIdx); }
+    try { renderWeeklyBurndownChart(allEntries, weekStartStr, dailyRates, daysElapsed, target, weekBase, carryover, mode); }
     catch(err) { console.error('Burndown chart error:', err); }
   });
 }
 
-function renderWeeklyBurndownChart(allEntries, weekStartStr, weekdayDeficit, weekendDeficit, daysElapsed, target, weekBase, carryover = 0, mode = 'deficit', phaseStartIdx = 0) {
+function renderWeeklyBurndownChart(allEntries, weekStartStr, dailyRates, daysElapsed, target, weekBase, carryover = 0, mode = 'deficit') {
   const canvas = document.getElementById('weeklyBurndownChart');
   if (!canvas) return;
 
   // Day labels Mon–Sun
   const DAY_LABELS = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
-
-  // Date strings for each day of the week (Mon = index 0)
-  const weekDates = DAY_LABELS.map((_, i) => {
-    const d = new Date(weekStartStr + 'T00:00:00');
-    d.setDate(d.getDate() + i);
-    return localDateStr(d);
-  });
+  const weekDates  = weekDatesFrom(weekStartStr);
 
   // Grey dotted line: cumulative planned deficit per day (meal plan rates, no outliers).
-  // Days before the phase started stay null so the chart doesn't inherit the previous phase.
-  const dailyRates = [weekdayDeficit, weekdayDeficit, weekdayDeficit, weekdayDeficit, weekdayDeficit, weekendDeficit, weekendDeficit];
+  // A null rate means the day predates the phase — left blank so the chart doesn't
+  // inherit the previous phase's days.
   let cumPlanned = 0;
-  const targetData = dailyRates.map((rate, i) => {
-    if (i < phaseStartIdx) return null;
+  const targetData = dailyRates.map(rate => {
+    if (rate == null) return null;
     cumPlanned += rate;
     return +cumPlanned.toFixed(0);
   });
@@ -1389,7 +1423,7 @@ function renderWeeklyBurndownChart(allEntries, weekStartStr, weekdayDeficit, wee
   let cumActual = 0;
   let cumOutlier = 0;
   const actualData = weekDates.map((d, i) => {
-    if (i < phaseStartIdx) return null;
+    if (dailyRates[i] == null) return null;
     if (i < daysElapsed) {
       const dayOutliers = allEntries.filter(e => e.date === d && isOutlierType(e));
       cumOutlier += dayOutliers.reduce((s, e) => s + (e.outlierKcal || 0), 0);
@@ -1447,7 +1481,7 @@ function renderWeeklyBurndownChart(allEntries, weekStartStr, weekdayDeficit, wee
   weekDates.forEach((d, i) => { eventsByDay[i] = []; });
   allEntries.forEach(e => {
     const idx = weekDates.indexOf(e.date);
-    if (idx === -1 || idx < phaseStartIdx) return;
+    if (idx === -1 || dailyRates[idx] == null) return;
     const icon = eventIcon(e);
     if (!icon) return;
     eventsByDay[idx].push({ icon, label: entryLabel(e), type: e.type, outlierKcal: e.outlierKcal ?? 0 });
@@ -1654,9 +1688,26 @@ function computeMealPlanWeekDeficit(phase) {
   };
 }
 
+// Mon-based date strings for the Mon–Sun week beginning weekStartStr
+function weekDatesFrom(weekStartStr) {
+  return Array.from({ length: 7 }, (_, i) => {
+    const d = new Date(weekStartStr + 'T00:00:00');
+    d.setDate(d.getDate() + i);
+    return localDateStr(d);
+  });
+}
+
+// Per-day planned deltas for a Mon–Sun week, resolved through meal-plan stages so a week
+// straddling a ramp boundary uses each day's own plan. Days before the phase started are
+// null, so a phase beginning mid-week is never credited with its predecessor's days.
+function weekPlannedRates(phase, weekStartStr) {
+  const mp = phase.meal_plan || {};
+  const startStr = phase.start_date || weekStartStr;
+  return weekDatesFrom(weekStartStr).map(d => d < startStr ? null : dailyPlannedDelta(mp, d));
+}
+
 function computeWeeklyDeficit(allEntries, phase) {
-  const fullTarget = weeklyEnergyTarget(phase.meal_plan);
-  const { weekdayDeficit, weekendDeficit, fullWeekBase } = computeMealPlanWeekDeficit(phase);
+  const mp = phase.meal_plan || {};
 
   // Monday of current week — use local date string to avoid UTC offset issues
   const now = new Date();
@@ -1670,20 +1721,19 @@ function computeWeeklyDeficit(allEntries, phase) {
   const weekEndStr   = localDateStr(now);
   const phaseStartStr = phase.start_date || weekStartStr;
 
-  // A phase that begins mid-week only owns part of it. phaseStartIdx is the Mon-based
-  // index of its first day, so days before it can be excluded from the totals and left
-  // blank on the chart rather than crediting this phase with the previous one's work.
-  const phaseStartIdx = phaseStartStr > weekStartStr
-    ? Math.max(0, Math.min(7, Math.round((new Date(phaseStartStr + 'T00:00:00') - weekStartDate) / 86400000)))
-    : 0;
-  const inPhaseDays   = 7 - phaseStartIdx;
-  const partialWeek   = phaseStartIdx > 0;
-  const windowStartStr = partialWeek ? phaseStartStr : weekStartStr;
+  const weekDates    = weekDatesFrom(weekStartStr);
+  const dailyRates   = weekPlannedRates(phase, weekStartStr);
+  const inPhaseDates = weekDates.filter((d, i) => dailyRates[i] != null);
+  const firstIdx     = dailyRates.findIndex(r => r != null);
 
-  // Planned base and target both pro-rate to the in-phase days of a partial week
-  const dailyRates = [weekdayDeficit, weekdayDeficit, weekdayDeficit, weekdayDeficit, weekdayDeficit, weekendDeficit, weekendDeficit];
-  const weekBase = dailyRates.slice(phaseStartIdx).reduce((s, r) => s + r, 0);
-  const target   = partialWeek ? Math.round(fullTarget * inPhaseDays / 7) : fullTarget;
+  // phaseStartIdx is the Mon-based index of the phase's first day this week
+  const phaseStartIdx  = firstIdx === -1 ? 7 : firstIdx;
+  const inPhaseDays    = inPhaseDates.length;
+  const partialWeek    = inPhaseDays > 0 && inPhaseDays < 7;
+  const windowStartStr = phaseStartIdx > 0 ? phaseStartStr : weekStartStr;
+
+  const weekBase = dailyRates.reduce((s, r) => s + (r || 0), 0);
+  const target   = weeklyEnergyTargetForDates(mp, inPhaseDates);
 
   // Days elapsed this week: day 1 = Monday
   const daysElapsed = Math.min(7, Math.floor((now - weekStartDate) / 86400000) + 1);
@@ -1713,9 +1763,13 @@ function computeWeeklyDeficit(allEntries, phase) {
     const weStr = localDateStr(wEnd);
     if (wsStr >= weekStartStr) break;
     if (weStr >= carryoverStartStr) {
-      const wOutliers = allEntries.filter(e => e.date >= wsStr && e.date <= weStr && isOutlierType(e));
+      const wRates = weekPlannedRates(phase, wsStr);
+      const wDates = weekDatesFrom(wsStr).filter((d, i) => wRates[i] != null);
+      const wBase  = wRates.reduce((s, r) => s + (r || 0), 0);
+      const wStartStr = wDates.length ? wDates[0] : wsStr;
+      const wOutliers = allEntries.filter(e => e.date >= wStartStr && e.date <= weStr && isOutlierType(e));
       const wAdj = wOutliers.reduce((s, e) => s + (e.outlierKcal || 0), 0);
-      cumulativeCarryover += (fullWeekBase + wAdj) - fullTarget;
+      cumulativeCarryover += (wBase + wAdj) - weeklyEnergyTargetForDates(mp, wDates);
     }
     wCursor.setDate(wCursor.getDate() + 7);
   }
@@ -1725,8 +1779,8 @@ function computeWeeklyDeficit(allEntries, phase) {
   // Predicted = in-phase meal-plan base + carryover from last week + outliers logged so far
   const predicted   = weekBase + carryover + thisWeekAdj;
 
-  return { target, fullTarget, carryover, weekOutliers, thisWeekAdj, predicted, weekStartStr, weekEndStr,
-           daysElapsed, weekdayDeficit, weekendDeficit, weekBase, phaseStartIdx, inPhaseDays, partialWeek };
+  return { target, carryover, weekOutliers, thisWeekAdj, predicted, weekStartStr, weekEndStr,
+           daysElapsed, dailyRates, weekBase, phaseStartIdx, inPhaseDays, partialWeek };
 }
 
 function outlierLabel(e) {
@@ -2474,11 +2528,15 @@ function renderMealPlanMeta(mp, tab) {
     return;
   }
 
-  // Target intake = maintenance − (signed weekly energy target ÷ 7), rounded.
-  // A surplus target is negative, so this correctly lands above maintenance.
-  const intakeTarget = mp.maintenance_kcal
-    ? Math.round(mp.maintenance_kcal - weeklyEnergyTarget(mp) / 7)
-    : ((mp.totals || {}).avg_daily_kcal || null);
+  // Target intake: a stage's declared daily figure wins, since during a ramp the item
+  // lists lag behind the plan. Otherwise maintenance − (signed weekly target ÷ 7); a
+  // surplus target is negative, so that correctly lands above maintenance.
+  const declaredTarget = tab === 'weekend' ? mp.target_kcal_weekend : mp.target_kcal_weekday;
+  const intakeTarget = typeof declaredTarget === 'number'
+    ? declaredTarget
+    : mp.maintenance_kcal
+      ? Math.round(mp.maintenance_kcal - weeklyEnergyTarget(mp) / 7)
+      : ((mp.totals || {}).avg_daily_kcal || null);
 
   // Live avg deficit = maintenance − actual avg from meal plan items.
   // Negative means the plan sits above maintenance, i.e. a surplus.
@@ -2492,9 +2550,18 @@ function renderMealPlanMeta(mp, tab) {
       ? { label: 'Surplus', value: '~' + Math.abs(liveDeficit) + ' kcal/day', color: 'var(--amber)' }
       : { label: 'Deficit', value: '~' + liveDeficit + ' kcal/day',           color: 'var(--green)' };
 
+  // While a stage declares a target the items don't yet meet, say so — otherwise the
+  // screen implies the listed meals are the plan when they're only a placeholder.
+  const itemKcal = tab === 'weekend' ? weKcal : wdKcal;
+  const gap = (typeof declaredTarget === 'number' && itemKcal) ? declaredTarget - itemKcal : null;
+  const gapPill = (gap !== null && Math.abs(gap) > 50)
+    ? { label: gap > 0 ? 'Items short' : 'Items over', value: '~' + Math.abs(gap) + ' kcal', color: 'var(--amber)' }
+    : null;
+
   const pills = [
     intakeTarget        ? { label: 'Target',      value: '~' + intakeTarget + ' kcal/day',  color: 'var(--text)' }   : null,
     mp.maintenance_kcal ? { label: 'Maintenance',  value: mp.maintenance_kcal + ' kcal',      color: 'var(--muted)' } : null,
+    gapPill,
     energyPill
   ].filter(Boolean);
   metaEl.innerHTML = pills.map(p => `
@@ -2745,10 +2812,7 @@ function getCompletedWeeks(allEntries, phase) {
   weekCursor.setDate(phaseStart.getDate() - (psDow === 0 ? 6 : psDow - 1));
   weekCursor.setHours(0, 0, 0, 0);
 
-  const fullTarget = weeklyEnergyTarget(phase.meal_plan);
-  const { weekdayDeficit, weekendDeficit, fullWeekBase } = computeMealPlanWeekDeficit(phase);
-  const dailyRates = [weekdayDeficit, weekdayDeficit, weekdayDeficit, weekdayDeficit, weekdayDeficit, weekendDeficit, weekendDeficit];
-  const phaseStartStr = phase.start_date;
+  const mp = phase.meal_plan || {};
 
   while (weekCursor < currentWeekStart) {
     const weekEnd = new Date(weekCursor);
@@ -2757,16 +2821,15 @@ function getCompletedWeeks(allEntries, phase) {
     const ws = localDateStr(weekCursor);
     const we = localDateStr(weekEnd);
 
-    // A phase starting mid-week only owns the days from its start date onward — the
-    // rest belong to whatever phase preceded it.
-    const startIdx = phaseStartStr > ws
-      ? Math.max(0, Math.min(7, Math.round((new Date(phaseStartStr + 'T00:00:00') - weekCursor) / 86400000)))
-      : 0;
-    const partial     = startIdx > 0;
-    const inPhaseDays = 7 - startIdx;
-    const windowStart = partial ? phaseStartStr : ws;
-    const weekBase    = partial ? dailyRates.slice(startIdx).reduce((s, r) => s + r, 0) : fullWeekBase;
-    const target      = partial ? Math.round(fullTarget * inPhaseDays / 7) : fullTarget;
+    // Null rates mark days before the phase started — they belong to whatever phase
+    // preceded it, so they're excluded from this week's base, target and entries.
+    const rates       = weekPlannedRates(phase, ws);
+    const dates       = weekDatesFrom(ws).filter((d, i) => rates[i] != null);
+    const inPhaseDays = dates.length;
+    const partial     = inPhaseDays > 0 && inPhaseDays < 7;
+    const windowStart = dates.length ? dates[0] : ws;
+    const weekBase    = rates.reduce((s, r) => s + (r || 0), 0);
+    const target      = weeklyEnergyTargetForDates(mp, dates);
 
     const weekEntries = allEntries.filter(e => e.date >= windowStart && e.date <= we);
     const wts = weekEntries.filter(e => e.type === 'weight').sort((a, b) => a.date.localeCompare(b.date));

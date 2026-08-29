@@ -3,11 +3,12 @@
     "id": "refeed-2026-q3",
     "name": "Refeed \u2014 Bali",
     "status": "active",
-    "start_date": "2026-08-28",
+    "start_date": "2026-08-29",
     "target_date": "2026-09-11",
     "start_kg": 74.8,
     "target_kg": 76.5,
-    "_note": "Tracked refeed, not an untracked maintenance block. Goal 76.5 kg by 11 Sep is glycogen and bound water (~3g per gram of glycogen), not tissue \u2014 so tracking_mode is \"balance\": intake is tracked against the ramp target and weight is NEVER projected from calorie balance, because the two are decoupled here. Waist is the real check: 95 cm at Phase 2 close (27 Aug). If waist holds at 95\u201397 cm while the scale rises, the rebound is doing what it should. carryover_start_date is the first full Mon\u2013Sun week (31 Aug) so the part-week from 28 Aug is not scored.",
+    "_note": "Tracked refeed, not an untracked maintenance block. Goal 76.5 kg by 11 Sep is glycogen and bound water (~3g per gram of glycogen), not tissue \u2014 so tracking_mode is \"balance\": intake is tracked against the ramp target and weight is NEVER projected from calorie balance, because the two are decoupled here. Waist is the real check: 95 cm at Phase 2 close (27 Aug). If waist holds at 95\u201397 cm while the scale rises, the rebound is doing what it should. carryover_start_date is the first full Mon\u2013Sun week (31 Aug) so the part-week from 29 Aug is not scored.",
+    "start_date_note": "Set to 29 Aug (Sat), not 28 Aug: Friday 28 Aug was the last day of the cut, and its ramen cheat and walks belong to Phase 2, not here. start_kg 74.8 is the cut's close weight (27 Aug reading carried forward through 28 Aug) and so predates start_date by a day \u2014 same handover convention as 6 Jul. This also makes the two meal-plan stages exactly 7 days each: 29 Aug\u20134 Sep and 5\u201311 Sep.",
     "ramp": [
       {
         "days": "2026-08-29 \u2192 2026-08-31",
@@ -28,7 +29,7 @@
         "how": "Full maintenance. Eat normally \u2014 Gousto plus carb sides, no restriction. Stop tracking if you want."
       }
     ],
-    "ramp_note": "Re-dated from the original Sep 1\u201311 plan in docs/health-conversation-snapshot.md, then aligned on 29 Aug to the two meal_plan stages (Week 1 = 28 Aug\u20134 Sep, Week 2 = 5\u201311 Sep). Friday 28 Aug\u2019s ramen + chocolate (~1,075 kcal) was effectively the first refeed meal.",
+    "ramp_note": "Re-dated from the original Sep 1\u201311 plan in docs/health-conversation-snapshot.md, then aligned on 29 Aug to the two meal_plan stages (Week 1 = 29 Aug\u20134 Sep, Week 2 = 5\u201311 Sep). Friday 28 Aug\u2019s ramen + chocolate (~1,075 kcal, a 1,858 kcal day) was the cut's last meal, not the refeed's first \u2014 it sits in Phase 2.",
     "meal_plan": {
       "maintenance_kcal": 2200,
       "protein_target": "150g+ per day",
@@ -36,7 +37,7 @@
         "weekday_kcal": 1423,
         "weekend_kcal": 1509,
         "avg_daily_kcal": 1448,
-        "_note": "avg = (weekday\u00d75 + weekend\u00d72) / 7. This is the Phase 2 cut plan carried over unchanged \u2014 the carb additions for the refeed have NOT been agreed yet, so these totals are BELOW the refeed targets. Use phase.ramp for the daily intake target (~1,750 \u2192 2,200 kcal) until the plans are filled in."
+        "_note": "avg = (weekday\u00d75 + weekend\u00d72) / 7. This is the Phase 2 cut plan carried over unchanged \u2014 the carb additions for the refeed have NOT been agreed yet, so these item lists are BELOW the refeed targets and are only a placeholder for the Meal Plan screen. The numbers the app actually uses for the weekly card come from stages[].target_kcal_weekday / target_kcal_weekend."
       },
       "weekday": {
         "items": [
@@ -190,21 +191,27 @@
       "stages": [
         {
           "label": "Week 1",
-          "start_date": "2026-08-28",
+          "start_date": "2026-08-29",
           "end_date": "2026-09-04",
-          "target_kcal": "1750-2000",
-          "_note": "Ramp week. Meal plan TBD \u2014 add weekday/weekend items here once the carb additions are agreed. Inherits the base plan until then."
+          "target_kcal": "1750-2000 ramp",
+          "target_kcal_weekday": 1893,
+          "target_kcal_weekend": 1893,
+          "_note": "Ramp week, 7 days. The ramp steps 1,750 (29\u201331 Aug) \u2192 2,000 (1\u20134 Sep); the daily targets here are the flat weekly average, (3\u00d71,750 + 4\u00d72,000) \u00f7 7 = 1,893, which gives the identical weekly total (13,251 vs 13,250) without pretending the plan is flat. No weekend uplift this week \u2014 the ramp is the week's rhythm, and 29\u201330 Aug are its first two days, so a +250 weekend would invert it. Meal items TBD: add weekday/weekend items once the carb additions are agreed; until then the screen shows the inherited Phase 2 cut items, which are ~470 kcal/day short of this target."
         },
         {
           "label": "Week 2",
           "start_date": "2026-09-05",
           "end_date": "2026-09-11",
           "target_kcal": 2200,
-          "_note": "Full maintenance, ~280\u2013300g carbs. Meal plan TBD \u2014 inherits the base plan until the additions are agreed."
+          "target_kcal_weekday": 2129,
+          "target_kcal_weekend": 2379,
+          "_note": "Full maintenance, ~280\u2013300g carbs. Weekends run +250 kcal/day above weekdays (agreed 29 Aug), with the 7-day average held at 2,200: 5W + 2(W+250) = 15,400 \u2192 W = 2,129, weekend = 2,379. Check: (2,129\u00d75 + 2,379\u00d72) \u00f7 7 = 2,200. Meal items TBD \u2014 needs +706 kcal/day on weekdays and +870 at weekends over the Phase 2 cut base (1,423 / 1,509). Weekend protein is the weak spot at 124g vs the 150g target."
         }
       ],
       "weekly_energy_target": 0,
-      "weekly_energy_target_note": "Signed: positive = deficit, negative = surplus, 0 = hold at maintenance. A refeed targets energy balance, so 0. Set this negative for a bulk (e.g. -2100 for a ~300 kcal/day surplus)."
+      "weekly_energy_target_note": "Signed: positive = deficit, negative = surplus, 0 = hold at maintenance. A refeed targets energy balance, so 0. Set this negative for a bulk (e.g. -2100 for a ~300 kcal/day surplus). NOTE: superseded for this phase by weekly_energy_target_from_plan \u2014 kept as a statement of intent and as the fallback for any date outside the stages.",
+      "weekly_energy_target_from_plan": true,
+      "weekly_energy_target_from_plan_note": "Derive the weekly target by summing each in-phase day's planned delta (maintenance \u2212 that day's target intake) instead of using a fixed weekly constant. Needed here because the stages are Sat\u2192Fri while the card's weeks are Mon\u2192Sun, so every card week straddles a stage boundary; a fixed weekly constant would misreport those weeks by several hundred kcal. Side effect, and the desired one for a refeed: base \u2212 target = 0 by construction, so the card measures purely how far cheats, drinks and workouts moved you off the plan."
     },
     "direction": "gain",
     "tracking_mode": "balance",
