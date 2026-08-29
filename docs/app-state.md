@@ -146,6 +146,7 @@ A phase can hold several dated meal plans, for ramps where intake steps up mid-p
       "totals":  { "weekday_kcal": 1893, "weekend_kcal": 1788, "avg_daily_kcal": 1863 } },
     { "label": "Week 2", "start_date": "2026-09-05", "end_date": "2026-09-11",
       "target_kcal": 2200 }                // no items → inherits the top-level plan
+    // (illustrative figures — the live refeed stages carry no items yet)
   ]
 }
 ```

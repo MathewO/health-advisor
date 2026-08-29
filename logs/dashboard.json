@@ -33,10 +33,10 @@
       "maintenance_kcal": 2200,
       "protein_target": "150g+ per day",
       "totals": {
-        "weekday_kcal": 2216,
-        "weekend_kcal": 2158,
-        "avg_daily_kcal": 2199,
-        "_note": "avg = (weekday\u00d75 + weekend\u00d72) / 7. These top-level items are the Week 2 (full maintenance) plan \u2014 stages[1] inherits them. See stages[0] for the Week 1 ramp."
+        "weekday_kcal": 1423,
+        "weekend_kcal": 1509,
+        "avg_daily_kcal": 1448,
+        "_note": "avg = (weekday\u00d75 + weekend\u00d72) / 7. This is the Phase 2 cut plan carried over unchanged \u2014 the carb additions for the refeed have NOT been agreed yet, so these totals are BELOW the refeed targets. Use phase.ramp for the daily intake target (~1,750 \u2192 2,200 kcal) until the plans are filled in."
       },
       "weekday": {
         "items": [
@@ -61,24 +61,6 @@
                 "name": "Water",
                 "kcal": 0,
                 "protein": 0
-              }
-            ]
-          },
-          {
-            "category": "Breakfast carbs",
-            "label": "Oats + Banana",
-            "kcal": 333,
-            "protein": 10,
-            "ingredients": [
-              {
-                "name": "Porridge oats (60g dry)",
-                "kcal": 228,
-                "protein": 8
-              },
-              {
-                "name": "Banana (medium)",
-                "kcal": 105,
-                "protein": 2
               }
             ]
           },
@@ -111,29 +93,10 @@
             ]
           },
           {
-            "category": "Lunch side",
-            "label": "Basmati Rice",
-            "kcal": 280,
-            "protein": 6,
-            "ingredients": [
-              {
-                "name": "Basmati rice (80g dry)",
-                "kcal": 280,
-                "protein": 6
-              }
-            ]
-          },
-          {
             "category": "Dinner",
             "label": "Gousto Meal",
             "kcal": 640,
             "protein": 41
-          },
-          {
-            "category": "Dinner side",
-            "label": "Wholemeal Bread \u00d7 2",
-            "kcal": 180,
-            "protein": 8
           },
           {
             "category": "Pudding",
@@ -155,7 +118,19 @@
             "category": "Breakfast",
             "label": "Single Clear Shake",
             "kcal": 84,
-            "protein": 21
+            "protein": 21,
+            "ingredients": [
+              {
+                "name": "Impact Whey \u00d7 1 scoop",
+                "kcal": 84,
+                "protein": 21
+              },
+              {
+                "name": "Water",
+                "kcal": 0,
+                "protein": 0
+              }
+            ]
           },
           {
             "category": "Brunch",
@@ -186,40 +161,10 @@
             ]
           },
           {
-            "category": "Brunch side",
-            "label": "Wholemeal Toast \u00d7 2",
-            "kcal": 180,
-            "protein": 8
-          },
-          {
-            "category": "Afternoon",
-            "label": "Single Shake + Banana",
-            "kcal": 189,
-            "protein": 22,
-            "ingredients": [
-              {
-                "name": "Impact Whey \u00d7 1 scoop",
-                "kcal": 84,
-                "protein": 21
-              },
-              {
-                "name": "Banana (medium)",
-                "kcal": 105,
-                "protein": 2
-              }
-            ]
-          },
-          {
             "category": "Dinner",
             "label": "Gousto Meal",
             "kcal": 640,
             "protein": 41
-          },
-          {
-            "category": "Dinner side",
-            "label": "Basmati Rice",
-            "kcal": 280,
-            "protein": 6
           },
           {
             "category": "Pudding",
@@ -248,199 +193,14 @@
           "start_date": "2026-08-28",
           "end_date": "2026-09-04",
           "target_kcal": "1750-2000",
-          "_note": "Ramp week. Carbs climb from ~200g (Aug 29\u201331) to ~250g (Sep 1\u20134); the plan below sits mid-ramp at ~1,863 kcal/day average. Add or drop the rice half-portion to move between the two ends.",
-          "weekday": {
-            "items": [
-              {
-                "category": "Morning Coffee",
-                "label": "Coffee + Oatly",
-                "kcal": 50,
-                "protein": 1
-              },
-              {
-                "category": "Breakfast",
-                "label": "Double Shake",
-                "kcal": 232,
-                "protein": 42,
-                "ingredients": [
-                  {
-                    "name": "Impact Whey \u00d7 2 scoops",
-                    "kcal": 232,
-                    "protein": 42
-                  },
-                  {
-                    "name": "Water",
-                    "kcal": 0,
-                    "protein": 0
-                  }
-                ]
-              },
-              {
-                "category": "Breakfast carbs",
-                "label": "Oats + Banana",
-                "kcal": 295,
-                "protein": 8,
-                "ingredients": [
-                  {
-                    "name": "Porridge oats (50g dry)",
-                    "kcal": 190,
-                    "protein": 7
-                  },
-                  {
-                    "name": "Banana (medium)",
-                    "kcal": 105,
-                    "protein": 1
-                  }
-                ]
-              },
-              {
-                "category": "Lunch",
-                "label": "Chicken Wrap",
-                "kcal": 376,
-                "protein": 51,
-                "ingredients": [
-                  {
-                    "name": "Sainsbury's protein wrap (61g)",
-                    "kcal": 170,
-                    "protein": 10
-                  },
-                  {
-                    "name": "Chicken breast (160g raw, air fryer)",
-                    "kcal": 176,
-                    "protein": 37
-                  },
-                  {
-                    "name": "Fage 0% Greek yoghurt (2 big tsp)",
-                    "kcal": 20,
-                    "protein": 4
-                  },
-                  {
-                    "name": "Salad leaves & spring onion",
-                    "kcal": 10,
-                    "protein": 1
-                  }
-                ]
-              },
-              {
-                "category": "Lunch side",
-                "label": "Basmati Rice (half portion)",
-                "kcal": 175,
-                "protein": 4,
-                "ingredients": [
-                  {
-                    "name": "Basmati rice (50g dry)",
-                    "kcal": 175,
-                    "protein": 4
-                  }
-                ]
-              },
-              {
-                "category": "Dinner",
-                "label": "Gousto Meal",
-                "kcal": 640,
-                "protein": 41
-              },
-              {
-                "category": "Pudding",
-                "label": "Creami",
-                "kcal": 125,
-                "protein": 20
-              }
-            ]
-          },
-          "weekend": {
-            "items": [
-              {
-                "category": "Morning Coffee",
-                "label": "Coffee + Oatly",
-                "kcal": 50,
-                "protein": 1
-              },
-              {
-                "category": "Breakfast",
-                "label": "Single Clear Shake",
-                "kcal": 84,
-                "protein": 21
-              },
-              {
-                "category": "Brunch",
-                "label": "Weekend Brunch",
-                "kcal": 610,
-                "protein": 41,
-                "ingredients": [
-                  {
-                    "name": "Sainsbury's hash browns \u00d7 3 (air fryer)",
-                    "kcal": 183,
-                    "protein": 3
-                  },
-                  {
-                    "name": "Branston baked beans (1/2 tin ~205g)",
-                    "kcal": 175,
-                    "protein": 9
-                  },
-                  {
-                    "name": "Scrambled eggs (1.5 eggs, 50ml egg white)",
-                    "kcal": 150,
-                    "protein": 12
-                  },
-                  {
-                    "name": "Heck Chicken Italia sausages \u00d7 3 (air fryer)",
-                    "kcal": 102,
-                    "protein": 17
-                  }
-                ]
-              },
-              {
-                "category": "Brunch side",
-                "label": "Wholemeal Toast",
-                "kcal": 90,
-                "protein": 4
-              },
-              {
-                "category": "Afternoon",
-                "label": "Single Shake + Banana",
-                "kcal": 189,
-                "protein": 22,
-                "ingredients": [
-                  {
-                    "name": "Impact Whey \u00d7 1 scoop",
-                    "kcal": 84,
-                    "protein": 21
-                  },
-                  {
-                    "name": "Banana (medium)",
-                    "kcal": 105,
-                    "protein": 1
-                  }
-                ]
-              },
-              {
-                "category": "Dinner",
-                "label": "Gousto Meal",
-                "kcal": 640,
-                "protein": 41
-              },
-              {
-                "category": "Pudding",
-                "label": "Creami",
-                "kcal": 125,
-                "protein": 20
-              }
-            ]
-          },
-          "totals": {
-            "weekday_kcal": 1893,
-            "weekend_kcal": 1788,
-            "avg_daily_kcal": 1863,
-            "_note": "avg = (weekday\u00d75 + weekend\u00d72) / 7"
-          }
+          "_note": "Ramp week. Meal plan TBD \u2014 add weekday/weekend items here once the carb additions are agreed. Inherits the base plan until then."
         },
         {
           "label": "Week 2",
           "start_date": "2026-09-05",
           "end_date": "2026-09-11",
           "target_kcal": 2200,
-          "_note": "Full maintenance, ~280\u2013300g carbs. Inherits the phase meal_plan items \u2014 no weekday/weekend override here, so this stage IS the top-level plan."
+          "_note": "Full maintenance, ~280\u2013300g carbs. Meal plan TBD \u2014 inherits the base plan until the additions are agreed."
         }
       ]
     }
