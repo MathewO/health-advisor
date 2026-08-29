@@ -92,6 +92,7 @@ Then open `http://localhost:8765/docs/index.html` in the Cursor Simple Browser (
 
 | Date | Change | File(s) |
 |------|--------|---------|
+| 29 Aug 2026 | **Meal plan stages** — `meal_plan.stages[]` lets one phase hold several dated meal plans (for refeed / maintenance ramps). The Meal Plan screen auto-selects the stage covering today and adds a stage selector row above the Weekday/Weekend/Supplements tabs. Stage fields override the parent plan; omitted fields are inherited, so a stage with no `weekday`/`weekend` uses the top-level items. `getMealOptions()` gathers replaceable meals from every stage. Plans without `stages` are unaffected. **Known limitation:** `computeMealPlanWeekDeficit()` still reads top-level `weekday`/`weekend` only, so a *fat-loss* phase using stages would compute its burndown from the top-level plan. Fine for maintenance phases (deficit card is skipped); needs addressing before staging an active cut. | `index.html`, `sw.js`, `logs/dashboard.json` |
 | 6 Jul 2026 | **Active phase weight chart scoped to current phase** — `parseWeightLog` filters `date >= phase.start_date`; x-axis anchored to `phase.start_date` not first log entry. Y-axis max `Math.max(81, start_kg + 0.5)` for week-1 spike headroom. Previous phase charts use `p.start_date` for axis. | `index.html`, `sw.js` |
 | 4 Jun 2026 | **Burndown Y-axis extended to 7k** — `max: 5000 → 7000`; same 160px chart height, scale compressed vertically to show 6k and 7k gridlines. | `index.html` |
 | 4 Jun 2026 | **Dashboard recalibrated to data-derived TDEE** — `maintenance_kcal` 1,935→2,200; `weekly_deficit_target` 3,500→5,300; `carryover_start_date` 2026-04-20→2026-04-13. All deficit math now uses validated 6-week back-calculated TDEE. | `logs/dashboard.json` |
@@ -125,6 +126,33 @@ Then open `http://localhost:8765/docs/index.html` in the Cursor Simple Browser (
 - `meal_plan.cycling_kcal_factor` (currently `0.65` — e-bike motor assist correction)
 - `meal_plan.weekday.items[]` and `meal_plan.weekend.items[]` — base meal plan for deficit calculation
 - `meal_plan.common_cheats[]` — quick-select cheat options in log form
+- `meal_plan.stages[]` — optional; see *Meal plan stages* below
+
+**Meal plan stages (optional — added 29 Aug 2026):**
+
+A phase can hold several dated meal plans, for ramps where intake steps up mid-phase:
+
+```json
+"meal_plan": {
+  "maintenance_kcal": 2200,
+  "protein_target": "150g+ per day",
+  "weekday": { "items": [ ... ] },        // the end-state plan
+  "weekend": { "items": [ ... ] },
+  "stages": [
+    { "label": "Week 1", "start_date": "2026-08-28", "end_date": "2026-09-04",
+      "target_kcal": "1750-2000",
+      "weekday": { "items": [ ... ] },     // overrides the top-level plan
+      "weekend": { "items": [ ... ] },
+      "totals":  { "weekday_kcal": 1893, "weekend_kcal": 1788, "avg_daily_kcal": 1863 } },
+    { "label": "Week 2", "start_date": "2026-09-05", "end_date": "2026-09-11",
+      "target_kcal": 2200 }                // no items → inherits the top-level plan
+  ]
+}
+```
+
+- Resolution is `{ ...meal_plan, ...stage }` — a stage overrides only the keys it declares.
+- `resolveMealPlan()` picks the stage whose date range contains today; `activeMealStageIdx` overrides that when the user taps a stage. Dates outside every range fall back to the first or last stage.
+- **Keep the top-level `weekday`/`weekend` populated** with the phase's end-state plan. Other consumers still read it directly: `computeMealPlanWeekDeficit()` (burndown) and the Previous Phases meal plan tabs after archiving. Letting the final stage inherit rather than duplicate keeps the two in step.
 
 **`previous_phases[]` — archiving convention (when closing a phase):**
 Each archived phase entry should include: `meal_plan` (full object from active phase), `supplements` (copy of top-level `dashData.supplements` at close time), `end_date`. These power the Previous Phases card's Meal Plan and Supplements tabs. Without them the tabs show "No data". Always copy both when archiving a phase.

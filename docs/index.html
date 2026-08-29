@@ -2287,13 +2287,46 @@ async function saveToRosterDirect() {
 // ─── Meal Plan ────────────────────────────────────────────────
 let activeMealTab = 'weekday';
 
+// ─── Meal plan stages ─────────────────────────────────────────
+// A meal_plan may carry `stages[]`, each with its own date range plus
+// weekday/weekend items — used for refeed and maintenance ramps where intake
+// steps up mid-phase. A stage's fields override the parent plan; everything
+// else (maintenance_kcal, protein_target, drink_kcal…) is inherited.
+// Plans without `stages` behave exactly as before.
+let activeMealStageIdx = null; // null = pick the stage covering today
+
+function mealStageIndexForDate(stages, dateStr) {
+  for (let i = 0; i < stages.length; i++) {
+    const s = stages[i];
+    const afterStart = !s.start_date || dateStr >= s.start_date;
+    const beforeEnd  = !s.end_date   || dateStr <= s.end_date;
+    if (afterStart && beforeEnd) return i;
+  }
+  // Outside every range: before the first stage → first, otherwise last
+  return (stages[0] && stages[0].start_date && dateStr < stages[0].start_date) ? 0 : stages.length - 1;
+}
+
+function resolveMealPlan(mp) {
+  const stages = (mp && mp.stages) || [];
+  if (!stages.length) return mp;
+  if (activeMealStageIdx === null) activeMealStageIdx = mealStageIndexForDate(stages, todayStr());
+  const idx = Math.min(Math.max(activeMealStageIdx, 0), stages.length - 1);
+  activeMealStageIdx = idx;
+  return { ...mp, ...stages[idx] };
+}
+
+function selectMealStage(idx) {
+  activeMealStageIdx = idx;
+  loadMealPlan();
+}
+
 function loadMealPlan() {
   const body = document.getElementById('mealPlanBody');
   if (!dashData || !dashData.phase || !dashData.phase.meal_plan) {
     body.innerHTML = '<div class="empty-state"><div class="empty-icon">🍽️</div>No meal plan set for this phase.</div>';
     return;
   }
-  const mp = dashData.phase.meal_plan;
+  const mp = resolveMealPlan(dashData.phase.meal_plan);
   renderMealPlanMeta(mp, activeMealTab);
   renderMealPlan(body, mp, activeMealTab);
 }
@@ -2344,11 +2377,20 @@ function renderMealPlan(body, mp, tab) {
   activeMealTab = tab;
   renderMealPlanMeta(mp, tab);
 
-  const tabBar = `
+  const stages = (dashData.phase.meal_plan.stages) || [];
+  const stageBar = stages.length ? `
     <div class="meal-tab-bar">
-      <button class="meal-tab ${tab === 'weekday'     ? 'active' : ''}" onclick="renderMealPlan(document.getElementById('mealPlanBody'), dashData.phase.meal_plan, 'weekday')">Weekday</button>
-      <button class="meal-tab ${tab === 'weekend'     ? 'active' : ''}" onclick="renderMealPlan(document.getElementById('mealPlanBody'), dashData.phase.meal_plan, 'weekend')">Weekend</button>
-      <button class="meal-tab ${tab === 'supplements' ? 'active' : ''}" onclick="renderMealPlan(document.getElementById('mealPlanBody'), dashData.phase.meal_plan, 'supplements')">Supplements</button>
+      ${stages.map((s, i) => `
+        <button class="meal-tab ${i === activeMealStageIdx ? 'active' : ''}" onclick="selectMealStage(${i})">
+          ${escHtml(s.label || ('Stage ' + (i + 1)))}
+        </button>`).join('')}
+    </div>` : '';
+
+  const tabBar = stageBar + `
+    <div class="meal-tab-bar">
+      <button class="meal-tab ${tab === 'weekday'     ? 'active' : ''}" onclick="renderMealPlan(document.getElementById('mealPlanBody'), resolveMealPlan(dashData.phase.meal_plan), 'weekday')">Weekday</button>
+      <button class="meal-tab ${tab === 'weekend'     ? 'active' : ''}" onclick="renderMealPlan(document.getElementById('mealPlanBody'), resolveMealPlan(dashData.phase.meal_plan), 'weekend')">Weekend</button>
+      <button class="meal-tab ${tab === 'supplements' ? 'active' : ''}" onclick="renderMealPlan(document.getElementById('mealPlanBody'), resolveMealPlan(dashData.phase.meal_plan), 'supplements')">Supplements</button>
     </div>`;
 
   if (tab === 'supplements') {
@@ -4029,16 +4071,21 @@ function getMealOptions() {
         && dashData.previous_phases[dashData.previous_phases.length - 1].meal_plan)
     || null;
   if (!mp) return [];
+  // Staged plans keep their items inside stages[], so offer every stage's
+  // portions — a meal being replaced may belong to any week of the ramp.
+  const sources = (mp.stages && mp.stages.length) ? [mp, ...mp.stages] : [mp];
   const seen = new Set();
   const options = [];
-  for (const tab of ['weekday', 'weekend']) {
-    const plan = mp[tab];
-    if (!plan || !plan.items) continue;
-    for (const item of plan.items) {
-      const key = item.label + '|' + item.kcal;
-      if (!seen.has(key)) {
-        seen.add(key);
-        options.push({ label: item.label, category: item.category || '', kcal: item.kcal || 0 });
+  for (const src of sources) {
+    for (const tab of ['weekday', 'weekend']) {
+      const plan = src[tab];
+      if (!plan || !plan.items) continue;
+      for (const item of plan.items) {
+        const key = item.label + '|' + item.kcal;
+        if (!seen.has(key)) {
+          seen.add(key);
+          options.push({ label: item.label, category: item.category || '', kcal: item.kcal || 0 });
+        }
       }
     }
   }

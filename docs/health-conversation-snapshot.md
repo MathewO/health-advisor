@@ -61,14 +61,22 @@ Started 3 days early (28/29 Aug rather than 1 Sep), giving 14 days to the 12 Sep
 
 **Cut baseline being ramped from:** ~1,450 kcal/day · ~135g carbs/day
 
-| Days | Target kcal | Target carbs | How to add carbs | Notes |
-|------|------------|--------------|-----------------|-------|
-| **Aug 29–31** | ~1,750 | **~200g** (+65g vs cut) | +1 portion rice (80g dry = ~62g carbs) or banana + oats each day | Glycogen starts restoring. Scale jumps 0.5–1 kg (water) — expected. |
-| **Sep 1–3** | ~2,000 | **~250g** (+50g more) | Second carb portion (extra rice, bread with meals, jacket potato) | Energy noticeably improving. |
-| **Sep 4–6** | ~2,200 (maintenance) | **~280–300g** | Eat normally — Gousto + carb sides, don't restrict | Full maintenance. Strength returning. |
-| **Sep 7–11** | ~2,200 | **~280–300g** | Same | Steady. Stop tracking if you want. |
+| Days | Meal plan stage | Target kcal | Target carbs | How to add carbs | Notes |
+|------|---|------------|--------------|-----------------|-------|
+| **Aug 29–31** | Week 1 | ~1,750 | **~200g** (+65g vs cut) | +1 portion rice (50g dry) or banana + oats each day | Glycogen starts restoring. Scale jumps 0.5–1 kg (water) — expected. |
+| **Sep 1–4** | Week 1 | ~2,000 | **~250g** (+50g more) | Second carb portion (extra rice, bread with meals, jacket potato) | Energy noticeably improving. |
+| **Sep 5–11** | Week 2 | ~2,200 (maintenance) | **~280–300g** | Eat normally — Gousto + carb sides, don't restrict | Full maintenance. Strength returning. Stop tracking if you want. |
 
-> **Re-dated 29 Aug 2026** (was Sep 1–11, 11 days, from a 30 Aug phase end). Starting 3 days early stretches each early stage by a day rather than compressing the jump to maintenance. Friday 28 Aug's ramen + chocolate (~1,075 kcal) was effectively the first refeed meal. Also mirrored in `logs/dashboard.json` under `phase.ramp`.
+**The app now holds two real meal plans for this phase** (added 29 Aug 2026) rather than a prose note:
+
+| Stage | Dates | Weekday | Weekend | Avg/day |
+|---|---|---|---|---|
+| **Week 1** (ramp) | 28 Aug – 4 Sep | 1,893 kcal / 167g protein | 1,788 kcal / 150g | **1,863 kcal** |
+| **Week 2** (maintenance) | 5–11 Sep | 2,216 kcal / 179g protein | 2,158 kcal / 160g | **2,199 kcal** |
+
+Week 1 sits mid-ramp — drop the rice half-portion for the ~1,750 end, keep it for ~2,000. The Meal Plan screen auto-selects the stage covering today and lets you tap between them. See `docs/app-state.md` → *Meal plan stages* for the data contract.
+
+> **Re-dated 29 Aug 2026** (was Sep 1–11, 11 days, from a 30 Aug phase end), then aligned to the two meal-plan stage boundaries. Starting 3 days early stretches the ramp rather than compressing the jump to maintenance. Friday 28 Aug's ramen + chocolate (~1,075 kcal) was effectively the first refeed meal. Mirrored in `logs/dashboard.json` under `phase.ramp` and `phase.meal_plan.stages`.
 >
 > **Superseded schedule, for the record:** Sep 1–2 ~1,750 / Sep 3–5 ~2,000 / Sep 6–8 ~2,200 / Sep 9–11 ~2,200.
 
