@@ -1057,38 +1057,68 @@ function weeklyEnergyTarget(mp, dateStr) {
 }
 
 // Planned energy delta for one day: maintenance − that day's target intake.
-// A stage may declare `target_kcal_weekday` / `target_kcal_weekend` numerically, which
-// wins over summing meal items — necessary during a ramp, where intake steps up mid-week
-// and no single item list describes the day. Falls back to the item totals.
-function dailyPlannedDelta(mp, dateStr) {
+// Target and plan must come from different sources, or the card can never show a gap.
+// The target is what you agreed to eat; the plan is what the meal items actually add up
+// to. When those disagree — a ramp whose item lists haven't caught up, say — that
+// disagreement is the single most useful thing the card can tell you. Deriving both from
+// one source makes it read "on plan" no matter how far off the food is.
+function isWeekendDate(dateStr) {
+  const dow = new Date(dateStr + 'T00:00:00').getDay();
+  return dow === 0 || dow === 6;
+}
+
+// One day's target delta: maintenance − the intake you committed to. Comes from the
+// stage's declared `target_kcal_weekday` / `target_kcal_weekend`, falling back to the
+// item totals for phases that never declared them.
+function dailyTargetDelta(mp, dateStr) {
   const plan = mealPlanForDate(mp, dateStr);
   const maintenance = plan.maintenance_kcal || 1935;
-  const dow = new Date(dateStr + 'T00:00:00').getDay();
-  const isWeekend = dow === 0 || dow === 6;
-  const declared = isWeekend ? plan.target_kcal_weekend : plan.target_kcal_weekday;
+  const weekend = isWeekendDate(dateStr);
+  const declared = weekend ? plan.target_kcal_weekend : plan.target_kcal_weekday;
   const intake = typeof declared === 'number'
     ? declared
-    : totalMealKcal(plan, isWeekend ? 'weekend' : 'weekday');
+    : totalMealKcal(plan, weekend ? 'weekend' : 'weekday');
   return maintenance - intake;
 }
 
-// Weekly target for a specific set of dates. When the plan sets
-// `weekly_energy_target_from_plan`, the target is the plan itself — the sum of each
-// day's planned delta. That is the only coherent option when the stages don't align to
-// Mon–Sun weeks, since a fixed weekly constant can't be split across a mid-week stage
-// boundary. Otherwise the weekly constant is pro-rated across the days supplied.
+// One day's planned delta: maintenance − what the meal items come to. This is the
+// baseline the burndown draws and outliers adjust, exactly as in a cut. Falls back to the
+// declared target when a stage carries no items at all.
+function dailyPlannedDelta(mp, dateStr) {
+  const plan = mealPlanForDate(mp, dateStr);
+  const maintenance = plan.maintenance_kcal || 1935;
+  const weekend = isWeekendDate(dateStr);
+  const tab = weekend ? 'weekend' : 'weekday';
+  const itemKcal = totalMealKcal(plan, tab);
+  if (itemKcal > 0) return maintenance - itemKcal;
+  const declared = weekend ? plan.target_kcal_weekend : plan.target_kcal_weekday;
+  return maintenance - (typeof declared === 'number' ? declared : 0);
+}
+
+// Weekly target for a specific set of dates, summed per day. Per-day resolution is what
+// lets a target survive a mid-week stage boundary — the refeed's stages run Sat→Fri while
+// these weeks run Mon→Sun, so a single weekly constant could never be split across one.
+// Falls back to pro-rating the weekly constant for phases with no declared daily targets.
 function weeklyEnergyTargetForDates(mp, dates) {
   if (!dates.length) return 0;
-  if (mp && mp.weekly_energy_target_from_plan) {
-    return Math.round(dates.reduce((s, d) => s + dailyPlannedDelta(mp, d), 0));
+  const hasDaily = (mp.stages || []).some(s =>
+    typeof s.target_kcal_weekday === 'number' || typeof s.target_kcal_weekend === 'number')
+    || typeof mp.target_kcal_weekday === 'number'
+    || typeof mp.target_kcal_weekend === 'number';
+  if (hasDaily) {
+    return Math.round(dates.reduce((s, d) => s + dailyTargetDelta(mp, d), 0));
   }
   return Math.round(dates.reduce((s, d) => s + weeklyEnergyTarget(mp, d) / 7, 0));
 }
 
+// Balance mode deliberately reuses the deficit wording. A refeed is still a tracked
+// phase measured in kcal below maintenance — "balance" described the target rather than
+// the number underneath it, and read as if the phase were untracked maintenance.
+// The colours stay symmetric though: see energyColor().
 const MODE_LABELS = {
   deficit: { target: 'Target this week',         predicted: 'Predicted deficit', pill: 'Deficit' },
   surplus: { target: 'Surplus target this week', predicted: 'Predicted surplus', pill: 'Surplus' },
-  balance: { target: 'Balance target this week', predicted: 'Predicted balance', pill: 'Balance' }
+  balance: { target: 'Target this week',         predicted: 'Predicted deficit', pill: 'Deficit' }
 };
 
 function modeLabels(mode) {
@@ -1373,8 +1403,11 @@ function renderWeeklyDeficitCard(phase) {
   const labels = modeLabels(mode);
 
   // Tolerance scales with the target so a cut keeps its original 25% band, while
-  // balance phases (target at or near 0) fall back to a fixed ~1 day of slack.
-  const predictedColor = energyColor(predicted, target, mode, Math.max(Math.abs(target) * 0.25, 750));
+  // balance phases (target at or near 0) fall back to a floor of ~107 kcal per in-phase
+  // day. The floor is pro-rated rather than flat: a flat 750 on a 2-day part week is
+  // 375/day of latitude, which would read as on-plan while being badly off it.
+  const tolerance = Math.max(Math.abs(target) * 0.25, 750 * inPhaseDays / 7);
+  const predictedColor = energyColor(predicted, target, mode, tolerance);
 
   card.innerHTML = `
     <div class="deficit-row${carryover !== 0 ? ' deficit-row--no-border deficit-row--tight' : ''}">
@@ -2748,7 +2781,7 @@ function loadWeeklyProgress() {
     const deficitGap  = energyProgress(w.deficit, target, mode);
     const gapText     = (deficitGap >= 0 ? '+' : '') + deficitGap.toLocaleString() + ' kcal';
     const gapColor    = energyColor(w.deficit, target, mode, 500);
-    const deficitColor = energyColor(w.deficit, target, mode, Math.max(Math.abs(target) * 0.25, 750));
+    const deficitColor = energyColor(w.deficit, target, mode, Math.max(Math.abs(target) * 0.25, 750 * (w.inPhaseDays || 7) / 7));
 
     const outliersHtml = w.outliers.length
       ? w.outliers.map(e => {

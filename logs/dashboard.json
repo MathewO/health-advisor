@@ -205,9 +205,7 @@
         }
       ],
       "weekly_energy_target": 0,
-      "weekly_energy_target_note": "Signed: positive = deficit, negative = surplus, 0 = hold at maintenance. A refeed targets energy balance, so 0. Set this negative for a bulk (e.g. -2100 for a ~300 kcal/day surplus). NOTE: superseded for this phase by weekly_energy_target_from_plan \u2014 kept as a statement of intent and as the fallback for any date outside the stages.",
-      "weekly_energy_target_from_plan": true,
-      "weekly_energy_target_from_plan_note": "Derive the weekly target by summing each in-phase day's planned delta (maintenance \u2212 that day's target intake) instead of using a fixed weekly constant. Needed here because the stages are Sat\u2192Fri while the card's weeks are Mon\u2192Sun, so every card week straddles a stage boundary; a fixed weekly constant would misreport those weeks by several hundred kcal. Side effect, and the desired one for a refeed: base \u2212 target = 0 by construction, so the card measures purely how far cheats, drinks and workouts moved you off the plan."
+      "weekly_energy_target_note": "Signed: positive = deficit, negative = surplus, 0 = hold at maintenance. A refeed targets energy balance over a full week, so 0. Unused while the stages declare target_kcal_weekday / target_kcal_weekend, which the app prefers because they survive a mid-week stage boundary; kept as a statement of intent and as the fallback for dates outside every stage. Set this negative for a bulk (e.g. -2100 for a ~300 kcal/day surplus)."
     },
     "direction": "gain",
     "tracking_mode": "balance",

@@ -96,7 +96,11 @@ Weekend protein is the weak spot at **124g vs the 150g target** — the weekend 
 
 ### Weekly target now derived from the plan
 
-The stages run **Sat → Fri** (29 Aug is a Saturday) while the card's weeks run **Mon → Sun**, so every card week straddles a stage boundary and no fixed weekly constant can describe one correctly. `meal_plan.weekly_energy_target_from_plan: true` makes the weekly target the sum of each in-phase day's planned delta instead. Side effect, and the right one for a refeed: base − target = 0 by construction, so the card measures purely how far cheats, drinks and workouts moved you off the plan.
+The stages run **Sat → Fri** (29 Aug is a Saturday) while the card's weeks run **Mon → Sun**, so every card week straddles a stage boundary and no fixed weekly constant can describe one correctly. The weekly target is therefore summed **per day**, from each stage's declared `target_kcal_weekday` / `target_kcal_weekend`.
+
+**Corrected later the same day — the card is items-driven again.** The first version of this derived *both* the target and the baseline from the declared daily figures, which made them agree by construction: the card reported "on plan" while the food listed on the Meal Plan screen was 641 kcal/day short of the target. Mathew spotted it ("shouldn't it be way more than that?"). The two sources are now split — the target is what he committed to eat, the baseline is what the meal items actually total, plus tracked cheats, drinks and workouts exactly as in a cut. The gap between them is the point. Consequence while the item lists are still the cut's placeholder: **the card reads red**, correctly.
+
+**"Balance" wording dropped.** The card says "Predicted deficit" again, not "Predicted balance" — this is a tracked phase measured in kcal below maintenance, and "balance" described the target rather than the number, reading as if the phase were untracked maintenance. The *colours* stay symmetric though: under-eating a refeed is a miss, not a win, so being well under target shows amber or red rather than the green a cut would give.
 
 ### Refeed ramp re-dated
 
