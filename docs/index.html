@@ -1154,10 +1154,14 @@ function computeTrendProjection(weights, phase) {
     }
   }
 
-  // Balance mode never derives weight from calories — see phaseMode(). With no
-  // regression yet there is simply no projection, and callers must handle null.
-  const fallbackRate = phaseMode(phase) === 'balance' ? null : -plannedKgPerDay;
-  const projectionRate = actualRateKgPerDay !== null ? actualRateKgPerDay : fallbackRate;
+  // A hold phase makes no forecast at all: energy balance sits at zero while the
+  // scale moves through glycogen and water, so any extrapolation of those weeks is
+  // noise dressed up as a trend. Only the weigh-ins themselves are shown, and every
+  // caller must handle a null rate.
+  const balanceMode = phaseMode(phase) === 'balance';
+  const projectionRate = balanceMode
+    ? null
+    : (actualRateKgPerDay !== null ? actualRateKgPerDay : -plannedKgPerDay);
 
   const projectedAtTarget = projectionRate === null
     ? null
@@ -1239,7 +1243,11 @@ function renderPhaseCard(phase, weights) {
     : +((gaining ? projectedAtTarget - phase.target_kg : phase.target_kg - projectedAtTarget)).toFixed(1);
 
   let trendText, trendColor;
-  if (projectedAtTarget === null) {
+  if (phaseMode(phase) === 'balance') {
+    // A hold phase makes no forecast — the weigh-ins speak for themselves.
+    trendText  = '';
+    trendColor = 'var(--muted)';
+  } else if (projectedAtTarget === null) {
     const daysIn = dateToNum(localDateStr(new Date())) - dateToNum(phase.start_date);
     trendText  = 'Goal ' + phase.target_kg + ' kg by ' + formatDate(phase.target_date)
                + ' · day ' + Math.max(0, daysIn);
@@ -1266,7 +1274,7 @@ function renderPhaseCard(phase, weights) {
         <div style="min-width:0">
           <div style="font-size:13px;color:var(--muted)">Current</div>
           <div class="weight-stat">${latest.kg.toFixed(1)}<span> kg</span></div>
-          <div class="trend-line" style="color:${trendColor}">${trendText}</div>
+          ${trendText ? `<div class="trend-line" style="color:${trendColor}">${trendText}</div>` : ''}
         </div>
         <div style="text-align:right;flex-shrink:0;white-space:nowrap">
           <div style="font-size:13px;color:var(--muted)">Goal</div>
@@ -1310,7 +1318,8 @@ function renderWeeklyDeficitCard(phase) {
   }
 
   const allEntries = parseAllLogEntries(logText);
-  const { target, carryover, weekOutliers, thisWeekAdj, predicted, weekStartStr, weekEndStr, daysElapsed, weekdayDeficit, weekendDeficit, fullWeekBase }
+  const { target, carryover, weekOutliers, thisWeekAdj, predicted, weekStartStr, weekEndStr, daysElapsed,
+          weekdayDeficit, weekendDeficit, weekBase, phaseStartIdx, inPhaseDays, partialWeek }
     = computeWeeklyDeficit(allEntries, phase);
 
   const carryoverHtml = carryover !== 0
@@ -1329,7 +1338,7 @@ function renderWeeklyDeficitCard(phase) {
 
   card.innerHTML = `
     <div class="deficit-row${carryover !== 0 ? ' deficit-row--no-border deficit-row--tight' : ''}">
-      <span class="deficit-label">${labels.target}</span>
+      <span class="deficit-label">${labels.target}${partialWeek ? ` <span style="color:var(--muted);font-weight:400">· part week, ${inPhaseDays}d</span>` : ''}</span>
       <span class="deficit-val">${target.toLocaleString()} kcal</span>
     </div>
     ${carryoverHtml}
@@ -1345,12 +1354,12 @@ function renderWeeklyDeficitCard(phase) {
 
   // Defer until after browser has laid out the new canvas
   requestAnimationFrame(() => {
-    try { renderWeeklyBurndownChart(allEntries, weekStartStr, weekdayDeficit, weekendDeficit, daysElapsed, target, fullWeekBase, carryover, mode); }
+    try { renderWeeklyBurndownChart(allEntries, weekStartStr, weekdayDeficit, weekendDeficit, daysElapsed, target, weekBase, carryover, mode, phaseStartIdx); }
     catch(err) { console.error('Burndown chart error:', err); }
   });
 }
 
-function renderWeeklyBurndownChart(allEntries, weekStartStr, weekdayDeficit, weekendDeficit, daysElapsed, target, fullWeekBase, carryover = 0, mode = 'deficit') {
+function renderWeeklyBurndownChart(allEntries, weekStartStr, weekdayDeficit, weekendDeficit, daysElapsed, target, weekBase, carryover = 0, mode = 'deficit', phaseStartIdx = 0) {
   const canvas = document.getElementById('weeklyBurndownChart');
   if (!canvas) return;
 
@@ -1364,17 +1373,23 @@ function renderWeeklyBurndownChart(allEntries, weekStartStr, weekdayDeficit, wee
     return localDateStr(d);
   });
 
-  // Grey dotted line: cumulative planned deficit per day (meal plan rates, no outliers)
+  // Grey dotted line: cumulative planned deficit per day (meal plan rates, no outliers).
+  // Days before the phase started stay null so the chart doesn't inherit the previous phase.
   const dailyRates = [weekdayDeficit, weekdayDeficit, weekdayDeficit, weekdayDeficit, weekdayDeficit, weekendDeficit, weekendDeficit];
   let cumPlanned = 0;
-  const targetData = dailyRates.map(rate => { cumPlanned += rate; return +cumPlanned.toFixed(0); });
+  const targetData = dailyRates.map((rate, i) => {
+    if (i < phaseStartIdx) return null;
+    cumPlanned += rate;
+    return +cumPlanned.toFixed(0);
+  });
 
-  // Actual/projected line: full week, never null
+  // Actual/projected line: every in-phase day, never null
   // Elapsed days use actual outliers; future days project forward at planned daily rate
   const isOutlierType = e => ['run','stair','workout','drinks','beers','cheat'].includes(e.type);
   let cumActual = 0;
   let cumOutlier = 0;
   const actualData = weekDates.map((d, i) => {
+    if (i < phaseStartIdx) return null;
     if (i < daysElapsed) {
       const dayOutliers = allEntries.filter(e => e.date === d && isOutlierType(e));
       cumOutlier += dayOutliers.reduce((s, e) => s + (e.outlierKcal || 0), 0);
@@ -1388,7 +1403,7 @@ function renderWeeklyBurndownChart(allEntries, weekStartStr, weekdayDeficit, wee
   // Y-axis bounds. A deficit phase stays anchored at zero and rises; surplus and
   // balance phases go negative, so the axis has to span the data in both
   // directions and always include the zero line.
-  const yValues = [0, target, fullWeekBase, ...targetData, ...actualData];
+  const yValues = [0, target, weekBase, ...targetData, ...actualData].filter(v => v != null);
   const dataMin = Math.min(...yValues);
   const dataMax = Math.max(...yValues);
   const yPad    = Math.max(500, (dataMax - dataMin) * 0.1);
@@ -1432,7 +1447,7 @@ function renderWeeklyBurndownChart(allEntries, weekStartStr, weekdayDeficit, wee
   weekDates.forEach((d, i) => { eventsByDay[i] = []; });
   allEntries.forEach(e => {
     const idx = weekDates.indexOf(e.date);
-    if (idx === -1) return;
+    if (idx === -1 || idx < phaseStartIdx) return;
     const icon = eventIcon(e);
     if (!icon) return;
     eventsByDay[idx].push({ icon, label: entryLabel(e), type: e.type, outlierKcal: e.outlierKcal ?? 0 });
@@ -1444,7 +1459,9 @@ function renderWeeklyBurndownChart(allEntries, weekStartStr, weekdayDeficit, wee
   // Segment colour: green when on the good side of plan for this mode, orange
   // within 150 kcal, red beyond. In balance mode either direction counts as off.
   function segmentColor(ctx) {
-    return energyColor(ctx.p1.parsed.y, targetData[ctx.p1DataIndex], mode);
+    const t = targetData[ctx.p1DataIndex];
+    if (t == null) return mutedColor;
+    return energyColor(ctx.p1.parsed.y, t, mode);
   }
 
   burndownChart = new Chart(canvas, {
@@ -1638,7 +1655,7 @@ function computeMealPlanWeekDeficit(phase) {
 }
 
 function computeWeeklyDeficit(allEntries, phase) {
-  const target = weeklyEnergyTarget(phase.meal_plan);
+  const fullTarget = weeklyEnergyTarget(phase.meal_plan);
   const { weekdayDeficit, weekendDeficit, fullWeekBase } = computeMealPlanWeekDeficit(phase);
 
   // Monday of current week — use local date string to avoid UTC offset issues
@@ -1651,20 +1668,35 @@ function computeWeeklyDeficit(allEntries, phase) {
 
   const weekStartStr = localDateStr(weekStartDate);
   const weekEndStr   = localDateStr(now);
+  const phaseStartStr = phase.start_date || weekStartStr;
+
+  // A phase that begins mid-week only owns part of it. phaseStartIdx is the Mon-based
+  // index of its first day, so days before it can be excluded from the totals and left
+  // blank on the chart rather than crediting this phase with the previous one's work.
+  const phaseStartIdx = phaseStartStr > weekStartStr
+    ? Math.max(0, Math.min(7, Math.round((new Date(phaseStartStr + 'T00:00:00') - weekStartDate) / 86400000)))
+    : 0;
+  const inPhaseDays   = 7 - phaseStartIdx;
+  const partialWeek   = phaseStartIdx > 0;
+  const windowStartStr = partialWeek ? phaseStartStr : weekStartStr;
+
+  // Planned base and target both pro-rate to the in-phase days of a partial week
+  const dailyRates = [weekdayDeficit, weekdayDeficit, weekdayDeficit, weekdayDeficit, weekdayDeficit, weekendDeficit, weekendDeficit];
+  const weekBase = dailyRates.slice(phaseStartIdx).reduce((s, r) => s + r, 0);
+  const target   = partialWeek ? Math.round(fullTarget * inPhaseDays / 7) : fullTarget;
 
   // Days elapsed this week: day 1 = Monday
   const daysElapsed = Math.min(7, Math.floor((now - weekStartDate) / 86400000) + 1);
 
   const isOutlierType = e => ['run','stair','workout','drinks','beers','cheat'].includes(e.type);
 
-  const weekOutliers = allEntries.filter(e => e.date >= weekStartStr && e.date <= weekEndStr && isOutlierType(e))
+  const weekOutliers = allEntries.filter(e => e.date >= windowStartStr && e.date <= weekEndStr && isOutlierType(e))
                                  .sort((a, b) => a.date.localeCompare(b.date));
 
   // Phase-cumulative carryover: sum (weekly_result − target) for every completed
   // Mon–Sun week from carryover_start_date (or phase start) up to (but not including)
   // the current week. Surpluses bank indefinitely — planned buffers never expire.
   // Set phase.carryover_start_date in dashboard.json to exclude noisy early weeks.
-  const phaseStartStr  = phase.start_date || weekStartStr;
   const carryoverStartStr = phase.carryover_start_date || phaseStartStr;
   const phaseStartDate = new Date(carryoverStartStr + 'T00:00:00');
   const psDay          = phaseStartDate.getDay();
@@ -1683,17 +1715,18 @@ function computeWeeklyDeficit(allEntries, phase) {
     if (weStr >= carryoverStartStr) {
       const wOutliers = allEntries.filter(e => e.date >= wsStr && e.date <= weStr && isOutlierType(e));
       const wAdj = wOutliers.reduce((s, e) => s + (e.outlierKcal || 0), 0);
-      cumulativeCarryover += (fullWeekBase + wAdj) - target;
+      cumulativeCarryover += (fullWeekBase + wAdj) - fullTarget;
     }
     wCursor.setDate(wCursor.getDate() + 7);
   }
   const carryover = cumulativeCarryover;
 
   const thisWeekAdj = weekOutliers.reduce((s, e) => s + (e.outlierKcal || 0), 0);
-  // Predicted = full week meal-plan base + carryover from last week + outliers logged so far
-  const predicted   = fullWeekBase + carryover + thisWeekAdj;
+  // Predicted = in-phase meal-plan base + carryover from last week + outliers logged so far
+  const predicted   = weekBase + carryover + thisWeekAdj;
 
-  return { target, carryover, weekOutliers, thisWeekAdj, predicted, weekStartStr, weekEndStr, daysElapsed, weekdayDeficit, weekendDeficit, fullWeekBase };
+  return { target, fullTarget, carryover, weekOutliers, thisWeekAdj, predicted, weekStartStr, weekEndStr,
+           daysElapsed, weekdayDeficit, weekendDeficit, weekBase, phaseStartIdx, inPhaseDays, partialWeek };
 }
 
 function outlierLabel(e) {
@@ -2628,11 +2661,13 @@ function loadWeeklyProgress() {
     return;
   }
 
-  const target  = weeklyEnergyTarget(phase.meal_plan);
   const mode    = phaseMode(phase);
+  const labels  = modeLabels(mode);
   const gaining = phaseDirection(phase) === 'gain';
 
   body.innerHTML = weeks.map(w => {
+    // Part-weeks at a phase boundary carry their own pro-rated target
+    const target = w.target != null ? w.target : weeklyEnergyTarget(phase.meal_plan);
     const weightDelta = (w.startWeight && w.endWeight)
       ? +(w.startWeight - w.endWeight).toFixed(1)
       : null;
@@ -2645,7 +2680,7 @@ function loadWeeklyProgress() {
 
     const deficitGap  = energyProgress(w.deficit, target, mode);
     const gapText     = (deficitGap >= 0 ? '+' : '') + deficitGap.toLocaleString() + ' kcal';
-    const gapColor    = deficitGap >= 0 ? 'var(--green)' : (deficitGap > -500 ? 'var(--amber)' : 'var(--red)');
+    const gapColor    = energyColor(w.deficit, target, mode, 500);
     const deficitColor = energyColor(w.deficit, target, mode, Math.max(Math.abs(target) * 0.25, 750));
 
     const outliersHtml = w.outliers.length
@@ -2666,7 +2701,7 @@ function loadWeeklyProgress() {
       <div class="week-card">
         <div class="week-card-header">
           <div>
-            <div style="font-size:11px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:0.6px">Week</div>
+            <div style="font-size:11px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:0.6px">Week${w.partial ? ` · part ${w.inPhaseDays}d` : ''}</div>
             <div class="week-date-range">${formatDate(w.weekStart)} → ${formatDate(w.weekEnd)}</div>
           </div>
           <div style="text-align:right">
@@ -2676,7 +2711,7 @@ function loadWeeklyProgress() {
         </div>
         <div class="week-stats-row">
           <div class="week-stat">
-            <div class="week-stat-label">Deficit</div>
+            <div class="week-stat-label">${labels.pill}</div>
             <div class="week-stat-val" style="color:${deficitColor}">${w.deficit.toLocaleString()} kcal</div>
           </div>
           <div class="week-stat">
@@ -2710,8 +2745,10 @@ function getCompletedWeeks(allEntries, phase) {
   weekCursor.setDate(phaseStart.getDate() - (psDow === 0 ? 6 : psDow - 1));
   weekCursor.setHours(0, 0, 0, 0);
 
-  const target = weeklyEnergyTarget(phase.meal_plan);
-  const { fullWeekBase } = computeMealPlanWeekDeficit(phase);
+  const fullTarget = weeklyEnergyTarget(phase.meal_plan);
+  const { weekdayDeficit, weekendDeficit, fullWeekBase } = computeMealPlanWeekDeficit(phase);
+  const dailyRates = [weekdayDeficit, weekdayDeficit, weekdayDeficit, weekdayDeficit, weekdayDeficit, weekendDeficit, weekendDeficit];
+  const phaseStartStr = phase.start_date;
 
   while (weekCursor < currentWeekStart) {
     const weekEnd = new Date(weekCursor);
@@ -2720,7 +2757,18 @@ function getCompletedWeeks(allEntries, phase) {
     const ws = localDateStr(weekCursor);
     const we = localDateStr(weekEnd);
 
-    const weekEntries = allEntries.filter(e => e.date >= ws && e.date <= we);
+    // A phase starting mid-week only owns the days from its start date onward — the
+    // rest belong to whatever phase preceded it.
+    const startIdx = phaseStartStr > ws
+      ? Math.max(0, Math.min(7, Math.round((new Date(phaseStartStr + 'T00:00:00') - weekCursor) / 86400000)))
+      : 0;
+    const partial     = startIdx > 0;
+    const inPhaseDays = 7 - startIdx;
+    const windowStart = partial ? phaseStartStr : ws;
+    const weekBase    = partial ? dailyRates.slice(startIdx).reduce((s, r) => s + r, 0) : fullWeekBase;
+    const target      = partial ? Math.round(fullTarget * inPhaseDays / 7) : fullTarget;
+
+    const weekEntries = allEntries.filter(e => e.date >= windowStart && e.date <= we);
     const wts = weekEntries.filter(e => e.type === 'weight').sort((a, b) => a.date.localeCompare(b.date));
 
     const outliers = weekEntries
@@ -2728,15 +2776,18 @@ function getCompletedWeeks(allEntries, phase) {
       .sort((a, b) => a.date.localeCompare(b.date));
 
     const adjTotal = outliers.reduce((s, e) => s + (e.outlierKcal || 0), 0);
-    const deficit  = fullWeekBase + adjTotal;
+    const deficit  = weekBase + adjTotal;
 
     weeks.push({
-      weekStart:   ws,
+      weekStart:   windowStart,
       weekEnd:     we,
       startWeight: wts.length ? wts[0].kg : null,
       endWeight:   wts.length ? wts[wts.length - 1].kg : null,
       outliers,
-      deficit
+      deficit,
+      target,
+      partial,
+      inPhaseDays
     });
 
     weekCursor.setDate(weekCursor.getDate() + 7);
