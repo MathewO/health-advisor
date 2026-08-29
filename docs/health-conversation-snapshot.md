@@ -2,26 +2,75 @@
 
 > **Purpose:** Recovery of key decisions and dates from planning chats if **chat history is unavailable**.  
 > **Not used by the PWA** — for humans and AI sessions only.  
-> **Last updated:** 2026-08-12
+> **Last updated:** 2026-08-29
 
 ---
 
-## Bali Refeed Plan — agreed 12 Aug 2026
+## Session notes — 29 Aug 2026
 
-**Context:** Phase 2 (Bali cut) ends **30 Aug 2026**. Flight to Bali: **12 Sep 2026**. Recovery window: **Sep 1–11 (11 days)**.
+### Phase 2 closed early — 28 Aug at 74.8 kg
+
+**Decision:** the cut was ended Friday night 28 Aug rather than Sunday 30 Aug, and the refeed brought forward to start immediately.
+
+**Rationale:** the two remaining days carried a base deficit of 2 × (2,200 − 1,509) = **1,382 kcal ≈ 0.18 kg of fat** — less than the day-to-day water noise in the scale (Thursday 74.8 → Saturday 75.5 is nearly four times larger). A final cut weekend with social commitments costs real quality of life for no measurable physiological return. This is the same logic as the early-exit option already contemplated in the refeed plan below, just triggered by social cost rather than by energy/mood.
+
+**Final Phase 2 result:**
+
+| Metric | Value |
+|---|---|
+| Duration | 6 Jul → 28 Aug = **53 days** |
+| Weight | 80.4 → **74.8 kg** = **−5.6 kg** |
+| 7-day avg at close | **75.4 kg** (80.4 → 75.4 = −5.0 kg) |
+| Rate (end-point) | 5.6 ÷ 53 × 7 = **0.74 kg/wk** |
+| Rate (7-day avg — the honest figure) | 5.0 ÷ 53 × 7 = **0.66 kg/wk** |
+| Phase low | **74.7 kg** (20 Aug) |
+| Waist | 108 cm (15 Apr) → **95 cm** (27 Aug) = **−13 cm** |
+| Live target | 75.0 kg by 30 Aug — **met** |
+
+**Log note:** no weigh-in was taken on 28 Aug. `2026-08-28 | weight | 74.8` is Thursday 27 Aug's reading carried forward, flagged as such in the log line itself, and used as both the Phase 2 end weight and the refeed `start_kg` (mirroring 6 Jul, where 80.4 kg was both the maintenance end and the Phase 2 start).
+
+### Phase 2 TDEE validation — 2,200 holds
+
+Second independent validation, now derived at 75–80 kg rather than the 84 kg of the Phase 1 derivation:
+
+```
+Week-2 start:  79.8 kg (Mon 13 Jul)
+End:           75.4 kg (7-day avg, 28 Aug)
+Days:          46
+actual_daily_deficit = (79.8 − 75.4) × 7,700 ÷ 46 = 736 kcal/day
+TDEE = 736 + 1,450 avg intake = 2,186 kcal/day
+```
+
+- Average intake derived per methodology: 5,250 kcal/wk deficit target ÷ 7 = 750 kcal/day → 2,200 − 750 = **1,450 kcal/day** (matches the dashboard meal-plan figure of 1,448).
+- Result is **14 kcal below** the working 2,200 estimate — comfortably inside noise. **No revision.** The *Estimated maintenance* section below stands unchanged.
+- Caveats: the 1,450 intake figure assumes the phase tracked close to its weekly deficit target throughout (consistent with carryover ≈ 0, but not re-parsed week by week for this check). The 7,700 kcal/kg multiplier is a rule of thumb, plausibly 7,000–9,000 depending on the fat/lean split of the loss; a ±10% swing there moves the result by roughly ±74 kcal/day.
+
+### Refeed ramp re-dated
+
+Started 3 days early (28/29 Aug rather than 1 Sep), giving 14 days to the 12 Sep flight instead of 11. Each early stage was stretched by a day rather than compressing the jump to maintenance. See the re-dated table below — the ramp also lives in `logs/dashboard.json` under `phase.ramp`.
+
+---
+
+## Bali Refeed Plan — agreed 12 Aug 2026, re-dated 29 Aug 2026
+
+**Context:** Phase 2 (Bali cut) ended **28 Aug 2026** (2 days early — see the 29 Aug session note above). Flight to Bali: **12 Sep 2026**. Recovery window: **29 Aug – 11 Sep (14 days)**.
 
 **Guiding principle:** arrive feeling refuelled, energised and recovered — not depleted. A rested, glycogen-full body photographs better than a depleted one anyway.
 
-### Refeed ramp (Sep 1–11)
+### Refeed ramp (29 Aug – 11 Sep) — LIVE
 
-**Current cut baseline:** ~1,450 kcal/day · ~135g carbs/day
+**Cut baseline being ramped from:** ~1,450 kcal/day · ~135g carbs/day
 
 | Days | Target kcal | Target carbs | How to add carbs | Notes |
 |------|------------|--------------|-----------------|-------|
-| **Sep 1–2** | ~1,750 | **~200g** (+65g vs cut) | +1 portion rice (80g dry = ~62g carbs) or banana + oats each day | Glycogen starts restoring. Scale jumps 0.5–1 kg (water) — expected. |
-| **Sep 3–5** | ~2,000 | **~250g** (+50g more) | Second carb portion (extra rice, bread with meals, jacket potato) | Energy noticeably improving. |
-| **Sep 6–8** | ~2,200 (maintenance) | **~280–300g** | Eat normally — Gousto + carb sides, don't restrict | Full maintenance. Strength returning. |
-| **Sep 9–11** | ~2,200 | **~280–300g** | Same | Steady. Stop tracking if you want. |
+| **Aug 29–31** | ~1,750 | **~200g** (+65g vs cut) | +1 portion rice (80g dry = ~62g carbs) or banana + oats each day | Glycogen starts restoring. Scale jumps 0.5–1 kg (water) — expected. |
+| **Sep 1–3** | ~2,000 | **~250g** (+50g more) | Second carb portion (extra rice, bread with meals, jacket potato) | Energy noticeably improving. |
+| **Sep 4–6** | ~2,200 (maintenance) | **~280–300g** | Eat normally — Gousto + carb sides, don't restrict | Full maintenance. Strength returning. |
+| **Sep 7–11** | ~2,200 | **~280–300g** | Same | Steady. Stop tracking if you want. |
+
+> **Re-dated 29 Aug 2026** (was Sep 1–11, 11 days, from a 30 Aug phase end). Starting 3 days early stretches each early stage by a day rather than compressing the jump to maintenance. Friday 28 Aug's ramen + chocolate (~1,075 kcal) was effectively the first refeed meal. Also mirrored in `logs/dashboard.json` under `phase.ramp`.
+>
+> **Superseded schedule, for the record:** Sep 1–2 ~1,750 / Sep 3–5 ~2,000 / Sep 6–8 ~2,200 / Sep 9–11 ~2,200.
 
 **Key rules:**
 - Extra calories mostly into **carbs** (glycogen restoration), not fat
@@ -31,7 +80,7 @@
 
 **Scale note:** First 2–3 days will show +1–1.5 kg. That's ~3g water per gram of glycogen refilling — not fat. Stabilises by day 4–5.
 
-**Early exit option:** If the 7d avg hits 74–74.5 kg and energy/mood flags by Aug 20, consider starting the refeed a week early (Aug 22). Still arrives at Bali fully recovered. Decision to make on Aug 20, not now.
+**Early exit option — ~~pending~~ RESOLVED 28 Aug 2026:** the option was to start the refeed a week early (Aug 22) if the 7d avg hit 74–74.5 kg and energy/mood flagged. Neither trigger fired — the 7d avg bottomed at 75.4 kg and energy held. The refeed was instead brought forward 3 days on **28 Aug** for a different reason: the negligible fat-loss value of a final cut weekend against its social cost. See the 29 Aug session note at the top of this file.
 
 **Bali context:** Heat suppresses appetite; lots of walking adds NEAT. Rebound will be modest. No need to track food during Bali — eat intuitively.
 

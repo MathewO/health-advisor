@@ -1,176 +1,48 @@
 {
   "phase": {
-    "id": "fat-loss-2026-q3",
-    "name": "Fat Loss \u2014 Bali",
-    "status": "active",
-    "start_date": "2026-07-06",
-    "target_date": "2026-08-30",
-    "carryover_start_date": "2026-07-06",
-    "start_kg": 80.4,
-    "target_kg": 75,
-    "common_lunches": [
+    "id": "refeed-2026-q3",
+    "name": "Refeed \u2014 Bali",
+    "status": "maintenance",
+    "start_date": "2026-08-28",
+    "target_date": "2026-09-11",
+    "start_kg": 74.8,
+    "target_kg": 74.8,
+    "_note": "Glycogen and water restoration ahead of Bali (fly 12 Sep). Scale is expected to rise 1.5\u20132 kg to ~76\u201377 kg \u2014 that is ~3g water per gram of glycogen refilling, not fat. Waist is the metric that matters here: 95 cm at phase end (27 Aug). start_kg 74.8 is the Phase 2 end weight, so the card delta reads as rebound from the cut.",
+    "ramp": [
       {
-        "name": "Beef & Bean Chilli Bowl",
-        "description": "Batch lunch (makes 4). 500g 5% beef mince + 1 tin kidney beans + 1 tin black beans + chopped tomatoes + onion/garlic/spices. Topped with Fage 0% Greek yoghurt.",
-        "kcal": 426,
-        "protein": 54,
-        "ingredients": [
-          {
-            "name": "5% beef mince (raw)",
-            "amount": "125g",
-            "kcal": 210,
-            "protein": 39
-          },
-          {
-            "name": "Kidney beans, drained (\u00bc tin)",
-            "amount": "~65g",
-            "kcal": 63,
-            "protein": 4
-          },
-          {
-            "name": "Black beans, drained (\u00bc tin)",
-            "amount": "~65g",
-            "kcal": 62,
-            "protein": 4
-          },
-          {
-            "name": "Chopped tomatoes",
-            "amount": "150g",
-            "kcal": 27,
-            "protein": 1
-          },
-          {
-            "name": "Onion + garlic",
-            "amount": "70g",
-            "kcal": 30,
-            "protein": 1
-          },
-          {
-            "name": "Fage 0% Greek yoghurt (topping)",
-            "amount": "50g",
-            "kcal": 29,
-            "protein": 5
-          },
-          {
-            "name": "Spices (cumin, smoked paprika, chilli, oregano)",
-            "amount": "to taste",
-            "kcal": 5,
-            "protein": 0
-          }
-        ],
-        "batch_note": "500g mince + 1 tin kidney beans + 1 tin black beans = exactly 4 portions. Brown mince, add onion/garlic, spices, tomatoes, beans. Simmer 15 min. Portion into 4 containers. Top with Fage when serving."
+        "days": "2026-08-29 \u2192 2026-08-31",
+        "target_kcal": 1750,
+        "target_carbs_g": 200,
+        "how": "Add one carb portion per day \u2014 80g dry rice (~62g carbs) or oats + banana at breakfast."
+      },
+      {
+        "days": "2026-09-01 \u2192 2026-09-03",
+        "target_kcal": 2000,
+        "target_carbs_g": 250,
+        "how": "Second carb portion \u2014 extra rice, bread with meals, or a jacket potato."
+      },
+      {
+        "days": "2026-09-04 \u2192 2026-09-06",
+        "target_kcal": 2200,
+        "target_carbs_g": "280-300",
+        "how": "Full maintenance. Eat normally \u2014 Gousto plus carb sides, no restriction."
+      },
+      {
+        "days": "2026-09-07 \u2192 2026-09-11",
+        "target_kcal": 2200,
+        "target_carbs_g": "280-300",
+        "how": "Steady at maintenance. Stop tracking food if you want to."
       }
     ],
-    "common_cheats": [
-      {
-        "name": "Caesar Salad",
-        "description": "\u00bd Lightly Dusted Chicken (Pack), Half caesar bag",
-        "kcal": 497,
-        "protein": 30.2,
-        "carbs": 33.1,
-        "fat": 26.4,
-        "tag": "dinner"
-      },
-      {
-        "name": "Tuna Power Bowl",
-        "description": "Tuna Power Bowl",
-        "kcal": 508,
-        "protein": 41,
-        "carbs": 30,
-        "fat": 25,
-        "tag": "lunch"
-      },
-      {
-        "name": "Turkey Meatball Spaghetti",
-        "description": "125g 2% turkey mince, 40g spaghetti, 125g passata, 1/4 white onion, herbs, chilli",
-        "kcal": 369,
-        "protein": 46,
-        "carbs": 36,
-        "fat": 3,
-        "tag": "lunch"
-      },
-      {
-        "name": "Turkey Bolognese",
-        "description": "125g 2% turkey mince, 90g spaghetti, 125g passata, 1/4 white onion, 30g LF cheddar, herbs",
-        "kcal": 638,
-        "protein": 62,
-        "carbs": 70,
-        "fat": 10,
-        "tag": "dinner"
-      },
-      {
-        "name": "Beef Bolognese",
-        "description": "125g 5% beef mince, 90g spaghetti, 125g passata, 1/4 white onion, 30g LF cheddar, herbs",
-        "kcal": 678,
-        "protein": 62,
-        "carbs": 70,
-        "fat": 15,
-        "tag": "dinner"
-      },
-      {
-        "name": "Beef Chilli Jacket Potato",
-        "description": "125g 5% beef mince, 150g jacket potato, 100g chickpeas, 125g passata, 1/4 white onion, 30g LF cheddar",
-        "kcal": 572,
-        "protein": 57,
-        "carbs": 46,
-        "fat": 16,
-        "tag": "dinner"
-      },
-      {
-        "name": "Beef Chilli + Rice",
-        "description": "125g 5% beef mince, 60g dry basmati rice, 100g chickpeas, 125g passata, 1/4 white onion, 30g LF cheddar",
-        "kcal": 664,
-        "protein": 59,
-        "carbs": 67,
-        "fat": 16,
-        "tag": "dinner"
-      },
-      {
-        "name": "Chicken Fajitas",
-        "description": "125g chicken breast, 2 protein wraps, 50g mixed peppers, \u00bd white onion, 60g Fage 0%, Old El Paso fajita seasoning (\u00bd pack), 30g LF cheddar",
-        "kcal": 702,
-        "protein": 66,
-        "carbs": 72,
-        "fat": 15,
-        "tag": "dinner"
-      },
-      {
-        "name": "Chicken Arrabiatta",
-        "description": "160g chicken breast, 80g pasta, 125g passata, 1/4 white onion, 1 tsp olive oil, 1/2 Mozzarella (62.5g), chilli, garlic",
-        "kcal": 709,
-        "protein": 61,
-        "carbs": 65,
-        "fat": 21,
-        "tag": "dinner"
-      },
-      {
-        "name": "Chicken, Rice & Peas",
-        "description": "Basmati rice (100g uncooked) \u00d70.4, Chicken breast (100g raw) \u00d71.6, 1/4 white onion, Old El Paso fajita seasoning (\u00bd pack) \u00d70.5, Fage 0% Greek yoghurt (100g) \u00d70.3",
-        "kcal": 374,
-        "protein": 43,
-        "carbs": 40,
-        "fat": 4,
-        "tag": "lunch"
-      },
-      {
-        "name": "Cut Chilli",
-        "description": "62.5g 5% beef mince, 62.5g 2% turkey mince, 40g dry basmati rice, 125g passata, 1/4 white onion, 30g Fage 0%, chilli spices",
-        "kcal": 405,
-        "protein": 47,
-        "carbs": 40,
-        "fat": 5,
-        "tag": "lunch"
-      }
-    ],
+    "ramp_note": "Re-dated from the original Sep 1\u201311 plan in docs/health-conversation-snapshot.md. Starting 3 days early stretches each early stage by a day rather than compressing the jump to maintenance. Friday 28 Aug\u2019s ramen + chocolate (~1,075 kcal) was effectively the first refeed meal.",
     "meal_plan": {
       "maintenance_kcal": 2200,
-      "protein_target": "130g+ per day",
+      "protein_target": "150g+ per day",
       "totals": {
-        "weekday_kcal": 1423,
-        "weekend_kcal": 1509,
-        "avg_daily_kcal": 1448,
-        "avg_daily_deficit": 752,
-        "_note": "avg = (weekday\u00d75 + weekend\u00d72) / 7 \u2014 update these whenever meal items change"
+        "weekday_kcal": 2216,
+        "weekend_kcal": 2158,
+        "avg_daily_kcal": 2199,
+        "_note": "avg = (weekday\u00d75 + weekend\u00d72) / 7. This is the END STATE of the ramp (from 4 Sep). See phase.ramp for the daily targets before then."
       },
       "weekday": {
         "items": [
@@ -195,6 +67,24 @@
                 "name": "Water",
                 "kcal": 0,
                 "protein": 0
+              }
+            ]
+          },
+          {
+            "category": "Breakfast carbs",
+            "label": "Oats + Banana",
+            "kcal": 333,
+            "protein": 10,
+            "ingredients": [
+              {
+                "name": "Porridge oats (60g dry)",
+                "kcal": 228,
+                "protein": 8
+              },
+              {
+                "name": "Banana (medium)",
+                "kcal": 105,
+                "protein": 2
               }
             ]
           },
@@ -227,10 +117,29 @@
             ]
           },
           {
+            "category": "Lunch side",
+            "label": "Basmati Rice",
+            "kcal": 280,
+            "protein": 6,
+            "ingredients": [
+              {
+                "name": "Basmati rice (80g dry)",
+                "kcal": 280,
+                "protein": 6
+              }
+            ]
+          },
+          {
             "category": "Dinner",
             "label": "Gousto Meal",
             "kcal": 640,
             "protein": 41
+          },
+          {
+            "category": "Dinner side",
+            "label": "Wholemeal Bread \u00d7 2",
+            "kcal": 180,
+            "protein": 8
           },
           {
             "category": "Pudding",
@@ -252,19 +161,7 @@
             "category": "Breakfast",
             "label": "Single Clear Shake",
             "kcal": 84,
-            "protein": 21,
-            "ingredients": [
-              {
-                "name": "Impact Whey \u00d7 1 scoop",
-                "kcal": 84,
-                "protein": 21
-              },
-              {
-                "name": "Water",
-                "kcal": 0,
-                "protein": 0
-              }
-            ]
+            "protein": 21
           },
           {
             "category": "Brunch",
@@ -295,10 +192,40 @@
             ]
           },
           {
+            "category": "Brunch side",
+            "label": "Wholemeal Toast \u00d7 2",
+            "kcal": 180,
+            "protein": 8
+          },
+          {
+            "category": "Afternoon",
+            "label": "Single Shake + Banana",
+            "kcal": 189,
+            "protein": 22,
+            "ingredients": [
+              {
+                "name": "Impact Whey \u00d7 1 scoop",
+                "kcal": 84,
+                "protein": 21
+              },
+              {
+                "name": "Banana (medium)",
+                "kcal": 105,
+                "protein": 2
+              }
+            ]
+          },
+          {
             "category": "Dinner",
             "label": "Gousto Meal",
             "kcal": 640,
             "protein": 41
+          },
+          {
+            "category": "Dinner side",
+            "label": "Basmati Rice",
+            "kcal": 280,
+            "protein": 6
           },
           {
             "category": "Pudding",
@@ -308,7 +235,6 @@
           }
         ]
       },
-      "weekly_deficit_target": 5250,
       "cycling_kcal_factor": 0.65,
       "drink_kcal": {
         "Pint of Guinness": 210,
@@ -953,12 +879,384 @@
           "evidence": "Moderate"
         }
       ]
+    },
+    {
+      "id": "fat-loss-2026-q3",
+      "name": "Fat Loss \u2014 Bali",
+      "status": "completed",
+      "start_date": "2026-07-06",
+      "target_date": "2026-08-30",
+      "carryover_start_date": "2026-07-06",
+      "start_kg": 80.4,
+      "target_kg": 75,
+      "common_lunches": [
+        {
+          "name": "Beef & Bean Chilli Bowl",
+          "description": "Batch lunch (makes 4). 500g 5% beef mince + 1 tin kidney beans + 1 tin black beans + chopped tomatoes + onion/garlic/spices. Topped with Fage 0% Greek yoghurt.",
+          "kcal": 426,
+          "protein": 54,
+          "ingredients": [
+            {
+              "name": "5% beef mince (raw)",
+              "amount": "125g",
+              "kcal": 210,
+              "protein": 39
+            },
+            {
+              "name": "Kidney beans, drained (\u00bc tin)",
+              "amount": "~65g",
+              "kcal": 63,
+              "protein": 4
+            },
+            {
+              "name": "Black beans, drained (\u00bc tin)",
+              "amount": "~65g",
+              "kcal": 62,
+              "protein": 4
+            },
+            {
+              "name": "Chopped tomatoes",
+              "amount": "150g",
+              "kcal": 27,
+              "protein": 1
+            },
+            {
+              "name": "Onion + garlic",
+              "amount": "70g",
+              "kcal": 30,
+              "protein": 1
+            },
+            {
+              "name": "Fage 0% Greek yoghurt (topping)",
+              "amount": "50g",
+              "kcal": 29,
+              "protein": 5
+            },
+            {
+              "name": "Spices (cumin, smoked paprika, chilli, oregano)",
+              "amount": "to taste",
+              "kcal": 5,
+              "protein": 0
+            }
+          ],
+          "batch_note": "500g mince + 1 tin kidney beans + 1 tin black beans = exactly 4 portions. Brown mince, add onion/garlic, spices, tomatoes, beans. Simmer 15 min. Portion into 4 containers. Top with Fage when serving."
+        }
+      ],
+      "common_cheats": [
+        {
+          "name": "Caesar Salad",
+          "description": "\u00bd Lightly Dusted Chicken (Pack), Half caesar bag",
+          "kcal": 497,
+          "protein": 30.2,
+          "carbs": 33.1,
+          "fat": 26.4,
+          "tag": "dinner"
+        },
+        {
+          "name": "Tuna Power Bowl",
+          "description": "Tuna Power Bowl",
+          "kcal": 508,
+          "protein": 41,
+          "carbs": 30,
+          "fat": 25,
+          "tag": "lunch"
+        },
+        {
+          "name": "Turkey Meatball Spaghetti",
+          "description": "125g 2% turkey mince, 40g spaghetti, 125g passata, 1/4 white onion, herbs, chilli",
+          "kcal": 369,
+          "protein": 46,
+          "carbs": 36,
+          "fat": 3,
+          "tag": "lunch"
+        },
+        {
+          "name": "Turkey Bolognese",
+          "description": "125g 2% turkey mince, 90g spaghetti, 125g passata, 1/4 white onion, 30g LF cheddar, herbs",
+          "kcal": 638,
+          "protein": 62,
+          "carbs": 70,
+          "fat": 10,
+          "tag": "dinner"
+        },
+        {
+          "name": "Beef Bolognese",
+          "description": "125g 5% beef mince, 90g spaghetti, 125g passata, 1/4 white onion, 30g LF cheddar, herbs",
+          "kcal": 678,
+          "protein": 62,
+          "carbs": 70,
+          "fat": 15,
+          "tag": "dinner"
+        },
+        {
+          "name": "Beef Chilli Jacket Potato",
+          "description": "125g 5% beef mince, 150g jacket potato, 100g chickpeas, 125g passata, 1/4 white onion, 30g LF cheddar",
+          "kcal": 572,
+          "protein": 57,
+          "carbs": 46,
+          "fat": 16,
+          "tag": "dinner"
+        },
+        {
+          "name": "Beef Chilli + Rice",
+          "description": "125g 5% beef mince, 60g dry basmati rice, 100g chickpeas, 125g passata, 1/4 white onion, 30g LF cheddar",
+          "kcal": 664,
+          "protein": 59,
+          "carbs": 67,
+          "fat": 16,
+          "tag": "dinner"
+        },
+        {
+          "name": "Chicken Fajitas",
+          "description": "125g chicken breast, 2 protein wraps, 50g mixed peppers, \u00bd white onion, 60g Fage 0%, Old El Paso fajita seasoning (\u00bd pack), 30g LF cheddar",
+          "kcal": 702,
+          "protein": 66,
+          "carbs": 72,
+          "fat": 15,
+          "tag": "dinner"
+        },
+        {
+          "name": "Chicken Arrabiatta",
+          "description": "160g chicken breast, 80g pasta, 125g passata, 1/4 white onion, 1 tsp olive oil, 1/2 Mozzarella (62.5g), chilli, garlic",
+          "kcal": 709,
+          "protein": 61,
+          "carbs": 65,
+          "fat": 21,
+          "tag": "dinner"
+        },
+        {
+          "name": "Chicken, Rice & Peas",
+          "description": "Basmati rice (100g uncooked) \u00d70.4, Chicken breast (100g raw) \u00d71.6, 1/4 white onion, Old El Paso fajita seasoning (\u00bd pack) \u00d70.5, Fage 0% Greek yoghurt (100g) \u00d70.3",
+          "kcal": 374,
+          "protein": 43,
+          "carbs": 40,
+          "fat": 4,
+          "tag": "lunch"
+        },
+        {
+          "name": "Cut Chilli",
+          "description": "62.5g 5% beef mince, 62.5g 2% turkey mince, 40g dry basmati rice, 125g passata, 1/4 white onion, 30g Fage 0%, chilli spices",
+          "kcal": 405,
+          "protein": 47,
+          "carbs": 40,
+          "fat": 5,
+          "tag": "lunch"
+        }
+      ],
+      "meal_plan": {
+        "maintenance_kcal": 2200,
+        "protein_target": "130g+ per day",
+        "totals": {
+          "weekday_kcal": 1423,
+          "weekend_kcal": 1509,
+          "avg_daily_kcal": 1448,
+          "avg_daily_deficit": 752,
+          "_note": "avg = (weekday\u00d75 + weekend\u00d72) / 7 \u2014 update these whenever meal items change"
+        },
+        "weekday": {
+          "items": [
+            {
+              "category": "Morning Coffee",
+              "label": "Coffee + Oatly",
+              "kcal": 50,
+              "protein": 1
+            },
+            {
+              "category": "Breakfast",
+              "label": "Double Shake",
+              "kcal": 232,
+              "protein": 42,
+              "ingredients": [
+                {
+                  "name": "Impact Whey \u00d7 2 scoops",
+                  "kcal": 232,
+                  "protein": 42
+                },
+                {
+                  "name": "Water",
+                  "kcal": 0,
+                  "protein": 0
+                }
+              ]
+            },
+            {
+              "category": "Lunch",
+              "label": "Chicken Wrap",
+              "kcal": 376,
+              "protein": 51,
+              "ingredients": [
+                {
+                  "name": "Sainsbury's protein wrap (61g)",
+                  "kcal": 170,
+                  "protein": 10
+                },
+                {
+                  "name": "Chicken breast (160g raw, air fryer)",
+                  "kcal": 176,
+                  "protein": 37
+                },
+                {
+                  "name": "Fage 0% Greek yoghurt (2 big tsp)",
+                  "kcal": 20,
+                  "protein": 4
+                },
+                {
+                  "name": "Salad leaves & spring onion",
+                  "kcal": 10,
+                  "protein": 1
+                }
+              ]
+            },
+            {
+              "category": "Dinner",
+              "label": "Gousto Meal",
+              "kcal": 640,
+              "protein": 41
+            },
+            {
+              "category": "Pudding",
+              "label": "Creami",
+              "kcal": 125,
+              "protein": 20
+            }
+          ]
+        },
+        "weekend": {
+          "items": [
+            {
+              "category": "Morning Coffee",
+              "label": "Coffee + Oatly",
+              "kcal": 50,
+              "protein": 1
+            },
+            {
+              "category": "Breakfast",
+              "label": "Single Clear Shake",
+              "kcal": 84,
+              "protein": 21,
+              "ingredients": [
+                {
+                  "name": "Impact Whey \u00d7 1 scoop",
+                  "kcal": 84,
+                  "protein": 21
+                },
+                {
+                  "name": "Water",
+                  "kcal": 0,
+                  "protein": 0
+                }
+              ]
+            },
+            {
+              "category": "Brunch",
+              "label": "Weekend Brunch",
+              "kcal": 610,
+              "protein": 41,
+              "ingredients": [
+                {
+                  "name": "Sainsbury's hash browns \u00d7 3 (air fryer)",
+                  "kcal": 183,
+                  "protein": 3
+                },
+                {
+                  "name": "Branston baked beans (1/2 tin ~205g)",
+                  "kcal": 175,
+                  "protein": 9
+                },
+                {
+                  "name": "Scrambled eggs (1.5 eggs, 50ml egg white)",
+                  "kcal": 150,
+                  "protein": 12
+                },
+                {
+                  "name": "Heck Chicken Italia sausages \u00d7 3 (air fryer)",
+                  "kcal": 102,
+                  "protein": 17
+                }
+              ]
+            },
+            {
+              "category": "Dinner",
+              "label": "Gousto Meal",
+              "kcal": 640,
+              "protein": 41
+            },
+            {
+              "category": "Pudding",
+              "label": "Creami",
+              "kcal": 125,
+              "protein": 20
+            }
+          ]
+        },
+        "weekly_deficit_target": 5250,
+        "cycling_kcal_factor": 0.65,
+        "drink_kcal": {
+          "Pint of Guinness": 210,
+          "440ml Guinness": 155,
+          "Pint of 4% Pale Ale": 190,
+          "Pint of IPA": 270,
+          "330ml Hazy Jane": 158,
+          "Negroni": 185,
+          "Gin & Tonic": 120,
+          "Slimline G&T": 65,
+          "Glass of red wine": 160,
+          "Glass of white wine": 120
+        }
+      },
+      "end_date": "2026-08-28",
+      "end_kg": 74.8,
+      "end_note": "Ended 2 days early (planned 30 Aug). Final weekend of a cut carries a negligible fat-loss payoff (~1,382 kcal base deficit = ~0.18 kg) against real social cost, so the cut was closed Friday night and the refeed brought forward. Phase low 74.7 kg (20 Aug).",
+      "supplements": [
+        {
+          "name": "Creatine Monohydrate",
+          "dose": "3g",
+          "timing": "Morning, in coffee",
+          "reason": "Muscle strength, performance, recovery; emerging cognitive and longevity benefits",
+          "evidence": "Strong"
+        },
+        {
+          "name": "Vitamin D3 + K2 (MK-7)",
+          "dose": "4,000 IU + 100 mcg",
+          "timing": "Morning, with food",
+          "reason": "Baseline 43 nmol/l (insufficiency); also supports insulin sensitivity, testosterone, immunity, cardiovascular health",
+          "evidence": "Strong"
+        },
+        {
+          "name": "Magnesium Glycinate",
+          "dose": "400 mg",
+          "timing": "30\u201360 min before bed",
+          "reason": "Sleep quality, muscle recovery, insulin sensitivity (HOMA-IR 2.23), stress resilience",
+          "evidence": "Moderate-Strong"
+        },
+        {
+          "name": "Omega-3 (EPA+DHA)",
+          "dose": "3g EPA+DHA",
+          "timing": "With dinner (fat improves absorption)",
+          "reason": "Targets high LDL/ApoB and low HDL; anti-inflammatory; longevity",
+          "evidence": "Strong"
+        },
+        {
+          "name": "Ashwagandha (KSM-66)",
+          "dose": "600 mg",
+          "timing": "Morning, with food",
+          "reason": "Testosterone support (low-normal at 11 nmol/l, low LH); cortisol reduction during deficit",
+          "evidence": "Moderate"
+        },
+        {
+          "name": "Psyllium Husk (NKD Living)",
+          "dose": "1 tbsp (10g)",
+          "timing": "Morning, mixed into shake",
+          "reason": "Aids digestion and gut regularity; prevents fibre intake dropping too low on a reduced-calorie diet",
+          "evidence": "Strong"
+        }
+      ]
     }
   ],
   "recommendations": [
     {
       "title": "Book Post-Bali Blood Test",
-      "detail": "Target Mon 12–Fri 16 Oct 2026, ideally 08:00–09:00 after 14–19 days back from Bali and settled at maintenance. Fast 10–12 hours; water is fine. Avoid alcohol for 48–72 hours and strenuous training for 24–48 hours. Test lipids including ApoB, fasting glucose + insulin + HbA1c, testosterone + SHBG + LH/FSH + prolactin, vitamin D, liver, kidney, full blood count, uric acid and hsCRP."
+      "detail": "Target Mon 12\u2013Fri 16 Oct 2026, ideally 08:00\u201309:00 after 14\u201319 days back from Bali and settled at maintenance. Fast 10\u201312 hours; water is fine. Avoid alcohol for 48\u201372 hours and strenuous training for 24\u201348 hours. Test lipids including ApoB, fasting glucose + insulin + HbA1c, testosterone + SHBG + LH/FSH + prolactin, vitamin D, liver, kidney, full blood count, uric acid and hsCRP."
     },
     {
       "title": "Squat & Deadlift \u2014 Phase 2 Protocol",
@@ -972,5 +1270,5 @@
       "detail": "Baseline body composition \u2014 fat %, lean mass, visceral fat, bone density, BMR. Nearest dedicated clinic: DexaStrong in Leeds (~45 min via M1 from Archer Lane). Ideal timing: once current fat loss phase ends, to get a clean post-cut baseline."
     }
   ],
-  "last_updated": "2026-08-20"
+  "last_updated": "2026-08-29"
 }

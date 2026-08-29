@@ -610,6 +610,7 @@
 2026-08-27 | cheat | Cut Chilli, ~405 kcal | replaces: Chicken Wrap (376 kcal) | 62.5g 5% beef mince, 62.5g 2% turkey mince, 40g dry basmati rice, 125g passata, 1/4 white onion, 30g Fage 0%, chilli spices
 2026-08-27 | cheat | Mixed grill & rice, ~1000 kcal | replaces: Gousto Meal (640 kcal)
 2026-08-27 | cheat | Skipped pudding | replaces: Creami (125 kcal)
+2026-08-28 | weight | 74.8 | Phase 2 end weight — carried forward from 27 Aug reading, no weigh-in taken
 2026-08-28 | workout | Walking | 13 min | 60 kcal
 2026-08-28 | workout | Walking | 13 min | 62 kcal
 2026-08-28 | cheat | Ramen + chocolate, ~1075 kcal | replaces: Gousto Meal (640 kcal)
