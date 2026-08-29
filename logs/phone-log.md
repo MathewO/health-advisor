@@ -613,3 +613,4 @@
 2026-08-28 | workout | Walking | 13 min | 60 kcal
 2026-08-28 | workout | Walking | 13 min | 62 kcal
 2026-08-28 | cheat | Ramen + chocolate, ~1075 kcal | replaces: Gousto Meal (640 kcal)
+2026-08-29 | weight | 75.5
