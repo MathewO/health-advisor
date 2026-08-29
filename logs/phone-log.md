@@ -615,3 +615,4 @@
 2026-08-28 | workout | Walking | 13 min | 62 kcal
 2026-08-28 | cheat | Ramen + chocolate, ~1075 kcal | replaces: Gousto Meal (640 kcal)
 2026-08-29 | weight | 75.5
+2026-08-29 | cheat | PB Toast, ~350 kcal | replaces: Single Clear Shake (84 kcal)
