@@ -620,3 +620,4 @@
 2026-08-29 | drinks | 190 | Pint of 4% Pale Ale
 2026-08-30 | weight | 76.0
 2026-08-29 | cheat | Church, ~1300 kcal | replaces: Gousto Meal (640 kcal)
+2026-08-29 | cheat | Skipped pudding | replaces: Creami (125 kcal)
