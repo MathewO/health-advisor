@@ -30,10 +30,10 @@
       "maintenance_kcal": 2200,
       "protein_target": "150g+ per day",
       "totals": {
-        "weekday_kcal": 1743,
+        "weekday_kcal": 1708,
         "weekend_kcal": 1509,
-        "avg_daily_kcal": 1676,
-        "_note": "avg = (weekday\u00d75 + weekend\u00d72) / 7 = (1743\u00d75 + 1509\u00d72) / 7 = 11,733 / 7. Weekday breakfast swapped from the Double Shake (232 kcal) to Overnight Oats (552 kcal) on 29 Aug, applied to all weekdays in both stages: 1,423 \u2212 232 + 552 = 1,743, which is 57 short of the 1,800 Week 1 weekday target and 357 short of the 2,100 Week 2 weekday target. Weekend items are still the Phase 2 cut brunch (1,509) against targets of 2,150 / 2,450, so the weekend additions have NOT been agreed yet and the Meal Plan screen will show an \u201cItems short\u201d pill. The numbers the app uses for the weekly card come from stages[].target_kcal_weekday / target_kcal_weekend."
+        "avg_daily_kcal": 1651,
+        "_note": "avg = (weekday\u00d75 + weekend\u00d72) / 7 = (1708\u00d75 + 1509\u00d72) / 7 = 11,558 / 7. Weekday breakfast swapped from the Double Shake (232 kcal) to Overnight Oats on 29 Aug, applied to all weekdays in both stages. Powdered peanut butter cut 20g \u2192 10g on 30 Aug and re-based on the actual product (Hale Naturals, 398 kcal / 48g protein per 100g, so 10g = 40 kcal / 4.8g), taking the bowl 552 \u2192 517 and the weekday 1,423 \u2212 232 + 517 = 1,708. That is 92 short of the 1,800 Week 1 weekday target and 392 short of the 2,100 Week 2 weekday target. Weekend items are still the Phase 2 cut brunch (1,509) against targets of 2,150 / 2,450, so the weekend additions have NOT been agreed yet and the Meal Plan screen will show an \u201cItems short\u201d pill. The numbers the app uses for the weekly card come from stages[].target_kcal_weekday / target_kcal_weekend."
       },
       "weekday": {
         "items": [
@@ -46,8 +46,8 @@
           {
             "category": "Breakfast",
             "label": "Overnight Oats",
-            "kcal": 552,
-            "protein": 46,
+            "kcal": 517,
+            "protein": 43,
             "ingredients": [
               {
                 "name": "Porridge oats (70g dry)",
@@ -70,9 +70,9 @@
                 "protein": 1
               },
               {
-                "name": "Powdered peanut butter (20g)",
-                "kcal": 75,
-                "protein": 8
+                "name": "Powdered peanut butter (10g)",
+                "kcal": 40,
+                "protein": 5
               }
             ]
           },
@@ -207,7 +207,7 @@
           "target_kcal": "1,800 weekday / 2,150 weekend",
           "target_kcal_weekday": 1800,
           "target_kcal_weekend": 2150,
-          "_note": "Ramp week, 7 days. Weekends run +350 kcal/day above weekdays, matching Week 2. Weekly total 1,800\u00d75 + 2,150\u00d72 = 13,300, average 1,900 \u2014 7 kcal/day above the original ramp average of 1,893, i.e. nothing. Daily deltas vs 2,200 maintenance: +400 weekday, +50 weekend, so a 2,100 kcal weekly deficit (5\u00d7400 + 2\u00d750). Round numbers chosen deliberately over the exact-1,893 alternative (1,793 / 2,143). Supersedes the ramp's original day-by-day steps: with the weekend uplift, Sat 29\u2013Sun 30 are the week's highest days at 2,150 rather than its lowest at 1,750. Weekday items settled 29 Aug: the Double Shake became Overnight Oats (+320 kcal), taking the weekday base to 1,743 \u2014 57 short of 1,800, deliberately accepted rather than padded, so weekday carbs land at ~193g just below the 200\u2013250g band. Weekend items still TBD: needs +641 kcal/day over the cut brunch (1,509) to reach 2,150, and until they're added the screen flags the gap."
+          "_note": "Ramp week, 7 days. Weekends run +350 kcal/day above weekdays, matching Week 2. Weekly total 1,800\u00d75 + 2,150\u00d72 = 13,300, average 1,900 \u2014 7 kcal/day above the original ramp average of 1,893, i.e. nothing. Daily deltas vs 2,200 maintenance: +400 weekday, +50 weekend, so a 2,100 kcal weekly deficit (5\u00d7400 + 2\u00d750). Round numbers chosen deliberately over the exact-1,893 alternative (1,793 / 2,143). Supersedes the ramp's original day-by-day steps: with the weekend uplift, Sat 29\u2013Sun 30 are the week's highest days at 2,150 rather than its lowest at 1,750. Weekday items settled 29 Aug: the Double Shake became Overnight Oats, taking the weekday base to 1,743; the powdered peanut butter was then cut 20g \u2192 10g on 30 Aug, leaving 1,708 \u2014 92 short of 1,800, deliberately accepted rather than padded, so weekday carbs land at ~190g just below the 200\u2013250g band. Weekend items still TBD: needs +641 kcal/day over the cut brunch (1,509) to reach 2,150, and until they're added the screen flags the gap."
         },
         {
           "label": "Week 2",
@@ -216,7 +216,7 @@
           "target_kcal": "2,100 weekday / 2,450 weekend",
           "target_kcal_weekday": 2100,
           "target_kcal_weekend": 2450,
-          "_note": "Full maintenance, ~280\u2013300g carbs. Weekends run +350 kcal/day above weekdays. Weekly total 2,100\u00d75 + 2,450\u00d72 = 10,500 + 4,900 = 15,400, average exactly 2,200. Daily deltas vs maintenance: +100 weekday, \u2212250 weekend, so the week lands on exactly 0 \u2014 true energy balance, which is the point of a balance phase. Mathew's own figures, agreed 29 Aug; they supersede the earlier 2,129 / 2,379, which carried a 3 kcal rounding residue. Meal items TBD \u2014 the Overnight Oats swap lifted the weekday base to 1,743, so Week 2 still needs +357 kcal/day on weekdays and +941 at weekends (weekend base 1,509). Weekend protein is the weak spot at 124g vs the 150g target: the weekend shake is a single scoop, and making it a double adds 148 kcal and 21g protein."
+          "_note": "Full maintenance, ~280\u2013300g carbs. Weekends run +350 kcal/day above weekdays. Weekly total 2,100\u00d75 + 2,450\u00d72 = 10,500 + 4,900 = 15,400, average exactly 2,200. Daily deltas vs maintenance: +100 weekday, \u2212250 weekend, so the week lands on exactly 0 \u2014 true energy balance, which is the point of a balance phase. Mathew's own figures, agreed 29 Aug; they supersede the earlier 2,129 / 2,379, which carried a 3 kcal rounding residue. Meal items TBD \u2014 the Overnight Oats swap lifted the weekday base to 1,708 (after the 30 Aug peanut butter cut), so Week 2 still needs +392 kcal/day on weekdays and +941 at weekends (weekend base 1,509). Weekend protein is the weak spot at 124g vs the 150g target: the weekend shake is a single scoop, and making it a double adds 148 kcal and 21g protein."
         }
       ],
       "weekly_energy_target": 0,
@@ -271,6 +271,116 @@
     }
   ],
   "supplements_pending": [],
+  "common_cheats_note": "Top-level and therefore phase-independent. Saved meals used to live on phase.common_cheats, so endPhase() \u2014 which replaces phase wholesale with a fresh object \u2014 archived them with the outgoing phase and left the new one empty. Restored here on 30 Aug 2026 from previous_phases: the 11 entries from fat-loss-2026-q3 plus 'Single burger', which only ever existed in maintenance-2026-q2. Older duplicate versions of Caesar Salad, Tuna Power Bowl and Turkey Meatball Spaghetti in the two q2 phases were dropped in favour of the q3 versions, which carry carbs, fat and tag. The copies still sitting on the archived phases are inert history \u2014 the app reads this list, falling back to phase.common_cheats only if this key is absent.",
+  "common_cheats": [
+    {
+      "name": "Caesar Salad",
+      "description": "\u00bd Lightly Dusted Chicken (Pack), Half caesar bag",
+      "kcal": 497,
+      "protein": 30.2,
+      "carbs": 33.1,
+      "fat": 26.4,
+      "tag": "dinner"
+    },
+    {
+      "name": "Tuna Power Bowl",
+      "description": "Tuna Power Bowl",
+      "kcal": 508,
+      "protein": 41,
+      "carbs": 30,
+      "fat": 25,
+      "tag": "lunch"
+    },
+    {
+      "name": "Turkey Meatball Spaghetti",
+      "description": "125g 2% turkey mince, 40g spaghetti, 125g passata, 1/4 white onion, herbs, chilli",
+      "kcal": 369,
+      "protein": 46,
+      "carbs": 36,
+      "fat": 3,
+      "tag": "lunch"
+    },
+    {
+      "name": "Turkey Bolognese",
+      "description": "125g 2% turkey mince, 90g spaghetti, 125g passata, 1/4 white onion, 30g LF cheddar, herbs",
+      "kcal": 638,
+      "protein": 62,
+      "carbs": 70,
+      "fat": 10,
+      "tag": "dinner"
+    },
+    {
+      "name": "Beef Bolognese",
+      "description": "125g 5% beef mince, 90g spaghetti, 125g passata, 1/4 white onion, 30g LF cheddar, herbs",
+      "kcal": 678,
+      "protein": 62,
+      "carbs": 70,
+      "fat": 15,
+      "tag": "dinner"
+    },
+    {
+      "name": "Beef Chilli Jacket Potato",
+      "description": "125g 5% beef mince, 150g jacket potato, 100g chickpeas, 125g passata, 1/4 white onion, 30g LF cheddar",
+      "kcal": 572,
+      "protein": 57,
+      "carbs": 46,
+      "fat": 16,
+      "tag": "dinner"
+    },
+    {
+      "name": "Beef Chilli + Rice",
+      "description": "125g 5% beef mince, 60g dry basmati rice, 100g chickpeas, 125g passata, 1/4 white onion, 30g LF cheddar",
+      "kcal": 664,
+      "protein": 59,
+      "carbs": 67,
+      "fat": 16,
+      "tag": "dinner"
+    },
+    {
+      "name": "Chicken Fajitas",
+      "description": "125g chicken breast, 2 protein wraps, 50g mixed peppers, \u00bd white onion, 60g Fage 0%, Old El Paso fajita seasoning (\u00bd pack), 30g LF cheddar",
+      "kcal": 702,
+      "protein": 66,
+      "carbs": 72,
+      "fat": 15,
+      "tag": "dinner"
+    },
+    {
+      "name": "Chicken Arrabiatta",
+      "description": "160g chicken breast, 80g pasta, 125g passata, 1/4 white onion, 1 tsp olive oil, 1/2 Mozzarella (62.5g), chilli, garlic",
+      "kcal": 709,
+      "protein": 61,
+      "carbs": 65,
+      "fat": 21,
+      "tag": "dinner"
+    },
+    {
+      "name": "Chicken, Rice & Peas",
+      "description": "Basmati rice (100g uncooked) \u00d70.4, Chicken breast (100g raw) \u00d71.6, 1/4 white onion, Old El Paso fajita seasoning (\u00bd pack) \u00d70.5, Fage 0% Greek yoghurt (100g) \u00d70.3",
+      "kcal": 374,
+      "protein": 43,
+      "carbs": 40,
+      "fat": 4,
+      "tag": "lunch"
+    },
+    {
+      "name": "Cut Chilli",
+      "description": "62.5g 5% beef mince, 62.5g 2% turkey mince, 40g dry basmati rice, 125g passata, 1/4 white onion, 30g Fage 0%, chilli spices",
+      "kcal": 405,
+      "protein": 47,
+      "carbs": 40,
+      "fat": 5,
+      "tag": "lunch"
+    },
+    {
+      "name": "Single burger",
+      "description": "Large white roll, LF Cheddar Slice \u00d72, Beef Mince 5% (100g) \u00d71.25",
+      "kcal": 515,
+      "protein": 54,
+      "tag": "dinner",
+      "_note": "Restored from maintenance-2026-q2. Carbs and fat were never recorded for this entry and have deliberately not been back-filled by estimate."
+    }
+  ],
   "previous_phases": [
     {
       "id": "fat-loss-2026-q2",

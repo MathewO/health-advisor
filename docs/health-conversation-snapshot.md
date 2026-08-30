@@ -85,16 +85,16 @@ Maintenance was the wrong mode — it's the deliberately untracked one (weigh-in
 - **Week 1:** same +350 rhythm. 1,800 × 5 + 2,150 × 2 = 13,300, average 1,900 — 7 kcal/day above the original ramp average of 1,893, i.e. immaterial. Chosen over the exact-1,893 alternative (1,793 / 2,143) for roundness. Daily deltas +400 weekday and +50 weekend give a **2,100 kcal weekly deficit**; running mildly hypocaloric in week 1 is intended, since the rebound is driven by carbs going 200g → 300g rather than by total energy.
 - **Phase total:** 13,300 + 15,400 = 28,700 kcal over 14 days, averaging 2,050/day. Cumulative deficit 2,100 kcal ≈ 0.27 kg of fat at the 7,700 kcal/kg rule of thumb — negligible against the 1.7 kg glycogen-and-water target.
 - **This supersedes the ramp's original day-by-day steps.** The 1,750 → 2,000 → 2,200 progression is gone; it's now weekday-to-weekday, 1,800 → 2,100, with the weekend uplift on top. Consequence, accepted deliberately: Sat 29 and Sun 30 are the *highest* days of Week 1 at 2,150 rather than its lowest at 1,750 — the weekend rhythm wins over the ramp's shape.
-- **Weekday breakfast settled 29 Aug — the rest of the food is still outstanding.** The weekday Double Shake (232 kcal, 42g protein) became **Overnight Oats (552 kcal, 46g protein)**, applied to *all* weekdays in both stages, taking the weekday base from 1,423 to **1,743**. Remaining additions over the base:
+- **Weekday breakfast settled 29 Aug, trimmed 30 Aug — the rest of the food is still outstanding.** The weekday Double Shake (232 kcal, 42g protein) became **Overnight Oats**, applied to *all* weekdays in both stages. The powdered peanut butter was then cut 20g → 10g on 30 Aug and re-based on the actual product, taking the bowl to **517 kcal / 43g protein** and the weekday base from 1,423 to **1,708**. Remaining additions over the base:
 
-| | Weekday (base 1,743) | Weekend (base 1,509) |
+| | Weekday (base 1,708) | Weekend (base 1,509) |
 |---|---|---|
-| **Week 1** | +57 | +641 |
-| **Week 2** | +357 | +941 |
+| **Week 1** | +92 | +641 |
+| **Week 2** | +392 | +941 |
 
-The Week 1 weekday gap of 57 kcal is **deliberately left unfilled** — 57 × 5 = 285 kcal across the week, inside the card's 750 kcal tolerance, so it stays green. The real cost is in carbs, not calories: see below.
+The Week 1 weekday gap of 92 kcal is **deliberately left unfilled** — 92 × 5 = 460 kcal across the week, still inside the card's 750 kcal tolerance on its own. The real cost is in carbs, not calories: see below.
 
-**The weekend is now the binding constraint, not the weekdays.** Week 1's planned week totals 5 × 1,743 + 2 × 1,509 = **11,733** against the declared 13,300 — a 1,567 kcal gap, of which the weekend accounts for 2 × 641 = 1,282, i.e. **82%**. That exceeds the 750 tolerance, so the card sits amber until the weekend brunch is redesigned. Fixing weekdays alone does not clear it.
+**The weekend is the binding constraint, not the weekdays.** Week 1's planned week totals 5 × 1,708 + 2 × 1,509 = **11,558** against the declared 13,300 — a 1,742 kcal gap, of which the weekend accounts for 2 × 641 = 1,282, i.e. **74%**. That exceeds the 750 tolerance, so the card sits amber until the weekend brunch is redesigned. Fixing weekdays alone does not clear it.
 
 Weekend protein is also the weak spot at **124g vs the 150g target** — the weekend shake is a single scoop, not a double; making it a double adds 148 kcal and 21g protein, taking it to 145g and using up part of the weekend uplift usefully.
 
@@ -133,12 +133,12 @@ Started 3 days early (28/29 Aug rather than 1 Sep), giving 14 days to the 12 Sep
 
 | Stage | Dates | Weekday | Weekend | Meal items |
 |---|---|---|---|---|
-| **Week 1** (ramp) | 29 Aug – 4 Sep | 1,800 | 2,150 | Weekday **1,743 — settled** (oats swap). Weekend **TBD, 641 short** |
-| **Week 2** (maintenance) | 5–11 Sep | 2,100 | 2,450 | Weekday **1,743, 357 short**. Weekend **TBD, 941 short** |
+| **Week 1** (ramp) | 29 Aug – 4 Sep | 1,800 | 2,150 | Weekday **1,708 — settled** (oats swap). Weekend **TBD, 641 short** |
+| **Week 2** (maintenance) | 5–11 Sep | 2,100 | 2,450 | Weekday **1,708, 392 short**. Weekend **TBD, 941 short** |
 
-> **Weekdays are agreed for Week 1; the weekend and all of Week 2 aren't.** Each stage declares its daily intake target numerically, so the weekly energy card is correct regardless. As of 29 Aug the weekday items land at 1,743 — effectively on target for Week 1, still 357 short for Week 2 — while the weekend items are still the Phase 2 cut brunch at 1,509. So **use the ramp table above for weekend eating**, not the Meal Plan screen, until the weekend additions are agreed. The screen flags the shortfall with an "Items short" pill so it can't be mistaken for the plan. It auto-selects the stage covering today and lets you tap between them. See `docs/app-state.md` → *Meal plan stages* for the data contract.
+> **Weekdays are agreed for Week 1; the weekend and all of Week 2 aren't.** Each stage declares its daily intake target numerically, so the weekly energy card is correct regardless. As of 30 Aug the weekday items land at 1,708 — near enough on target for Week 1, still 392 short for Week 2 — while the weekend items are still the Phase 2 cut brunch at 1,509. So **use the ramp table above for weekend eating**, not the Meal Plan screen, until the weekend additions are agreed. The screen flags the shortfall with an "Items short" pill so it can't be mistaken for the plan. It auto-selects the stage covering today and lets you tap between them. See `docs/app-state.md` → *Meal plan stages* for the data contract.
 
-### Weekday breakfast — Overnight Oats (agreed 29 Aug 2026)
+### Weekday breakfast — Overnight Oats (agreed 29 Aug 2026, trimmed 30 Aug)
 
 Replaces the Double Shake on **every weekday of the phase** (both stages inherit the base weekday plan, so one edit covers all 10 weekdays).
 
@@ -148,17 +148,19 @@ Replaces the Double Shake on **every weekday of the phase** (both stages inherit
 | Impact Whey, 1 scoop | 116 | 21 g | 1 g |
 | Fage 0%, 75g | 43 | 8 g | 2 g |
 | Oatly, 125ml | 58 | 1 g | 8 g |
-| Powdered peanut butter, 20g | 75 | 8 g | 5 g |
-| **Total** | **552** | **46 g** | **58 g** |
+| Powdered peanut butter, 10g | 40 | 5 g | 2.6 g |
+| **Total** | **517** | **43 g** | **~55 g** |
 
-Weekday day then reads 50 + 552 + 376 + 640 + 125 = **1,743 kcal**, protein 1 + 46 + 51 + 41 + 20 = **159g**.
+Weekday day then reads 50 + 517 + 376 + 640 + 125 = **1,708 kcal**, protein 1 + 43 + 51 + 41 + 20 = **156g** — still clear of the 150g target.
+
+**Peanut butter product, for future portioning.** Hale Naturals defatted peanut flour, 180g jar: **398 kcal, 48g protein, 26g carbs (17g of which sugars), 9g fat, 10g fibre per 100g.** So 5g = 20 kcal / 2.4g protein, 10g = 40 / 4.8, 20g = 80 / 9.6. Note it is *sweetened* (palmyra nectar powder is the second ingredient), which is why sugars are 65% of the carbs — immaterial at 10g (1.7g sugar), but the macros would shift if the brand changed to an unsweetened flour.
 
 **Design decisions, and what they cost:**
 - **Impact Whey, not Clear Whey** — 116 kcal / 21g per scoop, derived from the weekday double at 232 ÷ 2. One scoop, not two.
-- **No banana.** Rejected explicitly, and this is the one real cost: the banana was 27g of carbs. Weekday carbs land at ~135 (cut baseline) + 58 = **~193g**, just below Week 1's 200–250g band. Since the rebound is carb-driven rather than calorie-driven, this matters more than the 57 kcal shortfall. Accepted knowingly.
+- **No banana.** Rejected explicitly, and this is the one real cost: the banana was 27g of carbs. Weekday carbs land at ~135 (cut baseline) + 55 = **~190g**, just below Week 1's 200–250g band. Since the rebound is carb-driven rather than calorie-driven, this matters more than the 92 kcal shortfall. Accepted knowingly.
 - **Half the Fage swapped for Oatly** — 75g Fage + 125ml Oatly instead of 150g Fage. Costs ~2g protein, covered by the powdered PB.
-- **Powdered peanut butter over regular** — 20g gives 75 kcal and 8g protein, where 20g of regular PB would be ~120 kcal for 5g. Buys flavour cheaply and defends the protein total against dropping to one scoop of whey.
-- **Bowl kept under 600.** A 600+ bowl was rejected; hitting 1,800 exactly would have needed 85g of oats and a 608 kcal bowl. The 57 kcal gap was accepted instead.
+- **Powdered peanut butter over regular** — 10g gives 40 kcal and 4.8g protein, where the same weight of regular PB would be ~60 kcal for 2.5g. Buys flavour cheaply and defends the protein total against dropping to one scoop of whey.
+- **Bowl kept well under 600.** A 600+ bowl was rejected; hitting 1,800 exactly would have needed 85g of oats and a 608 kcal bowl. The gap was accepted instead, and widened from 57 to 92 when the peanut butter was halved on 30 Aug.
 - **No fibre ramp.** Straight in at 70g oats, going from near-zero breakfast fibre to ~8g after 53 days of cutting. Bloating for a few days is likely — **don't read anything into a midweek waist measurement.**
 
 > **Re-dated 29 Aug 2026** (was Sep 1–11, 11 days, from a 30 Aug phase end), then aligned to the two meal-plan stage boundaries. Starting 3 days early stretches the ramp rather than compressing the jump to maintenance. Friday 28 Aug's ramen + chocolate (~1,075 kcal) was effectively the first refeed meal. Mirrored in `logs/dashboard.json` under `phase.ramp` and `phase.meal_plan.stages`.

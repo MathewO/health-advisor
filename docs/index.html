@@ -2085,6 +2085,27 @@ async function saveLogEdit(btn, encodedOld) {
 }
 
 // ─── Saved Meals ──────────────────────────────────────────────
+// Saved meals live at the top level of dashboard.json, not on the phase. They used to be
+// phase-scoped, which meant endPhase() — it replaces `phase` with a fresh object — archived
+// the whole roster with the outgoing phase and left the new one empty. Reading top-level
+// first, then falling back to the phase, keeps any dashboard authored before the move working.
+function savedMeals(data) {
+  const d = data || dashData;
+  return d?.common_cheats || d?.phase?.common_cheats || [];
+}
+
+// Write-side counterpart: guarantees a top-level array exists and returns it, migrating a
+// phase-scoped roster up on first write so the old copy stops being consulted.
+function savedMealsFor(data) {
+  if (!Array.isArray(data.common_cheats)) {
+    data.common_cheats = Array.isArray(data.phase?.common_cheats)
+      ? data.phase.common_cheats
+      : [];
+  }
+  if (data.phase && 'common_cheats' in data.phase) delete data.phase.common_cheats;
+  return data.common_cheats;
+}
+
 function loadSavedMeals() {
   const body = document.getElementById('savedMealsBody');
   if (!body) return;
@@ -2102,7 +2123,7 @@ function loadSavedMeals() {
   const tabBrowseActive = savedMealsTab !== 'add';
   const tabAddActive    = savedMealsTab === 'add';
   const isEditing       = smEditIndex !== null;
-  const editMeal        = isEditing ? ((dashData.phase?.common_cheats) || [])[smEditIndex] : null;
+  const editMeal        = isEditing ? savedMeals()[smEditIndex] : null;
   const addTabLabel     = isEditing ? '✏️ Edit' : '+ Add New';
 
   // Edit form (shown when smEditIndex is set)
@@ -2216,7 +2237,7 @@ function setSavedMealsFilter(filter) {
 function renderSavedMealsBrowse() {
   const cards = document.getElementById('smMealCards');
   if (!cards || !dashData) return;
-  const meals = (dashData.phase?.common_cheats) || [];
+  const meals = savedMeals();
   const filtered = savedMealsFilter === 'all'
     ? meals
     : meals.filter(m => (m.tag || 'misc') === savedMealsFilter);
@@ -2283,7 +2304,7 @@ async function deleteSavedMeal(idx) {
     const freshDash = await ghGet(DASH_PATH);
     dashSha         = freshDash.sha;
     const freshData = JSON.parse(ghDecode(freshDash.content));
-    if (freshData.phase.common_cheats) freshData.phase.common_cheats.splice(idx, 1);
+    savedMealsFor(freshData).splice(idx, 1);
     await ghPut(DASH_PATH, JSON.stringify(freshData, null, 2), dashSha, 'roster: delete meal');
     dashData = freshData;
     loadSavedMeals();
@@ -2470,13 +2491,13 @@ async function saveToRosterDirect() {
     const freshDash = await ghGet(DASH_PATH);
     dashSha         = freshDash.sha;
     const freshData = JSON.parse(ghDecode(freshDash.content));
-    if (!freshData.phase.common_cheats) freshData.phase.common_cheats = [];
+    const roster = savedMealsFor(freshData);
 
     if (isEditing) {
-      freshData.phase.common_cheats[smEditIndex] = newCheat;
+      roster[smEditIndex] = newCheat;
       await ghPut(DASH_PATH, JSON.stringify(freshData, null, 2), dashSha, 'roster: edit ' + name);
     } else {
-      freshData.phase.common_cheats.push(newCheat);
+      roster.push(newCheat);
       await ghPut(DASH_PATH, JSON.stringify(freshData, null, 2), dashSha, 'roster: add ' + name);
     }
     dashData = freshData;
@@ -4371,7 +4392,7 @@ function openCheatForm() {
         `<option value="${i}">${escHtml(m.category ? m.category + ': ' : '')}${escHtml(m.label)} (${m.kcal} kcal)</option>`
       ).join('');
 
-  const commonCheats = (dashData?.phase?.common_cheats) || [];
+  const commonCheats = savedMeals();
   const quickOptHtml = commonCheats.length
     ? `<option value="">Common Choices</option>`
       + commonCheats.map((c, i) => `<option value="${i}">${escHtml(c.name)} (${c.kcal} kcal)</option>`).join('')
@@ -4771,8 +4792,7 @@ async function submitCheatForm() {
       const freshDash   = await ghGet(DASH_PATH);
       dashSha           = freshDash.sha;
       const freshData   = JSON.parse(ghDecode(freshDash.content));
-      if (!freshData.phase.common_cheats) freshData.phase.common_cheats = [];
-      freshData.phase.common_cheats.push(newCheat);
+      savedMealsFor(freshData).push(newCheat);
       await ghPut(DASH_PATH, JSON.stringify(freshData, null, 2), dashSha, 'cheat roster: add ' + rosterName);
       dashData = freshData;
     }
