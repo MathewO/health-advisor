@@ -622,3 +622,4 @@
 2026-08-29 | cheat | Church, ~1300 kcal | replaces: Gousto Meal (640 kcal)
 2026-08-29 | cheat | Skipped pudding | replaces: Creami (125 kcal)
 2026-08-30 | workout | Golf | 91 min | 400 kcal
+2026-08-30 | cheat | Oat pot, ~215 kcal | replaces: Single Clear Shake (84 kcal)
