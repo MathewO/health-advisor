@@ -625,3 +625,4 @@
 2026-08-30 | cheat | Oat pot, ~215 kcal | replaces: Single Clear Shake (84 kcal)
 2026-08-30 | cheat | Brownie, ~400 kcal
 2026-08-30 | drinks | 190 | 440ml IPA
+2026-08-30 | drinks | 170 | 440ml IPA
