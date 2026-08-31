@@ -633,3 +633,4 @@
 2026-08-31 | workout | Walking | 14 min | 61 kcal
 2026-08-31 | workout | Walking | 15 min | 66 kcal
 2026-08-31 | drinks | 180 | 440ml Ipa
+2026-08-31 | cheat | Beef noodles, ~550 kcal | replaces: Gousto Meal (640 kcal)
