@@ -632,3 +632,4 @@
 2026-08-31 | cheat | Wagamama lunch, ~1150 kcal | replaces: Chicken Wrap (376 kcal)
 2026-08-31 | workout | Walking | 14 min | 61 kcal
 2026-08-31 | workout | Walking | 15 min | 66 kcal
+2026-08-31 | drinks | 180 | 440ml Ipa
