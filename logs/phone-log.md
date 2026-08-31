@@ -628,3 +628,4 @@
 2026-08-30 | drinks | 170 | 440ml IPA
 2026-08-30 | cheat | Ceaser salad, ~580 kcal | replaces: Gousto Meal (640 kcal)
 2026-08-31 | weight | 75.8
+2026-08-31 | cheat | Half oats, ~260 kcal | replaces: Overnight Oats (517 kcal)
