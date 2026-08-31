@@ -37,9 +37,9 @@
     "start_kg": 74.8,
     "target_date": "2026-09-11",
     "bali_departure": "2026-09-12",
-    "latest_weight_kg": 76.0,
-    "latest_weight_date": "2026-08-30",
-    "rebound_progress_note": "74.8 (28 Aug, phase start) \u2192 75.5 (29 Aug) \u2192 76.0 (30 Aug). +1.2 kg in 2 days, which is 71% of the way to the 76.5 kg target with 12 days still to run. This is water and glycogen moving at the expected speed, not fat: 1.2 kg in 2 days would need a ~9,240 kcal surplus at 7,700 kcal/kg, and the actual balance over those days was a deficit. Do not treat early target attainment as a reason to stop the refeed \u2014 the goal is glycogen repletion, and the scale is a lagging proxy for it. Waist is the check.",
+    "latest_weight_kg": 75.8,
+    "latest_weight_date": "2026-08-31",
+    "rebound_progress_note": "74.8 (28 Aug, phase start) \u2192 75.5 (29 Aug) \u2192 76.0 (30 Aug) \u2192 75.8 (31 Aug). +1.0 kg in 3 days, 59% of the way to the 76.5 kg target with 11 days to run. The 30\u219231 Aug dip of 0.2 kg is noise, not a reversal \u2014 31 Aug was the first day at or above maintenance (2,405 kcal intake vs 2,200), so intake was not the cause. This is water and glycogen moving at the expected speed, not fat: 1.2 kg in 2 days would need a ~9,240 kcal surplus at 7,700 kcal/kg, and the actual balance over those days was a deficit. Do not treat early target attainment as a reason to stop the refeed \u2014 the goal is glycogen repletion, and the scale is a lagging proxy for it. Waist is the check.",
     "intake_plan": {
       "agreed": "2026-08-29",
       "weekend_uplift_kcal": 350,
