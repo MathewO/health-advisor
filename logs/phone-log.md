@@ -640,3 +640,4 @@
 2026-09-01 | cheat | Double clear shake, ~168 kcal
 2026-09-01 | cheat | Sausage Sandwich, ~625 kcal | replaces: Chicken Wrap (376 kcal)
 2026-09-01 | cheat | Peperami, ~100 kcal
+2026-09-01 | cheat | Roku, ~975 kcal | replaces: Gousto Meal (640 kcal)
