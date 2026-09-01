@@ -1399,16 +1399,10 @@ function renderWeeklyDeficitCard(phase) {
   }
 
   const allEntries = parseAllLogEntries(logText);
-  const { target, carryover, weekOutliers, thisWeekAdj, predicted, weekStartStr, weekEndStr, daysElapsed,
-          dailyRates, dailyTargetRates, weekBase, inPhaseDays, partialWeek }
+  const { target, carryover, scoredWeeks, weekOutliers, thisWeekAdj, predicted, weekStartStr,
+          weekEndStr, daysElapsed, dailyRates, dailyTargetRates, weekBase, inPhaseDays,
+          partialWeek }
     = computeWeeklyDeficit(allEntries, phase);
-
-  const carryoverHtml = carryover !== 0
-    ? `<div class="deficit-row deficit-row--tight deficit-row--carryover deficit-row--no-border">
-        <span class="deficit-label">Carryover from last week</span>
-        <span class="deficit-val" style="color:${carryover > 0 ? 'var(--green)' : 'var(--red)'}">${carryover > 0 ? '+' : ''}${carryover.toLocaleString()} kcal</span>
-       </div>`
-    : '';
 
   const mode   = phaseMode(phase);
   const labels = modeLabels(mode);
@@ -1420,8 +1414,23 @@ function renderWeeklyDeficitCard(phase) {
   const tolerance = Math.max(Math.abs(target) * 0.25, 750 * inPhaseDays / 7);
   const predictedColor = energyColor(predicted, target, mode, tolerance);
 
+  // Shown from the first scored week onward, including when it nets to exactly zero: a real
+  // zero says "the weeks so far balanced out", which a hidden row cannot — it just looks
+  // like the mechanism doesn't exist. Colour is graded against a zero ideal through
+  // energyColor, because "positive is good" only holds for a cut. In a refeed, banking
+  // deficit means having under-eaten, and the old hardcoded green-if-positive would have
+  // congratulated a balance phase while the predicted figure directly beneath it read red.
+  const showCarryover  = scoredWeeks > 0;
+  const carryoverColor = carryover === 0 ? 'var(--muted)' : energyColor(carryover, 0, mode, tolerance);
+  const carryoverHtml  = showCarryover
+    ? `<div class="deficit-row deficit-row--tight deficit-row--carryover deficit-row--no-border">
+        <span class="deficit-label">Carryover to date${scoredWeeks > 1 ? ` <span style="color:var(--muted);font-weight:400">· ${scoredWeeks} wks</span>` : ''}</span>
+        <span class="deficit-val" style="color:${carryoverColor}">${carryover > 0 ? '+' : ''}${carryover.toLocaleString()} kcal</span>
+       </div>`
+    : '';
+
   card.innerHTML = `
-    <div class="deficit-row${carryover !== 0 ? ' deficit-row--no-border deficit-row--tight' : ''}">
+    <div class="deficit-row${showCarryover ? ' deficit-row--no-border deficit-row--tight' : ''}">
       <span class="deficit-label">${labels.target}${partialWeek ? ` <span style="color:var(--muted);font-weight:400">· part week, ${inPhaseDays}d</span>` : ''}</span>
       <span class="deficit-val">${target.toLocaleString()} kcal</span>
     </div>
@@ -1502,7 +1511,7 @@ function renderWeeklyBurndownChart(allEntries, weekStartStr, dailyRates, daysEla
   // Y-axis bounds. A deficit phase stays anchored at zero and rises; surplus and
   // balance phases go negative, so the axis has to span the data in both
   // directions and always include the zero line.
-  const yValues = [0, target, weekBase, ...plannedData, ...(targetData || []), ...actualData]
+  const yValues = [0, target, weekBase, carryover, ...plannedData, ...(targetData || []), ...actualData]
     .filter(v => v != null);
   const dataMin = Math.min(...yValues);
   const dataMax = Math.max(...yValues);
@@ -1516,6 +1525,12 @@ function renderWeeklyBurndownChart(allEntries, weekStartStr, dailyRates, daysEla
   // for callers that don't supply target rates.
   const refValue    = mode === 'deficit' ? 5000 : 0;
   const showFlatRef = mode === 'deficit' || !targetDiverges;
+
+  // The actual line is offset by the whole carryover from its very first point, so without
+  // this the week appears to start somewhere other than zero for no visible reason. Drawing
+  // it as the line's origin makes the offset self-explanatory rather than something you have
+  // to know about. Only when non-zero — at zero it would just sit on the axis.
+  const showCarryoverLine = Math.abs(carryover) > 1;
 
   // Event icons + labels per day
   const baseIcons = { weight: '⚖️', waist: '📏', run: '🏃', stair: '🪜', drinks: '🍺', beers: '🍺', cheat: '🌮', activity: '🏌️' };
@@ -1596,6 +1611,19 @@ function renderWeeklyBurndownChart(allEntries, weekStartStr, dailyRates, daysEla
       borderColor: 'rgba(82,82,91,0.5)',
       borderDash: [3, 5],
       borderWidth: 1,
+      pointRadius: 0,
+      tension: 0,
+      fill: false
+    });
+  }
+
+  if (showCarryoverLine) {
+    datasets.push({
+      label: 'Carryover',
+      data: Array(7).fill(carryover),
+      borderColor: 'rgba(234,179,8,0.45)',
+      borderDash: [2, 4],
+      borderWidth: 1.5,
       pointRadius: 0,
       tension: 0,
       fill: false
@@ -1872,6 +1900,10 @@ function computeWeeklyDeficit(allEntries, phase) {
   firstWeekStart.setDate(phaseStartDate.getDate() - psOffset);
 
   let cumulativeCarryover = 0;
+  // Counts weeks actually scored, so the card can distinguish "no weeks yet" from "weeks
+  // scored and they happened to net to zero" — a real zero is information, a missing row
+  // looks like the mechanism doesn't exist.
+  let scoredWeeks = 0;
   let wCursor = new Date(firstWeekStart);
   while (true) {
     const wEnd  = new Date(wCursor);
@@ -1887,6 +1919,7 @@ function computeWeeklyDeficit(allEntries, phase) {
       const wOutliers = allEntries.filter(e => e.date >= wStartStr && e.date <= weStr && isOutlierType(e));
       const wAdj = wOutliers.reduce((s, e) => s + (e.outlierKcal || 0), 0);
       cumulativeCarryover += (wBase + wAdj) - weeklyEnergyTargetForDates(mp, wDates);
+      scoredWeeks++;
     }
     wCursor.setDate(wCursor.getDate() + 7);
   }
@@ -1896,9 +1929,9 @@ function computeWeeklyDeficit(allEntries, phase) {
   // Predicted = in-phase meal-plan base + carryover from last week + outliers logged so far
   const predicted   = weekBase + carryover + thisWeekAdj;
 
-  return { target, carryover, weekOutliers, thisWeekAdj, predicted, weekStartStr, weekEndStr,
-           daysElapsed, dailyRates, dailyTargetRates, weekBase, phaseStartIdx, inPhaseDays,
-           partialWeek };
+  return { target, carryover, scoredWeeks, weekOutliers, thisWeekAdj, predicted, weekStartStr,
+           weekEndStr, daysElapsed, dailyRates, dailyTargetRates, weekBase, phaseStartIdx,
+           inPhaseDays, partialWeek };
 }
 
 function outlierLabel(e) {

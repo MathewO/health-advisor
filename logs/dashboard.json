@@ -7,7 +7,7 @@
     "target_date": "2026-09-11",
     "start_kg": 74.8,
     "target_kg": 76.5,
-    "_note": "Tracked refeed, not an untracked maintenance block. Goal 76.5 kg by 11 Sep is glycogen and bound water (~3g per gram of glycogen), not tissue \u2014 so tracking_mode is \"balance\": intake is tracked against the ramp target and weight is NEVER projected from calorie balance, because the two are decoupled here. Waist is the real check: 95 cm at Phase 2 close (27 Aug). If waist holds at 95\u201397 cm while the scale rises, the rebound is doing what it should. carryover_start_date is the first full Mon\u2013Sun week (31 Aug) so the part-week from 29 Aug is not scored.",
+    "_note": "Tracked refeed, not an untracked maintenance block. Goal 76.5 kg by 11 Sep is glycogen and bound water (~3g per gram of glycogen), not tissue \u2014 so tracking_mode is \"balance\": intake is tracked against the ramp target and weight is NEVER projected from calorie balance, because the two are decoupled here. Waist is the real check: 95 cm at Phase 2 close (27 Aug). If waist holds at 95\u201397 cm while the scale rises, the rebound is doing what it should. carryover_start_date was set to 2026-08-31 to skip the 29\u201330 Aug part week; removed on 1 Sep 2026 because that was wrong on two counts. The field exists to skip the glycogen-and-water noise of a cut's first week, which is not what a 2-day refeed weekend is, and the carryover maths already costs part weeks correctly \u2014 it scored those 2 days against a pro-rated target of 100, not the full 1,500. Excluding them discarded real data to solve a problem that did not exist, and contradicted the Phase 1 precedent where the date was moved *earlier* (20 Apr \u2192 13 Apr) to capture the phase from day one. With no carryover_start_date the code falls back to start_date, so the field cannot drift if the phase is ever re-dated again \u2014 as this one already was, from 1 Sep to 29 Aug. Scored value for 29\u201330 Aug: \u221290 kcal.",
     "start_date_note": "Set to 29 Aug (Sat), not 28 Aug: Friday 28 Aug was the last day of the cut, and its ramen cheat and walks belong to Phase 2, not here. start_kg 74.8 is the cut's close weight (27 Aug reading carried forward through 28 Aug) and so predates start_date by a day \u2014 same handover convention as 6 Jul. This also makes the two meal-plan stages exactly 7 days each: 29 Aug\u20134 Sep and 5\u201311 Sep.",
     "ramp": [
       {
@@ -223,8 +223,7 @@
       "weekly_energy_target_note": "Signed: positive = deficit, negative = surplus, 0 = hold at maintenance. A refeed targets energy balance over a full week, so 0. Unused while the stages declare target_kcal_weekday / target_kcal_weekend, which the app prefers because they survive a mid-week stage boundary; kept as a statement of intent and as the fallback for dates outside every stage. Set this negative for a bulk (e.g. -2100 for a ~300 kcal/day surplus)."
     },
     "direction": "gain",
-    "tracking_mode": "balance",
-    "carryover_start_date": "2026-08-31"
+    "tracking_mode": "balance"
   },
   "supplements": [
     {
