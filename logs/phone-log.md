@@ -628,7 +628,7 @@
 2026-08-30 | drinks | 170 | 440ml IPA
 2026-08-30 | cheat | Ceaser salad, ~580 kcal | replaces: Gousto Meal (640 kcal)
 2026-08-31 | weight | 75.8
-2026-08-31 | cheat | Half oats, ~260 kcal | replaces: Overnight Oats (517 kcal)
+2026-08-31 | cheat | Half oats, ~260 kcal | replaces: Overnight Oats (289 kcal)
 2026-08-31 | cheat | Wagamama lunch, ~1150 kcal | replaces: Chicken Wrap (376 kcal)
 2026-08-31 | workout | Walking | 14 min | 61 kcal
 2026-08-31 | workout | Walking | 15 min | 66 kcal

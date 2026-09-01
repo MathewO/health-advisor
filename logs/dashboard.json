@@ -30,10 +30,10 @@
       "maintenance_kcal": 2200,
       "protein_target": "150g+ per day",
       "totals": {
-        "weekday_kcal": 1708,
+        "weekday_kcal": 1480,
         "weekend_kcal": 1509,
-        "avg_daily_kcal": 1651,
-        "_note": "avg = (weekday\u00d75 + weekend\u00d72) / 7 = (1708\u00d75 + 1509\u00d72) / 7 = 11,558 / 7. Weekday breakfast swapped from the Double Shake (232 kcal) to Overnight Oats on 29 Aug, applied to all weekdays in both stages. Powdered peanut butter cut 20g \u2192 10g on 30 Aug and re-based on the actual product (Hale Naturals, 398 kcal / 48g protein per 100g, so 10g = 40 kcal / 4.8g), taking the bowl 552 \u2192 517 and the weekday 1,423 \u2212 232 + 517 = 1,708. That is 92 short of the 1,800 Week 1 weekday target and 392 short of the 2,100 Week 2 weekday target. Weekend items are still the Phase 2 cut brunch (1,509) against targets of 2,150 / 2,450, so the weekend additions have NOT been agreed yet and the Meal Plan screen will show an \u201cItems short\u201d pill. The numbers the app uses for the weekly card come from stages[].target_kcal_weekday / target_kcal_weekend."
+        "avg_daily_kcal": 1488,
+        "_note": "avg = (weekday\u00d75 + weekend\u00d72) / 7 = (1480\u00d75 + 1509\u00d72) / 7 = 10,418 / 7 = 1,488. Weekday breakfast swapped from the Double Shake (232 kcal) to Overnight Oats on 29 Aug, applied to all weekdays in both stages. The bowl has been cut twice since: peanut butter 20g \u2192 10g on 30 Aug (552 \u2192 517), then halved outright on 1 Sep (517 \u2192 289) because the full bowl was unpalatable \u2014 Mathew managed only half of it on 31 Aug and found that hard work. The halved build keeps the full whey scoop and cuts the bulk (oats 70g \u2192 35g, Fage 75g \u2192 40g, Oatly dropped, water instead), which preserves 31 of the 43g protein for 289 of the 517 kcal. Weekday is now 1,423 \u2212 232 + 289 = 1,480, protein 144g \u2014 below the 150g target, accepted. That is 320 short of the 1,800 Week 1 weekday target and 620 short of the 2,100 Week 2 weekday target, and Mathew chose on 1 Sep NOT to replace those calories in the plan, intending to fill the gap with tracked additions day by day instead. Weekend items are still the Phase 2 cut brunch (1,509) against targets of 2,150 / 2,450, so the weekend additions have NOT been agreed yet and the Meal Plan screen will show an \u201cItems short\u201d pill. The numbers the app uses for the weekly card come from stages[].target_kcal_weekday / target_kcal_weekend."
       },
       "weekday": {
         "items": [
@@ -46,13 +46,13 @@
           {
             "category": "Breakfast",
             "label": "Overnight Oats",
-            "kcal": 517,
-            "protein": 43,
+            "kcal": 289,
+            "protein": 31,
             "ingredients": [
               {
-                "name": "Porridge oats (70g dry)",
-                "kcal": 260,
-                "protein": 8
+                "name": "Porridge oats (35g dry)",
+                "kcal": 130,
+                "protein": 4
               },
               {
                 "name": "Impact Whey \u00d7 1 scoop",
@@ -60,19 +60,19 @@
                 "protein": 21
               },
               {
-                "name": "Fage 0% Greek yoghurt (75g)",
-                "kcal": 43,
-                "protein": 8
+                "name": "Fage 0% Greek yoghurt (40g)",
+                "kcal": 23,
+                "protein": 4
               },
               {
-                "name": "Oatly (125ml)",
-                "kcal": 58,
-                "protein": 1
+                "name": "Powdered peanut butter (5g / 1 tsp)",
+                "kcal": 20,
+                "protein": 2
               },
               {
-                "name": "Powdered peanut butter (10g)",
-                "kcal": 40,
-                "protein": 5
+                "name": "Water to loosen",
+                "kcal": 0,
+                "protein": 0
               }
             ]
           },
@@ -207,7 +207,7 @@
           "target_kcal": "1,800 weekday / 2,150 weekend",
           "target_kcal_weekday": 1800,
           "target_kcal_weekend": 2150,
-          "_note": "Ramp week, 7 days. Weekends run +350 kcal/day above weekdays, matching Week 2. Weekly total 1,800\u00d75 + 2,150\u00d72 = 13,300, average 1,900 \u2014 7 kcal/day above the original ramp average of 1,893, i.e. nothing. Daily deltas vs 2,200 maintenance: +400 weekday, +50 weekend, so a 2,100 kcal weekly deficit (5\u00d7400 + 2\u00d750). Round numbers chosen deliberately over the exact-1,893 alternative (1,793 / 2,143). Supersedes the ramp's original day-by-day steps: with the weekend uplift, Sat 29\u2013Sun 30 are the week's highest days at 2,150 rather than its lowest at 1,750. Weekday items settled 29 Aug: the Double Shake became Overnight Oats, taking the weekday base to 1,743; the powdered peanut butter was then cut 20g \u2192 10g on 30 Aug, leaving 1,708 \u2014 92 short of 1,800, deliberately accepted rather than padded, so weekday carbs land at ~190g just below the 200\u2013250g band. Weekend items still TBD: needs +641 kcal/day over the cut brunch (1,509) to reach 2,150, and until they're added the screen flags the gap."
+          "_note": "Ramp week, 7 days. Weekends run +350 kcal/day above weekdays, matching Week 2. Weekly total 1,800\u00d75 + 2,150\u00d72 = 13,300, average 1,900 \u2014 7 kcal/day above the original ramp average of 1,893, i.e. nothing. Daily deltas vs 2,200 maintenance: +400 weekday, +50 weekend, so a 2,100 kcal weekly deficit (5\u00d7400 + 2\u00d750). Round numbers chosen deliberately over the exact-1,893 alternative (1,793 / 2,143). Supersedes the ramp's original day-by-day steps: with the weekend uplift, Sat 29\u2013Sun 30 are the week's highest days at 2,150 rather than its lowest at 1,750. Weekday items settled 29 Aug: the Double Shake became Overnight Oats, taking the weekday base to 1,743; the powdered peanut butter was cut 20g \u2192 10g on 30 Aug (1,708), and the whole bowl was halved on 1 Sep for palatability, leaving 1,480 \u2014 320 short of 1,800, deliberately accepted rather than padded, and to be covered by tracked additions rather than plan items. Weekday carbs fall to ~160g, well below the 200\u2013250g band, which is the real cost since the rebound is carb-driven rather than energy-driven. Weekend items still TBD: needs +641 kcal/day over the cut brunch (1,509) to reach 2,150, and until they're added the screen flags the gap. Weekdays and weekend now contribute comparably to the week's 2,882 kcal shortfall \u2014 1,600 (56%) from the five weekdays, 1,282 (44%) from the two weekend days \u2014 so the weekend is no longer the single binding constraint it was at the 1,708 base."
         },
         {
           "label": "Week 2",
@@ -216,7 +216,7 @@
           "target_kcal": "2,100 weekday / 2,450 weekend",
           "target_kcal_weekday": 2100,
           "target_kcal_weekend": 2450,
-          "_note": "Full maintenance, ~280\u2013300g carbs. Weekends run +350 kcal/day above weekdays. Weekly total 2,100\u00d75 + 2,450\u00d72 = 10,500 + 4,900 = 15,400, average exactly 2,200. Daily deltas vs maintenance: +100 weekday, \u2212250 weekend, so the week lands on exactly 0 \u2014 true energy balance, which is the point of a balance phase. Mathew's own figures, agreed 29 Aug; they supersede the earlier 2,129 / 2,379, which carried a 3 kcal rounding residue. Meal items TBD \u2014 the Overnight Oats swap lifted the weekday base to 1,708 (after the 30 Aug peanut butter cut), so Week 2 still needs +392 kcal/day on weekdays and +941 at weekends (weekend base 1,509). Weekend protein is the weak spot at 124g vs the 150g target: the weekend shake is a single scoop, and making it a double adds 148 kcal and 21g protein."
+          "_note": "Full maintenance, ~280\u2013300g carbs. Weekends run +350 kcal/day above weekdays. Weekly total 2,100\u00d75 + 2,450\u00d72 = 10,500 + 4,900 = 15,400, average exactly 2,200. Daily deltas vs maintenance: +100 weekday, \u2212250 weekend, so the week lands on exactly 0 \u2014 true energy balance, which is the point of a balance phase. Mathew's own figures, agreed 29 Aug; they supersede the earlier 2,129 / 2,379, which carried a 3 kcal rounding residue. Meal items TBD \u2014 the weekday base is 1,480 after the 1 Sep halving of the Overnight Oats, so Week 2 still needs +620 kcal/day on weekdays and +941 at weekends (weekend base 1,509), a 4,982 kcal weekly gap. This is the week that matters: Bali is 12 Sep, so there is no third week to make it up in. Weekend protein is the weak spot at 124g vs the 150g target: the weekend shake is a single scoop, and making it a double adds 148 kcal and 21g protein."
         }
       ],
       "weekly_energy_target": 0,
