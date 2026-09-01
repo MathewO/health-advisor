@@ -639,3 +639,4 @@
 2026-09-01 | workout | Walking | 12 min | 66 kcal
 2026-09-01 | cheat | Double clear shake, ~168 kcal
 2026-09-01 | cheat | Sausage Sandwich, ~625 kcal | replaces: Chicken Wrap (376 kcal)
+2026-09-01 | cheat | Peperami, ~100 kcal
