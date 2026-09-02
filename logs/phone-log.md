@@ -645,3 +645,4 @@
 2026-09-02 | workout | Walking | 13 min | 60 kcal
 2026-09-02 | cheat | Oats, ~266 kcal | replaces: Overnight Oats (289 kcal)
 2026-09-02 | cheat | Sausage butties, ~805 kcal | replaces: Chicken Wrap (376 kcal)
+2026-09-02 | cheat | Gousto, ~546 kcal | replaces: Gousto Meal (640 kcal)
