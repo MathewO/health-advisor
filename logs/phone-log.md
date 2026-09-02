@@ -642,3 +642,4 @@
 2026-09-01 | cheat | Peperami, ~100 kcal
 2026-09-01 | cheat | Roku, ~975 kcal | replaces: Gousto Meal (640 kcal)
 2026-09-02 | weight | 74.9
+2026-09-02 | workout | Walking | 13 min | 60 kcal
