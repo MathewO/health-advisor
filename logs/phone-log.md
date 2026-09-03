@@ -650,3 +650,4 @@
 2026-09-03 | weight | 75.1
 2026-09-03 | waist | 95
 2026-09-03 | cheat | Oats, ~266 kcal | replaces: Overnight Oats (289 kcal)
+2026-09-03 | cheat | Fried rice, ~620 kcal | replaces: Chicken Wrap (376 kcal)
