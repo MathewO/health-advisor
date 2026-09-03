@@ -649,3 +649,4 @@
 2026-09-02 | cheat | Creami, ~175 kcal | replaces: Creami (125 kcal)
 2026-09-03 | weight | 75.1
 2026-09-03 | waist | 95
+2026-09-03 | cheat | Oats, ~266 kcal | replaces: Overnight Oats (289 kcal)
