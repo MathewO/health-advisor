@@ -648,3 +648,4 @@
 2026-09-02 | cheat | Gousto, ~546 kcal | replaces: Gousto Meal (640 kcal)
 2026-09-02 | cheat | Creami, ~175 kcal | replaces: Creami (125 kcal)
 2026-09-03 | weight | 75.1
+2026-09-03 | waist | 95
