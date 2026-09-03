@@ -2,7 +2,37 @@
 
 > **Purpose:** Recovery of key decisions and dates from planning chats if **chat history is unavailable**.  
 > **Not used by the PWA** — for humans and AI sessions only.  
-> **Last updated:** 2026-09-01
+> **Last updated:** 2026-09-03
+
+---
+
+## Session notes — 3 Sep 2026
+
+### Refeed day-6 review — execution good, scale misleading
+
+Full figures are in `logs/current-estimates.json` (`rebound_progress_note`, `rebound_risk_note`). Headline: intake beat target on all five logged days, averaging 2,256 kcal/day against 2,200 maintenance, which after 710 kcal of logged walking is a net 431 kcal deficit over 5 days = **86 kcal/day, i.e. near-exact energy balance** — exactly what a balance phase asks for. Weight peaked at 76.0 (30 Aug) and has given back 0.9 kg to 75.1, but the in-phase mean of 75.52 is **+0.72 vs start against a linear pace requirement of +0.73**, so the average is precisely on track. At true energy balance no fat moved, so both the spike and the reversal were water — most likely 730 kcal of beer plus high-sodium restaurant food across 29–31 Aug, then no alcohol on 1–2 Sep. The 6-day scale range of 1.1 kg exceeds the entire remaining goal of +1.4, so single readings are uninformative here.
+
+**The live risk is carbohydrate, not energy** — see `rebound_risk_note`. Intake is being topped up with fat-heavy pub and restaurant food, and cheat entries store only kcal with no macros, so the carb band cannot be verified from the log at all. That is a real blind spot for a phase whose objective *is* a carb target.
+
+### Chicken thigh fillet — raw values are DERIVED, do not "correct" them
+
+Added to `logs/components.json` as **Chicken thigh fillet (100g raw): 120 kcal, 18.5g protein, 0g carbs, 5g fat.**
+
+**Sainsbury's publishes no raw figures for this product** — the pack and website give only *per 100g pan fried*: 168 kcal, 7.6g fat, 24.8g protein. A future session must not replace the 120 with 168. Every entry in `components.json` is raw or dry weight (`Chicken breast (100g raw)`, `Basmati rice (100g uncooked)`, `Pasta (100g dry)`), Mathew weighs raw, and chicken loses ~25–30% of its weight cooking, so using the cooked figure on a raw-weighed portion over-counts by ~40%.
+
+How 120 was reached — two independent routes agreeing to within 2% on calories:
+
+| Route | kcal | Protein | Fat |
+|---|---|---|---|
+| Derived from the pack (168 × 0.72 cooked yield) | 121 | 17.9 g | 5.5 g |
+| Reference data, raw boneless skinless thigh | 119 | 19.7 g | 4.1 g |
+| **Entry used** | **120** | **18.5 g** | **5 g** |
+
+Uncertainty is roughly ±8% on calories (under 10 kcal) and ±1g on protein. **The protein error runs in the safe direction** — if the true figure is nearer 19.7, the entry under-counts, so it can't create a false impression of hitting 150g. Fat was nudged from the derived 5.5 down to 5 because Sainsbury's pan-fried figure almost certainly assumes cooking oil (their 7.6g cooked back-derives to 5.5g raw against 4.1g in reference data), while Mathew often cooks dry or in the air fryer.
+
+**Also noted: the pack's front-of-pack "30g protein per 100g" claim is arithmetically impossible.** 30 × 4 + 7.6 × 9 = 188 kcal, against the 168 kcal the same pack states. The panel's 24.8g checks out exactly: 24.8 × 4 + 7.6 × 9 = 168. Trust the panel, not the flash.
+
+**Thigh is a poor protein-per-calorie swap.** 0.154 g/kcal raw (18.5 ÷ 120) versus 0.209 for breast (23 ÷ 110). Substituting it for the breast in the Chicken Wrap (160g raw) costs 7.2g protein and adds 16 kcal — 36.8g → 29.6g, 176 → 192 kcal — taking weekday protein from 144g to **136.8g**, against a 150g target already breached by the 1 Sep oats halving. Fine as an occasional swap for taste; not as the default wrap filling without adding protein back elsewhere.
 
 ---
 
