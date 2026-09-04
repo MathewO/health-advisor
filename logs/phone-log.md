@@ -655,3 +655,4 @@
 2026-09-04 | weight | 74.8
 2026-09-03 | drinks | 190 | 440ml IPS
 2026-09-04 | cheat | Oats, ~266 kcal | replaces: Overnight Oats (289 kcal)
+2026-09-04 | cheat | Fried rice, ~620 kcal | replaces: Chicken Wrap (376 kcal)
