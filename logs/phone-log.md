@@ -653,3 +653,4 @@
 2026-09-03 | cheat | Fried rice, ~620 kcal | replaces: Chicken Wrap (376 kcal)
 2026-09-03 | cheat | Gousto, ~660 kcal | replaces: Gousto Meal (640 kcal)
 2026-09-04 | weight | 74.8
+2026-09-03 | drinks | 190 | 440ml IPS
