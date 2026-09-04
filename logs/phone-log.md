@@ -654,3 +654,4 @@
 2026-09-03 | cheat | Gousto, ~660 kcal | replaces: Gousto Meal (640 kcal)
 2026-09-04 | weight | 74.8
 2026-09-03 | drinks | 190 | 440ml IPS
+2026-09-04 | cheat | Oats, ~266 kcal | replaces: Overnight Oats (289 kcal)
