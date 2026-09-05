@@ -107,8 +107,15 @@
     "theoretical_at_current_weight": 39.71
   },
   "health_metrics_export": {
-    "last_export_date": "2026-08-20",
+    "last_export_date": "2026-09-05",
     "stale_after_days": 14,
-    "next_reminder": "2026-09-03"
+    "next_reminder": "2026-09-19",
+    "latest_export_note": "Processed 5 Sep. HRV 30-day average 60.1 ms, the highest on record and up 6.7 vs the 90-day; resting HR 53.1 bpm; VO2 max 37.89; sleep 6.9 hrs (down 0.4 vs the 90-day average of 7.3). Refeed-window detail parsed directly from the XML: HRV averaged 63.7 ms across 29 Aug – 5 Sep vs 60.2 in the cut's final week and 54.2 in July — a clear 10-week upward arc, but the refeed's own 8-day window CANNOT be separated from the cut's final week (daily SD 10.9 ms, SEM 3.9, against a difference of only +3.5). Resting HR is flat at 53–54 throughout and shows no refeed signal. So the objective data corroborates good general recovery but does NOT independently prove the refeed did anything; Mathew's subjective report remains the primary evidence."
+  },
+  "vo2max": {
+    "latest": 37.89,
+    "latest_date": "2026-09-05",
+    "absolute_ml_per_min": 2819,
+    "note": "IMPORTANT: the entire gain from 32.89 to 37.89 mL/kg/min is the passive weight-loss effect — there has been no genuine cardiorespiratory adaptation. Absolute VO2 is 74.4 × 37.89 = 2,819 mL/min against 85.8 × 32.89 = 2,822 mL/min at the April baseline, a change of −3 mL/min or −0.1%. Holding absolute VO2 constant and dividing by the new weight predicts 2,822 ÷ 74.4 = 37.93, versus 37.89 observed — so the passive model accounts for ~101% of the +5.00 improvement. Observed uplift is 5.00 ÷ 11.4 kg = 0.44 mL/kg/min per kg, above the 0.25–0.40 rule-of-thumb range because that rule is a linearisation and the divisor effect compounds over an 11.4 kg loss. If improving actual aerobic capacity becomes a goal, this is the gap: absolute VO2 has not moved in five months."
   }
 }
