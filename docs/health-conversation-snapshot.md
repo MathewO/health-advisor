@@ -2,7 +2,43 @@
 
 > **Purpose:** Recovery of key decisions and dates from planning chats if **chat history is unavailable**.  
 > **Not used by the PWA** — for humans and AI sessions only.  
-> **Last updated:** 2026-09-03
+> **Last updated:** 2026-09-05
+
+---
+
+## Session notes — 5 Sep 2026
+
+### Goal revised 76.5 → 75.0 kg, and the weight number demoted
+
+**Mathew's own framing, which settles this:** 76.5 was *"a figure I plucked out of the air as it seemed like it'd be about right for a glycogen rebound"*, not a goal. *"If I go to Bali at 75 that'd be absolutely fine. I really just wanted to recover my hormones and start feeling good in time for holiday."* And: *"I'm definitely feeling a lot better now that I'm not in a big deficit and I'm not feeling the need to start eating tonnes of clean carbs for no real reason."*
+
+So **the phase has already passed on the criterion that matters, at 74.4 kg.** The success test is subjective recovery plus waist holding at 95–96 cm, not the scale. 75.0 was chosen because it is +0.6 kg from 74.4 — inside the plausible glycogen-and-bound-water headroom of roughly +0.5–1.5 kg — so it is reachable at Week 2's maintenance target without adding fat and **without requiring any change in behaviour.** Above ~76.5 kg the excess could not be glycogen and would be fat; waist is the discriminator.
+
+**A recommendation I withdrew.** Earlier the same day I advised a 200–300 kcal/day surplus with carbs at 250–300g for the final six days. That was optimising for 76.5, and it goes with it. Mathew's instinct was correct: **the mechanism for hormonal recovery after a cut is removing the energy deficit, not filling glycogen** — leptin, T3 and testosterone track energy availability. Carbohydrate does have a modest edge over fat for leptin specifically, since leptin expression is insulin-and-glucose driven in adipocytes and carb overfeeding raises it more than fat overfeeding at matched calories (Dirlewanger et al. 2000), but he is not measuring leptin and already feels better, so the signalling has plainly responded. **Do not resurrect the carb push.** The only forward instruction that matters is: don't drift back under maintenance before the 12 Sep flight.
+
+### Day-8 diagnosis — the phase failed on design, not execution
+
+Full arithmetic in `logs/current-estimates.json` → `rebound_diagnosis_note`. Summary: across the 7 complete days Mathew beat his intake target *every day*, averaging 2,163 kcal/day against a target average of 1,900, yet the net balance was still **−969 kcal (−138/day)** because Week 1's target was hypocaloric by construction — the 29 Aug plan declared a 2,100 kcal weekly deficit. Two compounding errors in that plan, both mine:
+
+1. **You cannot store glycogen in an energy deficit.** Carbohydrate eaten below maintenance is oxidised, not banked. The 29 Aug rationale — *"the rebound is driven by carbs going 200g → 300g, not by total energy"* — was wrong.
+2. **The carbs never arrived either.** Weekdays ran ~170–180g against the declared 200–250g band, after the banana was rejected (−27g, 29 Aug) and the oats halved (−21g, 1 Sep).
+
+Weight fell 0.40 kg against the 0.27 kg the plan itself predicted, so the scale behaved close to design. Waist confirmed the null: 95 cm on 3 Sep, unchanged from 27 Aug. **Lesson for the October bulk: a phase that intends to add anything must be specified with a genuine surplus, and its target must be checked against its own weekly energy figure before being written down.**
+
+### Apple Health export processed (5 Sep) — HRV highest on record
+
+| Period | HRV (SDNN) | Resting HR |
+|---|---|---|
+| July (cut) | 54.2 ms | 54.5 bpm |
+| 1–20 Aug (cut) | 58.8 ms | 52.7 bpm |
+| 21–28 Aug (final cut week) | 60.2 ms | 53.8 bpm |
+| **29 Aug – 5 Sep (refeed)** | **63.7 ms** | 53.6 bpm |
+
+30-day HRV average is 60.1 ms, the highest in `health-baselines.md`, up 6.7 on the 90-day. **But the refeed's own window cannot be separated from the cut's final week** — daily SD is 10.9 ms (range 53–83), so SEM over 8 days is ~3.9 against a difference of only +3.5, and the upward arc predates the refeed by two months. Resting HR is flat at 53–54 throughout with no refeed signal. **Objective data corroborates good general recovery; it does not prove the refeed caused it.** Mathew's subjective report remains the primary evidence.
+
+**Sleep is down and nobody flagged it:** 6.9 hrs on the 30-day against 7.3 on the 90-day, with deep sleep at 0.5 hrs. The script labels this "Stable" but it is 24 minutes a night. Given hormonal recovery is the actual goal here, **sleep is a larger lever than carbohydrate ever was** — worth raising before the October bulk.
+
+**VO2 max 37.89 is entirely a weight-loss artefact.** Absolute VO2 is now 74.4 × 37.89 = **2,819 mL/min** against 85.8 × 32.89 = **2,822** at the April baseline — a change of −3 mL/min, or −0.1%. Holding absolute VO2 constant and dividing by the new weight predicts 2,822 ÷ 74.4 = 37.93 vs 37.89 observed, so the passive effect accounts for ~101% of the +5.00 gain. Observed uplift is 5.00 ÷ 11.4 = **0.44 mL/kg/min per kg**, above the 0.25–0.40 rule of thumb because that rule is a linearisation and the divisor effect compounds over an 11.4 kg loss. **Genuine cardiorespiratory fitness has not improved in five months.** If that becomes a goal after Bali, this is the honest baseline.
 
 ---
 
@@ -104,12 +140,12 @@ Maintenance was the wrong mode — it's the deliberately untracked one (weigh-in
 
 | Field | Value |
 |---|---|
-| Goal | **76.5 kg by 11 Sep 2026** (from 74.8 kg) |
+| Goal | **75.0 kg by 11 Sep 2026** (revised 5 Sep from 76.5 — see the 5 Sep session note) |
 | `direction` | `gain` |
 | `tracking_mode` | `balance` |
 | `weekly_energy_target` | **0** — hold at maintenance |
 
-**Why `balance` and not a surplus target:** the +1.7 kg goal is glycogen and bound water, not tissue. Deriving it from calories would imply 1.7 × 7,700 = 13,090 kcal, i.e. a 935 kcal/day surplus, which is nothing like the plan. So in balance mode the app tracks **intake against the ramp target** and deliberately **never projects weight from calorie balance** — the goal line and the trend line would otherwise contradict each other on the same chart.
+**Why `balance` and not a surplus target:** the goal (+1.7 kg as written on 29 Aug, +0.6 kg after the 5 Sep revision) is glycogen and bound water, not tissue. Deriving it from calories would imply 1.7 × 7,700 = 13,090 kcal, i.e. a 935 kcal/day surplus, which is nothing like the plan. So in balance mode the app tracks **intake against the ramp target** and deliberately **never projects weight from calorie balance** — the goal line and the trend line would otherwise contradict each other on the same chart.
 
 **No projection at all in a balance phase** (revised 29 Aug, superseding an earlier note that regression would kick in around 4 Sep): extrapolating two weeks of glycogen and water rebound produces a confident-looking number that means nothing, so the projection is off for the *whole* phase — no trend line into the future, no live-target line, no "Trending to X kg" verdict. What the chart shows is the weigh-ins, a neutral-grey rolling average of those weigh-ins, and the goal line. Waist is the real check.
 
