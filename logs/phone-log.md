@@ -659,3 +659,4 @@
 2026-09-04 | cheat | Snacks, ~250 kcal
 2026-09-05 | weight | 74.4
 2026-09-05 | cheat | Brunch, ~622 kcal | replaces: Weekend Brunch (610 kcal) | Egg white (50ml) ×2, Whole egg ×1.5, Hash brown (Sainsbury's) ×3, Heck chicken sausage ×3, Avocado (½), Tomatoes
+2026-09-05 | drinks | 190 | Pint of 4% Pale Ale
