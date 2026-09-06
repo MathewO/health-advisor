@@ -666,3 +666,4 @@
 2026-09-06 | cheat | Protein Oats, ~236 kcal | replaces: Single Clear Shake (84 kcal)
 2026-09-06 | cheat | Brunch, ~659 kcal | replaces: Weekend Brunch (610 kcal) | Whole egg ×3, Hash brown (Sainsbury's) ×5, Heck chicken sausage ×2, Butter / Oil
 2026-09-06 | cheat | Taralli, ~200 kcal
+2026-09-06 | drinks | 360 | 440ml IPA x2
