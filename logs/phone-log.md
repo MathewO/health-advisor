@@ -662,3 +662,4 @@
 2026-09-05 | drinks | 190 | Pint of 4% Pale Ale
 2026-09-05 | cheat | Crisps, ~275 kcal | replaces: Single Clear Shake (84 kcal)
 2026-09-05 | drinks | 190 | 440ml IPA
+2026-09-06 | weight | 74.9
