@@ -663,3 +663,4 @@
 2026-09-05 | cheat | Crisps, ~275 kcal | replaces: Single Clear Shake (84 kcal)
 2026-09-05 | drinks | 190 | 440ml IPA
 2026-09-06 | weight | 74.9
+2026-09-06 | cheat | Protein Oats, ~236 kcal | replaces: Single Clear Shake (84 kcal)
