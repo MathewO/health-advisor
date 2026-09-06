@@ -667,3 +667,4 @@
 2026-09-06 | cheat | Brunch, ~659 kcal | replaces: Weekend Brunch (610 kcal) | Whole egg ×3, Hash brown (Sainsbury's) ×5, Heck chicken sausage ×2, Butter / Oil
 2026-09-06 | cheat | Taralli, ~200 kcal
 2026-09-06 | drinks | 360 | 440ml IPA x2
+2026-09-06 | workout | Golf | 90 min | 400 kcal
