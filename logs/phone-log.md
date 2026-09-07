@@ -671,3 +671,4 @@
 2026-09-07 | weight | 74.9
 2026-09-07 | workout | Walking | 13 min | 58 kcal
 2026-09-07 | workout | Walking | 16 min | 86 kcal
+2026-09-07 | cheat | 2 Chicken Wraps, ~721 kcal | replaces: Chicken Wrap (376 kcal) | Sainsbury's protein wrap ×2, Chicken thigh fillet (100g raw) ×2.5, Fage 0% Greek yoghurt (100g) ×1.5
