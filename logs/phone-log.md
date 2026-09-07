@@ -669,3 +669,4 @@
 2026-09-06 | drinks | 360 | 440ml IPA x2
 2026-09-06 | workout | Golf | 90 min | 400 kcal
 2026-09-07 | weight | 74.9
+2026-09-07 | workout | Walking | 13 min | 58 kcal
