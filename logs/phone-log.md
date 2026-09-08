@@ -679,4 +679,4 @@
 2026-09-08 | weight | 75.1
 2026-09-08 | cheat | Beres, ~700 kcal | replaces: Chicken Wrap (376 kcal)
 
-2026-09-08 | cheat | Protein bar, ~166 kcal
+2026-09-08 | cheat | Protein bar, ~166 kcal2026-09-08 | cheat | Peperami, ~100 kcal
