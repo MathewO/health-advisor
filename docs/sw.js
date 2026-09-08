@@ -1,5 +1,5 @@
 // Bump on every dashboard change so old caches are evicted on next load.
-const CACHE_VERSION = 'mybody-2026-09-08a';
+const CACHE_VERSION = 'mybody-2026-09-08b';
 
 const APP_SHELL = [
   './',

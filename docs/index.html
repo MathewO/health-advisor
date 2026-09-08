@@ -908,9 +908,22 @@ function _drainAppendQueue() {
         if (path === LOG_PATH && !current.includes('## Log')) {
           throw new Error('Safety check failed — decoded content missing header. File may be corrupted.');
         }
-        const updated = current + newLine + '\n';
+        // Tolerate a file that has lost its trailing newline. Without the separator the
+        // next entry is concatenated onto the tail of the last one, producing a single
+        // fused line whose second entry is then invisible to parseAllLogEntries — the
+        // kcal silently vanish from the week rather than failing loudly. Happened on
+        // 8 Sep 2026: a peperami fused onto a protein bar and its 100 kcal went missing.
+        const sep     = !current || current.endsWith('\n') ? '' : '\n';
+        const updated = current + sep + newLine + '\n';
         const label   = (newLine.split('|')[1] || '').trim() || 'entry';
         await ghPut(path, updated, file.sha, 'log: ' + label + ' entry');
+        // Adopt the exact string that was written, rather than letting each caller
+        // re-derive it. Callers used `logText += '\n' + line`, which appends a second
+        // newline to an already-terminated file (the blank lines in the log) and leaves
+        // the in-memory copy unterminated. ghWriteLog() then persists that copy on the
+        // next edit or delete, which is how the trailing newline got stripped in the
+        // first place. One assignment here keeps memory and remote byte-identical.
+        if (path === LOG_PATH) logText = updated;
         resolve();
       } catch(e) {
         reject(e);
@@ -937,9 +950,14 @@ async function ghWriteLog(newText, message) {
   if (oldLineCount > 5 && newLineCount < oldLineCount - 5) {
     throw new Error('Safety check failed — too many lines removed (' + oldLineCount + ' → ' + newLineCount + '). Aborting write.');
   }
+  // Terminate with exactly one newline. The edit and delete paths rebuild the file by
+  // joining split lines, so whatever the in-memory copy ended with is what gets written —
+  // and an unterminated file makes the *next* append fuse onto its last line. Normalising
+  // at the single choke point means neither caller has to remember.
+  const finalText = newText.replace(/\n*$/, '\n');
   const file = await ghGet(LOG_PATH);
-  await ghPut(LOG_PATH, newText, file.sha, message);
-  logText = newText;
+  await ghPut(LOG_PATH, finalText, file.sha, message);
+  logText = finalText;
 }
 
 // ─── Global state ─────────────────────────────────────────────
@@ -4193,9 +4211,7 @@ async function submitForm() {
     const line = cfg.build(fields, date);
     const { user, repo, token } = ghConfig();
     if (!user || !token) throw new Error('GitHub not configured — go to Settings first');
-    await ghAppend(LOG_PATH, line);
-    if (logText !== null) logText += '\n' + line;
-    status.className = 'status-msg success';
+    await ghAppend(LOG_PATH, line);    status.className = 'status-msg success';
     status.textContent = '✓ Saved successfully';
     btn.textContent = 'Saved ✓';
     setTimeout(closeForm, 1200);
@@ -4372,8 +4388,6 @@ async function submitDrinksForm() {
       : `${date} | drinks | ${total} | ${breakdown}`;
 
     await ghAppend(LOG_PATH, line);
-    if (logText !== null) logText += '\n' + line;
-
     status.className = 'status-msg success';
     status.textContent = '✓ Saved successfully';
     btn.textContent = 'Saved ✓';
@@ -4497,9 +4511,7 @@ async function submitWorkoutForm() {
   try {
     const { user, repo, token } = ghConfig();
     if (!user || !token) throw new Error('GitHub not configured — go to Settings first');
-    await ghAppend(LOG_PATH, line);
-    if (logText !== null) logText += '\n' + line;
-    status.className = 'status-msg success';
+    await ghAppend(LOG_PATH, line);    status.className = 'status-msg success';
     status.textContent = '✓ Saved successfully';
     btn.textContent = 'Saved ✓';
     setTimeout(closeForm, 1200);
@@ -4935,8 +4947,6 @@ async function submitCheatForm() {
     const { user, repo, token } = ghConfig();
     if (!user || !token) throw new Error('GitHub not configured — go to Settings first');
     await ghAppend(LOG_PATH, line);
-    if (logText !== null) logText += '\n' + line;
-
     // Save to quick-select roster if requested (Build mode)
     const rosterCb   = document.getElementById('mbSaveToRoster');
     const rosterName = (document.getElementById('mbMealName')?.value || '').trim();
