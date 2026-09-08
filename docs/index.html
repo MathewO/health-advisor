@@ -145,6 +145,9 @@
     .predicted-deficit-row { display: flex; justify-content: space-between; align-items: center; padding-top: 6px; margin-top: 0; }
     .predicted-label { font-size: 13px; color: var(--muted); font-weight: 600; text-transform: uppercase; letter-spacing: 0.6px; }
     .predicted-val { font-size: 16px; font-weight: 700; }
+    .spare-row { padding-top: 2px; }
+    .spare-row .predicted-label, .spare-row .predicted-val { font-size: 13px; }
+    .spare-row .predicted-val { font-weight: 600; }
 
     /* ── Log Tab ── */
     .log-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 8px; }
@@ -1385,6 +1388,47 @@ function renderMaintenanceCard() {
 }
 
 // ─── Weekly Deficit Card ──────────────────────────────────────
+// Cumulative Mon–Sun series for the current week. Shared by the card's "Spare today"
+// figure and the burndown chart so the number and the gap it describes are the same
+// arithmetic — computed twice, they would drift the moment either side changed.
+//   planned — cumulative meal-item total (the burndown's base)
+//   target  — cumulative committed target, per the stage's declared figures
+//   actual  — elapsed days use real outliers and carry the phase carryover from point one;
+//             future days project forward at the planned rate
+// Days that predate the phase are null so a phase starting mid-week never inherits its
+// predecessor's days.
+function weekCumulativeSeries(allEntries, weekStartStr, dailyRates, dailyTargetRates, daysElapsed, carryover = 0) {
+  const weekDates = weekDatesFrom(weekStartStr);
+  const cumulate  = rates => {
+    let run = 0;
+    return rates.map(rate => {
+      if (rate == null) return null;
+      run += rate;
+      return +run.toFixed(0);
+    });
+  };
+
+  const planned = cumulate(dailyRates);
+  const target  = dailyTargetRates ? cumulate(dailyTargetRates) : null;
+
+  const isOutlierType = e => ['run','stair','workout','drinks','beers','cheat'].includes(e.type);
+  let cumActual  = 0;
+  let cumOutlier = 0;
+  const actual = weekDates.map((d, i) => {
+    if (dailyRates[i] == null) return null;
+    if (i < daysElapsed) {
+      const dayOutliers = allEntries.filter(e => e.date === d && isOutlierType(e));
+      cumOutlier += dayOutliers.reduce((s, e) => s + (e.outlierKcal || 0), 0);
+      cumActual = planned[i] + cumOutlier + carryover;
+    } else {
+      cumActual += dailyRates[i];
+    }
+    return +cumActual.toFixed(0);
+  });
+
+  return { planned, target, actual };
+}
+
 function renderWeeklyDeficitCard(phase) {
   const card = document.getElementById('weeklyDeficitCard');
 
@@ -1420,6 +1464,26 @@ function renderWeeklyDeficitCard(phase) {
   // energyColor, because "positive is good" only holds for a cut. In a refeed, banking
   // deficit means having under-eaten, and the old hardcoded green-if-positive would have
   // congratulated a balance phase while the predicted figure directly beneath it read red.
+  // "Spare today" is the vertical gap between the actual and target lines at today's point
+  // on the chart — deliberately the cumulative gap, not today's alone, so a day that ran
+  // over is still owed back and a day that ran under is genuinely bankable. Positive always
+  // means headroom to eat regardless of mode: in a cut, sitting above target is deficit
+  // banked; in a refeed it means having under-eaten against the plan, which is spend-it
+  // permission just the same. Sourced from the same series the chart draws.
+  const series   = weekCumulativeSeries(allEntries, weekStartStr, dailyRates, dailyTargetRates, daysElapsed, carryover);
+  const todayIdx = Math.min(daysElapsed, 7) - 1;
+  const spare    = todayIdx >= 0 && series.actual[todayIdx] != null && series.target?.[todayIdx] != null
+    ? series.actual[todayIdx] - series.target[todayIdx]
+    : null;
+
+  // Graded on a per-day band rather than the weekly tolerance: the figure answers "can I
+  // afford this coffee", so the latitude that matters is one day's worth, not the week's.
+  const dayBand    = tolerance / Math.max(1, inPhaseDays);
+  const spareColor = spare == null ? 'var(--muted)'
+    : spare >= 0         ? '#4ade80'
+    : spare >= -dayBand  ? '#f59e0b'
+    : '#ef4444';
+
   const showCarryover  = scoredWeeks > 0;
   const carryoverColor = carryover === 0 ? 'var(--muted)' : energyColor(carryover, 0, mode, tolerance);
   const carryoverHtml  = showCarryover
@@ -1440,6 +1504,11 @@ function renderWeeklyDeficitCard(phase) {
       <span class="predicted-label">${labels.predicted}</span>
       <span class="predicted-val" style="color:${predictedColor}">${predicted.toLocaleString()} kcal</span>
     </div>
+    ${spare == null ? '' : `
+    <div class="predicted-deficit-row spare-row">
+      <span class="predicted-label">Spare today</span>
+      <span class="predicted-val" style="color:${spareColor}">${spare > 0 ? '+' : ''}${spare.toLocaleString()} kcal</span>
+    </div>`}
     <div class="phase-actions">
       <button class="pill-btn" onclick="openOverlay('screen-log-view')">Show Log</button>
       <button class="pill-btn" onclick="openOverlay('screen-meal-plan')">Meal Plan</button>
@@ -1460,24 +1529,13 @@ function renderWeeklyBurndownChart(allEntries, weekStartStr, dailyRates, daysEla
   const DAY_LABELS = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
   const weekDates  = weekDatesFrom(weekStartStr);
 
-  // Running cumulative of a per-day rate array, blanking days that predate the phase so a
-  // phase starting mid-week never inherits its predecessor's days.
-  const cumulate = rates => {
-    let run = 0;
-    return rates.map(rate => {
-      if (rate == null) return null;
-      run += rate;
-      return +run.toFixed(0);
-    });
-  };
-
   // Two distinct baselines, and the gap between them is the point:
   //   plannedData — what the meal items actually come to (the burndown's base)
   //   targetData  — what was committed to, per day, via the stage's declared figures
   // During a ramp the items lag the targets, so drawing only the plan makes the card's
   // headline target look like it came from nowhere.
-  const plannedData = cumulate(dailyRates);
-  const targetRaw   = dailyTargetRates ? cumulate(dailyTargetRates) : null;
+  const { planned: plannedData, target: targetRaw, actual: actualData }
+    = weekCumulativeSeries(allEntries, weekStartStr, dailyRates, dailyTargetRates, daysElapsed, carryover);
 
   // In a phase whose items already *are* the target (any ordinary cut), the two lines sit on
   // top of each other, so only draw the target when it diverges enough to mean something.
@@ -1490,23 +1548,6 @@ function renderWeeklyBurndownChart(allEntries, weekStartStr, dailyRates, daysEla
   const targetData     = targetRaw;
   const lastOf         = arr => [...(arr || [])].reverse().find(v => v != null) ?? 0;
   const targetDiverges = !!targetRaw && Math.abs(lastOf(targetRaw) - lastOf(plannedData)) > 150;
-
-  // Actual/projected line: every in-phase day, never null
-  // Elapsed days use actual outliers; future days project forward at planned daily rate
-  const isOutlierType = e => ['run','stair','workout','drinks','beers','cheat'].includes(e.type);
-  let cumActual = 0;
-  let cumOutlier = 0;
-  const actualData = weekDates.map((d, i) => {
-    if (dailyRates[i] == null) return null;
-    if (i < daysElapsed) {
-      const dayOutliers = allEntries.filter(e => e.date === d && isOutlierType(e));
-      cumOutlier += dayOutliers.reduce((s, e) => s + (e.outlierKcal || 0), 0);
-      cumActual = plannedData[i] + cumOutlier + carryover;
-    } else {
-      cumActual += dailyRates[i];
-    }
-    return +cumActual.toFixed(0);
-  });
 
   // Y-axis bounds. A deficit phase stays anchored at zero and rises; surplus and
   // balance phases go negative, so the axis has to span the data in both
