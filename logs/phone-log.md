@@ -678,3 +678,4 @@
 2026-09-07 | cheat | Gousto, ~668 kcal | replaces: Gousto Meal (640 kcal)
 2026-09-08 | weight | 75.1
 2026-09-08 | cheat | Beres, ~800 kcal | replaces: Chicken Wrap (376 kcal)
+2026-09-08 | cheat | Protein bar, ~166 kcal
