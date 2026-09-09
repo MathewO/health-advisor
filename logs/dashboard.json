@@ -378,6 +378,16 @@
       "protein": 54,
       "tag": "dinner",
       "_note": "Restored from maintenance-2026-q2. Carbs and fat were never recorded for this entry and have deliberately not been back-filled by estimate."
+    },
+    {
+      "name": "Chicken Fried Rice",
+      "description": "Chicken thigh fillet (100g raw) \u00d73.2, Basmati rice (100g uncooked) \u00d70.7, Whole egg \u00d72, 30g frozen peas, 2 spring onions, 1 tbsp light soy sauce",
+      "kcal": 826,
+      "protein": 82.9,
+      "carbs": 60.9,
+      "fat": 27.5,
+      "tag": "lunch",
+      "_note": "Added 9 Sep 2026. Chicken is RAW weight and rice is DRY weight, per the components.json convention \u2014 the chicken thigh figure of 120 kcal/100g is itself derived, not from the pack; see the 3 Sep 2026 session note in docs/health-conversation-snapshot.md before altering it. THIS IS THE LARGER 320g/70g BUILD and is NOT what was eaten on 3\u20134 Sep: those two log entries (~620 kcal) were a 195g chicken / 50g rice version totalling 606 kcal, 58g protein, 45g carbs. Do not use this entry to back-fill the breakdown onto those days. Built to close the Week 2 weekday gap (2,100 target vs 1,480 plan items): swapped for the Chicken Wrap it adds 450 kcal, landing the day at 1,930, and at 61g it is the highest single-meal carb figure of the refeed \u2014 carbs, not calories, being the phase's live risk. Frozen peas, spring onion and light soy sauce are written in prose because they are not in components.json; the other three reference real components so the build is reproducible."
     }
   ],
   "previous_phases": [
