@@ -1575,8 +1575,24 @@ function renderWeeklyBurndownChart(allEntries, weekStartStr, dailyRates, daysEla
   const dataMin = Math.min(...yValues);
   const dataMax = Math.max(...yValues);
   const yPad    = Math.max(500, (dataMax - dataMin) * 0.1);
-  const yMin = mode === 'deficit' ? 0    : Math.floor((dataMin - yPad) / 1000) * 1000;
-  const yMax = mode === 'deficit' ? 7000 : Math.ceil((dataMax + yPad) / 1000) * 1000;
+  const yMin = mode === 'deficit' ? 0 : Math.floor((dataMin - yPad) / 1000) * 1000;
+
+  // Refeeds get a fixed 3,000 ceiling instead of a data-derived one. Deriving it from the
+  // data means the planned line sets the scale, and in a refeed that line is the *least*
+  // interesting one: the meal items sit ~720/day under maintenance by design, to be topped
+  // up with tracked additions, so it climbs to ~5,000 by Sunday and pushed the axis to
+  // 6,000. That left the actual-vs-target gap — the thing "Spare today" quantifies — squashed
+  // into the bottom sixth of a 160px chart. A fixed ceiling nearly doubles that resolution
+  // without spending height. The trade is real: lines above 3,000 exit through the top of
+  // the plot area (Chart.js clips there, so they can't draw over the card), which means a
+  // week running well under its refeed target loses the tail of its projection on the
+  // chart. The predicted figure is always readable in the row beneath, which is why the
+  // clip is acceptable. Surplus phases keep the data-derived ceiling — they have no
+  // equivalent fixed scale to assume, and phaseMode() lumps them in with balance, so this
+  // has to branch on balance explicitly rather than flipping the old else.
+  const yMax = mode === 'deficit' ? 7000
+             : mode === 'balance' ? 3000
+             : Math.ceil((dataMax + yPad) / 1000) * 1000;
 
   // Flat reference: the long-standing 5k benchmark for cuts. Off deficit mode the
   // cumulative target line below is the meaningful benchmark, so the flat zero line is
@@ -1783,7 +1799,8 @@ function renderWeeklyBurndownChart(allEntries, weekStartStr, dailyRates, daysEla
       const px = canvasLeft + xScale.getPixelForValue(i);
       const yVal = actualData[i];
       // Clamp to the axis top so an icon can't float off-canvas. Was a hardcoded 5000,
-      // which only matched the old fixed deficit axis; yMax is derived from the data now.
+      // which only matched the old fixed deficit axis; it tracks yMax now, so it follows
+      // the refeed ceiling too and pins to the top edge on a day the line clips.
       const pyBase = canvasTop + yScale.getPixelForValue(Math.min(yVal, yMax));
 
       // Merge all events on this day into a single icon + tooltip
