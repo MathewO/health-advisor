@@ -681,3 +681,4 @@
 2026-09-08 | cheat | Protein bar, ~166 kcal
 2026-09-08 | cheat | Peperami, ~100 kcal
 2026-09-09 | weight | 74.9
+2026-09-09 | cheat | Chicken Fried Rice, ~826 kcal | replaces: Chicken Wrap (376 kcal) | Chicken thigh fillet (100g raw) ×3.2, Basmati rice (100g uncooked) ×0.7, Whole egg ×2, 30g frozen peas, 2 spring onions, 1 tbsp light soy sauce
