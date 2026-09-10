@@ -685,3 +685,4 @@
 2026-09-09 | cheat | Chocolate, ~230 kcal | replaces: Creami (125 kcal)
 2026-09-09 | drinks | 190 | 440ml IPA
 2026-09-10 | weight | 75.4
+2026-09-10 | cheat | Chicken Fried Rice, ~826 kcal | replaces: Chicken Wrap (376 kcal) | Chicken thigh fillet (100g raw) ×3.2, Basmati rice (100g uncooked) ×0.7, Whole egg ×2, 30g frozen peas, 2 spring onions, 1 tbsp light soy sauce
