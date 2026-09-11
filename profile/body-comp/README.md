@@ -21,6 +21,8 @@ Progress photos live **only on this machine**. Image and video files under this 
 || **`progress/2026-08-05_phase2-week5-76kg/`** | **97 cm** | Phase 2 day 30, 76.3 kg / 76.6 kg 7d avg — −4.1 kg / −3 cm vs phase start; −2.7 kg / −2 cm below Phase 1 depleted low; clearest visual change set of Phase 2 — five poses all directly comparable — see folder **`README.md`** |
 || **`progress/2026-08-19_phase2-week7-96cm/`** | **96 cm** | Phase 2 day 44, 75.6 kg / 75.5 kg 7d avg, ~20–22% BF — −4.8 kg / −4 cm vs phase start; best set of entire project; −9.4 kg / −12 cm from Apr 15 baseline — five poses all directly comparable — see folder **`README.md`** |
 
+|| **`progress/2026-09-11_refeed-end-95cm/`** | **95 cm** | Refeed day 14 (final day, Bali eve), 74.6 kg / 74.89 kg 7d avg, ~20% BF — leanest set of the project on every hard measure; −10.4 kg / −13 cm from Apr 15 baseline. Refeed added **+0.09 kg in 14 days** against a forecast 1.5–2.0 kg, and the waist held at 95 cm across 27 Aug / 3 Sep / 11 Sep — so the Aug 19 prediction of "fuller musculature" did **not** materialise and these photos show a slightly leaner, not fuller, version of that set — five poses all directly comparable — see folder **`README.md`** |
+
 Older loose imports (screenshots mixed with unrelated snaps) remain under **`2026-04-12/`**, **`2026-04-13/`**, **`2026-04-15/`** — **not** a clean progress set; prefer **`progress/`** dated folders for comparisons.
 
 ---

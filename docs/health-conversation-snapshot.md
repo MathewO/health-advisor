@@ -2,7 +2,31 @@
 
 > **Purpose:** Recovery of key decisions and dates from planning chats if **chat history is unavailable**.  
 > **Not used by the PWA** — for humans and AI sessions only.  
-> **Last updated:** 2026-09-05
+> **Last updated:** 2026-09-11
+
+---
+
+## Session notes — 11 Sep 2026
+
+### Refeed phase closed — passed on its own criterion, and the rebound forecast formally failed
+
+Final-day photo set logged at **`profile/body-comp/progress/2026-09-11_refeed-end-95cm/`** (five canonical poses, images gitignored as always). Full metrics, BF working and per-pose assessment are in that folder's `README.md`; live figures are in `logs/current-estimates.json` → `phase.phase_final_result`. Do not duplicate those numbers elsewhere.
+
+**Headline:** leanest state of the project on every hard measure — **74.6 kg single / 74.89 kg 7-day average** (lowest recorded) and **waist 95 cm** (lowest recorded, −13 cm from the 15 Apr baseline of 108 cm). Est. BF ~20% (range 19–22%, estimate on an estimate).
+
+**The phase passes.** The criterion was reframed on 5 Sep to subjective recovery plus the waist holding at 95–96 cm, explicitly *not* a kg figure. The waist held at 95 cm — the bottom of the band — and he reports feeling considerably better. Incidentally it also landed within **0.11 kg** of the revised 75.0 kg target on 7-day average, and **+0.09 kg** against the 74.8 kg start across 14 days, which is genuine energy balance and exactly what a balance-mode phase asks for.
+
+**The informative result is the failure.** The forecast 1.5–2.0 kg glycogen-and-water rebound never materialised, and there are now **three independent lines of evidence** saying so rather than the two available on 5 Sep:
+
+1. **Scale** — +0.09 kg across the whole phase.
+2. **Tape** — 95 cm on 27 Aug, 95 cm on 3 Sep, 95 cm on 11 Sep. Three readings, three weeks, no movement.
+3. **Photos (new)** — the 19 Aug set README predicted "the same fat reduction but with fuller, more defined musculature". The 11 Sep images show a slightly **leaner** version of the 19 Aug set, not a fuller one. Any impression of extra upper-body fullness in them should be put down to lighting and pose, not storage.
+
+This closes out the 5 Sep `rebound_diagnosis_note` as confirmed. **Do not resurrect the carb push or the surplus recommendation** — both were withdrawn on 5 Sep and the photo evidence now supports that call rather than undermining it.
+
+**The genuinely reassuring number:** 14 days of deliberately eating at maintenance produced **no fat gain and no waist gain**. Fat regain is the standing risk whenever a cut ends, and three flat waist readings rule it out.
+
+**Open item for the next session:** the phase `target_date` of 11 Sep has now passed and **`endPhase()` has not been run** — `status` is still `"active"` in both `dashboard.json` and `current-estimates.json`. Raise it with Mathew before any successor phase is created, and expect Bali travel weight (1–2 kg up within days, higher sodium, restaurant food) to be **water and gut content, not regain** — do not re-diagnose it. The next comparable photo set must wait until he is home and re-settled under the same fasted-morning conditions, or it will measure travel rather than composition.
 
 ---
 

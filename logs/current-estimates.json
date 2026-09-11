@@ -1,6 +1,6 @@
 {
   "_note": "Live derived metrics — updated each agent session. This is the source of truth for data-derived estimates. Do not use dashboard.json for TDEE or rate-of-loss; use this file. When any value changes, update it here in the same session.",
-  "last_updated": "2026-09-05",
+  "last_updated": "2026-09-11",
   "tdee": {
     "estimate_kcal_per_day": 2200,
     "range": "2175-2225",
@@ -37,10 +37,13 @@
     "start_kg": 74.8,
     "target_date": "2026-09-11",
     "bali_departure": "2026-09-12",
-    "latest_weight_kg": 74.4,
-    "latest_weight_date": "2026-09-05",
-    "phase_mean_weight_kg": 75.29,
-    "phase_mean_note": "Mean of the 8 in-phase readings (29 Aug – 5 Sep). Trend within the phase is clearly DOWNWARD: first three readings mean 75.77, last three mean 74.77. The latest reading of 74.4 is BELOW the 74.8 phase start.",
+    "latest_weight_kg": 74.6,
+    "latest_weight_date": "2026-09-11",
+    "seven_day_avg_kg": 74.89,
+    "seven_day_avg_window": "2026-09-05 → 2026-09-11",
+    "seven_day_avg_note": "Lowest 7-day average recorded in the project. Use this rather than the 74.6 single reading for any comparison — the phase's daily range was 1.6 kg (74.4–76.0), so single readings are uninformative here.",
+    "phase_mean_weight_kg": 75.15,
+    "phase_mean_note": "Mean of all 14 in-phase readings (29 Aug – 11 Sep), complete phase. Trend within the phase was DOWNWARD then flat: first three readings mean 75.77, last three mean 74.97. Supersedes the 75.29 figure computed on 5 Sep from the first 8 readings.",
     "rebound_progress_note": "Reviewed 5 Sep, day 8 of 14. 74.8 (28 Aug, handover) → 75.5 → 76.0 → 75.8 → 75.8 → 74.9 → 75.1 → 74.8 → 74.4 (5 Sep). Peaked at 76.0 on 30 Aug and has fallen 1.6 kg since; 74.4 is BELOW the phase start. The 3 Sep read that the average was 'exactly on pace' has been overtaken by events — the in-phase mean is now 75.29 and the direction is unambiguous (first three readings 75.77, last three 74.77). The 76.5 kg goal will not be met: it needs +2.1 kg in 6 days.",
     "rebound_diagnosis_note": "ROOT CAUSE, established 5 Sep: the phase is not failing on execution, it is failing on DESIGN. Over the 7 complete days (29 Aug – 4 Sep) Mathew beat his intake target every single day, averaging 2,163 kcal/day against a target average of 1,900 — 263/day ABOVE target. Yet the net energy balance was still 15,141 − (2,200 × 7) − 710 workout kcal = −969 kcal, i.e. −138 kcal/day, a genuine deficit. The reason is that Week 1's target was itself hypocaloric by construction: the 29 Aug plan declared a 2,100 kcal weekly deficit (= 0.27 kg) on the rationale that 'the rebound is driven by carbs going 200g → 300g, not by total energy'. That rationale was wrong on both halves. (1) YOU CANNOT STORE GLYCOGEN IN AN ENERGY DEFICIT — carbohydrate eaten in a deficit is oxidised for fuel, not banked. (2) The carbs never arrived either: weekday carbs ran ~170–180g against the declared 200–250g band, because the banana was rejected on 29 Aug (−27g) and the oats were halved on 1 Sep (−21g). Actual loss of 0.40 kg vs the 0.27 kg the plan itself predicted, so the scale is behaving close to design. Waist confirms the null result: 95 cm on 3 Sep, unchanged from 95 cm on 27 Aug. Conclusion: eight days in, the refeed has not meaningfully happened.",
     "rebound_forward_note": "REVISED 5 Sep after Mathew reframed the goal. The surplus recommendation below is WITHDRAWN — it was optimising for 76.5, which he has disowned as a figure he plucked out of the air. He reports feeling considerably better and explicitly does not want to force-feed carbohydrate; he is right that the lever for hormonal recovery is removing the energy deficit (leptin, T3 and testosterone track energy availability), which is already done. Carbohydrate has a modest edge over fat for leptin specifically (insulin-and-glucose driven adipocyte expression; carb overfeeding raises leptin more than fat at matched calories, Dirlewanger 2000), but he is not measuring leptin and the signalling has evidently responded. DO NOT resurrect the carb push. The only forward instruction that matters for the 6 days to the 12 Sep flight: hold at Week 2's declared 2,200 kcal/day average and do not drift under it. The −138 kcal/day observed in week 1 is inside the error bars of both the 2,200 TDEE estimate and the 7,700 kcal/kg conversion, so it is noise rather than a deficit he would feel — but the direction matters more than the size. Superseded content, for the record: reaching 76.5 would have required ~525g of glycogen plus ~1,575g of bound water, i.e. storing ~88g of carbohydrate per day above oxidation for six days, which is carb-loading-protocol territory (8–10 g/kg/day) rather than 'eat normally'.",
@@ -72,12 +75,23 @@
       "outstanding": "Both the weekend food and the weekdays, after the 1 Sep oats halving. Over the current base (1,480 weekday / 1,509 weekend): Week 1 needs +320 weekday and +641 weekend; Week 2 needs +620 weekday and +941 weekend. Week 1's planned week is 5 × 1,480 + 2 × 1,509 = 10,418 vs the declared 13,300 — a 2,882 kcal gap, split 1,600 weekday (56%) and 1,282 weekend (44%). The weekend was the binding constraint at the 1,708 base (74% of the gap) but is no longer: the five weekdays now contribute slightly more, and 1,600 exceeds the card's 750 tolerance on its own. Week 2 is worse at 4,982 (5 × 620 + 2 × 941), i.e. 4,982 ÷ 7,700 ≈ 0.65 kg of glycogen and tissue not refed, and with Bali on 12 Sep there is no third week to recover it. Mathew chose on 1 Sep not to add plan items to close the weekday gap, filling it with tracked additions instead — defensible, since the plan is a floor and logged extras have covered it so far (31 Aug's Wagamama alone was 1,150 kcal), but it means the plan no longer states the day's headroom in advance. Weekend protein is also weak at 124g vs the 150g target — the weekend shake is a single scoop; a double adds 148 kcal and 21g protein, taking it to 145g."
     },
     "expected_rebound_kg": "1.5-2.0",
-    "expected_rebound_note": "REVISED 5 Sep — the original expectation (scale settling at 76–77 kg by 4 Sep and holding) did not happen; the 4 Sep reading was 74.8 and 5 Sep 74.4. See rebound_diagnosis_note. The waist half of the test did hold, as a null result: 95 cm on 3 Sep, unchanged from 95 cm on 27 Aug, consistent with neither fat gain nor meaningful glycogen repletion.",
+    "expected_rebound_note": "FINAL, 11 Sep — the forecast 1.5–2.0 kg rebound did NOT happen, and the phase is now complete so this is settled rather than pending. Outcome: 74.8 kg start → 74.89 kg 7-day average = +0.09 kg across 14 days. The waist half of the test is a three-point null result: 95 cm on 27 Aug, 95 cm on 3 Sep, 95 cm on 11 Sep — no movement in three weeks, consistent with neither fat gain nor meaningful glycogen repletion. The 11 Sep photo set corroborates this from a third independent angle: profile/body-comp/progress/2026-09-11_refeed-end-95cm/ shows a slightly LEANER version of the 19 Aug set, not a fuller one, so the 19 Aug prediction of 'fuller, more defined musculature' from glycogen loading is formally not borne out. Earlier text, for the record: REVISED 5 Sep — the original expectation (scale settling at 76–77 kg by 4 Sep and holding) did not happen; the 4 Sep reading was 74.8 and 5 Sep 74.4. See rebound_diagnosis_note.",
+    "phase_final_result": {
+      "verdict": "PASS on the phase's own criterion",
+      "criterion": "Subjective recovery plus waist holding at 95–96 cm — explicitly NOT the kg figure (reframed 5 Sep).",
+      "waist_outcome": "95 cm, the bottom of the 95–96 band, held across three readings spanning 27 Aug – 11 Sep.",
+      "weight_outcome": "74.6 kg single / 74.89 kg 7-day average on the final day. Against the revised 75.0 kg target that is −0.11 kg, i.e. effectively on target. Against the 74.8 kg start it is +0.09 kg over 14 days, which is genuine energy balance and was the design intent of a balance-mode phase.",
+      "fat_gain": "None detectable. 14 days at energy balance produced no waist gain and no scale gain — the primary risk going into a refeed, ruled out by three waist readings.",
+      "body_fat_estimate_pct": "~20 (range 19–22)",
+      "body_fat_working": "19 Aug set assessed 20–22%; midpoint 21% × 75.61 kg 7d avg = 15.88 kg fat. The 0.72 kg fall in 7-day average since is treated as ~all fat because waist and scale both say glycogen/water did not change, so there is no water swing to net out. 15.88 − 0.72 = 15.15 kg; 15.15 ÷ 74.89 = 20.2%. Carry ±2pp from the 19 Aug estimate → 19–22%. Estimate built on an estimate; not measured.",
+      "photo_set": "profile/body-comp/progress/2026-09-11_refeed-end-95cm/",
+      "next_action_note": "Phase target_date reached 11 Sep. status is still 'active' in both this file and dashboard.json — endPhase() has NOT been run. Flag to Mathew before starting any successor phase."
+    },
     "waist_cm": 95,
-    "waist_date": "2026-09-03",
+    "waist_date": "2026-09-11",
     "waist_baseline_cm": 108,
     "waist_baseline_date": "2026-04-15",
-    "goal": "75.0 kg by 11 Sep 2026 (revised 5 Sep from 76.5). THE WEIGHT NUMBER IS NOT THE SUCCESS CRITERION — see dashboard.json phase._note and the 5 Sep session note in docs/health-conversation-snapshot.md. Criterion is subjective recovery plus waist holding at 95–96 cm, and it was already met at 74.4 kg on 5 Sep.",
+    "goal": "75.0 kg by 11 Sep 2026 (revised 5 Sep from 76.5). THE WEIGHT NUMBER IS NOT THE SUCCESS CRITERION — see dashboard.json phase._note and the 5 Sep session note in docs/health-conversation-snapshot.md. Criterion is subjective recovery plus waist holding at 95–96 cm, and it was already met at 74.4 kg on 5 Sep. CONFIRMED MET at phase end 11 Sep — see phase_final_result.",
     "target_kg": 75.0
   },
   "completed_phase_result": {
