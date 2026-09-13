@@ -1,229 +1,6 @@
 {
   "phase": {
-    "id": "refeed-2026-q3",
-    "name": "Refeed \u2014 Bali",
-    "status": "active",
-    "start_date": "2026-08-29",
-    "target_date": "2026-09-11",
-    "start_kg": 74.8,
-    "target_kg": 75.0,
-    "_note": "Tracked refeed, not an untracked maintenance block. TARGET REVISED 5 Sep 2026 from 76.5 to 75.0 kg. Mathew's own words: 76.5 was \"a figure I plucked out of the air as it seemed like it'd be about right for a glycogen rebound\", not a goal, and \"if I go to Bali at 75 that'd be absolutely fine\". THE WEIGHT NUMBER IS NOT THE SUCCESS CRITERION for this phase \u2014 the criterion is subjective recovery (feeling good, out of a deficit, hormonal recovery before the 12 Sep flight) plus waist holding at 95\u201396 cm. As of 5 Sep Mathew reports feeling considerably better, so the phase has ALREADY PASSED on the criterion that matters, at 74.4 kg. Do not let a future session quietly convert 75.0 back into a performance target, and do not recommend force-feeding carbohydrate to reach it: he explicitly does not want to \"start eating tonnes of clean carbs for no real reason\", and he is right that the lever for hormonal recovery is removing the energy deficit, not filling glycogen. 75.0 was chosen because it is +0.6 kg from 74.4, comfortably inside the plausible glycogen-and-bound-water headroom of roughly +0.5\u20131.5 kg, so it is reachable at Week 2's maintenance target without adding fat and without changing behaviour. The superseded 76.5 would have needed a surplus he does not want; see rebound_diagnosis_note in current-estimates.json for why it was never compatible with the plan's own Week 1 deficit. Goal weight here is glycogen and bound water (~3g per gram of glycogen), not tissue \u2014 so tracking_mode is \"balance\": intake is tracked against the ramp target and weight is NEVER projected from calorie balance, because the two are decoupled here. Waist is the real check: 95 cm at Phase 2 close (27 Aug), still 95 cm on 3 Sep. If waist holds at 95\u201397 cm while the scale rises, the rebound is doing what it should; if waist rises with it, that is fat, which becomes the likely explanation above about 76.5 kg since glycogen cannot account for more than ~1.5 kg from here. carryover_start_date was set to 2026-08-31 to skip the 29\u201330 Aug part week; removed on 1 Sep 2026 because that was wrong on two counts. The field exists to skip the glycogen-and-water noise of a cut's first week, which is not what a 2-day refeed weekend is, and the carryover maths already costs part weeks correctly \u2014 it scored those 2 days against a pro-rated target of 100, not the full 1,500. Excluding them discarded real data to solve a problem that did not exist, and contradicted the Phase 1 precedent where the date was moved *earlier* (20 Apr \u2192 13 Apr) to capture the phase from day one. With no carryover_start_date the code falls back to start_date, so the field cannot drift if the phase is ever re-dated again \u2014 as this one already was, from 1 Sep to 29 Aug. Scored value for 29\u201330 Aug: \u221290 kcal.",
-    "start_date_note": "Set to 29 Aug (Sat), not 28 Aug: Friday 28 Aug was the last day of the cut, and its ramen cheat and walks belong to Phase 2, not here. start_kg 74.8 is the cut's close weight (27 Aug reading carried forward through 28 Aug) and so predates start_date by a day \u2014 same handover convention as 6 Jul. This also makes the two meal-plan stages exactly 7 days each: 29 Aug\u20134 Sep and 5\u201311 Sep.",
-    "ramp": [
-      {
-        "days": "2026-08-29 \u2192 2026-09-04 (Week 1)",
-        "target_kcal": "1,800 weekday / 2,150 weekend",
-        "target_kcal_avg": 1900,
-        "target_carbs_g": "200-250",
-        "how": "One to two carb portions per day \u2014 50g dry rice or oats plus a banana at breakfast, building to bread or a jacket potato with meals. Weekend days take the larger share."
-      },
-      {
-        "days": "2026-09-05 \u2192 2026-09-11 (Week 2)",
-        "target_kcal": "2,100 weekday / 2,450 weekend",
-        "target_kcal_avg": 2200,
-        "target_carbs_g": "280-300",
-        "how": "Full maintenance. Eat normally \u2014 Gousto plus carb sides, no restriction."
-      }
-    ],
-    "ramp_note": "Re-dated from the original Sep 1\u201311 plan in docs/health-conversation-snapshot.md, then collapsed on 29 Aug from three date steps (1,750 \u2192 2,000 \u2192 2,200) into the two meal_plan stages, so the ramp and the stages can no longer disagree. The progression is now weekday-to-weekday, 1,800 \u2192 2,100, with weekends +350 above the weekday figure in both weeks. Weekly totals: Week 1 13,300 (vs 13,250 on the three-step version, +50), Week 2 exactly 15,400. Friday 28 Aug\u2019s ramen + chocolate (~1,075 kcal, a 1,858 kcal day) was the cut's last meal, not the refeed's first \u2014 it sits in Phase 2.",
-    "meal_plan": {
-      "maintenance_kcal": 2200,
-      "protein_target": "150g+ per day",
-      "totals": {
-        "weekday_kcal": 1480,
-        "weekend_kcal": 1509,
-        "avg_daily_kcal": 1488,
-        "_note": "avg = (weekday\u00d75 + weekend\u00d72) / 7 = (1480\u00d75 + 1509\u00d72) / 7 = 10,418 / 7 = 1,488. Weekday breakfast swapped from the Double Shake (232 kcal) to Overnight Oats on 29 Aug, applied to all weekdays in both stages. The bowl has been cut twice since: peanut butter 20g \u2192 10g on 30 Aug (552 \u2192 517), then halved outright on 1 Sep (517 \u2192 289) because the full bowl was unpalatable \u2014 Mathew managed only half of it on 31 Aug and found that hard work. The halved build keeps the full whey scoop and cuts the bulk (oats 70g \u2192 35g, Fage 75g \u2192 40g, Oatly dropped, water instead), which preserves 31 of the 43g protein for 289 of the 517 kcal. Weekday is now 1,423 \u2212 232 + 289 = 1,480, protein 144g \u2014 below the 150g target, accepted. That is 320 short of the 1,800 Week 1 weekday target and 620 short of the 2,100 Week 2 weekday target, and Mathew chose on 1 Sep NOT to replace those calories in the plan, intending to fill the gap with tracked additions day by day instead. Weekend items are still the Phase 2 cut brunch (1,509) against targets of 2,150 / 2,450, so the weekend additions have NOT been agreed yet and the Meal Plan screen will show an \u201cItems short\u201d pill. The numbers the app uses for the weekly card come from stages[].target_kcal_weekday / target_kcal_weekend."
-      },
-      "weekday": {
-        "items": [
-          {
-            "category": "Morning Coffee",
-            "label": "Coffee + Oatly",
-            "kcal": 50,
-            "protein": 1
-          },
-          {
-            "category": "Breakfast",
-            "label": "Overnight Oats",
-            "kcal": 289,
-            "protein": 31,
-            "ingredients": [
-              {
-                "name": "Porridge oats (35g dry)",
-                "kcal": 130,
-                "protein": 4
-              },
-              {
-                "name": "Impact Whey \u00d7 1 scoop",
-                "kcal": 116,
-                "protein": 21
-              },
-              {
-                "name": "Fage 0% Greek yoghurt (40g)",
-                "kcal": 23,
-                "protein": 4
-              },
-              {
-                "name": "Powdered peanut butter (5g / 1 tsp)",
-                "kcal": 20,
-                "protein": 2
-              },
-              {
-                "name": "Water to loosen",
-                "kcal": 0,
-                "protein": 0
-              }
-            ]
-          },
-          {
-            "category": "Lunch",
-            "label": "Chicken Wrap",
-            "kcal": 376,
-            "protein": 51,
-            "ingredients": [
-              {
-                "name": "Sainsbury's protein wrap (61g)",
-                "kcal": 170,
-                "protein": 10
-              },
-              {
-                "name": "Chicken breast (160g raw, air fryer)",
-                "kcal": 176,
-                "protein": 37
-              },
-              {
-                "name": "Fage 0% Greek yoghurt (2 big tsp)",
-                "kcal": 20,
-                "protein": 4
-              },
-              {
-                "name": "Salad leaves & spring onion",
-                "kcal": 10,
-                "protein": 1
-              }
-            ]
-          },
-          {
-            "category": "Dinner",
-            "label": "Gousto Meal",
-            "kcal": 640,
-            "protein": 41
-          },
-          {
-            "category": "Pudding",
-            "label": "Creami",
-            "kcal": 125,
-            "protein": 20
-          }
-        ]
-      },
-      "weekend": {
-        "items": [
-          {
-            "category": "Morning Coffee",
-            "label": "Coffee + Oatly",
-            "kcal": 50,
-            "protein": 1
-          },
-          {
-            "category": "Breakfast",
-            "label": "Single Clear Shake",
-            "kcal": 84,
-            "protein": 21,
-            "ingredients": [
-              {
-                "name": "Impact Whey \u00d7 1 scoop",
-                "kcal": 84,
-                "protein": 21
-              },
-              {
-                "name": "Water",
-                "kcal": 0,
-                "protein": 0
-              }
-            ]
-          },
-          {
-            "category": "Brunch",
-            "label": "Weekend Brunch",
-            "kcal": 610,
-            "protein": 41,
-            "ingredients": [
-              {
-                "name": "Sainsbury's hash browns \u00d7 3 (air fryer)",
-                "kcal": 183,
-                "protein": 3
-              },
-              {
-                "name": "Branston baked beans (1/2 tin ~205g)",
-                "kcal": 175,
-                "protein": 9
-              },
-              {
-                "name": "Scrambled eggs (1.5 eggs, 50ml egg white)",
-                "kcal": 150,
-                "protein": 12
-              },
-              {
-                "name": "Heck Chicken Italia sausages \u00d7 3 (air fryer)",
-                "kcal": 102,
-                "protein": 17
-              }
-            ]
-          },
-          {
-            "category": "Dinner",
-            "label": "Gousto Meal",
-            "kcal": 640,
-            "protein": 41
-          },
-          {
-            "category": "Pudding",
-            "label": "Creami",
-            "kcal": 125,
-            "protein": 20
-          }
-        ]
-      },
-      "cycling_kcal_factor": 0.65,
-      "drink_kcal": {
-        "Pint of Guinness": 210,
-        "440ml Guinness": 155,
-        "Pint of 4% Pale Ale": 190,
-        "Pint of IPA": 270,
-        "330ml Hazy Jane": 158,
-        "Negroni": 185,
-        "Gin & Tonic": 120,
-        "Slimline G&T": 65,
-        "Glass of red wine": 160,
-        "Glass of white wine": 120
-      },
-      "stages": [
-        {
-          "label": "Week 1",
-          "start_date": "2026-08-29",
-          "end_date": "2026-09-04",
-          "target_kcal": "1,800 weekday / 2,150 weekend",
-          "target_kcal_weekday": 1800,
-          "target_kcal_weekend": 2150,
-          "_note": "Ramp week, 7 days. Weekends run +350 kcal/day above weekdays, matching Week 2. Weekly total 1,800\u00d75 + 2,150\u00d72 = 13,300, average 1,900 \u2014 7 kcal/day above the original ramp average of 1,893, i.e. nothing. Daily deltas vs 2,200 maintenance: +400 weekday, +50 weekend, so a 2,100 kcal weekly deficit (5\u00d7400 + 2\u00d750). Round numbers chosen deliberately over the exact-1,893 alternative (1,793 / 2,143). Supersedes the ramp's original day-by-day steps: with the weekend uplift, Sat 29\u2013Sun 30 are the week's highest days at 2,150 rather than its lowest at 1,750. Weekday items settled 29 Aug: the Double Shake became Overnight Oats, taking the weekday base to 1,743; the powdered peanut butter was cut 20g \u2192 10g on 30 Aug (1,708), and the whole bowl was halved on 1 Sep for palatability, leaving 1,480 \u2014 320 short of 1,800, deliberately accepted rather than padded, and to be covered by tracked additions rather than plan items. Weekday carbs fall to ~160g, well below the 200\u2013250g band, which is the real cost since the rebound is carb-driven rather than energy-driven. Weekend items still TBD: needs +641 kcal/day over the cut brunch (1,509) to reach 2,150, and until they're added the screen flags the gap. Weekdays and weekend now contribute comparably to the week's 2,882 kcal shortfall \u2014 1,600 (56%) from the five weekdays, 1,282 (44%) from the two weekend days \u2014 so the weekend is no longer the single binding constraint it was at the 1,708 base."
-        },
-        {
-          "label": "Week 2",
-          "start_date": "2026-09-05",
-          "end_date": "2026-09-11",
-          "target_kcal": "2,100 weekday / 2,450 weekend",
-          "target_kcal_weekday": 2100,
-          "target_kcal_weekend": 2450,
-          "_note": "Full maintenance, ~280\u2013300g carbs. Weekends run +350 kcal/day above weekdays. Weekly total 2,100\u00d75 + 2,450\u00d72 = 10,500 + 4,900 = 15,400, average exactly 2,200. Daily deltas vs maintenance: +100 weekday, \u2212250 weekend, so the week lands on exactly 0 \u2014 true energy balance, which is the point of a balance phase. Mathew's own figures, agreed 29 Aug; they supersede the earlier 2,129 / 2,379, which carried a 3 kcal rounding residue. Meal items TBD \u2014 the weekday base is 1,480 after the 1 Sep halving of the Overnight Oats, so Week 2 still needs +620 kcal/day on weekdays and +941 at weekends (weekend base 1,509), a 4,982 kcal weekly gap. This is the week that matters: Bali is 12 Sep, so there is no third week to make it up in. Weekend protein is the weak spot at 124g vs the 150g target: the weekend shake is a single scoop, and making it a double adds 148 kcal and 21g protein."
-        }
-      ],
-      "weekly_energy_target": 0,
-      "weekly_energy_target_note": "Signed: positive = deficit, negative = surplus, 0 = hold at maintenance. A refeed targets energy balance over a full week, so 0. Unused while the stages declare target_kcal_weekday / target_kcal_weekend, which the app prefers because they survive a mid-week stage boundary; kept as a statement of intent and as the fallback for dates outside every stage. Set this negative for a bulk (e.g. -2100 for a ~300 kcal/day surplus)."
-    },
-    "direction": "gain",
-    "tracking_mode": "balance"
+    "status": "maintenance"
   },
   "supplements": [
     {
@@ -243,7 +20,7 @@
     {
       "name": "Magnesium Glycinate",
       "dose": "400 mg",
-      "timing": "30\u201360 min before bed",
+      "timing": "30–60 min before bed",
       "reason": "Sleep quality, muscle recovery, insulin sensitivity (HOMA-IR 2.23), stress resilience",
       "evidence": "Moderate-Strong"
     },
@@ -270,11 +47,11 @@
     }
   ],
   "supplements_pending": [],
-  "common_cheats_note": "Top-level and therefore phase-independent. Saved meals used to live on phase.common_cheats, so endPhase() \u2014 which replaces phase wholesale with a fresh object \u2014 archived them with the outgoing phase and left the new one empty. Restored here on 30 Aug 2026 from previous_phases: the 11 entries from fat-loss-2026-q3 plus 'Single burger', which only ever existed in maintenance-2026-q2. Older duplicate versions of Caesar Salad, Tuna Power Bowl and Turkey Meatball Spaghetti in the two q2 phases were dropped in favour of the q3 versions, which carry carbs, fat and tag. The copies still sitting on the archived phases are inert history \u2014 the app reads this list, falling back to phase.common_cheats only if this key is absent.",
+  "common_cheats_note": "Top-level and therefore phase-independent. Saved meals used to live on phase.common_cheats, so endPhase() — which replaces phase wholesale with a fresh object — archived them with the outgoing phase and left the new one empty. Restored here on 30 Aug 2026 from previous_phases: the 11 entries from fat-loss-2026-q3 plus 'Single burger', which only ever existed in maintenance-2026-q2. Older duplicate versions of Caesar Salad, Tuna Power Bowl and Turkey Meatball Spaghetti in the two q2 phases were dropped in favour of the q3 versions, which carry carbs, fat and tag. The copies still sitting on the archived phases are inert history — the app reads this list, falling back to phase.common_cheats only if this key is absent.",
   "common_cheats": [
     {
       "name": "Caesar Salad",
-      "description": "\u00bd Lightly Dusted Chicken (Pack), Half caesar bag",
+      "description": "½ Lightly Dusted Chicken (Pack), Half caesar bag",
       "kcal": 497,
       "protein": 30.2,
       "carbs": 33.1,
@@ -337,7 +114,7 @@
     },
     {
       "name": "Chicken Fajitas",
-      "description": "125g chicken breast, 2 protein wraps, 50g mixed peppers, \u00bd white onion, 60g Fage 0%, Old El Paso fajita seasoning (\u00bd pack), 30g LF cheddar",
+      "description": "125g chicken breast, 2 protein wraps, 50g mixed peppers, ½ white onion, 60g Fage 0%, Old El Paso fajita seasoning (½ pack), 30g LF cheddar",
       "kcal": 702,
       "protein": 66,
       "carbs": 72,
@@ -355,7 +132,7 @@
     },
     {
       "name": "Chicken, Rice & Peas",
-      "description": "Basmati rice (100g uncooked) \u00d70.4, Chicken breast (100g raw) \u00d71.6, 1/4 white onion, Old El Paso fajita seasoning (\u00bd pack) \u00d70.5, Fage 0% Greek yoghurt (100g) \u00d70.3",
+      "description": "Basmati rice (100g uncooked) ×0.4, Chicken breast (100g raw) ×1.6, 1/4 white onion, Old El Paso fajita seasoning (½ pack) ×0.5, Fage 0% Greek yoghurt (100g) ×0.3",
       "kcal": 374,
       "protein": 43,
       "carbs": 40,
@@ -373,7 +150,7 @@
     },
     {
       "name": "Single burger",
-      "description": "Large white roll, LF Cheddar Slice \u00d72, Beef Mince 5% (100g) \u00d71.25",
+      "description": "Large white roll, LF Cheddar Slice ×2, Beef Mince 5% (100g) ×1.25",
       "kcal": 515,
       "protein": 54,
       "tag": "dinner",
@@ -381,13 +158,13 @@
     },
     {
       "name": "Chicken Fried Rice",
-      "description": "Chicken thigh fillet (100g raw) \u00d73.2, Basmati rice (100g uncooked) \u00d70.7, Whole egg \u00d72, 30g frozen peas, 2 spring onions, 1 tbsp light soy sauce",
+      "description": "Chicken thigh fillet (100g raw) ×3.2, Basmati rice (100g uncooked) ×0.7, Whole egg ×2, 30g frozen peas, 2 spring onions, 1 tbsp light soy sauce",
       "kcal": 826,
       "protein": 82.9,
       "carbs": 60.9,
       "fat": 27.5,
       "tag": "lunch",
-      "_note": "Added 9 Sep 2026. Chicken is RAW weight and rice is DRY weight, per the components.json convention \u2014 the chicken thigh figure of 120 kcal/100g is itself derived, not from the pack; see the 3 Sep 2026 session note in docs/health-conversation-snapshot.md before altering it. THIS IS THE LARGER 320g/70g BUILD and is NOT what was eaten on 3\u20134 Sep: those two log entries (~620 kcal) were a 195g chicken / 50g rice version totalling 606 kcal, 58g protein, 45g carbs. Do not use this entry to back-fill the breakdown onto those days. Built to close the Week 2 weekday gap (2,100 target vs 1,480 plan items): swapped for the Chicken Wrap it adds 450 kcal, landing the day at 1,930, and at 61g it is the highest single-meal carb figure of the refeed \u2014 carbs, not calories, being the phase's live risk. Frozen peas, spring onion and light soy sauce are written in prose because they are not in components.json; the other three reference real components so the build is reproducible."
+      "_note": "Added 9 Sep 2026. Chicken is RAW weight and rice is DRY weight, per the components.json convention — the chicken thigh figure of 120 kcal/100g is itself derived, not from the pack; see the 3 Sep 2026 session note in docs/health-conversation-snapshot.md before altering it. THIS IS THE LARGER 320g/70g BUILD and is NOT what was eaten on 3–4 Sep: those two log entries (~620 kcal) were a 195g chicken / 50g rice version totalling 606 kcal, 58g protein, 45g carbs. Do not use this entry to back-fill the breakdown onto those days. Built to close the Week 2 weekday gap (2,100 target vs 1,480 plan items): swapped for the Chicken Wrap it adds 450 kcal, landing the day at 1,930, and at 61g it is the highest single-meal carb figure of the refeed — carbs, not calories, being the phase's live risk. Frozen peas, spring onion and light soy sauce are written in prose because they are not in components.json; the other three reference real components so the build is reproducible."
     }
   ],
   "previous_phases": [
@@ -414,13 +191,13 @@
               "protein": 39
             },
             {
-              "name": "Kidney beans, drained (\u00bc tin)",
+              "name": "Kidney beans, drained (¼ tin)",
               "amount": "~65g",
               "kcal": 63,
               "protein": 4
             },
             {
-              "name": "Black beans, drained (\u00bc tin)",
+              "name": "Black beans, drained (¼ tin)",
               "amount": "~65g",
               "kcal": 62,
               "protein": 4
@@ -481,7 +258,7 @@
           "weekend_kcal": 1554,
           "avg_daily_kcal": 1443,
           "avg_daily_deficit": 492,
-          "_note": "avg = (weekday\u00d75 + weekend\u00d72) / 7 \u2014 update these whenever meal items change"
+          "_note": "avg = (weekday×5 + weekend×2) / 7 — update these whenever meal items change"
         },
         "weekday": {
           "items": [
@@ -498,7 +275,7 @@
               "protein": 42,
               "ingredients": [
                 {
-                  "name": "Impact Whey \u00d7 2 scoops",
+                  "name": "Impact Whey × 2 scoops",
                   "kcal": 232,
                   "protein": 42
                 },
@@ -566,7 +343,7 @@
               "protein": 21,
               "ingredients": [
                 {
-                  "name": "Impact Whey \u00d7 1 scoop",
+                  "name": "Impact Whey × 1 scoop",
                   "kcal": 116,
                   "protein": 21
                 },
@@ -584,7 +361,7 @@
               "protein": 41,
               "ingredients": [
                 {
-                  "name": "Sainsbury's hash browns \u00d7 3 (air fryer)",
+                  "name": "Sainsbury's hash browns × 3 (air fryer)",
                   "kcal": 183,
                   "protein": 3
                 },
@@ -594,12 +371,12 @@
                   "protein": 9
                 },
                 {
-                  "name": "Eggs \u00d7 2, fried with small oil",
+                  "name": "Eggs × 2, fried with small oil",
                   "kcal": 188,
                   "protein": 13
                 },
                 {
-                  "name": "Heck Chicken Italia sausages \u00d7 3 (air fryer)",
+                  "name": "Heck Chicken Italia sausages × 3 (air fryer)",
                   "kcal": 102,
                   "protein": 17
                 }
@@ -653,7 +430,7 @@
         {
           "name": "Magnesium Glycinate",
           "dose": "400 mg",
-          "timing": "30\u201360 min before bed",
+          "timing": "30–60 min before bed",
           "reason": "Sleep quality, muscle recovery, insulin sensitivity, stress resilience",
           "evidence": "Moderate-Strong"
         },
@@ -702,7 +479,7 @@
         },
         {
           "name": "Single burger",
-          "description": "Large white roll, LF Cheddar Slice \u00d72, Beef Mince 5% (100g) \u00d71.25",
+          "description": "Large white roll, LF Cheddar Slice ×2, Beef Mince 5% (100g) ×1.25",
           "kcal": 515,
           "protein": 54
         }
@@ -714,7 +491,7 @@
           "weekday_kcal": 1780,
           "weekend_kcal": 1886,
           "avg_daily_kcal": 1810,
-          "_note": "Weeks 2\u20134 ramp plan. Add oats (~175 kcal) for weeks 3\u20134 to reach 2,150 kcal/day."
+          "_note": "Weeks 2–4 ramp plan. Add oats (~175 kcal) for weeks 3–4 to reach 2,150 kcal/day."
         },
         "weekday": {
           "items": [
@@ -743,7 +520,7 @@
               "protein": 42,
               "ingredients": [
                 {
-                  "name": "Impact Whey \u00d7 2 scoops",
+                  "name": "Impact Whey × 2 scoops",
                   "kcal": 232,
                   "protein": 42
                 },
@@ -781,7 +558,7 @@
                   "protein": 1
                 },
                 {
-                  "name": "Side \u2014 \u00bd avocado or 50g rice",
+                  "name": "Side — ½ avocado or 50g rice",
                   "kcal": 124,
                   "protein": 2
                 }
@@ -800,7 +577,7 @@
               "protein": 21,
               "ingredients": [
                 {
-                  "name": "Impact Whey \u00d7 1 scoop",
+                  "name": "Impact Whey × 1 scoop",
                   "kcal": 116,
                   "protein": 21
                 },
@@ -852,7 +629,7 @@
               "protein": 21,
               "ingredients": [
                 {
-                  "name": "Impact Whey \u00d7 1 scoop",
+                  "name": "Impact Whey × 1 scoop",
                   "kcal": 116,
                   "protein": 21
                 },
@@ -870,22 +647,22 @@
               "protein": 41,
               "ingredients": [
                 {
-                  "name": "Sainsbury's hash browns \u00d7 3 (air fryer)",
+                  "name": "Sainsbury's hash browns × 3 (air fryer)",
                   "kcal": 183,
                   "protein": 3
                 },
                 {
-                  "name": "Branston baked beans (\u00bd tin ~205g)",
+                  "name": "Branston baked beans (½ tin ~205g)",
                   "kcal": 175,
                   "protein": 9
                 },
                 {
-                  "name": "Eggs \u00d7 2, fried with small oil",
+                  "name": "Eggs × 2, fried with small oil",
                   "kcal": 188,
                   "protein": 13
                 },
                 {
-                  "name": "Heck Chicken Italia sausages \u00d7 3",
+                  "name": "Heck Chicken Italia sausages × 3",
                   "kcal": 102,
                   "protein": 17
                 }
@@ -898,7 +675,7 @@
               "protein": 42,
               "ingredients": [
                 {
-                  "name": "Impact Whey \u00d7 2 scoops",
+                  "name": "Impact Whey × 2 scoops",
                   "kcal": 232,
                   "protein": 42
                 },
@@ -955,7 +732,7 @@
         {
           "name": "Magnesium Glycinate",
           "dose": "400 mg",
-          "timing": "30\u201360 min before bed",
+          "timing": "30–60 min before bed",
           "reason": "Sleep quality, muscle recovery, insulin sensitivity (HOMA-IR 2.23), stress resilience",
           "evidence": "Moderate-Strong"
         },
@@ -977,7 +754,7 @@
     },
     {
       "id": "fat-loss-2026-q3",
-      "name": "Fat Loss \u2014 Bali",
+      "name": "Fat Loss — Bali",
       "status": "completed",
       "start_date": "2026-07-06",
       "target_date": "2026-08-30",
@@ -998,13 +775,13 @@
               "protein": 39
             },
             {
-              "name": "Kidney beans, drained (\u00bc tin)",
+              "name": "Kidney beans, drained (¼ tin)",
               "amount": "~65g",
               "kcal": 63,
               "protein": 4
             },
             {
-              "name": "Black beans, drained (\u00bc tin)",
+              "name": "Black beans, drained (¼ tin)",
               "amount": "~65g",
               "kcal": 62,
               "protein": 4
@@ -1040,7 +817,7 @@
       "common_cheats": [
         {
           "name": "Caesar Salad",
-          "description": "\u00bd Lightly Dusted Chicken (Pack), Half caesar bag",
+          "description": "½ Lightly Dusted Chicken (Pack), Half caesar bag",
           "kcal": 497,
           "protein": 30.2,
           "carbs": 33.1,
@@ -1103,7 +880,7 @@
         },
         {
           "name": "Chicken Fajitas",
-          "description": "125g chicken breast, 2 protein wraps, 50g mixed peppers, \u00bd white onion, 60g Fage 0%, Old El Paso fajita seasoning (\u00bd pack), 30g LF cheddar",
+          "description": "125g chicken breast, 2 protein wraps, 50g mixed peppers, ½ white onion, 60g Fage 0%, Old El Paso fajita seasoning (½ pack), 30g LF cheddar",
           "kcal": 702,
           "protein": 66,
           "carbs": 72,
@@ -1121,7 +898,7 @@
         },
         {
           "name": "Chicken, Rice & Peas",
-          "description": "Basmati rice (100g uncooked) \u00d70.4, Chicken breast (100g raw) \u00d71.6, 1/4 white onion, Old El Paso fajita seasoning (\u00bd pack) \u00d70.5, Fage 0% Greek yoghurt (100g) \u00d70.3",
+          "description": "Basmati rice (100g uncooked) ×0.4, Chicken breast (100g raw) ×1.6, 1/4 white onion, Old El Paso fajita seasoning (½ pack) ×0.5, Fage 0% Greek yoghurt (100g) ×0.3",
           "kcal": 374,
           "protein": 43,
           "carbs": 40,
@@ -1146,7 +923,7 @@
           "weekend_kcal": 1509,
           "avg_daily_kcal": 1448,
           "avg_daily_deficit": 752,
-          "_note": "avg = (weekday\u00d75 + weekend\u00d72) / 7 \u2014 update these whenever meal items change"
+          "_note": "avg = (weekday×5 + weekend×2) / 7 — update these whenever meal items change"
         },
         "weekday": {
           "items": [
@@ -1163,7 +940,7 @@
               "protein": 42,
               "ingredients": [
                 {
-                  "name": "Impact Whey \u00d7 2 scoops",
+                  "name": "Impact Whey × 2 scoops",
                   "kcal": 232,
                   "protein": 42
                 },
@@ -1231,7 +1008,7 @@
               "protein": 21,
               "ingredients": [
                 {
-                  "name": "Impact Whey \u00d7 1 scoop",
+                  "name": "Impact Whey × 1 scoop",
                   "kcal": 84,
                   "protein": 21
                 },
@@ -1249,7 +1026,7 @@
               "protein": 41,
               "ingredients": [
                 {
-                  "name": "Sainsbury's hash browns \u00d7 3 (air fryer)",
+                  "name": "Sainsbury's hash browns × 3 (air fryer)",
                   "kcal": 183,
                   "protein": 3
                 },
@@ -1264,7 +1041,7 @@
                   "protein": 12
                 },
                 {
-                  "name": "Heck Chicken Italia sausages \u00d7 3 (air fryer)",
+                  "name": "Heck Chicken Italia sausages × 3 (air fryer)",
                   "kcal": 102,
                   "protein": 17
                 }
@@ -1320,7 +1097,7 @@
         {
           "name": "Magnesium Glycinate",
           "dose": "400 mg",
-          "timing": "30\u201360 min before bed",
+          "timing": "30–60 min before bed",
           "reason": "Sleep quality, muscle recovery, insulin sensitivity (HOMA-IR 2.23), stress resilience",
           "evidence": "Moderate-Strong"
         },
@@ -1346,24 +1123,251 @@
           "evidence": "Strong"
         }
       ]
+    },
+    {
+      "id": "refeed-2026-q3",
+      "name": "Refeed — Bali",
+      "status": "completed",
+      "start_date": "2026-08-29",
+      "target_date": "2026-09-11",
+      "start_kg": 74.8,
+      "target_kg": 75,
+      "_note": "Tracked refeed, not an untracked maintenance block. TARGET REVISED 5 Sep 2026 from 76.5 to 75.0 kg. Mathew's own words: 76.5 was \"a figure I plucked out of the air as it seemed like it'd be about right for a glycogen rebound\", not a goal, and \"if I go to Bali at 75 that'd be absolutely fine\". THE WEIGHT NUMBER IS NOT THE SUCCESS CRITERION for this phase — the criterion is subjective recovery (feeling good, out of a deficit, hormonal recovery before the 12 Sep flight) plus waist holding at 95–96 cm. As of 5 Sep Mathew reports feeling considerably better, so the phase has ALREADY PASSED on the criterion that matters, at 74.4 kg. Do not let a future session quietly convert 75.0 back into a performance target, and do not recommend force-feeding carbohydrate to reach it: he explicitly does not want to \"start eating tonnes of clean carbs for no real reason\", and he is right that the lever for hormonal recovery is removing the energy deficit, not filling glycogen. 75.0 was chosen because it is +0.6 kg from 74.4, comfortably inside the plausible glycogen-and-bound-water headroom of roughly +0.5–1.5 kg, so it is reachable at Week 2's maintenance target without adding fat and without changing behaviour. The superseded 76.5 would have needed a surplus he does not want; see rebound_diagnosis_note in current-estimates.json for why it was never compatible with the plan's own Week 1 deficit. Goal weight here is glycogen and bound water (~3g per gram of glycogen), not tissue — so tracking_mode is \"balance\": intake is tracked against the ramp target and weight is NEVER projected from calorie balance, because the two are decoupled here. Waist is the real check: 95 cm at Phase 2 close (27 Aug), still 95 cm on 3 Sep. If waist holds at 95–97 cm while the scale rises, the rebound is doing what it should; if waist rises with it, that is fat, which becomes the likely explanation above about 76.5 kg since glycogen cannot account for more than ~1.5 kg from here. carryover_start_date was set to 2026-08-31 to skip the 29–30 Aug part week; removed on 1 Sep 2026 because that was wrong on two counts. The field exists to skip the glycogen-and-water noise of a cut's first week, which is not what a 2-day refeed weekend is, and the carryover maths already costs part weeks correctly — it scored those 2 days against a pro-rated target of 100, not the full 1,500. Excluding them discarded real data to solve a problem that did not exist, and contradicted the Phase 1 precedent where the date was moved *earlier* (20 Apr → 13 Apr) to capture the phase from day one. With no carryover_start_date the code falls back to start_date, so the field cannot drift if the phase is ever re-dated again — as this one already was, from 1 Sep to 29 Aug. Scored value for 29–30 Aug: −90 kcal.",
+      "start_date_note": "Set to 29 Aug (Sat), not 28 Aug: Friday 28 Aug was the last day of the cut, and its ramen cheat and walks belong to Phase 2, not here. start_kg 74.8 is the cut's close weight (27 Aug reading carried forward through 28 Aug) and so predates start_date by a day — same handover convention as 6 Jul. This also makes the two meal-plan stages exactly 7 days each: 29 Aug–4 Sep and 5–11 Sep.",
+      "ramp": [
+        {
+          "days": "2026-08-29 → 2026-09-04 (Week 1)",
+          "target_kcal": "1,800 weekday / 2,150 weekend",
+          "target_kcal_avg": 1900,
+          "target_carbs_g": "200-250",
+          "how": "One to two carb portions per day — 50g dry rice or oats plus a banana at breakfast, building to bread or a jacket potato with meals. Weekend days take the larger share."
+        },
+        {
+          "days": "2026-09-05 → 2026-09-11 (Week 2)",
+          "target_kcal": "2,100 weekday / 2,450 weekend",
+          "target_kcal_avg": 2200,
+          "target_carbs_g": "280-300",
+          "how": "Full maintenance. Eat normally — Gousto plus carb sides, no restriction."
+        }
+      ],
+      "ramp_note": "Re-dated from the original Sep 1–11 plan in docs/health-conversation-snapshot.md, then collapsed on 29 Aug from three date steps (1,750 → 2,000 → 2,200) into the two meal_plan stages, so the ramp and the stages can no longer disagree. The progression is now weekday-to-weekday, 1,800 → 2,100, with weekends +350 above the weekday figure in both weeks. Weekly totals: Week 1 13,300 (vs 13,250 on the three-step version, +50), Week 2 exactly 15,400. Friday 28 Aug’s ramen + chocolate (~1,075 kcal, a 1,858 kcal day) was the cut's last meal, not the refeed's first — it sits in Phase 2.",
+      "meal_plan": {
+        "maintenance_kcal": 2200,
+        "protein_target": "150g+ per day",
+        "totals": {
+          "weekday_kcal": 1480,
+          "weekend_kcal": 1509,
+          "avg_daily_kcal": 1488,
+          "_note": "avg = (weekday×5 + weekend×2) / 7 = (1480×5 + 1509×2) / 7 = 10,418 / 7 = 1,488. Weekday breakfast swapped from the Double Shake (232 kcal) to Overnight Oats on 29 Aug, applied to all weekdays in both stages. The bowl has been cut twice since: peanut butter 20g → 10g on 30 Aug (552 → 517), then halved outright on 1 Sep (517 → 289) because the full bowl was unpalatable — Mathew managed only half of it on 31 Aug and found that hard work. The halved build keeps the full whey scoop and cuts the bulk (oats 70g → 35g, Fage 75g → 40g, Oatly dropped, water instead), which preserves 31 of the 43g protein for 289 of the 517 kcal. Weekday is now 1,423 − 232 + 289 = 1,480, protein 144g — below the 150g target, accepted. That is 320 short of the 1,800 Week 1 weekday target and 620 short of the 2,100 Week 2 weekday target, and Mathew chose on 1 Sep NOT to replace those calories in the plan, intending to fill the gap with tracked additions day by day instead. Weekend items are still the Phase 2 cut brunch (1,509) against targets of 2,150 / 2,450, so the weekend additions have NOT been agreed yet and the Meal Plan screen will show an “Items short” pill. The numbers the app uses for the weekly card come from stages[].target_kcal_weekday / target_kcal_weekend."
+        },
+        "weekday": {
+          "items": [
+            {
+              "category": "Morning Coffee",
+              "label": "Coffee + Oatly",
+              "kcal": 50,
+              "protein": 1
+            },
+            {
+              "category": "Breakfast",
+              "label": "Overnight Oats",
+              "kcal": 289,
+              "protein": 31,
+              "ingredients": [
+                {
+                  "name": "Porridge oats (35g dry)",
+                  "kcal": 130,
+                  "protein": 4
+                },
+                {
+                  "name": "Impact Whey × 1 scoop",
+                  "kcal": 116,
+                  "protein": 21
+                },
+                {
+                  "name": "Fage 0% Greek yoghurt (40g)",
+                  "kcal": 23,
+                  "protein": 4
+                },
+                {
+                  "name": "Powdered peanut butter (5g / 1 tsp)",
+                  "kcal": 20,
+                  "protein": 2
+                },
+                {
+                  "name": "Water to loosen",
+                  "kcal": 0,
+                  "protein": 0
+                }
+              ]
+            },
+            {
+              "category": "Lunch",
+              "label": "Chicken Wrap",
+              "kcal": 376,
+              "protein": 51,
+              "ingredients": [
+                {
+                  "name": "Sainsbury's protein wrap (61g)",
+                  "kcal": 170,
+                  "protein": 10
+                },
+                {
+                  "name": "Chicken breast (160g raw, air fryer)",
+                  "kcal": 176,
+                  "protein": 37
+                },
+                {
+                  "name": "Fage 0% Greek yoghurt (2 big tsp)",
+                  "kcal": 20,
+                  "protein": 4
+                },
+                {
+                  "name": "Salad leaves & spring onion",
+                  "kcal": 10,
+                  "protein": 1
+                }
+              ]
+            },
+            {
+              "category": "Dinner",
+              "label": "Gousto Meal",
+              "kcal": 640,
+              "protein": 41
+            },
+            {
+              "category": "Pudding",
+              "label": "Creami",
+              "kcal": 125,
+              "protein": 20
+            }
+          ]
+        },
+        "weekend": {
+          "items": [
+            {
+              "category": "Morning Coffee",
+              "label": "Coffee + Oatly",
+              "kcal": 50,
+              "protein": 1
+            },
+            {
+              "category": "Breakfast",
+              "label": "Single Clear Shake",
+              "kcal": 84,
+              "protein": 21,
+              "ingredients": [
+                {
+                  "name": "Impact Whey × 1 scoop",
+                  "kcal": 84,
+                  "protein": 21
+                },
+                {
+                  "name": "Water",
+                  "kcal": 0,
+                  "protein": 0
+                }
+              ]
+            },
+            {
+              "category": "Brunch",
+              "label": "Weekend Brunch",
+              "kcal": 610,
+              "protein": 41,
+              "ingredients": [
+                {
+                  "name": "Sainsbury's hash browns × 3 (air fryer)",
+                  "kcal": 183,
+                  "protein": 3
+                },
+                {
+                  "name": "Branston baked beans (1/2 tin ~205g)",
+                  "kcal": 175,
+                  "protein": 9
+                },
+                {
+                  "name": "Scrambled eggs (1.5 eggs, 50ml egg white)",
+                  "kcal": 150,
+                  "protein": 12
+                },
+                {
+                  "name": "Heck Chicken Italia sausages × 3 (air fryer)",
+                  "kcal": 102,
+                  "protein": 17
+                }
+              ]
+            },
+            {
+              "category": "Dinner",
+              "label": "Gousto Meal",
+              "kcal": 640,
+              "protein": 41
+            },
+            {
+              "category": "Pudding",
+              "label": "Creami",
+              "kcal": 125,
+              "protein": 20
+            }
+          ]
+        },
+        "cycling_kcal_factor": 0.65,
+        "drink_kcal": {
+          "Pint of Guinness": 210,
+          "440ml Guinness": 155,
+          "Pint of 4% Pale Ale": 190,
+          "Pint of IPA": 270,
+          "330ml Hazy Jane": 158,
+          "Negroni": 185,
+          "Gin & Tonic": 120,
+          "Slimline G&T": 65,
+          "Glass of red wine": 160,
+          "Glass of white wine": 120
+        },
+        "stages": [
+          {
+            "label": "Week 1",
+            "start_date": "2026-08-29",
+            "end_date": "2026-09-04",
+            "target_kcal": "1,800 weekday / 2,150 weekend",
+            "target_kcal_weekday": 1800,
+            "target_kcal_weekend": 2150,
+            "_note": "Ramp week, 7 days. Weekends run +350 kcal/day above weekdays, matching Week 2. Weekly total 1,800×5 + 2,150×2 = 13,300, average 1,900 — 7 kcal/day above the original ramp average of 1,893, i.e. nothing. Daily deltas vs 2,200 maintenance: +400 weekday, +50 weekend, so a 2,100 kcal weekly deficit (5×400 + 2×50). Round numbers chosen deliberately over the exact-1,893 alternative (1,793 / 2,143). Supersedes the ramp's original day-by-day steps: with the weekend uplift, Sat 29–Sun 30 are the week's highest days at 2,150 rather than its lowest at 1,750. Weekday items settled 29 Aug: the Double Shake became Overnight Oats, taking the weekday base to 1,743; the powdered peanut butter was cut 20g → 10g on 30 Aug (1,708), and the whole bowl was halved on 1 Sep for palatability, leaving 1,480 — 320 short of 1,800, deliberately accepted rather than padded, and to be covered by tracked additions rather than plan items. Weekday carbs fall to ~160g, well below the 200–250g band, which is the real cost since the rebound is carb-driven rather than energy-driven. Weekend items still TBD: needs +641 kcal/day over the cut brunch (1,509) to reach 2,150, and until they're added the screen flags the gap. Weekdays and weekend now contribute comparably to the week's 2,882 kcal shortfall — 1,600 (56%) from the five weekdays, 1,282 (44%) from the two weekend days — so the weekend is no longer the single binding constraint it was at the 1,708 base."
+          },
+          {
+            "label": "Week 2",
+            "start_date": "2026-09-05",
+            "end_date": "2026-09-11",
+            "target_kcal": "2,100 weekday / 2,450 weekend",
+            "target_kcal_weekday": 2100,
+            "target_kcal_weekend": 2450,
+            "_note": "Full maintenance, ~280–300g carbs. Weekends run +350 kcal/day above weekdays. Weekly total 2,100×5 + 2,450×2 = 10,500 + 4,900 = 15,400, average exactly 2,200. Daily deltas vs maintenance: +100 weekday, −250 weekend, so the week lands on exactly 0 — true energy balance, which is the point of a balance phase. Mathew's own figures, agreed 29 Aug; they supersede the earlier 2,129 / 2,379, which carried a 3 kcal rounding residue. Meal items TBD — the weekday base is 1,480 after the 1 Sep halving of the Overnight Oats, so Week 2 still needs +620 kcal/day on weekdays and +941 at weekends (weekend base 1,509), a 4,982 kcal weekly gap. This is the week that matters: Bali is 12 Sep, so there is no third week to make it up in. Weekend protein is the weak spot at 124g vs the 150g target: the weekend shake is a single scoop, and making it a double adds 148 kcal and 21g protein."
+          }
+        ],
+        "weekly_energy_target": 0,
+        "weekly_energy_target_note": "Signed: positive = deficit, negative = surplus, 0 = hold at maintenance. A refeed targets energy balance over a full week, so 0. Unused while the stages declare target_kcal_weekday / target_kcal_weekend, which the app prefers because they survive a mid-week stage boundary; kept as a statement of intent and as the fallback for dates outside every stage. Set this negative for a bulk (e.g. -2100 for a ~300 kcal/day surplus)."
+      },
+      "direction": "gain",
+      "tracking_mode": "balance",
+      "end_date": "2026-09-13"
     }
   ],
   "recommendations": [
     {
       "title": "Book Post-Bali Blood Test",
-      "detail": "Target Mon 12\u2013Fri 16 Oct 2026, ideally 08:00\u201309:00 after 14\u201319 days back from Bali and settled at maintenance. Fast 10\u201312 hours; water is fine. Avoid alcohol for 48\u201372 hours and strenuous training for 24\u201348 hours. Test lipids including ApoB, fasting glucose + insulin + HbA1c, testosterone + SHBG + LH/FSH + prolactin, vitamin D, liver, kidney, full blood count, uric acid and hsCRP."
+      "detail": "Target Mon 12–Fri 16 Oct 2026, ideally 08:00–09:00 after 14–19 days back from Bali and settled at maintenance. Fast 10–12 hours; water is fine. Avoid alcohol for 48–72 hours and strenuous training for 24–48 hours. Test lipids including ApoB, fasting glucose + insulin + HbA1c, testosterone + SHBG + LH/FSH + prolactin, vitamin D, liver, kidney, full blood count, uric acid and hsCRP."
     },
     {
-      "title": "Squat & Deadlift \u2014 Phase 2 Protocol",
-      "detail": "Goal: muscle retention, not PRs. No 1RM testing for 8 weeks. Deadlift: 10\u00d760 \u2192 5\u00d780 \u2192 3\u00d75\u00d7100 kg. Squat: 10\u00d750 \u2192 5\u00d760 \u2192 3\u00d75\u00d765\u201370 kg. Target RPE 8 on working sets \u2014 rep 5 should feel like 1\u20132 reps left. Autoregulate each week: if it's grinding, drop 5 kg and add a set. Extend squat warm-up from week 5 onward."
+      "title": "Squat & Deadlift — Phase 2 Protocol",
+      "detail": "Goal: muscle retention, not PRs. No 1RM testing for 8 weeks. Deadlift: 10×60 → 5×80 → 3×5×100 kg. Squat: 10×50 → 5×60 → 3×5×65–70 kg. Target RPE 8 on working sets — rep 5 should feel like 1–2 reps left. Autoregulate each week: if it's grinding, drop 5 kg and add a set. Extend squat warm-up from week 5 onward."
     }
   ],
   "experiments": [],
   "planned": [
     {
       "title": "DEXA Scan",
-      "detail": "Baseline body composition \u2014 fat %, lean mass, visceral fat, bone density, BMR. Nearest dedicated clinic: DexaStrong in Leeds (~45 min via M1 from Archer Lane). Ideal timing: once current fat loss phase ends, to get a clean post-cut baseline."
+      "detail": "Baseline body composition — fat %, lean mass, visceral fat, bone density, BMR. Nearest dedicated clinic: DexaStrong in Leeds (~45 min via M1 from Archer Lane). Ideal timing: once current fat loss phase ends, to get a clean post-cut baseline."
     }
   ],
-  "last_updated": "2026-08-29"
+  "last_updated": "2026-09-13"
 }
