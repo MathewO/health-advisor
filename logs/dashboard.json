@@ -1,6 +1,11 @@
 {
   "phase": {
-    "status": "maintenance"
+    "name": "Maintenance",
+    "status": "maintenance",
+    "start_date": "2026-09-28",
+    "start_kg": 76.5,
+    "target_kg": 76.5,
+    "_note": "Started 29 Sep 2026 by Mathew's choice, anchored to Monday 28 Sep morning at 76.5 kg — the first weigh-in after returning from Bali — rather than to the 13 Sep endPhase() date or the 74.6 kg pre-trip reading. Deliberately a fresh baseline: the 12-27 Sep travel gap has no weigh-ins, so anchoring earlier would draw a 14-day straight line through missing data. NOTE the +1.9 kg vs the 74.6 kg of 11 Sep is not yet diagnosed as fat — there has been no waist reading since 95 cm on 11 Sep, and the waist is the measurement that settled this question three times during the refeed. Get a fasted navel measurement before treating the gain as real."
   },
   "supplements": [
     {

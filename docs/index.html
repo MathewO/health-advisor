@@ -1290,7 +1290,13 @@ function renderPhaseCard(phase, weights) {
   const card = document.getElementById('goalCard');
 
   if (phase.status === 'maintenance') {
-    // Parse weights logged since maintenance start for display + chart
+    // Parse weights logged since maintenance start for display + chart.
+    // The start date is guarded rather than compared directly: an absent start_date makes
+    // `date >= undefined` false for every row (both sides coerce to NaN), which silently
+    // discarded the whole log and rendered "No weigh-ins yet" over perfectly good data.
+    // Falling back to "no filter" degrades to showing too much rather than nothing —
+    // the same idiom parseWeightLog() and the log view already use.
+    const maintStart = phase.start_date || null;
     const maintWeights = logText
       ? (() => {
           const pts = [];
@@ -1298,7 +1304,7 @@ function renderPhaseCard(phase, weights) {
             const parts = line.split('|').map(s => s.trim());
             if (parts.length >= 3 && parts[1] === 'weight' && /^\d{4}-\d{2}-\d{2}$/.test(parts[0])) {
               const kg = parseFloat(parts[2]);
-              if (!isNaN(kg) && parts[0] >= phase.start_date) pts.push({ date: parts[0], kg });
+              if (!isNaN(kg) && (!maintStart || parts[0] >= maintStart)) pts.push({ date: parts[0], kg });
             }
           }
           return pts.sort((a, b) => a.date.localeCompare(b.date));
@@ -3588,11 +3594,27 @@ async function endPhase() {
     phase.status   = 'completed';
     phase.end_date = localDateStr(new Date());
 
+    // The successor maintenance phase needs a start date and weight, not a bare status.
+    // Writing `{ status: 'maintenance' }` silently blanked the maintenance card and its
+    // chart: both filtered weigh-ins with `date >= phase.start_date`, and in JS
+    // `"2026-09-29" >= undefined` is false — both operands coerce to NaN — so every
+    // reading was discarded and the card fell through to "No weigh-ins yet" while the
+    // log itself was perfectly fine. This was hand-patched in dashboard.json on
+    // 14 Jun 2026 (4a77bbd) without fixing the source, so it recurred verbatim on the
+    // next endPhase() on 13 Sep 2026. Anchoring here is what stops a third time.
+    const today      = localDateStr(new Date());
+    const lastWeight = parseWeightLog(logText || '', null).slice(-1)[0];
+    const maintenance = { name: 'Maintenance', status: 'maintenance', start_date: today };
+    if (lastWeight) {
+      maintenance.start_kg  = lastWeight.kg;
+      maintenance.target_kg = lastWeight.kg;
+    }
+
     const newDash = {
       ...dashData,
-      phase: { status: 'maintenance' },
+      phase: maintenance,
       previous_phases: [...(dashData.previous_phases || []), phase],
-      last_updated: localDateStr(new Date())
+      last_updated: today
     };
 
     const content = JSON.stringify(newDash, null, 2);
@@ -3970,25 +3992,30 @@ function renderMaintenanceWeightChart(phase) {
 
   if (!logText) return;
 
-  // Collect weights since maintenance start
+  // Collect weights since maintenance start. Guarded like the card above — comparing
+  // against an absent start_date is false for every row, which emptied the chart and hid
+  // it entirely via the `!pts.length` branch below.
+  const maintStart = phase.start_date || null;
   const pts = [];
   for (const line of logText.split('\n')) {
     const parts = line.split('|').map(s => s.trim());
     if (parts.length >= 3 && parts[1] === 'weight' && /^\d{4}-\d{2}-\d{2}$/.test(parts[0])) {
       const kg = parseFloat(parts[2]);
-      if (!isNaN(kg) && parts[0] >= phase.start_date) pts.push({ date: parts[0], kg });
+      if (!isNaN(kg) && (!maintStart || parts[0] >= maintStart)) pts.push({ date: parts[0], kg });
     }
   }
   pts.sort((a, b) => a.date.localeCompare(b.date));
 
   // Prepend phase start_kg as anchor point if no reading exists on start_date
-  if (phase.start_kg && !pts.some(p => p.date === phase.start_date)) {
-    pts.unshift({ date: phase.start_date, kg: phase.start_kg });
+  if (phase.start_kg && maintStart && !pts.some(p => p.date === maintStart)) {
+    pts.unshift({ date: maintStart, kg: phase.start_kg });
   }
 
   if (!pts.length) { canvas.style.display = 'none'; return; }
 
-  const startStr = phase.start_date;
+  // Falls back to the earliest reading so the x-axis origin is a real date. Without this
+  // an absent start_date produces NaN day offsets and Chart.js draws an empty grid.
+  const startStr = maintStart || pts[0].date;
   const startNum = dateToNum(startStr);
   const todayNum = dateToNum(localDateStr(new Date()));
   const totalDays = Math.max(todayNum - startNum + 7, 28); // at least 28-day window

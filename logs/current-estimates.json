@@ -1,6 +1,26 @@
 {
   "_note": "Live derived metrics — updated each agent session. This is the source of truth for data-derived estimates. Do not use dashboard.json for TDEE or rate-of-loss; use this file. When any value changes, update it here in the same session.",
-  "last_updated": "2026-09-11",
+  "last_updated": "2026-09-29",
+  "maintenance_phase": {
+    "name": "Maintenance",
+    "status": "active",
+    "start_date": "2026-09-28",
+    "start_kg": 76.5,
+    "start_note": "Anchored to Monday 28 Sep morning, the first weigh-in after returning from Bali, by Mathew's choice on 29 Sep. Deliberately NOT anchored to the 13 Sep endPhase() date or the 74.6 kg pre-trip reading: there are no weigh-ins between 12 and 27 Sep, so an earlier anchor would draw a straight line through a 16-day hole.",
+    "latest_weight_kg": 76.5,
+    "latest_weight_date": "2026-09-29",
+    "readings_since_start": 2,
+    "vs_refeed_end": "+1.9 kg against the 74.6 kg of 11 Sep, or +1.6 kg against that phase's 74.89 kg 7-day average.",
+    "interpretation_caution": "DO NOT call this fat regain yet. Two readings, taken the day of return and the morning after, is exactly the window where travel water, sodium and gut content dominate — and 1-2 kg was explicitly forecast before departure (see the 11 Sep session note). The decisive measurement is missing: there has been NO waist reading since 95 cm on 11 Sep. The waist ruled out fat gain three times across the refeed (95 cm on 27 Aug, 3 Sep and 11 Sep) and is the project's designated primary outcome metric. Get a fasted navel measurement plus several more daily weights before revising anything downstream.",
+    "waist_cm": null,
+    "waist_last_known_cm": 95,
+    "waist_last_known_date": "2026-09-11",
+    "open_actions": [
+      "Waist measurement (navel, relaxed, fasted) — blocking any diagnosis of the +1.9 kg.",
+      "Apple Health export is stale: last processed 5 Sep, so 24 days old against a 14-day threshold. Re-export and run scripts/parse_apple_health.py.",
+      "No maintenance kcal target has been set for this phase. Data-derived TDEE stands at 2,200 (see tdee above); confirm with Mathew before using it as a plan."
+    ]
+  },
   "tdee": {
     "estimate_kcal_per_day": 2200,
     "range": "2175-2225",
@@ -85,7 +105,7 @@
       "body_fat_estimate_pct": "~20 (range 19–22)",
       "body_fat_working": "19 Aug set assessed 20–22%; midpoint 21% × 75.61 kg 7d avg = 15.88 kg fat. The 0.72 kg fall in 7-day average since is treated as ~all fat because waist and scale both say glycogen/water did not change, so there is no water swing to net out. 15.88 − 0.72 = 15.15 kg; 15.15 ÷ 74.89 = 20.2%. Carry ±2pp from the 19 Aug estimate → 19–22%. Estimate built on an estimate; not measured.",
       "photo_set": "profile/body-comp/progress/2026-09-11_refeed-end-95cm/",
-      "next_action_note": "Phase target_date reached 11 Sep. status is still 'active' in both this file and dashboard.json — endPhase() has NOT been run. Flag to Mathew before starting any successor phase."
+      "next_action_note": "RESOLVED — endPhase() was run on 13 Sep 2026 and the phase is archived in dashboard.json previous_phases. It wrote a bare { status: 'maintenance' } stub with no start_date, which blanked the dashboard's weight display until 29 Sep; fixed at source that day, see docs/app-state.md."
     },
     "waist_cm": 95,
     "waist_date": "2026-09-11",
