@@ -1,6 +1,6 @@
 {
   "_note": "Live derived metrics — updated each agent session. This is the source of truth for data-derived estimates. Do not use dashboard.json for TDEE or rate-of-loss; use this file. When any value changes, update it here in the same session.",
-  "last_updated": "2026-09-29",
+  "last_updated": "2026-09-30",
   "maintenance_phase": {
     "name": "Maintenance",
     "status": "active",
@@ -8,17 +8,24 @@
     "start_kg": 76.5,
     "start_note": "Anchored to Monday 28 Sep morning, the first weigh-in after returning from Bali, by Mathew's choice on 29 Sep. Deliberately NOT anchored to the 13 Sep endPhase() date or the 74.6 kg pre-trip reading: there are no weigh-ins between 12 and 27 Sep, so an earlier anchor would draw a straight line through a 16-day hole.",
     "latest_weight_kg": 76.5,
-    "latest_weight_date": "2026-09-29",
-    "readings_since_start": 2,
+    "latest_weight_date": "2026-09-30",
+    "readings_since_start": 3,
+    "readings_note": "76.5 on 28, 29 and 30 Sep — three identical readings, so the weight has settled rather than spiked.",
     "vs_refeed_end": "+1.9 kg against the 74.6 kg of 11 Sep, or +1.6 kg against that phase's 74.89 kg 7-day average.",
-    "interpretation_caution": "DO NOT call this fat regain yet. Two readings, taken the day of return and the morning after, is exactly the window where travel water, sodium and gut content dominate — and 1-2 kg was explicitly forecast before departure (see the 11 Sep session note). The decisive measurement is missing: there has been NO waist reading since 95 cm on 11 Sep. The waist ruled out fat gain three times across the refeed (95 cm on 27 Aug, 3 Sep and 11 Sep) and is the project's designated primary outcome metric. Get a fasted navel measurement plus several more daily weights before revising anything downstream.",
-    "waist_cm": null,
-    "waist_last_known_cm": 95,
-    "waist_last_known_date": "2026-09-11",
+    "interpretation": "RESOLVED 30 Sep — this IS predominantly real tissue, not travel water. The 29 Sep waist of 97 cm supplies the discriminating evidence that was missing on 29 Sep, and it points the other way from the caution recorded then. Working: +1.9 kg against +2 cm = 0.95 kg per cm, inside the ~0.8–1.2 kg/cm band typical of fat-driven waist change in men. Mathew's own refeed is the control group — it moved the scale through a 1.6 kg range (74.4–76.0) while the waist read 95 cm on 27 Aug, 3 Sep and 11 Sep, i.e. scale up with tape flat, the signature of water. Bali moved both together. Corroborated independently by the 5 Aug state: 76.3 kg / 97 cm then vs 76.5 kg / 97 cm now, so he has landed back on an actual past body composition on both measures rather than on a bloated version of 11 Sep. Energy check: 1.9 kg × 7,700 = 14,630 kcal over ~16 days away = ~914 kcal/day surplus (~3,100 eaten against a 2,200 TDEE); if 1.4 kg is fat and the rest gut/water it is ~674 kcal/day (~2,875 eaten). Ordinary holiday arithmetic. 7,700 kcal/kg is a rule of thumb, so treat the split as ballpark.",
+    "interpretation_caveat": "One unconfirmed waist reading is carrying this diagnosis. profile/profile.md documents day-to-day waist noise at ~1–1.5 cm, so +2 cm is only just outside the noise band and 97 cm is not proof in isolation. What supports it is the weight settling at exactly 76.5 three mornings running plus the 5 Aug correspondence. A confirming fasted navel reading around 6–7 Oct would settle it. Note also that the refeed experiment pre-registered 98 cm as its falsification line for 'fat rather than water', so 97 sits just under Mathew's own threshold.",
+    "waist_cm": 97,
+    "waist_date": "2026-09-29",
+    "waist_previous_cm": 95,
+    "waist_previous_date": "2026-09-11",
+    "tape_progress_handed_back": "22 days of Phase 2 cutting — 95 cm was reached 27 Aug, 97 cm was last seen 5 Aug. Against the 15 Apr baseline he remains −8.5 kg and −11 cm, so this is three weeks given back, not the project.",
+    "decision": "Mathew chose on 30 Sep to ACCEPT 76.5 kg as the new maintenance baseline and hold here, rather than open a corrective cut. Recovery to 74.6 kg would have cost 1.9 ÷ 0.74 = 2.6 weeks at his demonstrated Phase 2 rate, or 3.8 weeks at a gentler 0.5 kg/wk; both were declined knowingly. dashboard.json phase start_kg and target_kg are already 76.5, so no change was needed there. Do not reopen this as a cut proposal in future sessions unless Mathew raises it.",
     "open_actions": [
-      "Waist measurement (navel, relaxed, fasted) — blocking any diagnosis of the +1.9 kg.",
-      "Apple Health export is stale: last processed 5 Sep, so 24 days old against a 14-day threshold. Re-export and run scripts/parse_apple_health.py.",
-      "No maintenance kcal target has been set for this phase. Data-derived TDEE stands at 2,200 (see tdee above); confirm with Mathew before using it as a plan."
+      "Confirming waist measurement (navel, relaxed, fasted) around 6–7 Oct — one reading is currently carrying the fat-vs-water diagnosis.",
+      "Apple Health export is stale: last processed 5 Sep, so 25 days old against a 14-day threshold. Re-export and run scripts/parse_apple_health.py. Until then there is no HRV, resting HR or sleep data covering the trip, which is the gap that would otherwise show how recovery held up.",
+      "BLOOD RETESTS ~3 MONTHS OVERDUE. Both experiments/experiments.md entries — 'Testosterone & LH Retest' and 'Lipid Retest' — were scheduled for early July 2026 and are still marked Planned. Baselines warrant it: LH 0.9 U/l is BELOW the 1.8–8.6 range (central suppression), total T 11 nmol/l low-normal, ApoB 142 with a pre-registered decision rule sending him to the GP for a statin discussion if still >120. He has since lost 8.5 kg and completed a refeed, so a single fasted draw would now be informative. The lipid protocol requires 2–3 clean maintenance weeks before drawing, which after the holiday points at mid-to-late October.",
+      "Bali Refeed experiment is still marked Status: Active in experiments/experiments.md with an empty Outcome block, despite ending 11 Sep. Outcome is fully documented in phase.phase_final_result below and in the 11 Sep snapshot note; needs transcribing and the status flipping to Completed.",
+      "No maintenance kcal target has been set for this phase. Data-derived TDEE stands at 2,200 (see tdee above); holding at 76.5 implies eating at roughly that figure. Confirm with Mathew before using it as a plan."
     ]
   },
   "tdee": {
