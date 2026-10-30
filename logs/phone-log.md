@@ -704,3 +704,4 @@
 2026-10-20 | weight | 76.7
 2026-10-21 | weight | 76.4
 2026-10-22 | weight | 76.6
+2026-10-30 | weight | 76.6 | 4 days after Ireland, had a cold all week
